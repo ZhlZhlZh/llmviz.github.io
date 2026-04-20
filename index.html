@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LLM 论文可视化</title>
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body>
+    <div id="app" class="page">
+      <header class="site-header">
+        <h1>LLM 论文演化可视化</h1>
+        <p class="site-subtitle">
+          参考 mbtaviz 的单页叙事方式，先完成可扩展的静态骨架，再逐步替换为真实可视化。
+        </p>
+      </header>
+
+      <nav class="quick-nav" aria-label="Section navigation">
+        <a href="#section-river">主题河流</a>
+        <a href="#section-force">论文网络</a>
+        <a href="#section-butterfly">蝴蝶路径</a>
+        <a href="#section-map">机构地图</a>
+        <a href="#section-history">AI 简史</a>
+      </nav>
+
+      <main>
+        <section id="section-river" class="story-section">
+          <h2>01 主题河流图</h2>
+          <p class="section-note">关键词热度随时间变化，突出阶段性跃迁。</p>
+          <div id="theme-river" class="module-slot"></div>
+        </section>
+
+        <section id="section-force" class="story-section">
+          <h2>02 论文力导向图</h2>
+          <p class="section-note">论文节点与引文关系网络，展示结构中心性。</p>
+          <div id="paper-force" class="module-slot"></div>
+        </section>
+
+        <section id="section-butterfly" class="story-section">
+          <h2>03 蝴蝶脉冲路径图</h2>
+          <p class="section-note">从早期论文溯源到现代热点的影响路径。</p>
+          <div id="butterfly-path" class="module-slot"></div>
+        </section>
+
+        <section id="section-map" class="story-section">
+          <h2>04 机构影响力地图</h2>
+          <p class="section-note">在世界地图上对比地理与机构类型差异。</p>
+          <div id="institution-map" class="module-slot"></div>
+        </section>
+
+        <section id="section-history" class="story-section">
+          <h2>05 AI 简史生成器</h2>
+          <p class="section-note">当前先保留占位，后续再接入叙事生成。</p>
+          <div id="ai-history" class="module-slot"></div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
