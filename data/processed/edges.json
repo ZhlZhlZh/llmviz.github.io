@@ -1,0 +1,187 @@
+[
+  {
+    "source": "p2014_seq2seq",
+    "target": "p2013_word2vec",
+    "context": "Uses distributed embeddings as initialization for encoder and decoder."
+  },
+  {
+    "source": "p2015_attention",
+    "target": "p2014_seq2seq",
+    "context": "Extends sequence-to-sequence with alignment-based attention."
+  },
+  {
+    "source": "p2016_residual_rnn",
+    "target": "p2015_attention",
+    "context": "Builds deeper recurrent stacks while preserving gradient flow."
+  },
+  {
+    "source": "p2017_transformer",
+    "target": "p2015_attention",
+    "context": "Generalizes attention into multi-head self-attention blocks."
+  },
+  {
+    "source": "p2017_transformer",
+    "target": "p2014_seq2seq",
+    "context": "Retains encoder-decoder framing with parallelized computation."
+  },
+  {
+    "source": "p2017_elmo",
+    "target": "p2013_word2vec",
+    "context": "Moves from static to contextual embeddings."
+  },
+  {
+    "source": "p2018_bert",
+    "target": "p2017_transformer",
+    "context": "Adopts transformer backbone for bidirectional masked pretraining."
+  },
+  {
+    "source": "p2018_gpt",
+    "target": "p2017_transformer",
+    "context": "Uses decoder transformer for autoregressive pretraining."
+  },
+  {
+    "source": "p2019_xlnet",
+    "target": "p2018_bert",
+    "context": "Addresses objective mismatch in bidirectional pretraining."
+  },
+  {
+    "source": "p2019_gpt2",
+    "target": "p2018_gpt",
+    "context": "Scales autoregressive pretraining and generation quality."
+  },
+  {
+    "source": "p2020_t5",
+    "target": "p2018_bert",
+    "context": "Unifies multiple tasks under a text-to-text objective."
+  },
+  {
+    "source": "p2020_t5",
+    "target": "p2019_gpt2",
+    "context": "Benchmarks transfer behavior against scaled autoregressive baselines."
+  },
+  {
+    "source": "p2020_gpt3",
+    "target": "p2019_gpt2",
+    "context": "Shows emergence from scaling model and dataset sizes."
+  },
+  {
+    "source": "p2021_switch",
+    "target": "p2020_t5",
+    "context": "Introduces sparse expert routing on text-to-text transformers."
+  },
+  {
+    "source": "p2021_switch",
+    "target": "p2017_transformer",
+    "context": "Preserves transformer blocks while changing feed-forward capacity."
+  },
+  {
+    "source": "p2021_clip",
+    "target": "p2017_transformer",
+    "context": "Uses transformer encoders to align image and text representations."
+  },
+  {
+    "source": "p2022_instructgpt",
+    "target": "p2020_gpt3",
+    "context": "Fine-tunes large pretrained models with preference feedback."
+  },
+  {
+    "source": "p2022_instructgpt",
+    "target": "p2018_gpt",
+    "context": "Keeps autoregressive instruction-following generation behavior."
+  },
+  {
+    "source": "p2022_palm",
+    "target": "p2021_switch",
+    "context": "Builds on sparse scaling and pathways-inspired training."
+  },
+  {
+    "source": "p2022_palm",
+    "target": "p2020_gpt3",
+    "context": "Compares dense scaling and capability emergence."
+  },
+  {
+    "source": "p2023_llama",
+    "target": "p2020_gpt3",
+    "context": "Open foundation models rely on prior scaling insights."
+  },
+  {
+    "source": "p2023_llama",
+    "target": "p2017_transformer",
+    "context": "Maintains transformer-first architecture at larger context lengths."
+  },
+  {
+    "source": "p2023_rlhf_cn",
+    "target": "p2022_instructgpt",
+    "context": "Adapts RLHF pipeline for Chinese instruction data."
+  },
+  {
+    "source": "p2023_rlhf_cn",
+    "target": "p2020_gpt3",
+    "context": "Transfers base-model scaling assumptions to Chinese settings."
+  },
+  {
+    "source": "p2024_rag",
+    "target": "p2020_t5",
+    "context": "Uses seq2seq style generation with external retrieval memory."
+  },
+  {
+    "source": "p2024_rag",
+    "target": "p2023_llama",
+    "context": "Applies retrieval grounding on open foundation models."
+  },
+  {
+    "source": "p2024_rag",
+    "target": "p2018_bert",
+    "context": "Reuses dense retrieval encoders from bidirectional pretraining."
+  },
+  {
+    "source": "p2024_moe_agent",
+    "target": "p2023_llama",
+    "context": "Uses open models as the policy core of tool-using agents."
+  },
+  {
+    "source": "p2024_moe_agent",
+    "target": "p2022_palm",
+    "context": "Integrates large-scale training recipes with sparse expert routing."
+  },
+  {
+    "source": "p2025_multimodal_agent",
+    "target": "p2021_clip",
+    "context": "Extends language-image alignment into multimodal action planning."
+  },
+  {
+    "source": "p2025_multimodal_agent",
+    "target": "p2024_moe_agent",
+    "context": "Combines tool planning and sparse-expert control flow."
+  },
+  {
+    "source": "p2025_small_llm_cn",
+    "target": "p2023_llama",
+    "context": "Uses open model recipes for parameter-efficient Chinese deployment."
+  },
+  {
+    "source": "p2025_small_llm_cn",
+    "target": "p2024_rag",
+    "context": "Leverages retrieval augmentation to improve factual reliability."
+  },
+  {
+    "source": "p2025_small_llm_cn",
+    "target": "p2023_rlhf_cn",
+    "context": "Adopts Chinese preference alignment objectives."
+  },
+  {
+    "source": "p2026_world_model_agent",
+    "target": "p2025_multimodal_agent",
+    "context": "Builds world-aware planning on top of multimodal agent systems."
+  },
+  {
+    "source": "p2026_world_model_agent",
+    "target": "p2024_moe_agent",
+    "context": "Reuses sparse expert modules for long-horizon control."
+  },
+  {
+    "source": "p2026_world_model_agent",
+    "target": "p2024_rag",
+    "context": "Grounds long-horizon reasoning with retrieval-augmented memory."
+  }
+]

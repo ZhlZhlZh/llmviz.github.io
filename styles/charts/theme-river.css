@@ -1,0 +1,68 @@
+.chart-grid-line {
+  stroke: #e8e8e8;
+  stroke-width: 1;
+}
+
+.chart-axis-line {
+  stroke: #9ca3af;
+  stroke-width: 1;
+}
+
+.chart-axis-label {
+  fill: #6b7280;
+  font-size: 10px;
+}
+
+.chart-focus-line {
+  stroke: #111827;
+  stroke-width: 1.2;
+  stroke-dasharray: 4 4;
+}
+
+.theme-river-area {
+  transition: fill-opacity 180ms ease;
+}
+
+.legend-chip-active {
+  outline: 2px solid var(--accent);
+}
+
+.chart-color-0 {
+  border-color: #3b82f6;
+  background: #dbeafe;
+}
+
+.chart-color-1 {
+  border-color: #ef4444;
+  background: #fee2e2;
+}
+
+.chart-color-2 {
+  border-color: #f59e0b;
+  background: #fef3c7;
+}
+
+.chart-color-3 {
+  border-color: #10b981;
+  background: #d1fae5;
+}
+
+.chart-color-4 {
+  border-color: #8b5cf6;
+  background: #ede9fe;
+}
+
+.chart-color-5 {
+  border-color: #14b8a6;
+  background: #ccfbf1;
+}
+
+.chart-color-6 {
+  border-color: #f97316;
+  background: #ffedd5;
+}
+
+.chart-color-7 {
+  border-color: #6366f1;
+  background: #e0e7ff;
+}

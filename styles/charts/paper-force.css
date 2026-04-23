@@ -1,0 +1,27 @@
+.force-link {
+  stroke: #9aa3af;
+  stroke-opacity: 0.6;
+  stroke-width: 1;
+}
+
+.force-node {
+  stroke: #ffffff;
+  stroke-width: 1.2;
+  cursor: default;
+}
+
+.force-node.phase-foundation {
+  fill: #64748b;
+}
+
+.force-node.phase-boom {
+  fill: #ea580c;
+}
+
+.force-node.phase-agentic {
+  fill: #2563eb;
+}
+
+.is-hidden {
+  display: none;
+}

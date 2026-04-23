@@ -1,3 +1,9 @@
+@import './charts/chart-common.css';
+@import './charts/theme-river.css';
+@import './charts/paper-force.css';
+@import './charts/butterfly-path.css';
+@import './charts/institution-map.css';
+
 :root {
   /* Colors */
   --bg: #f5f5f5;

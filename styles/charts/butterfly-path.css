@@ -1,0 +1,55 @@
+.butterfly-network-link {
+  stroke: #c3ceda;
+  stroke-width: 1.1;
+  stroke-opacity: 0.85;
+}
+
+.butterfly-network-link.is-path {
+  stroke: #f97316;
+  stroke-width: 2.4;
+  stroke-opacity: 1;
+}
+
+.butterfly-network-node {
+  stroke: #ffffff;
+  stroke-width: 1.2;
+  cursor: pointer;
+}
+
+.butterfly-network-node.phase-foundation {
+  fill: #64748b;
+}
+
+.butterfly-network-node.phase-boom {
+  fill: #ea580c;
+}
+
+.butterfly-network-node.phase-agentic {
+  fill: #2563eb;
+}
+
+.butterfly-network-node.is-center {
+  fill: #111827;
+  stroke: #facc15;
+  stroke-width: 2;
+}
+
+.butterfly-network-node.is-target {
+  fill: #14b8a6;
+  stroke: #0f766e;
+  stroke-width: 1.8;
+}
+
+.butterfly-network-node.is-path {
+  filter: drop-shadow(0 0 2px rgba(249, 115, 22, 0.45));
+}
+
+.butterfly-network-label {
+  fill: #6b7280;
+  font-size: 10px;
+  pointer-events: none;
+}
+
+.butterfly-network-label.is-path {
+  fill: #c2410c;
+}

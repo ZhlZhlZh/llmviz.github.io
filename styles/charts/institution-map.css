@@ -1,0 +1,11 @@
+.world-land {
+  fill: #eef2f7;
+  stroke: #c8d1dc;
+  stroke-width: 0.8;
+}
+
+.map-point {
+  fill-opacity: 0.88;
+  stroke: #ffffff;
+  stroke-width: 0.8;
+}
