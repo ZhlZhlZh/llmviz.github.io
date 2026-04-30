@@ -3,55 +3,173 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LLM 论文可视化</title>
+    <meta
+      name="description"
+      content="交互式探索 LLM 论文主题热度、引用网络、关键路径与研究机构影响力。"
+    />
+    <title>LLM 论文研究热点可视化</title>
+    <link rel="icon" href="data:," />
     <link rel="stylesheet" href="./styles/main.css" />
   </head>
   <body>
     <div id="app" class="page">
       <header class="site-header">
-        <h1>LLM 论文演化可视化</h1>
-        <p class="site-subtitle">
-          参考 mbtaviz 的单页叙事方式，先完成可扩展的静态骨架，再逐步替换为真实可视化。
-        </p>
+        <div class="hero-copy">
+          <p class="eyebrow">大数据可视化与可视分析 · 期末课程设计</p>
+          <h1>LLM 论文研究热点如何从表示学习演化到智能体？</h1>
+          <p class="site-subtitle">
+            本作品把论文、关键词、引用关系和机构地理分布组织成一个可探索的数据文档，
+            聚焦 2013-2026 年大语言模型研究热点的阶段迁移、关键论文桥梁和机构影响力格局。
+          </p>
+        </div>
+        <aside class="focus-panel" aria-live="polite">
+          <p class="focus-label">当前探索焦点</p>
+          <div class="focus-grid">
+            <div>
+              <span class="focus-value" id="focus-year">2026</span>
+              <span class="focus-caption">年份</span>
+            </div>
+            <div>
+              <span class="focus-value" id="focus-phase">智能体阶段</span>
+              <span class="focus-caption">阶段</span>
+            </div>
+            <div>
+              <span class="focus-value focus-paper" id="focus-paper">Attention-Only Neural Architectures</span>
+              <span class="focus-caption">选中论文</span>
+            </div>
+          </div>
+        </aside>
       </header>
 
       <nav class="quick-nav" aria-label="Section navigation">
         <a href="#section-river">主题河流</a>
         <a href="#section-force">论文网络</a>
-        <a href="#section-butterfly">蝴蝶路径</a>
+        <a href="#section-butterfly">影响路径</a>
         <a href="#section-map">机构地图</a>
         <a href="#section-history">AI 简史</a>
+        <a href="#section-method">设计说明</a>
       </nav>
 
       <main>
+        <section class="story-intro" aria-labelledby="intro-title">
+          <div>
+            <h2 id="intro-title">分析问题</h2>
+            <p>
+              LLM 研究不是线性增长，而是由若干关键机制反复重组形成的热点迁移：
+              表示学习奠基、Transformer 预训练爆发、对齐与智能体成为新中心。
+              页面中的控件共享同一个年份和论文焦点，便于从宏观主题进入具体论文路径。
+            </p>
+          </div>
+          <div class="insight-strip">
+            <article>
+              <span>01</span>
+              <p>Transformer 之后，主题热度从模型结构转向规模化预训练。</p>
+            </article>
+            <article>
+              <span>02</span>
+              <p>引用网络中的桥梁节点通常连接了不同阶段的研究范式。</p>
+            </article>
+            <article>
+              <span>03</span>
+              <p>研究机构影响力集中在少数实验室与公司，但中文社区在对齐和小模型方向形成分支。</p>
+            </article>
+          </div>
+        </section>
+
         <section id="section-river" class="story-section">
-          <h2>01 主题河流图</h2>
-          <p class="section-note">关键词热度随时间变化，突出阶段性跃迁。</p>
+          <div class="section-heading">
+            <p class="section-kicker">主题演化</p>
+            <h2>01 主题河流图</h2>
+            <p class="section-note">关键词热度随时间变化，突出阶段性跃迁。</p>
+          </div>
           <div id="theme-river" class="module-slot"></div>
         </section>
 
         <section id="section-force" class="story-section">
-          <h2>02 论文力导向图</h2>
-          <p class="section-note">论文节点与引文关系网络，展示结构中心性。</p>
+          <div class="section-heading">
+            <p class="section-kicker">论文结构</p>
+            <h2>02 论文力导向图</h2>
+            <p class="section-note">论文节点与引文关系网络，展示结构中心性。</p>
+          </div>
           <div id="paper-force" class="module-slot"></div>
         </section>
 
         <section id="section-butterfly" class="story-section">
-          <h2>03 蝴蝶脉冲路径图</h2>
-          <p class="section-note">从早期论文溯源到现代热点的影响路径。</p>
+          <div class="section-heading">
+            <p class="section-kicker">路径解释</p>
+            <h2>03 蝴蝶影响路径图</h2>
+            <p class="section-note">从中心论文展开局部网络，追踪两篇论文之间的影响路径。</p>
+          </div>
           <div id="butterfly-path" class="module-slot"></div>
         </section>
 
         <section id="section-map" class="story-section">
-          <h2>04 机构影响力地图</h2>
-          <p class="section-note">在世界地图上对比地理与机构类型差异。</p>
+          <div class="section-heading">
+            <p class="section-kicker">空间格局</p>
+            <h2>04 机构影响力地图</h2>
+            <p class="section-note">在世界地图上对比地理、机构类型和社区属性差异。</p>
+          </div>
           <div id="institution-map" class="module-slot"></div>
         </section>
 
         <section id="section-history" class="story-section">
-          <h2>05 AI 简史生成器</h2>
-          <p class="section-note">当前先保留占位，后续再接入叙事生成。</p>
+          <div class="section-heading">
+            <p class="section-kicker">叙事生成</p>
+            <h2>05 AI 研究简史生成器</h2>
+            <p class="section-note">根据当前论文焦点生成阶段摘要、前置基础和后续影响。</p>
+          </div>
           <div id="ai-history" class="module-slot"></div>
+        </section>
+
+        <section id="section-method" class="story-section method-section">
+          <div class="section-heading">
+            <p class="section-kicker">提交说明</p>
+            <h2>设计说明与开发记录</h2>
+          </div>
+          <div class="method-grid">
+            <article>
+              <h3>可视化问题</h3>
+              <p>
+                本项目旨在回答：LLM 论文研究热点在 2013-2026 年间经历了哪些阶段迁移，
+                哪些论文承担了范式转换的桥梁作用，机构影响力又如何分布？
+              </p>
+            </article>
+            <article>
+              <h3>设计决策</h3>
+              <p>
+                主题河流用于表现关键词热度的时间连续性；力导向网络用于暴露论文引用结构；
+                局部路径图用于解释两篇论文之间的可达关系；地图用于补充机构空间分布。
+                交互采用年份过滤、节点选择、路径高亮、指标切换和按需详情，服务于“从宏观趋势到微观论文”的分析流程。
+              </p>
+            </article>
+            <article>
+              <h3>替代方案</h3>
+              <p>
+                曾考虑使用堆叠柱图替代河流图、邻接矩阵替代力导向图。最终保留河流图和网络布局，
+                因为它们更适合课堂演示中的趋势感知与探索式讲解；邻接矩阵可读性更稳定，但对非专业观众不够直观。
+              </p>
+            </article>
+            <article>
+              <h3>数据与引用</h3>
+              <p>
+                当前数据位于 <code>data/processed</code>，为课程原型阶段生成的合成论文、关键词、引用边和机构地理数据，
+                用于测试可视化与交互流程；世界底图使用公开 GeoJSON。若后续替换为真实论文语料，可保持同一 JSON 字段结构直接接入。
+              </p>
+            </article>
+            <article>
+              <h3>开发流程</h3>
+              <p>
+                预计开发约 30-40 工时。耗时最多的环节是数据结构设计、跨图联动、交互状态调试和移动端布局。
+                项目适合 1-4 人小组分工：数据清洗、可视化实现、叙事文案、部署与演示视频。
+              </p>
+            </article>
+            <article>
+              <h3>部署方式</h3>
+              <p>
+                本项目无需定制服务器，可直接通过 GitHub Pages 从仓库根目录部署。源代码、静态数据和说明文档均随页面发布。
+              </p>
+            </article>
+          </div>
         </section>
       </main>
     </div>

@@ -2,7 +2,39 @@ import { initThemeRiver } from './modules/theme-river/index.js';
 import { initPaperForce } from './modules/paper-force/index.js';
 import { initButterflyPath } from './modules/butterfly-path/index.js';
 import { initInstitutionMap } from './modules/institution-map/index.js';
-import { initAiHistoryPlaceholder } from './modules/ai-history/index.js';
+import { initAiHistory } from './modules/ai-history/index.js';
+import { getAppState, onAppStateChange, phaseLabelByYear } from './shared/app-state.js';
+import { loadJson } from './shared/data-loader.js';
+
+function shorten(text, maxLength) {
+  if (!text || text.length <= maxLength) {
+    return text || '';
+  }
+  return `${text.slice(0, maxLength - 1)}...`;
+}
+
+async function initFocusPanel() {
+  const yearEl = document.getElementById('focus-year');
+  const phaseEl = document.getElementById('focus-phase');
+  const paperEl = document.getElementById('focus-paper');
+
+  if (!yearEl || !phaseEl || !paperEl) {
+    return;
+  }
+
+  const nodes = await loadJson('./data/processed/nodes.json');
+  const nodeById = new Map(nodes.map((node) => [node.id, node]));
+
+  function render(state) {
+    const node = nodeById.get(state.selectedPaperId);
+    yearEl.textContent = String(state.year);
+    phaseEl.textContent = phaseLabelByYear(state.year);
+    paperEl.textContent = node ? shorten(node.title, 56) : '未选择论文';
+  }
+
+  render(getAppState());
+  onAppStateChange(({ state }) => render(state));
+}
 
 export function bootstrapApp() {
   const themeRiverEl = document.getElementById('theme-river');
@@ -19,7 +51,10 @@ export function bootstrapApp() {
   initPaperForce(paperForceEl);
   initButterflyPath(butterflyPathEl);
   initInstitutionMap(institutionMapEl);
-  initAiHistoryPlaceholder(aiHistoryEl);
+  initAiHistory(aiHistoryEl);
+  initFocusPanel().catch(() => {
+    // The charts remain usable even if the summary panel cannot load its copy.
+  });
 }
 
 bootstrapApp();

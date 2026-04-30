@@ -1,29 +1,44 @@
 [
   {
     "id": "phase_foundation",
-    "label": "2013-2017 Foundation of Representation and Sequence Modeling",
+    "label": "2013-2017 Representation and Sequence Modeling",
     "start_year": 2013,
     "end_year": 2017,
-    "summary": "From word embeddings and RNN/LSTM systems to early attention and transformer ideas.",
-    "peak_keywords": ["word2vec", "lstm", "attention"],
-    "accent_color": "#7f8c8d"
+    "summary": "Word embeddings, recurrent sequence models, and attention mechanisms form the technical base.",
+    "peak_keywords": [
+      "word2vec",
+      "lstm",
+      "attention"
+    ],
+    "accent_color": "#64748b"
   },
   {
     "id": "phase_boom",
-    "label": "2018-2022 Pretraining and Architecture Boom",
+    "label": "2018-2022 Pretraining and Scaling",
     "start_year": 2018,
     "end_year": 2022,
-    "summary": "Transformer-based pretraining scaled rapidly with BERT and GPT style models.",
-    "peak_keywords": ["transformer", "bert", "gpt"],
-    "accent_color": "#e67e22"
+    "summary": "Transformer-based pretraining and scaling laws become the dominant research pattern.",
+    "peak_keywords": [
+      "transformer",
+      "bert",
+      "gpt",
+      "moe"
+    ],
+    "accent_color": "#d97706"
   },
   {
     "id": "phase_agentic",
-    "label": "2023-2026 Alignment, Agents, and Multimodal Fusion",
+    "label": "2023-2026 Alignment, Retrieval, Multimodality, and Agents",
     "start_year": 2023,
     "end_year": 2026,
-    "summary": "RLHF, agent workflows, and multimodal systems become the main research direction.",
-    "peak_keywords": ["rlhf", "agent", "multimodal", "rag"],
-    "accent_color": "#2980b9"
+    "summary": "Research shifts toward alignment, tool use, retrieval augmentation, multimodal models, and agents.",
+    "peak_keywords": [
+      "rlhf",
+      "rag",
+      "multimodal",
+      "agent",
+      "small_llm"
+    ],
+    "accent_color": "#176b87"
   }
 ]

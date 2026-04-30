@@ -17,14 +17,35 @@
   stroke: #111827;
   stroke-width: 1.2;
   stroke-dasharray: 4 4;
+  pointer-events: none;
 }
 
 .theme-river-area {
-  transition: fill-opacity 180ms ease;
+  cursor: pointer;
+  transition: fill-opacity 180ms ease, filter 180ms ease;
+}
+
+.theme-river-area:hover,
+.theme-river-area.is-focused {
+  filter: drop-shadow(0 2px 5px rgba(23, 107, 135, 0.28));
+}
+
+.theme-river-label {
+  fill: #172033;
+  font-size: 10px;
+  font-weight: 700;
+  paint-order: stroke;
+  pointer-events: none;
+  stroke: rgba(255, 255, 255, 0.86);
+  stroke-width: 3px;
 }
 
 .legend-chip-active {
   outline: 2px solid var(--accent);
+}
+
+.chart-legend .legend-chip {
+  cursor: pointer;
 }
 
 .chart-color-0 {

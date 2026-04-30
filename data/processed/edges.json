@@ -1,187 +1,1192 @@
 [
   {
+    "source": "p2014_lstm_5",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2014_lstm_5",
+    "target": "p2013_lstm_2",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
     "source": "p2014_seq2seq",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2014_seq2seq",
+    "target": "p2013_lstm_2",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2014_seq2seq",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for lstm research."
+  },
+  {
+    "source": "p2014_word2vec_4",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2014_word2vec_4",
     "target": "p2013_word2vec",
-    "context": "Uses distributed embeddings as initialization for encoder and decoder."
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2014_word2vec_4",
+    "target": "p2013_word2vec_1",
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2014_word2vec_4",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for word2vec research."
+  },
+  {
+    "source": "p2014_attention_3",
+    "target": "p2013_attention_3",
+    "context": "Builds on attention ideas for attention research."
+  },
+  {
+    "source": "p2014_attention_3",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for attention research."
+  },
+  {
+    "source": "p2014_lstm_2",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2014_lstm_2",
+    "target": "p2013_lstm_2",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2014_lstm_2",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for lstm research."
+  },
+  {
+    "source": "p2014_word2vec_1",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2014_word2vec_1",
+    "target": "p2013_word2vec",
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2014_word2vec_1",
+    "target": "p2013_word2vec_1",
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2014_word2vec_1",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for word2vec research."
   },
   {
     "source": "p2015_attention",
+    "target": "p2013_attention_3",
+    "context": "Builds on attention ideas for attention research."
+  },
+  {
+    "source": "p2015_attention",
+    "target": "p2014_attention_3",
+    "context": "Builds on attention ideas for attention research."
+  },
+  {
+    "source": "p2015_lstm_5",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2015_lstm_5",
+    "target": "p2014_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2015_lstm_5",
     "target": "p2014_seq2seq",
-    "context": "Extends sequence-to-sequence with alignment-based attention."
+    "context": "Builds on lstm ideas for lstm research."
   },
   {
-    "source": "p2016_residual_rnn",
-    "target": "p2015_attention",
-    "context": "Builds deeper recurrent stacks while preserving gradient flow."
+    "source": "p2015_word2vec_4",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for word2vec research."
   },
   {
-    "source": "p2017_transformer",
-    "target": "p2015_attention",
-    "context": "Generalizes attention into multi-head self-attention blocks."
-  },
-  {
-    "source": "p2017_transformer",
-    "target": "p2014_seq2seq",
-    "context": "Retains encoder-decoder framing with parallelized computation."
-  },
-  {
-    "source": "p2017_elmo",
+    "source": "p2015_word2vec_4",
     "target": "p2013_word2vec",
-    "context": "Moves from static to contextual embeddings."
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2015_word2vec_4",
+    "target": "p2014_word2vec_4",
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2015_word2vec_4",
+    "target": "p2013_word2vec_1",
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2015_transformer_3",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for transformer research."
+  },
+  {
+    "source": "p2015_transformer_3",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for transformer research."
+  },
+  {
+    "source": "p2015_attention_2",
+    "target": "p2013_attention_3",
+    "context": "Builds on attention ideas for attention research."
+  },
+  {
+    "source": "p2015_attention_2",
+    "target": "p2014_attention_3",
+    "context": "Builds on attention ideas for attention research."
+  },
+  {
+    "source": "p2015_attention_2",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for attention research."
+  },
+  {
+    "source": "p2015_lstm_1",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2015_lstm_1",
+    "target": "p2014_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2015_lstm_1",
+    "target": "p2014_seq2seq",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2015_lstm_1",
+    "target": "p2013_lstm_2",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2016_lstm_5",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2016_lstm_5",
+    "target": "p2014_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2016_word2vec_4",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2016_word2vec_4",
+    "target": "p2013_word2vec",
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2016_word2vec_4",
+    "target": "p2014_word2vec_4",
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2016_transformer_3",
+    "target": "p2015_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2016_transformer_3",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for transformer research."
+  },
+  {
+    "source": "p2016_transformer_3",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for transformer research."
+  },
+  {
+    "source": "p2016_transformer_3",
+    "target": "p2014_lstm_5",
+    "context": "Builds on lstm ideas for transformer research."
+  },
+  {
+    "source": "p2016_attention_2",
+    "target": "p2013_attention_3",
+    "context": "Builds on attention ideas for attention research."
+  },
+  {
+    "source": "p2016_attention_2",
+    "target": "p2015_attention",
+    "context": "Builds on attention ideas for attention research."
+  },
+  {
+    "source": "p2016_lstm_1",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2016_lstm_1",
+    "target": "p2014_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2016_lstm_1",
+    "target": "p2014_seq2seq",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2017_transformer",
+    "target": "p2015_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2017_transformer",
+    "target": "p2016_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2017_transformer",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for transformer research."
+  },
+  {
+    "source": "p2017_transformer",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for transformer research."
+  },
+  {
+    "source": "p2017_lstm_5",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2017_lstm_5",
+    "target": "p2014_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2017_word2vec_4",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2017_word2vec_4",
+    "target": "p2013_word2vec",
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2017_word2vec_4",
+    "target": "p2014_word2vec_4",
+    "context": "Builds on word2vec ideas for word2vec research."
+  },
+  {
+    "source": "p2017_transformer_3",
+    "target": "p2015_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2017_transformer_3",
+    "target": "p2016_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2017_transformer_3",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for transformer research."
+  },
+  {
+    "source": "p2017_transformer_3",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for transformer research."
+  },
+  {
+    "source": "p2017_lstm_1",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2017_lstm_1",
+    "target": "p2014_lstm_5",
+    "context": "Builds on lstm ideas for lstm research."
+  },
+  {
+    "source": "p2017_attention_2",
+    "target": "p2013_attention_3",
+    "context": "Builds on attention ideas for attention research."
+  },
+  {
+    "source": "p2017_attention_2",
+    "target": "p2015_attention",
+    "context": "Builds on attention ideas for attention research."
+  },
+  {
+    "source": "p2017_attention_2",
+    "target": "p2014_attention_3",
+    "context": "Builds on attention ideas for attention research."
   },
   {
     "source": "p2018_bert",
-    "target": "p2017_transformer",
-    "context": "Adopts transformer backbone for bidirectional masked pretraining."
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for bert research."
+  },
+  {
+    "source": "p2018_bert",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for bert research."
+  },
+  {
+    "source": "p2018_bert",
+    "target": "p2014_lstm_5",
+    "context": "Builds on lstm ideas for bert research."
+  },
+  {
+    "source": "p2018_bert",
+    "target": "p2013_attention_3",
+    "context": "Builds on attention ideas for bert research."
   },
   {
     "source": "p2018_gpt",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for gpt research."
+  },
+  {
+    "source": "p2018_gpt",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for gpt research."
+  },
+  {
+    "source": "p2018_transformer_5",
     "target": "p2017_transformer",
-    "context": "Uses decoder transformer for autoregressive pretraining."
+    "context": "Builds on transformer ideas for transformer research."
   },
   {
-    "source": "p2019_xlnet",
-    "target": "p2018_bert",
-    "context": "Addresses objective mismatch in bidirectional pretraining."
+    "source": "p2018_transformer_5",
+    "target": "p2015_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
   },
   {
-    "source": "p2019_gpt2",
+    "source": "p2018_transformer_5",
+    "target": "p2016_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2018_instruction_4",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for instruction research."
+  },
+  {
+    "source": "p2018_instruction_4",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for instruction research."
+  },
+  {
+    "source": "p2018_instruction_4",
+    "target": "p2014_lstm_5",
+    "context": "Builds on lstm ideas for instruction research."
+  },
+  {
+    "source": "p2018_instruction_4",
+    "target": "p2013_attention_3",
+    "context": "Builds on attention ideas for instruction research."
+  },
+  {
+    "source": "p2018_gpt_3",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for gpt research."
+  },
+  {
+    "source": "p2018_gpt_3",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for gpt research."
+  },
+  {
+    "source": "p2018_transformer_1",
+    "target": "p2017_transformer",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2018_transformer_1",
+    "target": "p2015_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2018_transformer_1",
+    "target": "p2016_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2018_bert_2",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for bert research."
+  },
+  {
+    "source": "p2018_bert_2",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for bert research."
+  },
+  {
+    "source": "p2018_bert_2",
+    "target": "p2014_lstm_5",
+    "context": "Builds on lstm ideas for bert research."
+  },
+  {
+    "source": "p2018_bert_2",
+    "target": "p2013_attention_3",
+    "context": "Builds on attention ideas for bert research."
+  },
+  {
+    "source": "p2019_transformer_5",
+    "target": "p2017_transformer",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2019_transformer_5",
+    "target": "p2015_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2019_instruction_4",
+    "target": "p2018_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2019_instruction_4",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for instruction research."
+  },
+  {
+    "source": "p2019_instruction_4",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for instruction research."
+  },
+  {
+    "source": "p2019_gpt_3",
     "target": "p2018_gpt",
-    "context": "Scales autoregressive pretraining and generation quality."
+    "context": "Builds on gpt ideas for gpt research."
   },
   {
-    "source": "p2020_t5",
+    "source": "p2019_gpt_3",
+    "target": "p2018_gpt_3",
+    "context": "Builds on gpt ideas for gpt research."
+  },
+  {
+    "source": "p2019_gpt_3",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for gpt research."
+  },
+  {
+    "source": "p2019_gpt_3",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for gpt research."
+  },
+  {
+    "source": "p2019_transformer_1",
+    "target": "p2017_transformer",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2019_transformer_1",
+    "target": "p2015_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2019_bert_2",
     "target": "p2018_bert",
-    "context": "Unifies multiple tasks under a text-to-text objective."
+    "context": "Builds on bert ideas for bert research."
   },
   {
-    "source": "p2020_t5",
-    "target": "p2019_gpt2",
-    "context": "Benchmarks transfer behavior against scaled autoregressive baselines."
+    "source": "p2019_bert_2",
+    "target": "p2018_bert_2",
+    "context": "Builds on bert ideas for bert research."
+  },
+  {
+    "source": "p2019_bert_2",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for bert research."
   },
   {
     "source": "p2020_gpt3",
-    "target": "p2019_gpt2",
-    "context": "Shows emergence from scaling model and dataset sizes."
+    "target": "p2018_gpt",
+    "context": "Builds on gpt ideas for gpt research."
   },
   {
-    "source": "p2021_switch",
-    "target": "p2020_t5",
-    "context": "Introduces sparse expert routing on text-to-text transformers."
+    "source": "p2020_gpt3",
+    "target": "p2018_gpt_3",
+    "context": "Builds on gpt ideas for gpt research."
   },
   {
-    "source": "p2021_switch",
+    "source": "p2020_gpt3",
+    "target": "p2019_gpt_3",
+    "context": "Builds on gpt ideas for gpt research."
+  },
+  {
+    "source": "p2020_gpt3",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for gpt research."
+  },
+  {
+    "source": "p2020_transformer_5",
     "target": "p2017_transformer",
-    "context": "Preserves transformer blocks while changing feed-forward capacity."
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2020_transformer_5",
+    "target": "p2015_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2020_instruction_4",
+    "target": "p2018_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2020_instruction_4",
+    "target": "p2019_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2020_instruction_4",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for instruction research."
+  },
+  {
+    "source": "p2020_transformer_1",
+    "target": "p2017_transformer",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2020_transformer_1",
+    "target": "p2015_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2020_transformer_1",
+    "target": "p2016_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2020_transformer_1",
+    "target": "p2017_transformer_3",
+    "context": "Builds on transformer ideas for transformer research."
+  },
+  {
+    "source": "p2020_gpt_3",
+    "target": "p2018_gpt",
+    "context": "Builds on gpt ideas for gpt research."
+  },
+  {
+    "source": "p2020_gpt_3",
+    "target": "p2018_gpt_3",
+    "context": "Builds on gpt ideas for gpt research."
+  },
+  {
+    "source": "p2020_bert_2",
+    "target": "p2018_bert",
+    "context": "Builds on bert ideas for bert research."
+  },
+  {
+    "source": "p2020_bert_2",
+    "target": "p2018_bert_2",
+    "context": "Builds on bert ideas for bert research."
+  },
+  {
+    "source": "p2020_bert_2",
+    "target": "p2019_bert_2",
+    "context": "Builds on bert ideas for bert research."
   },
   {
     "source": "p2021_clip",
-    "target": "p2017_transformer",
-    "context": "Uses transformer encoders to align image and text representations."
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for multimodal research."
   },
   {
-    "source": "p2022_instructgpt",
-    "target": "p2020_gpt3",
-    "context": "Fine-tunes large pretrained models with preference feedback."
+    "source": "p2021_clip",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for multimodal research."
   },
   {
-    "source": "p2022_instructgpt",
+    "source": "p2021_clip",
+    "target": "p2014_lstm_5",
+    "context": "Builds on lstm ideas for multimodal research."
+  },
+  {
+    "source": "p2021_clip",
+    "target": "p2013_attention_3",
+    "context": "Builds on attention ideas for multimodal research."
+  },
+  {
+    "source": "p2021_agent_5",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for agent research."
+  },
+  {
+    "source": "p2021_agent_5",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for agent research."
+  },
+  {
+    "source": "p2021_multimodal_4",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for multimodal research."
+  },
+  {
+    "source": "p2021_multimodal_4",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for multimodal research."
+  },
+  {
+    "source": "p2021_multimodal_4",
+    "target": "p2014_lstm_5",
+    "context": "Builds on lstm ideas for multimodal research."
+  },
+  {
+    "source": "p2021_gpt_1",
     "target": "p2018_gpt",
-    "context": "Keeps autoregressive instruction-following generation behavior."
+    "context": "Builds on gpt ideas for gpt research."
   },
   {
-    "source": "p2022_palm",
-    "target": "p2021_switch",
-    "context": "Builds on sparse scaling and pathways-inspired training."
-  },
-  {
-    "source": "p2022_palm",
+    "source": "p2021_gpt_1",
     "target": "p2020_gpt3",
-    "context": "Compares dense scaling and capability emergence."
+    "context": "Builds on gpt ideas for gpt research."
   },
   {
-    "source": "p2023_llama",
+    "source": "p2021_gpt_1",
+    "target": "p2018_gpt_3",
+    "context": "Builds on gpt ideas for gpt research."
+  },
+  {
+    "source": "p2021_gpt_1",
+    "target": "p2019_gpt_3",
+    "context": "Builds on gpt ideas for gpt research."
+  },
+  {
+    "source": "p2021_rag_3",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for rag research."
+  },
+  {
+    "source": "p2021_rag_3",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for rag research."
+  },
+  {
+    "source": "p2021_instruction_2",
+    "target": "p2018_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2021_instruction_2",
+    "target": "p2019_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2021_instruction_2",
+    "target": "p2020_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2022_instructgpt",
+    "target": "p2018_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2022_instructgpt",
+    "target": "p2019_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2022_instructgpt",
+    "target": "p2020_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2022_instructgpt",
+    "target": "p2021_instruction_2",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2022_agent_5",
+    "target": "p2021_agent_5",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2022_agent_5",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for agent research."
+  },
+  {
+    "source": "p2022_gpt_1",
+    "target": "p2018_gpt",
+    "context": "Builds on gpt ideas for gpt research."
+  },
+  {
+    "source": "p2022_gpt_1",
     "target": "p2020_gpt3",
-    "context": "Open foundation models rely on prior scaling insights."
+    "context": "Builds on gpt ideas for gpt research."
   },
   {
-    "source": "p2023_llama",
-    "target": "p2017_transformer",
-    "context": "Maintains transformer-first architecture at larger context lengths."
+    "source": "p2022_gpt_1",
+    "target": "p2018_gpt_3",
+    "context": "Builds on gpt ideas for gpt research."
   },
   {
-    "source": "p2023_rlhf_cn",
-    "target": "p2022_instructgpt",
-    "context": "Adapts RLHF pipeline for Chinese instruction data."
-  },
-  {
-    "source": "p2023_rlhf_cn",
-    "target": "p2020_gpt3",
-    "context": "Transfers base-model scaling assumptions to Chinese settings."
-  },
-  {
-    "source": "p2024_rag",
-    "target": "p2020_t5",
-    "context": "Uses seq2seq style generation with external retrieval memory."
-  },
-  {
-    "source": "p2024_rag",
-    "target": "p2023_llama",
-    "context": "Applies retrieval grounding on open foundation models."
-  },
-  {
-    "source": "p2024_rag",
-    "target": "p2018_bert",
-    "context": "Reuses dense retrieval encoders from bidirectional pretraining."
-  },
-  {
-    "source": "p2024_moe_agent",
-    "target": "p2023_llama",
-    "context": "Uses open models as the policy core of tool-using agents."
-  },
-  {
-    "source": "p2024_moe_agent",
-    "target": "p2022_palm",
-    "context": "Integrates large-scale training recipes with sparse expert routing."
-  },
-  {
-    "source": "p2025_multimodal_agent",
+    "source": "p2022_multimodal_4",
     "target": "p2021_clip",
-    "context": "Extends language-image alignment into multimodal action planning."
+    "context": "Builds on multimodal ideas for multimodal research."
+  },
+  {
+    "source": "p2022_multimodal_4",
+    "target": "p2021_multimodal_4",
+    "context": "Builds on multimodal ideas for multimodal research."
+  },
+  {
+    "source": "p2022_multimodal_4",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for multimodal research."
+  },
+  {
+    "source": "p2022_multimodal_4",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for multimodal research."
+  },
+  {
+    "source": "p2022_rag_3",
+    "target": "p2021_rag_3",
+    "context": "Builds on rag ideas for rag research."
+  },
+  {
+    "source": "p2022_rag_3",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for rag research."
+  },
+  {
+    "source": "p2022_instruction_2",
+    "target": "p2018_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2022_instruction_2",
+    "target": "p2019_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2022_instruction_2",
+    "target": "p2020_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2023_llama",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for small_llm research."
+  },
+  {
+    "source": "p2023_llama",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for small_llm research."
+  },
+  {
+    "source": "p2023_llama",
+    "target": "p2014_lstm_5",
+    "context": "Builds on lstm ideas for small_llm research."
+  },
+  {
+    "source": "p2023_llama",
+    "target": "p2013_attention_3",
+    "context": "Builds on attention ideas for small_llm research."
+  },
+  {
+    "source": "p2023_instruction_1",
+    "target": "p2018_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2023_instruction_1",
+    "target": "p2022_instructgpt",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2023_moe_5",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for moe research."
+  },
+  {
+    "source": "p2023_moe_5",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for moe research."
+  },
+  {
+    "source": "p2023_moe_5",
+    "target": "p2014_lstm_5",
+    "context": "Builds on lstm ideas for moe research."
+  },
+  {
+    "source": "p2023_agent_4",
+    "target": "p2021_agent_5",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2023_agent_4",
+    "target": "p2022_agent_5",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2023_agent_4",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for agent research."
+  },
+  {
+    "source": "p2023_agent_4",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for agent research."
+  },
+  {
+    "source": "p2023_multimodal_3",
+    "target": "p2021_clip",
+    "context": "Builds on multimodal ideas for multimodal research."
+  },
+  {
+    "source": "p2023_multimodal_3",
+    "target": "p2021_multimodal_4",
+    "context": "Builds on multimodal ideas for multimodal research."
+  },
+  {
+    "source": "p2023_rag_2",
+    "target": "p2021_rag_3",
+    "context": "Builds on rag ideas for rag research."
+  },
+  {
+    "source": "p2023_rag_2",
+    "target": "p2022_rag_3",
+    "context": "Builds on rag ideas for rag research."
+  },
+  {
+    "source": "p2023_rag_2",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for rag research."
+  },
+  {
+    "source": "p2024_rag",
+    "target": "p2021_rag_3",
+    "context": "Builds on rag ideas for rag research."
+  },
+  {
+    "source": "p2024_rag",
+    "target": "p2022_rag_3",
+    "context": "Builds on rag ideas for rag research."
+  },
+  {
+    "source": "p2024_rag",
+    "target": "p2023_rag_2",
+    "context": "Builds on rag ideas for rag research."
+  },
+  {
+    "source": "p2024_rag",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for rag research."
+  },
+  {
+    "source": "p2024_instruction_1",
+    "target": "p2018_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2024_instruction_1",
+    "target": "p2022_instructgpt",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2024_moe_5",
+    "target": "p2023_moe_5",
+    "context": "Builds on moe ideas for moe research."
+  },
+  {
+    "source": "p2024_moe_5",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for moe research."
+  },
+  {
+    "source": "p2024_moe_5",
+    "target": "p2013_word2vec_4",
+    "context": "Builds on word2vec ideas for moe research."
+  },
+  {
+    "source": "p2024_agent_4",
+    "target": "p2021_agent_5",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2024_agent_4",
+    "target": "p2022_agent_5",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2024_agent_4",
+    "target": "p2023_agent_4",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2024_agent_4",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for agent research."
+  },
+  {
+    "source": "p2024_multimodal_3",
+    "target": "p2021_clip",
+    "context": "Builds on multimodal ideas for multimodal research."
+  },
+  {
+    "source": "p2024_multimodal_3",
+    "target": "p2021_multimodal_4",
+    "context": "Builds on multimodal ideas for multimodal research."
+  },
+  {
+    "source": "p2024_rag_2",
+    "target": "p2021_rag_3",
+    "context": "Builds on rag ideas for rag research."
+  },
+  {
+    "source": "p2024_rag_2",
+    "target": "p2022_rag_3",
+    "context": "Builds on rag ideas for rag research."
+  },
+  {
+    "source": "p2024_rag_2",
+    "target": "p2023_rag_2",
+    "context": "Builds on rag ideas for rag research."
   },
   {
     "source": "p2025_multimodal_agent",
-    "target": "p2024_moe_agent",
-    "context": "Combines tool planning and sparse-expert control flow."
+    "target": "p2021_agent_5",
+    "context": "Builds on agent ideas for agent research."
   },
   {
-    "source": "p2025_small_llm_cn",
-    "target": "p2023_llama",
-    "context": "Uses open model recipes for parameter-efficient Chinese deployment."
+    "source": "p2025_multimodal_agent",
+    "target": "p2022_agent_5",
+    "context": "Builds on agent ideas for agent research."
   },
   {
-    "source": "p2025_small_llm_cn",
+    "source": "p2025_multimodal_agent",
+    "target": "p2023_agent_4",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2025_multimodal_agent",
+    "target": "p2024_agent_4",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2025_instruction_1",
+    "target": "p2018_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2025_instruction_1",
+    "target": "p2022_instructgpt",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2025_moe_5",
+    "target": "p2023_moe_5",
+    "context": "Builds on moe ideas for moe research."
+  },
+  {
+    "source": "p2025_moe_5",
+    "target": "p2024_moe_5",
+    "context": "Builds on moe ideas for moe research."
+  },
+  {
+    "source": "p2025_moe_5",
+    "target": "p2013_lstm_5",
+    "context": "Builds on lstm ideas for moe research."
+  },
+  {
+    "source": "p2025_agent_4",
+    "target": "p2021_agent_5",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2025_agent_4",
+    "target": "p2022_agent_5",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2025_agent_4",
+    "target": "p2023_agent_4",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2025_agent_4",
+    "target": "p2024_agent_4",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2025_multimodal_3",
+    "target": "p2021_clip",
+    "context": "Builds on multimodal ideas for multimodal research."
+  },
+  {
+    "source": "p2025_multimodal_3",
+    "target": "p2021_multimodal_4",
+    "context": "Builds on multimodal ideas for multimodal research."
+  },
+  {
+    "source": "p2025_rag_2",
     "target": "p2024_rag",
-    "context": "Leverages retrieval augmentation to improve factual reliability."
+    "context": "Builds on rag ideas for rag research."
   },
   {
-    "source": "p2025_small_llm_cn",
-    "target": "p2023_rlhf_cn",
-    "context": "Adopts Chinese preference alignment objectives."
+    "source": "p2025_rag_2",
+    "target": "p2021_rag_3",
+    "context": "Builds on rag ideas for rag research."
+  },
+  {
+    "source": "p2025_rag_2",
+    "target": "p2022_rag_3",
+    "context": "Builds on rag ideas for rag research."
+  },
+  {
+    "source": "p2026_world_model_agent",
+    "target": "p2021_agent_5",
+    "context": "Builds on agent ideas for agent research."
   },
   {
     "source": "p2026_world_model_agent",
     "target": "p2025_multimodal_agent",
-    "context": "Builds world-aware planning on top of multimodal agent systems."
+    "context": "Builds on agent ideas for agent research."
   },
   {
     "source": "p2026_world_model_agent",
-    "target": "p2024_moe_agent",
-    "context": "Reuses sparse expert modules for long-horizon control."
+    "target": "p2022_agent_5",
+    "context": "Builds on agent ideas for agent research."
   },
   {
     "source": "p2026_world_model_agent",
+    "target": "p2023_agent_4",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2026_instruction_1",
+    "target": "p2018_instruction_4",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2026_instruction_1",
+    "target": "p2022_instructgpt",
+    "context": "Builds on instruction ideas for instruction research."
+  },
+  {
+    "source": "p2026_moe_5",
+    "target": "p2023_moe_5",
+    "context": "Builds on moe ideas for moe research."
+  },
+  {
+    "source": "p2026_moe_5",
+    "target": "p2024_moe_5",
+    "context": "Builds on moe ideas for moe research."
+  },
+  {
+    "source": "p2026_moe_5",
+    "target": "p2025_moe_5",
+    "context": "Builds on moe ideas for moe research."
+  },
+  {
+    "source": "p2026_agent_4",
+    "target": "p2021_agent_5",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2026_agent_4",
+    "target": "p2025_multimodal_agent",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2026_agent_4",
+    "target": "p2022_agent_5",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2026_agent_4",
+    "target": "p2023_agent_4",
+    "context": "Builds on agent ideas for agent research."
+  },
+  {
+    "source": "p2026_multimodal_3",
+    "target": "p2021_clip",
+    "context": "Builds on multimodal ideas for multimodal research."
+  },
+  {
+    "source": "p2026_multimodal_3",
+    "target": "p2021_multimodal_4",
+    "context": "Builds on multimodal ideas for multimodal research."
+  },
+  {
+    "source": "p2026_rag_2",
     "target": "p2024_rag",
-    "context": "Grounds long-horizon reasoning with retrieval-augmented memory."
+    "context": "Builds on rag ideas for rag research."
+  },
+  {
+    "source": "p2026_rag_2",
+    "target": "p2021_rag_3",
+    "context": "Builds on rag ideas for rag research."
+  },
+  {
+    "source": "p2026_rag_2",
+    "target": "p2022_rag_3",
+    "context": "Builds on rag ideas for rag research."
+  },
+  {
+    "source": "p2014_seq2seq",
+    "target": "p2013_word2vec",
+    "context": "Synthetic canonical influence link."
+  },
+  {
+    "source": "p2015_attention",
+    "target": "p2014_seq2seq",
+    "context": "Synthetic canonical influence link."
+  },
+  {
+    "source": "p2017_transformer",
+    "target": "p2015_attention",
+    "context": "Synthetic canonical influence link."
+  },
+  {
+    "source": "p2018_bert",
+    "target": "p2017_transformer",
+    "context": "Synthetic canonical influence link."
+  },
+  {
+    "source": "p2018_gpt",
+    "target": "p2017_transformer",
+    "context": "Synthetic canonical influence link."
+  },
+  {
+    "source": "p2022_instructgpt",
+    "target": "p2020_gpt3",
+    "context": "Synthetic canonical influence link."
+  },
+  {
+    "source": "p2024_rag",
+    "target": "p2020_gpt3",
+    "context": "Synthetic canonical influence link."
+  },
+  {
+    "source": "p2025_multimodal_agent",
+    "target": "p2021_clip",
+    "context": "Synthetic canonical influence link."
   }
 ]

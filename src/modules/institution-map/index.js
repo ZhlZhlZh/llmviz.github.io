@@ -1,27 +1,25 @@
 import { loadJson } from '../../shared/data-loader.js';
+import { getAppState, onAppStateChange, setAppState } from '../../shared/app-state.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
 function createSvgElement(tag, attrs = {}) {
   const el = document.createElementNS(SVG_NS, tag);
-  Object.entries(attrs).forEach(([key, value]) => {
-    el.setAttribute(key, String(value));
-  });
+  Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, String(value)));
   return el;
 }
 
 function projectLonLat(lon, lat, width, height, padding) {
-  const x = padding + ((lon + 180) / 360) * (width - padding * 2);
-  const y = padding + ((90 - lat) / 180) * (height - padding * 2);
-  return { x, y };
+  return {
+    x: padding + ((lon + 180) / 360) * (width - padding * 2),
+    y: padding + ((90 - lat) / 180) * (height - padding * 2)
+  };
 }
 
 function polygonToPath(rings, width, height, padding) {
   return rings
     .map((ring) => {
-      if (!ring.length) {
-        return '';
-      }
+      if (!ring.length) return '';
       const head = projectLonLat(ring[0][0], ring[0][1], width, height, padding);
       const body = ring
         .slice(1)
@@ -36,39 +34,23 @@ function polygonToPath(rings, width, height, padding) {
 }
 
 function geometryToPath(geometry, width, height, padding) {
-  if (!geometry) {
-    return '';
-  }
-
-  if (geometry.type === 'Polygon') {
-    return polygonToPath(geometry.coordinates, width, height, padding);
-  }
-
+  if (!geometry) return '';
+  if (geometry.type === 'Polygon') return polygonToPath(geometry.coordinates, width, height, padding);
   if (geometry.type === 'MultiPolygon') {
-    return geometry.coordinates
-      .map((polygon) => polygonToPath(polygon, width, height, padding))
-      .join(' ');
+    return geometry.coordinates.map((polygon) => polygonToPath(polygon, width, height, padding)).join(' ');
   }
-
   return '';
 }
 
 function mapRange(value, domainMin, domainMax, rangeMin, rangeMax) {
-  if (domainMin === domainMax) {
-    return (rangeMin + rangeMax) / 2;
-  }
-  const t = (value - domainMin) / (domainMax - domainMin);
-  return rangeMin + t * (rangeMax - rangeMin);
+  if (domainMin === domainMax) return (rangeMin + rangeMax) / 2;
+  return rangeMin + ((value - domainMin) / (domainMax - domainMin)) * (rangeMax - rangeMin);
 }
 
 function colorByMode(item, mode) {
   if (mode === 'org_type') {
-    if (item.org_type === 'university') {
-      return '#16a34a';
-    }
-    if (item.org_type === 'company') {
-      return '#ea580c';
-    }
+    if (item.org_type === 'university') return '#16a34a';
+    if (item.org_type === 'company') return '#d97706';
     return '#7c3aed';
   }
   return item.community === 'chinese' ? '#dc2626' : '#2563eb';
@@ -85,131 +67,252 @@ function createSymbol(item, x, y, radius, color) {
       class: 'map-point'
     });
   }
-
   if (item.org_type === 'research_lab') {
-    const d = `M ${x} ${y - radius} L ${x + radius} ${y + radius} L ${x - radius} ${y + radius} Z`;
     return createSvgElement('path', {
-      d,
+      d: `M ${x} ${y - radius} L ${x + radius} ${y + radius} L ${x - radius} ${y + radius} Z`,
       fill: color,
       class: 'map-point'
     });
   }
+  return createSvgElement('circle', { cx: x, cy: y, r: radius, fill: color, class: 'map-point' });
+}
 
-  return createSvgElement('circle', {
-    cx: x,
-    cy: y,
-    r: radius,
-    fill: color,
-    class: 'map-point'
+function buildInstitutionLinks(nodes, edges) {
+  const nodeById = new Map(nodes.map((node) => [node.id, node]));
+  const linkMap = new Map();
+  edges.forEach((edge) => {
+    const source = nodeById.get(edge.source);
+    const target = nodeById.get(edge.target);
+    if (!source || !target || source.institution === target.institution) return;
+    const key = source.institution < target.institution
+      ? `${source.institution}__${target.institution}`
+      : `${target.institution}__${source.institution}`;
+    if (!linkMap.has(key)) {
+      linkMap.set(key, { source: source.institution, target: target.institution, count: 0 });
+    }
+    linkMap.get(key).count += 1;
   });
+  return Array.from(linkMap.values()).sort((a, b) => b.count - a.count);
 }
 
 export async function initInstitutionMap(container) {
-  if (!container) {
-    return;
-  }
+  if (!container) return;
 
   container.innerHTML = `
     <div class="module-shell">
       <p class="module-tag">Module 04</p>
       <h3 class="module-title">机构影响力世界地图</h3>
-      <p class="module-subtitle">在世界底图上比较机构影响力、社区属性与组织类型差异。</p>
+      <p class="module-subtitle">点表示机构，线表示论文引用所形成的机构联系；点击机构可查看影响力、论文数量和最相关合作/引用机构。</p>
       <div class="chart-toolbar chart-toolbar-wrap">
         <label class="chart-control">
           颜色维度
           <select class="chart-select map-color-mode">
-            <option value="community">community</option>
-            <option value="org_type">org_type</option>
+            <option value="community">研究社区</option>
+            <option value="org_type">机构类型</option>
           </select>
         </label>
         <label class="chart-control">
           大小维度
           <select class="chart-select map-size-mode">
-            <option value="influence_score">influence_score</option>
-            <option value="citations_count">citations_count</option>
-            <option value="papers_count">papers_count</option>
+            <option value="influence_score">影响力</option>
+            <option value="citations_count">引用数</option>
+            <option value="papers_count">论文数</option>
           </select>
+        </label>
+        <label class="chart-control">
+          <input class="map-link-toggle" type="checkbox" checked />
+          显示机构联系
         </label>
         <div class="chart-stat" aria-live="polite">加载中...</div>
       </div>
       <div class="module-canvas chart-canvas">
-        <svg class="chart-svg" viewBox="0 0 860 420" role="img" aria-label="Institution world map scatter chart"></svg>
+        <svg class="chart-svg" viewBox="0 0 900 440" role="img" aria-label="Institution world map scatter chart"></svg>
       </div>
-      <div class="legend-row">
-        <span class="legend-chip">圆形 = company</span>
-        <span class="legend-chip">方形 = university</span>
-        <span class="legend-chip">三角 = research_lab</span>
-      </div>
+      <div class="chart-detail map-detail"></div>
+      <div class="legend-row map-legend"></div>
     </div>
   `;
 
   const colorModeEl = container.querySelector('.map-color-mode');
   const sizeModeEl = container.querySelector('.map-size-mode');
+  const linkToggle = container.querySelector('.map-link-toggle');
   const statEl = container.querySelector('.chart-stat');
   const svg = container.querySelector('.chart-svg');
+  const detailEl = container.querySelector('.map-detail');
+  const legendEl = container.querySelector('.map-legend');
 
-  if (!colorModeEl || !sizeModeEl || !statEl || !svg) {
-    return;
-  }
+  if (!colorModeEl || !sizeModeEl || !linkToggle || !statEl || !svg || !detailEl || !legendEl) return;
 
   try {
-    const [world, institutions] = await Promise.all([
+    const [world, institutions, nodes, edges] = await Promise.all([
       loadJson('./public/world.geojson'),
-      loadJson('./data/processed/institutions_geo.json')
+      loadJson('./data/processed/institutions_geo.json'),
+      loadJson('./data/processed/nodes.json'),
+      loadJson('./data/processed/edges.json')
     ]);
 
-    const width = 860;
-    const height = 420;
+    const width = 900;
+    const height = 440;
     const padding = 18;
+    const byName = new Map(institutions.map((item) => [item.institution, item]));
+    const instLinks = buildInstitutionLinks(nodes, edges)
+      .filter((link) => byName.has(link.source) && byName.has(link.target))
+      .slice(0, 45);
 
     const mapLayer = createSvgElement('g');
+    const linkLayer = createSvgElement('g');
     const pointLayer = createSvgElement('g');
-    svg.appendChild(mapLayer);
-    svg.appendChild(pointLayer);
+    const labelLayer = createSvgElement('g');
+    svg.append(mapLayer, linkLayer, pointLayer, labelLayer);
 
     (world.features || []).forEach((feature) => {
       const pathData = geometryToPath(feature.geometry, width, height, padding);
-      if (!pathData) {
+      if (!pathData) return;
+      mapLayer.appendChild(createSvgElement('path', { d: pathData, class: 'world-land' }));
+    });
+
+    function relatedInstitutions(name) {
+      return instLinks
+        .filter((link) => link.source === name || link.target === name)
+        .slice(0, 5)
+        .map((link) => `${link.source === name ? link.target : link.source} (${link.count})`);
+    }
+
+    function renderLegend() {
+      const colorMode = colorModeEl.value;
+      legendEl.innerHTML = '';
+      const items = colorMode === 'community'
+        ? [
+            ['#2563eb', '英文社区'],
+            ['#dc2626', '中文社区']
+          ]
+        : [
+            ['#d97706', '公司'],
+            ['#16a34a', '大学'],
+            ['#7c3aed', '研究实验室']
+          ];
+      items.forEach(([color, label]) => {
+        const chip = document.createElement('span');
+        chip.className = 'legend-chip map-legend-chip';
+        chip.innerHTML = `<span class="legend-swatch" style="background:${color}"></span>${label}`;
+        legendEl.appendChild(chip);
+      });
+      ['圆形 = 公司', '方形 = 大学', '三角 = 研究实验室', '线宽 = 引用联系强度'].forEach((label) => {
+        const chip = document.createElement('span');
+        chip.className = 'legend-chip';
+        chip.textContent = label;
+        legendEl.appendChild(chip);
+      });
+    }
+
+    function renderSelectedInstitution() {
+      const selectedId = getAppState().selectedInstitutionId || institutions[0]?.id;
+      const selected = institutions.find((item) => item.id === selectedId) || institutions[0];
+      Array.from(pointLayer.querySelectorAll('.map-point')).forEach((point) => {
+        point.classList.toggle('is-selected', point.getAttribute('data-id') === selected?.id);
+      });
+      Array.from(linkLayer.querySelectorAll('.map-institution-link')).forEach((line) => {
+        const active = line.getAttribute('data-source') === selected?.institution
+          || line.getAttribute('data-target') === selected?.institution;
+        line.classList.toggle('is-active', active);
+      });
+      if (!selected) {
+        detailEl.textContent = '没有可用机构数据。';
         return;
       }
-      const path = createSvgElement('path', {
-        d: pathData,
-        class: 'world-land'
+      const related = relatedInstitutions(selected.institution);
+      detailEl.innerHTML = `<strong>${selected.institution}</strong> · ${selected.city}, ${selected.country}<br />论文数 ${selected.papers_count}，引用数 ${selected.citations_count.toLocaleString()}，影响力 ${selected.influence_score}，类型 ${selected.org_type}。<br />相关机构：${related.length ? related.join('、') : '暂无跨机构引用联系'}`;
+    }
+
+    function renderLinks() {
+      linkLayer.innerHTML = '';
+      if (!linkToggle.checked) return;
+      const maxCount = Math.max(...instLinks.map((link) => link.count), 1);
+      instLinks.forEach((link) => {
+        const source = byName.get(link.source);
+        const target = byName.get(link.target);
+        const a = projectLonLat(source.lng, source.lat, width, height, padding);
+        const b = projectLonLat(target.lng, target.lat, width, height, padding);
+        const line = createSvgElement('line', {
+          x1: a.x,
+          y1: a.y,
+          x2: b.x,
+          y2: b.y,
+          class: 'map-institution-link',
+          'stroke-width': mapRange(link.count, 1, maxCount, 0.8, 4),
+          'data-source': link.source,
+          'data-target': link.target
+        });
+        const title = createSvgElement('title');
+        title.textContent = `${link.source} ↔ ${link.target}: ${link.count} 条引用联系`;
+        line.appendChild(title);
+        linkLayer.appendChild(line);
       });
-      mapLayer.appendChild(path);
-    });
+    }
 
     function renderPoints() {
       pointLayer.innerHTML = '';
-
+      labelLayer.innerHTML = '';
       const colorMode = colorModeEl.value;
       const sizeMode = sizeModeEl.value;
-
       const values = institutions.map((item) => Number(item[sizeMode]) || 0);
       const minValue = Math.min(...values);
       const maxValue = Math.max(...values);
+      const topLabels = new Set(
+        institutions
+          .slice()
+          .sort((a, b) => b.influence_score - a.influence_score)
+          .slice(0, 12)
+          .map((item) => item.id)
+      );
 
       institutions.forEach((item) => {
         const { x, y } = projectLonLat(item.lng, item.lat, width, height, padding);
-        const radius = mapRange(Number(item[sizeMode]) || 0, minValue, maxValue, 4, 12);
+        const radius = mapRange(Number(item[sizeMode]) || 0, minValue, maxValue, 4, 13);
         const color = colorByMode(item, colorMode);
         const symbol = createSymbol(item, x, y, radius, color);
-
+        symbol.setAttribute('data-id', item.id);
+        symbol.setAttribute('tabindex', '0');
+        symbol.setAttribute('role', 'button');
+        symbol.addEventListener('click', () => setAppState({ selectedInstitutionId: item.id }, 'institution-map'));
+        symbol.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            setAppState({ selectedInstitutionId: item.id }, 'institution-map');
+          }
+        });
         const title = createSvgElement('title');
         title.textContent = `${item.institution}\n${item.country}\n${sizeMode}: ${item[sizeMode]}`;
         symbol.appendChild(title);
-
         pointLayer.appendChild(symbol);
+
+        if (topLabels.has(item.id)) {
+          const label = createSvgElement('text', {
+            x: x + radius + 4,
+            y: y - radius - 2,
+            class: 'map-label'
+          });
+          label.textContent = item.institution;
+          labelLayer.appendChild(label);
+        }
       });
 
-      statEl.textContent = `机构数: ${institutions.length} | 颜色: ${colorMode} | 大小: ${sizeMode}`;
+      statEl.textContent = `机构数: ${institutions.length} | 联系数: ${instLinks.length} | 颜色: ${colorMode} | 大小: ${sizeMode}`;
+      renderLegend();
+      renderLinks();
+      renderSelectedInstitution();
     }
 
     colorModeEl.addEventListener('change', renderPoints);
     sizeModeEl.addEventListener('change', renderPoints);
+    linkToggle.addEventListener('change', () => {
+      renderLinks();
+      renderSelectedInstitution();
+    });
+    onAppStateChange(() => renderSelectedInstitution());
     renderPoints();
   } catch (error) {
-    statEl.textContent = '数据加载失败，请检查 institutions_geo.json 与 world.geojson';
+    statEl.textContent = '数据加载失败，请检查 institutions_geo.json、nodes.json、edges.json 与 world.geojson';
     svg.innerHTML = '';
   }
 }

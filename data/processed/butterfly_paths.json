@@ -1,81 +1,25 @@
 [
   {
-    "source_id": "p2013_word2vec",
-    "target_id": "p2026_world_model_agent",
-    "path_node_ids": [
+    "source": "p2013_word2vec",
+    "target": "p2026_world_model_agent",
+    "path": [
       "p2013_word2vec",
+      "p2014_seq2seq",
       "p2015_attention",
       "p2017_transformer",
       "p2020_gpt3",
-      "p2022_instructgpt",
-      "p2024_moe_agent",
+      "p2025_multimodal_agent",
       "p2026_world_model_agent"
-    ],
-    "mutation_node_ids": ["p2017_transformer", "p2022_instructgpt", "p2024_moe_agent"],
-    "depth": 6,
-    "contribution_score": 0.92
+    ]
   },
   {
-    "source_id": "p2014_seq2seq",
-    "target_id": "p2025_multimodal_agent",
-    "path_node_ids": [
-      "p2014_seq2seq",
+    "source": "p2017_transformer",
+    "target": "p2024_rag",
+    "path": [
       "p2017_transformer",
-      "p2021_clip",
-      "p2025_multimodal_agent"
-    ],
-    "mutation_node_ids": ["p2017_transformer", "p2021_clip"],
-    "depth": 3,
-    "contribution_score": 0.78
-  },
-  {
-    "source_id": "p2016_charcnn_cn",
-    "target_id": "p2025_small_llm_cn",
-    "path_node_ids": [
-      "p2016_charcnn_cn",
-      "p2023_rlhf_cn",
-      "p2025_small_llm_cn"
-    ],
-    "mutation_node_ids": ["p2023_rlhf_cn"],
-    "depth": 2,
-    "contribution_score": 0.71
-  },
-  {
-    "source_id": "p2018_bert",
-    "target_id": "p2024_rag",
-    "path_node_ids": [
-      "p2018_bert",
-      "p2020_t5",
-      "p2024_rag"
-    ],
-    "mutation_node_ids": ["p2024_rag"],
-    "depth": 2,
-    "contribution_score": 0.69
-  },
-  {
-    "source_id": "p2018_gpt",
-    "target_id": "p2023_rlhf_cn",
-    "path_node_ids": [
       "p2018_gpt",
       "p2020_gpt3",
-      "p2022_instructgpt",
-      "p2023_rlhf_cn"
-    ],
-    "mutation_node_ids": ["p2022_instructgpt", "p2023_rlhf_cn"],
-    "depth": 3,
-    "contribution_score": 0.75
-  },
-  {
-    "source_id": "p2017_transformer",
-    "target_id": "p2026_world_model_agent",
-    "path_node_ids": [
-      "p2017_transformer",
-      "p2023_llama",
-      "p2024_moe_agent",
-      "p2026_world_model_agent"
-    ],
-    "mutation_node_ids": ["p2023_llama", "p2024_moe_agent"],
-    "depth": 3,
-    "contribution_score": 0.86
+      "p2024_rag"
+    ]
   }
 ]

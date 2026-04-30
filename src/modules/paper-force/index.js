@@ -1,68 +1,115 @@
 import { loadJson } from '../../shared/data-loader.js';
+import { getAppState, onAppStateChange, setAppState } from '../../shared/app-state.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
 function createSvgElement(tag, attrs = {}) {
   const el = document.createElementNS(SVG_NS, tag);
-  Object.entries(attrs).forEach(([key, value]) => {
-    el.setAttribute(key, String(value));
-  });
+  Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, String(value)));
   return el;
 }
 
 function phaseClassByYear(year) {
-  if (year <= 2017) {
-    return 'phase-foundation';
-  }
-  if (year <= 2022) {
-    return 'phase-boom';
-  }
+  if (year <= 2017) return 'phase-foundation';
+  if (year <= 2022) return 'phase-boom';
   return 'phase-agentic';
 }
 
 function radiusByCitations(citations, minCitations, maxCitations) {
-  const safe = Math.max(citations, minCitations);
   const dMin = Math.sqrt(minCitations || 1);
   const dMax = Math.sqrt(maxCitations || 1);
-  const t = (Math.sqrt(safe) - dMin) / Math.max(dMax - dMin, 1);
-  return 4 + t * 8;
+  const t = (Math.sqrt(citations || 1) - dMin) / Math.max(dMax - dMin, 1);
+  return 5 + t * 12;
+}
+
+function shorten(text, maxLength) {
+  if (!text || text.length <= maxLength) return text || '';
+  return `${text.slice(0, maxLength - 1)}...`;
+}
+
+function buildAdjacency(nodes, edges) {
+  const adjacency = new Map(nodes.map((node) => [node.id, new Set()]));
+  edges.forEach((edge) => {
+    if (!adjacency.has(edge.source) || !adjacency.has(edge.target)) return;
+    adjacency.get(edge.source).add(edge.target);
+    adjacency.get(edge.target).add(edge.source);
+  });
+  return adjacency;
+}
+
+function collectNeighborhood(seedIds, adjacency, maxNodes) {
+  const selected = new Set(seedIds);
+  const queue = seedIds.map((id) => ({ id, depth: 0 }));
+  let cursor = 0;
+
+  while (cursor < queue.length && selected.size < maxNodes) {
+    const { id, depth } = queue[cursor];
+    cursor += 1;
+    if (depth >= 3) continue;
+
+    const neighbors = Array.from(adjacency.get(id) || []);
+    neighbors.forEach((neighbor) => {
+      if (selected.size >= maxNodes) return;
+      if (!selected.has(neighbor)) {
+        selected.add(neighbor);
+        queue.push({ id: neighbor, depth: depth + 1 });
+      }
+    });
+  }
+
+  return selected;
 }
 
 export async function initPaperForce(container) {
-  if (!container) {
-    return;
-  }
+  if (!container) return;
 
   container.innerHTML = `
     <div class="module-shell">
       <p class="module-tag">Module 02</p>
       <h3 class="module-title">论文力导向图</h3>
-      <p class="module-subtitle">节点表示论文、边表示引文，拖动时间可观察网络从稀疏到中心坍缩的变化。</p>
-      <div class="chart-toolbar">
+      <p class="module-subtitle">搜索作者后，以该作者最高引用论文为中心，递归保留最相关的引用和被引用论文；画布支持滚轮缩放、拖拽平移和节点拖动。</p>
+      <div class="chart-toolbar chart-toolbar-wrap">
         <label class="chart-control">
           显示至年份
-          <input class="chart-range" type="range" min="2013" max="2026" step="1" value="2026" />
+          <input class="chart-range force-year-range" type="range" min="2013" max="2026" step="1" value="2026" />
+          <output class="year-badge force-year-output">2026</output>
         </label>
+        <label class="chart-control">
+          作者搜索
+          <input class="chart-input force-author-input" list="force-author-list" placeholder="例如 Alec Radford" />
+          <datalist id="force-author-list"></datalist>
+        </label>
+        <label class="chart-control">
+          最大节点
+          <input class="chart-number force-max-input" type="number" min="20" max="120" step="5" value="55" />
+        </label>
+        <button class="chart-button force-reset-button" type="button">重置视图</button>
         <div class="chart-stat" aria-live="polite">加载中...</div>
       </div>
-      <div class="module-canvas chart-canvas">
-        <svg class="chart-svg" viewBox="0 0 860 360" role="img" aria-label="Paper force graph"></svg>
+      <div class="module-canvas chart-canvas force-canvas">
+        <svg class="chart-svg force-svg" viewBox="0 0 900 500" role="img" aria-label="Paper force graph"></svg>
       </div>
+      <div class="chart-detail force-detail"></div>
       <div class="legend-row">
-        <span class="legend-chip">节点大小 = citations_count</span>
-        <span class="legend-chip">颜色 = 阶段</span>
-        <span class="legend-chip">灰线 = 引文关系</span>
+        <span class="legend-chip">圆大小 = 引用量</span>
+        <span class="legend-chip">颜色 = 研究阶段</span>
+        <span class="legend-chip">搜索作者 = 作者中心网络</span>
+        <span class="legend-chip">滚轮/拖拽 = 缩放与平移</span>
       </div>
     </div>
   `;
 
-  const slider = container.querySelector('.chart-range');
+  const slider = container.querySelector('.force-year-range');
+  const yearOutput = container.querySelector('.force-year-output');
+  const authorInput = container.querySelector('.force-author-input');
+  const authorList = container.querySelector('#force-author-list');
+  const maxInput = container.querySelector('.force-max-input');
+  const resetButton = container.querySelector('.force-reset-button');
   const statEl = container.querySelector('.chart-stat');
-  const svg = container.querySelector('.chart-svg');
+  const detailEl = container.querySelector('.force-detail');
+  const svg = container.querySelector('.force-svg');
 
-  if (!slider || !statEl || !svg) {
-    return;
-  }
+  if (!slider || !yearOutput || !authorInput || !authorList || !maxInput || !resetButton || !statEl || !detailEl || !svg) return;
 
   try {
     const [nodesData, edgesData] = await Promise.all([
@@ -70,210 +117,344 @@ export async function initPaperForce(container) {
       loadJson('./data/processed/edges.json')
     ]);
 
-    const width = 860;
-    const height = 360;
+    const width = 900;
+    const height = 500;
     const centerX = width / 2;
     const centerY = height / 2;
-
     const minCitations = Math.min(...nodesData.map((item) => item.citations_count));
     const maxCitations = Math.max(...nodesData.map((item) => item.citations_count));
 
     const nodes = nodesData.map((item, index) => {
-      const angle = (Math.PI * 2 * index) / Math.max(nodesData.length, 1);
-      const baseRadius = 100 + (index % 6) * 18;
+      const angle = (Math.PI * 2 * index) / nodesData.length;
+      const ring = 120 + (index % 9) * 20;
       return {
         ...item,
-        x: centerX + Math.cos(angle) * baseRadius,
-        y: centerY + Math.sin(angle) * baseRadius,
+        x: centerX + Math.cos(angle) * ring,
+        y: centerY + Math.sin(angle) * ring,
         vx: 0,
         vy: 0,
-        r: radiusByCitations(item.citations_count, minCitations, maxCitations),
-        active: true
+        fixed: false,
+        r: radiusByCitations(item.citations_count, minCitations, maxCitations)
       };
     });
-
     const nodeById = new Map(nodes.map((node) => [node.id, node]));
+    const adjacency = buildAdjacency(nodes, edgesData);
     const links = edgesData
       .map((edge) => ({
         ...edge,
         sourceNode: nodeById.get(edge.source),
-        targetNode: nodeById.get(edge.target),
-        active: true
+        targetNode: nodeById.get(edge.target)
       }))
       .filter((edge) => edge.sourceNode && edge.targetNode);
 
-    const edgesLayer = createSvgElement('g');
-    const nodesLayer = createSvgElement('g');
-    svg.appendChild(edgesLayer);
-    svg.appendChild(nodesLayer);
-
-    links.forEach((link) => {
-      const line = createSvgElement('line', {
-        class: 'force-link',
-        x1: 0,
-        y1: 0,
-        x2: 0,
-        y2: 0
-      });
-      edgesLayer.appendChild(line);
-      link.el = line;
+    const authors = Array.from(new Set(nodes.flatMap((node) => node.authors || []))).sort();
+    authors.forEach((author) => {
+      const option = document.createElement('option');
+      option.value = author;
+      authorList.appendChild(option);
     });
 
-    nodes.forEach((node) => {
-      const circle = createSvgElement('circle', {
-        class: `force-node ${phaseClassByYear(node.year)}`,
-        cx: node.x,
-        cy: node.y,
-        r: node.r
-      });
+    const viewport = createSvgElement('g', { class: 'graph-viewport' });
+    const edgeLayer = createSvgElement('g', { class: 'force-edge-layer' });
+    const nodeLayer = createSvgElement('g', { class: 'force-node-layer' });
+    viewport.append(edgeLayer, nodeLayer);
+    svg.appendChild(viewport);
 
-      const title = createSvgElement('title');
-      title.textContent = `${node.title} (${node.year})`;
-      circle.appendChild(title);
+    let transform = { x: 0, y: 0, k: 1 };
+    let visibleNodeIds = new Set();
+    let visibleLinks = [];
+    let centerId = getAppState().selectedPaperId;
+    let draggingNode = null;
+    let panning = null;
 
-      nodesLayer.appendChild(circle);
-      node.el = circle;
-    });
-
-    function applyYearFilter() {
-      const activeYear = Number(slider.value);
-      const activeNodeSet = new Set();
-
-      nodes.forEach((node) => {
-        node.active = node.year <= activeYear;
-        if (node.active) {
-          activeNodeSet.add(node.id);
-        }
-      });
-
-      links.forEach((link) => {
-        link.active = activeNodeSet.has(link.sourceNode.id) && activeNodeSet.has(link.targetNode.id);
-      });
-
-      const activeNodes = nodes.filter((node) => node.active).length;
-      const activeLinks = links.filter((link) => link.active).length;
-      statEl.textContent = `${activeYear}年：${activeNodes} 个节点，${activeLinks} 条引文边`;
+    function applyTransform() {
+      viewport.setAttribute('transform', `translate(${transform.x} ${transform.y}) scale(${transform.k})`);
     }
 
-    function tick() {
-      const repulsionStrength = 1200;
-      const springLength = 78;
-      const springStrength = 0.003;
-      const centeringStrength = 0.0009;
-      const damping = 0.9;
+    function resetView() {
+      transform = { x: 0, y: 0, k: 1 };
+      applyTransform();
+    }
 
-      for (let i = 0; i < nodes.length; i += 1) {
-        const a = nodes[i];
-        if (!a.active) {
-          continue;
-        }
+    function selectedAuthorsQuery() {
+      return authorInput.value.trim().toLowerCase();
+    }
 
-        a.vx += (centerX - a.x) * centeringStrength;
-        a.vy += (centerY - a.y) * centeringStrength;
+    function buildVisibleSet() {
+      const activeYear = Number(slider.value);
+      const maxNodes = Number(maxInput.value) || 55;
+      const eligible = nodes.filter((node) => node.year <= activeYear);
+      const eligibleSet = new Set(eligible.map((node) => node.id));
+      const query = selectedAuthorsQuery();
 
-        for (let j = i + 1; j < nodes.length; j += 1) {
-          const b = nodes[j];
-          if (!b.active) {
-            continue;
-          }
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const distSq = dx * dx + dy * dy + 0.01;
-          const dist = Math.sqrt(distSq);
-          const force = repulsionStrength / distSq;
-          const fx = (dx / dist) * force;
-          const fy = (dy / dist) * force;
-
-          a.vx += fx;
-          a.vy += fy;
-          b.vx -= fx;
-          b.vy -= fy;
+      if (query) {
+        const authorPapers = eligible.filter((node) =>
+          (node.authors || []).some((author) => author.toLowerCase().includes(query))
+        );
+        if (authorPapers.length) {
+          const sortedAuthorPapers = authorPapers.slice().sort((a, b) => b.citations_count - a.citations_count);
+          centerId = sortedAuthorPapers[0].id;
+          const neighborhood = collectNeighborhood(sortedAuthorPapers.map((node) => node.id), adjacency, maxNodes * 2);
+          return new Set(
+            Array.from(neighborhood)
+              .map((id) => nodeById.get(id))
+              .filter((node) => node && eligibleSet.has(node.id))
+              .sort((a, b) => {
+                const aAuthor = sortedAuthorPapers.some((paper) => paper.id === a.id) ? 1 : 0;
+                const bAuthor = sortedAuthorPapers.some((paper) => paper.id === b.id) ? 1 : 0;
+                if (aAuthor !== bAuthor) return bAuthor - aAuthor;
+                return b.citations_count - a.citations_count;
+              })
+              .slice(0, maxNodes)
+              .map((node) => node.id)
+          );
         }
       }
 
-      links.forEach((link) => {
-        if (!link.active) {
-          return;
+      const selectedId = getAppState().selectedPaperId;
+      const top = eligible.slice().sort((a, b) => b.citations_count - a.citations_count).slice(0, maxNodes);
+      const ids = new Set(top.map((node) => node.id));
+      if (eligibleSet.has(selectedId)) ids.add(selectedId);
+      centerId = ids.has(selectedId) ? selectedId : top[0]?.id;
+      return ids;
+    }
+
+    function updateDetail() {
+      let selected = nodeById.get(getAppState().selectedPaperId);
+      if (!selected || !visibleNodeIds.has(selected.id)) {
+        selected = nodeById.get(centerId);
+      }
+      if (!selected) {
+        detailEl.textContent = '没有可显示的论文。';
+        return;
+      }
+      const authorText = (selected.authors || []).join(', ');
+      detailEl.innerHTML = `<strong>${selected.title}</strong> (${selected.year}) · ${selected.venue} · ${selected.institution}<br />作者：${authorText}<br />引用数 ${selected.citations_count.toLocaleString()}；主题 ${selected.topic}。${selected.abstract}`;
+    }
+
+    function renderGraph() {
+      yearOutput.textContent = slider.value;
+      visibleNodeIds = buildVisibleSet();
+      visibleLinks = links.filter((link) => visibleNodeIds.has(link.source) && visibleNodeIds.has(link.target));
+
+      edgeLayer.innerHTML = '';
+      nodeLayer.innerHTML = '';
+
+      visibleLinks.forEach((link) => {
+        const line = createSvgElement('line', { class: 'force-link' });
+        edgeLayer.appendChild(line);
+        link.el = line;
+      });
+
+      Array.from(visibleNodeIds).forEach((id) => {
+        const node = nodeById.get(id);
+        if (!node) return;
+
+        const group = createSvgElement('g', {
+          class: `force-node-group ${node.id === centerId ? 'is-center' : ''}`,
+          'data-id': node.id
+        });
+        const circle = createSvgElement('circle', {
+          class: `force-node ${phaseClassByYear(node.year)}`,
+          r: node.r
+        });
+        const title = createSvgElement('title');
+        title.textContent = `${node.title}\n${node.year} · ${(node.authors || []).join(', ')}`;
+        circle.appendChild(title);
+
+        const label = createSvgElement('text', {
+          class: 'force-node-label',
+          x: node.r + 5,
+          y: -2
+        });
+        label.textContent = `${node.year} · ${shorten(node.title, 34)}`;
+
+        const subLabel = createSvgElement('text', {
+          class: 'force-node-sublabel',
+          x: node.r + 5,
+          y: 12
+        });
+        subLabel.textContent = shorten((node.authors || []).slice(0, 2).join(', '), 36);
+
+        group.append(circle, label, subLabel);
+        group.addEventListener('pointerdown', (event) => {
+          event.stopPropagation();
+          draggingNode = {
+            node,
+            pointerId: event.pointerId,
+            lastX: event.clientX,
+            lastY: event.clientY
+          };
+          node.fixed = true;
+          group.setPointerCapture(event.pointerId);
+        });
+        group.addEventListener('click', () => {
+          setAppState({ selectedPaperId: node.id, year: Math.max(Number(slider.value), node.year) }, 'paper-force');
+        });
+        nodeLayer.appendChild(group);
+        node.el = group;
+      });
+
+      statEl.textContent = selectedAuthorsQuery()
+        ? `作者中心网络：${visibleNodeIds.size} 篇论文，${visibleLinks.length} 条边`
+        : `高影响论文网络：${visibleNodeIds.size} 篇论文，${visibleLinks.length} 条边`;
+      updateDetail();
+    }
+
+    function tick() {
+      const visibleNodes = Array.from(visibleNodeIds).map((id) => nodeById.get(id)).filter(Boolean);
+      const repulsion = visibleNodes.length > 60 ? 800 : 1200;
+      const springLength = visibleNodes.length > 60 ? 58 : 82;
+      const centerNode = nodeById.get(centerId);
+
+      visibleNodes.forEach((a, i) => {
+        if (!a.fixed) {
+          a.vx += ((centerNode && a.id === centerNode.id ? centerX : centerX) - a.x) * 0.0008;
+          a.vy += ((centerNode && a.id === centerNode.id ? centerY : centerY) - a.y) * 0.0008;
         }
+        for (let j = i + 1; j < visibleNodes.length; j += 1) {
+          const b = visibleNodes[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const distSq = dx * dx + dy * dy + 0.1;
+          const dist = Math.sqrt(distSq);
+          const force = repulsion / distSq;
+          const fx = (dx / dist) * force;
+          const fy = (dy / dist) * force;
+          if (!a.fixed) {
+            a.vx += fx;
+            a.vy += fy;
+          }
+          if (!b.fixed) {
+            b.vx -= fx;
+            b.vy -= fy;
+          }
+        }
+      });
+
+      visibleLinks.forEach((link) => {
         const a = link.sourceNode;
         const b = link.targetNode;
         const dx = b.x - a.x;
         const dy = b.y - a.y;
         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-        const delta = dist - springLength;
-        const force = delta * springStrength;
+        const force = (dist - springLength) * 0.004;
         const fx = (dx / dist) * force;
         const fy = (dy / dist) * force;
-
-        a.vx += fx;
-        a.vy += fy;
-        b.vx -= fx;
-        b.vy -= fy;
+        if (!a.fixed) {
+          a.vx += fx;
+          a.vy += fy;
+        }
+        if (!b.fixed) {
+          b.vx -= fx;
+          b.vy -= fy;
+        }
       });
 
-      nodes.forEach((node) => {
-        if (!node.active) {
-          return;
-        }
-        node.vx *= damping;
-        node.vy *= damping;
-        node.x += node.vx;
-        node.y += node.vy;
-
-        const padding = node.r + 4;
-        if (node.x < padding) {
-          node.x = padding;
-          node.vx *= -0.4;
-        }
-        if (node.x > width - padding) {
-          node.x = width - padding;
-          node.vx *= -0.4;
-        }
-        if (node.y < padding) {
-          node.y = padding;
-          node.vy *= -0.4;
-        }
-        if (node.y > height - padding) {
-          node.y = height - padding;
-          node.vy *= -0.4;
+      visibleNodes.forEach((node) => {
+        if (!node.fixed) {
+          node.vx *= 0.86;
+          node.vy *= 0.86;
+          node.x += node.vx;
+          node.y += node.vy;
         }
       });
     }
 
-    function render() {
-      links.forEach((link) => {
-        if (!link.el) {
-          return;
-        }
-        link.el.classList.toggle('is-hidden', !link.active);
-        if (link.active) {
-          link.el.setAttribute('x1', String(link.sourceNode.x));
-          link.el.setAttribute('y1', String(link.sourceNode.y));
-          link.el.setAttribute('x2', String(link.targetNode.x));
-          link.el.setAttribute('y2', String(link.targetNode.y));
-        }
+    function renderPositions() {
+      visibleLinks.forEach((link) => {
+        if (!link.el) return;
+        link.el.setAttribute('x1', link.sourceNode.x);
+        link.el.setAttribute('y1', link.sourceNode.y);
+        link.el.setAttribute('x2', link.targetNode.x);
+        link.el.setAttribute('y2', link.targetNode.y);
       });
 
-      nodes.forEach((node) => {
-        if (!node.el) {
-          return;
-        }
-        node.el.classList.toggle('is-hidden', !node.active);
-        if (node.active) {
-          node.el.setAttribute('cx', String(node.x));
-          node.el.setAttribute('cy', String(node.y));
-        }
+      Array.from(visibleNodeIds).forEach((id) => {
+        const node = nodeById.get(id);
+        if (!node?.el) return;
+        node.el.setAttribute('transform', `translate(${node.x} ${node.y})`);
+        node.el.classList.toggle('is-selected', node.id === getAppState().selectedPaperId);
       });
     }
 
     function animate() {
       tick();
-      render();
+      renderPositions();
       requestAnimationFrame(animate);
     }
 
-    slider.addEventListener('input', applyYearFilter);
-    applyYearFilter();
+    svg.addEventListener('wheel', (event) => {
+      event.preventDefault();
+      const rect = svg.getBoundingClientRect();
+      const px = ((event.clientX - rect.left) / rect.width) * width;
+      const py = ((event.clientY - rect.top) / rect.height) * height;
+      const nextK = Math.max(0.45, Math.min(3.2, transform.k * (event.deltaY > 0 ? 0.9 : 1.1)));
+      transform.x = px - ((px - transform.x) / transform.k) * nextK;
+      transform.y = py - ((py - transform.y) / transform.k) * nextK;
+      transform.k = nextK;
+      applyTransform();
+    }, { passive: false });
+
+    svg.addEventListener('pointerdown', (event) => {
+      panning = { pointerId: event.pointerId, lastX: event.clientX, lastY: event.clientY };
+      svg.setPointerCapture(event.pointerId);
+    });
+    svg.addEventListener('pointermove', (event) => {
+      if (draggingNode) {
+        const dx = (event.clientX - draggingNode.lastX) / transform.k;
+        const dy = (event.clientY - draggingNode.lastY) / transform.k;
+        draggingNode.node.x += dx;
+        draggingNode.node.y += dy;
+        draggingNode.node.vx = 0;
+        draggingNode.node.vy = 0;
+        draggingNode.lastX = event.clientX;
+        draggingNode.lastY = event.clientY;
+        return;
+      }
+      if (panning) {
+        transform.x += event.clientX - panning.lastX;
+        transform.y += event.clientY - panning.lastY;
+        panning.lastX = event.clientX;
+        panning.lastY = event.clientY;
+        applyTransform();
+      }
+    });
+    svg.addEventListener('pointerup', () => {
+      if (draggingNode) draggingNode.node.fixed = false;
+      draggingNode = null;
+      panning = null;
+    });
+    svg.addEventListener('pointerleave', () => {
+      if (draggingNode) draggingNode.node.fixed = false;
+      draggingNode = null;
+      panning = null;
+    });
+
+    slider.value = String(getAppState().year);
+    slider.addEventListener('input', () => {
+      setAppState({ year: Number(slider.value) }, 'paper-force');
+      renderGraph();
+    });
+    authorInput.addEventListener('input', () => {
+      renderGraph();
+      const node = nodeById.get(centerId);
+      if (selectedAuthorsQuery() && node) {
+        setAppState({ selectedPaperId: node.id, year: Math.max(Number(slider.value), node.year) }, 'paper-force');
+      }
+    });
+    maxInput.addEventListener('change', renderGraph);
+    resetButton.addEventListener('click', resetView);
+    onAppStateChange(({ state, source }) => {
+      if (source !== 'paper-force' && slider.value !== String(state.year)) {
+        slider.value = String(state.year);
+        renderGraph();
+      }
+      updateDetail();
+    });
+
+    resetView();
+    renderGraph();
     animate();
   } catch (error) {
     statEl.textContent = '数据加载失败，请检查 nodes.json 与 edges.json';

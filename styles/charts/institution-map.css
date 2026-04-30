@@ -1,3 +1,15 @@
+.map-institution-link {
+  stroke: #64748b;
+  stroke-linecap: round;
+  stroke-opacity: 0.22;
+  transition: stroke-opacity 160ms ease, stroke 160ms ease;
+}
+
+.map-institution-link.is-active {
+  stroke: #d97706;
+  stroke-opacity: 0.72;
+}
+
 .world-land {
   fill: #eef2f7;
   stroke: #c8d1dc;
@@ -8,4 +20,31 @@
   fill-opacity: 0.88;
   stroke: #ffffff;
   stroke-width: 0.8;
+  cursor: pointer;
+  transition: fill-opacity 160ms ease, stroke-width 160ms ease;
+}
+
+.map-point:hover,
+.map-point.is-selected {
+  fill-opacity: 1;
+  stroke: #111827;
+  stroke-width: 2;
+}
+
+.map-label {
+  fill: #172033;
+  font-size: 10px;
+  font-weight: 700;
+  paint-order: stroke;
+  pointer-events: none;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 3px;
+}
+
+.legend-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  margin-right: 6px;
 }

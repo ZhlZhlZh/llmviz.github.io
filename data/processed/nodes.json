@@ -1,386 +1,2201 @@
 [
   {
+    "id": "p2013_lstm_5",
+    "title": "Sequence Modeling for Efficient Deployment",
+    "year": 2013,
+    "abstract": "A synthetic sequence modeling study focusing on seq2seq and its downstream impact on LLM research.",
+    "authors": [
+      "Oriol Vinyals",
+      "Noam Shazeer",
+      "Fei-Fei Li",
+      "Andrew Ng"
+    ],
+    "keywords": [
+      "lstm",
+      "seq2seq",
+      "translation"
+    ],
+    "topic": "lstm",
+    "citations_count": 55441,
+    "influential_citations_count": 4435,
+    "venue": "ICML",
+    "institution": "Mila",
+    "country": "Canada",
+    "community": "english",
+    "org_type": "research_lab",
+    "pagerank": 0.0387,
+    "collaboration_breadth": 0.58
+  },
+  {
+    "id": "p2013_word2vec_4",
+    "title": "Representation Learning for Human Feedback",
+    "year": 2013,
+    "abstract": "A synthetic representation learning study focusing on word2vec and its downstream impact on LLM research.",
+    "authors": [
+      "Daphne Koller",
+      "Ilya Sutskever",
+      "Jason Wei"
+    ],
+    "keywords": [
+      "word2vec",
+      "embedding",
+      "semantic search"
+    ],
+    "topic": "word2vec",
+    "citations_count": 50946,
+    "influential_citations_count": 8661,
+    "venue": "NeurIPS",
+    "institution": "University of Tokyo",
+    "country": "Japan",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0358,
+    "collaboration_breadth": 0.53
+  },
+  {
+    "id": "p2013_attention_3",
+    "title": "Attention Mechanisms for Open Evaluation",
+    "year": 2013,
+    "abstract": "A synthetic attention mechanisms study focusing on context modeling and its downstream impact on LLM research.",
+    "authors": [
+      "Junxian He",
+      "Anima Anandkumar",
+      "Ashish Vaswani",
+      "Percy Liang"
+    ],
+    "keywords": [
+      "attention",
+      "alignment",
+      "context modeling"
+    ],
+    "topic": "attention",
+    "citations_count": 46450,
+    "influential_citations_count": 6503,
+    "venue": "KDD",
+    "institution": "Shanghai AI Lab",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "research_lab",
+    "pagerank": 0.033,
+    "collaboration_breadth": 0.48
+  },
+  {
     "id": "p2013_word2vec",
     "title": "Distributed Word Embeddings for Efficient Semantic Search",
     "year": 2013,
-    "abstract": "Introduces dense word vectors that improve semantic similarity and downstream NLP tasks.",
-    "authors": ["Tomas M", "Ilya S"],
-    "citations_count": 18420,
-    "influential_citations_count": 3180,
+    "abstract": "A synthetic anchor paper about representation learning, used to test interactions across citation paths, topic streams, and institution views.",
+    "authors": [
+      "Yoshua Bengio",
+      "Ilya Sutskever",
+      "Alec Radford"
+    ],
+    "keywords": [
+      "word2vec",
+      "embedding",
+      "semantic search"
+    ],
+    "topic": "word2vec",
+    "citations_count": 45660,
+    "influential_citations_count": 7306,
     "venue": "NeurIPS",
     "institution": "Google Research",
     "country": "USA",
     "community": "english",
     "org_type": "company",
-    "pagerank": 0.021,
-    "collaboration_breadth": 0.34
+    "pagerank": 0.044,
+    "collaboration_breadth": 0.32
+  },
+  {
+    "id": "p2013_lstm_2",
+    "title": "Sequence Modeling for Domain Transfer",
+    "year": 2013,
+    "abstract": "A synthetic sequence modeling study focusing on seq2seq and its downstream impact on LLM research.",
+    "authors": [
+      "Yiming Yang",
+      "Denny Zhou",
+      "Yoshua Bengio"
+    ],
+    "keywords": [
+      "lstm",
+      "seq2seq",
+      "translation"
+    ],
+    "topic": "lstm",
+    "citations_count": 41955,
+    "influential_citations_count": 4615,
+    "venue": "CVPR",
+    "institution": "MIT CSAIL",
+    "country": "USA",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0302,
+    "collaboration_breadth": 0.44
+  },
+  {
+    "id": "p2013_word2vec_1",
+    "title": "Representation Learning for Robust Reasoning",
+    "year": 2013,
+    "abstract": "A synthetic representation learning study focusing on word2vec and its downstream impact on LLM research.",
+    "authors": [
+      "Han Xiao",
+      "Tao Qin",
+      "Christopher Manning",
+      "Geoffrey Hinton"
+    ],
+    "keywords": [
+      "word2vec",
+      "embedding",
+      "semantic search"
+    ],
+    "topic": "word2vec",
+    "citations_count": 40060,
+    "influential_citations_count": 3205,
+    "venue": "EMNLP",
+    "institution": "Anthropic",
+    "country": "USA",
+    "community": "english",
+    "org_type": "research_lab",
+    "pagerank": 0.029,
+    "collaboration_breadth": 0.39
+  },
+  {
+    "id": "p2014_lstm_5",
+    "title": "Sequence Modeling for Efficient Deployment",
+    "year": 2014,
+    "abstract": "A synthetic sequence modeling study focusing on seq2seq and its downstream impact on LLM research.",
+    "authors": [
+      "Geoffrey Hinton",
+      "Chelsea Finn",
+      "Kaiming He"
+    ],
+    "keywords": [
+      "lstm",
+      "seq2seq",
+      "translation"
+    ],
+    "topic": "lstm",
+    "citations_count": 48048,
+    "influential_citations_count": 3844,
+    "venue": "ACL",
+    "institution": "Stanford University",
+    "country": "USA",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.034,
+    "collaboration_breadth": 0.63
   },
   {
     "id": "p2014_seq2seq",
     "title": "Sequence to Sequence Learning with Neural Translation",
     "year": 2014,
-    "abstract": "Presents an encoder-decoder framework for machine translation and general sequence mapping.",
-    "authors": ["Oriol V", "Kyunghyun C"],
-    "citations_count": 12910,
-    "influential_citations_count": 2360,
-    "venue": "NeurIPS",
-    "institution": "University of Montreal",
+    "abstract": "A synthetic anchor paper about sequence modeling, used to test interactions across citation paths, topic streams, and institution views.",
+    "authors": [
+      "Ilya Sutskever",
+      "Oriol Vinyals",
+      "Ashish Vaswani",
+      "Percy Liang"
+    ],
+    "keywords": [
+      "lstm",
+      "seq2seq",
+      "translation"
+    ],
+    "topic": "lstm",
+    "citations_count": 45545,
+    "influential_citations_count": 8426,
+    "venue": "ICML",
+    "institution": "Mila",
     "country": "Canada",
     "community": "english",
+    "org_type": "research_lab",
+    "pagerank": 0.044,
+    "collaboration_breadth": 0.38
+  },
+  {
+    "id": "p2014_word2vec_4",
+    "title": "Representation Learning for Human Feedback",
+    "year": 2014,
+    "abstract": "A synthetic representation learning study focusing on word2vec and its downstream impact on LLM research.",
+    "authors": [
+      "Oriol Vinyals",
+      "Noam Shazeer",
+      "Fei-Fei Li",
+      "Andrew Ng"
+    ],
+    "keywords": [
+      "word2vec",
+      "embedding",
+      "semantic search"
+    ],
+    "topic": "word2vec",
+    "citations_count": 44152,
+    "influential_citations_count": 7506,
+    "venue": "ICML",
+    "institution": "Google Research",
+    "country": "USA",
+    "community": "english",
+    "org_type": "company",
+    "pagerank": 0.0316,
+    "collaboration_breadth": 0.58
+  },
+  {
+    "id": "p2014_attention_3",
+    "title": "Attention Mechanisms for Open Evaluation",
+    "year": 2014,
+    "abstract": "A synthetic attention mechanisms study focusing on context modeling and its downstream impact on LLM research.",
+    "authors": [
+      "Daphne Koller",
+      "Ilya Sutskever",
+      "Jason Wei"
+    ],
+    "keywords": [
+      "attention",
+      "alignment",
+      "context modeling"
+    ],
+    "topic": "attention",
+    "citations_count": 40257,
+    "influential_citations_count": 5636,
+    "venue": "NeurIPS",
+    "institution": "University of Oxford",
+    "country": "UK",
+    "community": "english",
     "org_type": "university",
-    "pagerank": 0.018,
-    "collaboration_breadth": 0.39
+    "pagerank": 0.0292,
+    "collaboration_breadth": 0.53
+  },
+  {
+    "id": "p2014_lstm_2",
+    "title": "Sequence Modeling for Domain Transfer",
+    "year": 2014,
+    "abstract": "A synthetic sequence modeling study focusing on seq2seq and its downstream impact on LLM research.",
+    "authors": [
+      "Junxian He",
+      "Anima Anandkumar",
+      "Ashish Vaswani",
+      "Percy Liang"
+    ],
+    "keywords": [
+      "lstm",
+      "seq2seq",
+      "translation"
+    ],
+    "topic": "lstm",
+    "citations_count": 36361,
+    "influential_citations_count": 4000,
+    "venue": "KDD",
+    "institution": "Huawei Noah Ark Lab",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "company",
+    "pagerank": 0.0267,
+    "collaboration_breadth": 0.48
+  },
+  {
+    "id": "p2014_word2vec_1",
+    "title": "Representation Learning for Robust Reasoning",
+    "year": 2014,
+    "abstract": "A synthetic representation learning study focusing on word2vec and its downstream impact on LLM research.",
+    "authors": [
+      "Yiming Yang",
+      "Denny Zhou",
+      "Yoshua Bengio"
+    ],
+    "keywords": [
+      "word2vec",
+      "embedding",
+      "semantic search"
+    ],
+    "topic": "word2vec",
+    "citations_count": 35065,
+    "influential_citations_count": 2805,
+    "venue": "CVPR",
+    "institution": "Tsinghua University",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "university",
+    "pagerank": 0.0259,
+    "collaboration_breadth": 0.44
   },
   {
     "id": "p2015_attention",
     "title": "Neural Attention for Long-Range Sequence Modeling",
     "year": 2015,
-    "abstract": "Uses attention alignment to improve translation quality and interpretability.",
-    "authors": ["Dzmitry B", "Yoshua B"],
-    "citations_count": 11340,
-    "influential_citations_count": 2110,
+    "abstract": "A synthetic anchor paper about attention mechanisms, used to test interactions across citation paths, topic streams, and institution views.",
+    "authors": [
+      "Yoshua Bengio",
+      "Diyi Yang",
+      "Jason Wei"
+    ],
+    "keywords": [
+      "attention",
+      "alignment",
+      "context modeling"
+    ],
+    "topic": "attention",
+    "citations_count": 44690,
+    "influential_citations_count": 9385,
+    "venue": "ACL",
+    "institution": "University of Toronto",
+    "country": "Canada",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0432,
+    "collaboration_breadth": 0.43
+  },
+  {
+    "id": "p2015_lstm_5",
+    "title": "Sequence Modeling for Efficient Deployment",
+    "year": 2015,
+    "abstract": "A synthetic sequence modeling study focusing on seq2seq and its downstream impact on LLM research.",
+    "authors": [
+      "Alec Radford",
+      "Diyi Yang",
+      "Wei Li",
+      "Yue Cao"
+    ],
+    "keywords": [
+      "lstm",
+      "seq2seq",
+      "translation"
+    ],
+    "topic": "lstm",
+    "citations_count": 41203,
+    "influential_citations_count": 3296,
     "venue": "ICLR",
-    "institution": "Stanford University",
+    "institution": "Shanghai AI Lab",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "research_lab",
+    "pagerank": 0.0298,
+    "collaboration_breadth": 0.67
+  },
+  {
+    "id": "p2015_word2vec_4",
+    "title": "Representation Learning for Human Feedback",
+    "year": 2015,
+    "abstract": "A synthetic representation learning study focusing on word2vec and its downstream impact on LLM research.",
+    "authors": [
+      "Geoffrey Hinton",
+      "Chelsea Finn",
+      "Kaiming He"
+    ],
+    "keywords": [
+      "word2vec",
+      "embedding",
+      "semantic search"
+    ],
+    "topic": "word2vec",
+    "citations_count": 37862,
+    "influential_citations_count": 6437,
+    "venue": "ACL",
+    "institution": "MIT CSAIL",
     "country": "USA",
     "community": "english",
     "org_type": "university",
-    "pagerank": 0.019,
-    "collaboration_breadth": 0.42
+    "pagerank": 0.0277,
+    "collaboration_breadth": 0.63
   },
   {
-    "id": "p2016_residual_rnn",
-    "title": "Deep Residual Recurrent Architectures",
-    "year": 2016,
-    "abstract": "Explores residual connections in recurrent stacks for more stable deep sequence training.",
-    "authors": ["Kai H", "Li D"],
-    "citations_count": 4120,
-    "influential_citations_count": 640,
-    "venue": "ACL",
-    "institution": "Microsoft Research",
+    "id": "p2015_transformer_3",
+    "title": "Transformer Architectures for Open Evaluation",
+    "year": 2015,
+    "abstract": "A synthetic transformer architectures study focusing on parallel sequence modeling and its downstream impact on LLM research.",
+    "authors": [
+      "Oriol Vinyals",
+      "Noam Shazeer",
+      "Fei-Fei Li",
+      "Andrew Ng"
+    ],
+    "keywords": [
+      "transformer",
+      "self-attention",
+      "parallel sequence modeling"
+    ],
+    "topic": "transformer",
+    "citations_count": 34522,
+    "influential_citations_count": 4833,
+    "venue": "ICML",
+    "institution": "Anthropic",
     "country": "USA",
     "community": "english",
-    "org_type": "company",
-    "pagerank": 0.007,
-    "collaboration_breadth": 0.47
+    "org_type": "research_lab",
+    "pagerank": 0.0256,
+    "collaboration_breadth": 0.58
   },
   {
-    "id": "p2016_charcnn_cn",
-    "title": "Character-Enhanced Language Models for Chinese NLP",
+    "id": "p2015_attention_2",
+    "title": "Attention Mechanisms for Domain Transfer",
+    "year": 2015,
+    "abstract": "A synthetic attention mechanisms study focusing on alignment and its downstream impact on LLM research.",
+    "authors": [
+      "Daphne Koller",
+      "Ilya Sutskever",
+      "Jason Wei"
+    ],
+    "keywords": [
+      "attention",
+      "alignment",
+      "context modeling"
+    ],
+    "topic": "attention",
+    "citations_count": 31181,
+    "influential_citations_count": 3430,
+    "venue": "NeurIPS",
+    "institution": "University of Toronto",
+    "country": "Canada",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0235,
+    "collaboration_breadth": 0.53
+  },
+  {
+    "id": "p2015_lstm_1",
+    "title": "Sequence Modeling for Robust Reasoning",
+    "year": 2015,
+    "abstract": "A synthetic sequence modeling study focusing on lstm and its downstream impact on LLM research.",
+    "authors": [
+      "Junxian He",
+      "Anima Anandkumar",
+      "Ashish Vaswani",
+      "Percy Liang"
+    ],
+    "keywords": [
+      "lstm",
+      "seq2seq",
+      "translation"
+    ],
+    "topic": "lstm",
+    "citations_count": 30440,
+    "influential_citations_count": 2435,
+    "venue": "KDD",
+    "institution": "National University of Singapore",
+    "country": "Singapore",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.023,
+    "collaboration_breadth": 0.48
+  },
+  {
+    "id": "p2016_lstm_5",
+    "title": "Sequence Modeling for Efficient Deployment",
     "year": 2016,
-    "abstract": "Combines character convolution and recurrent modeling for robust Chinese understanding.",
-    "authors": ["Wang L", "Zhang X"],
-    "citations_count": 1680,
-    "influential_citations_count": 270,
-    "venue": "COLING",
+    "abstract": "A synthetic sequence modeling study focusing on seq2seq and its downstream impact on LLM research.",
+    "authors": [
+      "Percy Liang",
+      "Lilian Weng",
+      "Zhiyuan Liu"
+    ],
+    "keywords": [
+      "lstm",
+      "seq2seq",
+      "translation"
+    ],
+    "topic": "lstm",
+    "citations_count": 34906,
+    "influential_citations_count": 2792,
+    "venue": "EMNLP",
+    "institution": "University of Oxford",
+    "country": "UK",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0258,
+    "collaboration_breadth": 0.25
+  },
+  {
+    "id": "p2016_word2vec_4",
+    "title": "Representation Learning for Human Feedback",
+    "year": 2016,
+    "abstract": "A synthetic representation learning study focusing on word2vec and its downstream impact on LLM research.",
+    "authors": [
+      "Alec Radford",
+      "Diyi Yang",
+      "Wei Li",
+      "Yue Cao"
+    ],
+    "keywords": [
+      "word2vec",
+      "embedding",
+      "semantic search"
+    ],
+    "topic": "word2vec",
+    "citations_count": 32076,
+    "influential_citations_count": 5453,
+    "venue": "ICLR",
+    "institution": "Huawei Noah Ark Lab",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "company",
+    "pagerank": 0.024,
+    "collaboration_breadth": 0.67
+  },
+  {
+    "id": "p2016_transformer_3",
+    "title": "Transformer Architectures for Open Evaluation",
+    "year": 2016,
+    "abstract": "A synthetic transformer architectures study focusing on parallel sequence modeling and its downstream impact on LLM research.",
+    "authors": [
+      "Geoffrey Hinton",
+      "Chelsea Finn",
+      "Kaiming He"
+    ],
+    "keywords": [
+      "transformer",
+      "self-attention",
+      "parallel sequence modeling"
+    ],
+    "topic": "transformer",
+    "citations_count": 29245,
+    "influential_citations_count": 4094,
+    "venue": "ACL",
     "institution": "Tsinghua University",
     "country": "China",
     "community": "chinese",
     "org_type": "university",
-    "pagerank": 0.004,
-    "collaboration_breadth": 0.28
+    "pagerank": 0.0223,
+    "collaboration_breadth": 0.63
+  },
+  {
+    "id": "p2016_attention_2",
+    "title": "Attention Mechanisms for Domain Transfer",
+    "year": 2016,
+    "abstract": "A synthetic attention mechanisms study focusing on alignment and its downstream impact on LLM research.",
+    "authors": [
+      "Oriol Vinyals",
+      "Noam Shazeer",
+      "Fei-Fei Li",
+      "Andrew Ng"
+    ],
+    "keywords": [
+      "attention",
+      "alignment",
+      "context modeling"
+    ],
+    "topic": "attention",
+    "citations_count": 26415,
+    "influential_citations_count": 2906,
+    "venue": "ICML",
+    "institution": "Microsoft Research",
+    "country": "USA",
+    "community": "english",
+    "org_type": "company",
+    "pagerank": 0.0205,
+    "collaboration_breadth": 0.58
+  },
+  {
+    "id": "p2016_lstm_1",
+    "title": "Sequence Modeling for Robust Reasoning",
+    "year": 2016,
+    "abstract": "A synthetic sequence modeling study focusing on lstm and its downstream impact on LLM research.",
+    "authors": [
+      "Daphne Koller",
+      "Ilya Sutskever",
+      "Jason Wei"
+    ],
+    "keywords": [
+      "lstm",
+      "seq2seq",
+      "translation"
+    ],
+    "topic": "lstm",
+    "citations_count": 26185,
+    "influential_citations_count": 2095,
+    "venue": "NeurIPS",
+    "institution": "OpenAI",
+    "country": "USA",
+    "community": "english",
+    "org_type": "research_lab",
+    "pagerank": 0.0204,
+    "collaboration_breadth": 0.53
   },
   {
     "id": "p2017_transformer",
     "title": "Attention-Only Neural Architectures",
     "year": 2017,
-    "abstract": "Replaces recurrence with multi-head self-attention and fully parallel sequence modeling.",
-    "authors": ["Ashish V", "Noam S"],
-    "citations_count": 26450,
-    "influential_citations_count": 5220,
-    "venue": "NeurIPS",
-    "institution": "Google Brain",
+    "abstract": "A synthetic anchor paper about transformer architectures, used to test interactions across citation paths, topic streams, and institution views.",
+    "authors": [
+      "Ashish Vaswani",
+      "Noam Shazeer",
+      "Fei-Fei Li",
+      "Andrew Ng"
+    ],
+    "keywords": [
+      "transformer",
+      "self-attention",
+      "parallel sequence modeling"
+    ],
+    "topic": "transformer",
+    "citations_count": 37944,
+    "influential_citations_count": 8917,
+    "venue": "ICLR",
+    "institution": "Google Research",
     "country": "USA",
     "community": "english",
     "org_type": "company",
-    "pagerank": 0.034,
-    "collaboration_breadth": 0.58
+    "pagerank": 0.0376,
+    "collaboration_breadth": 0.48
   },
   {
-    "id": "p2017_elmo",
-    "title": "Contextualized Word Representations from Deep Language Models",
+    "id": "p2017_lstm_5",
+    "title": "Sequence Modeling for Efficient Deployment",
     "year": 2017,
-    "abstract": "Builds deep contextual word embeddings that vary by sentence context.",
-    "authors": ["Matthew P", "Mark N"],
-    "citations_count": 10120,
-    "influential_citations_count": 1830,
-    "venue": "NAACL",
-    "institution": "Allen Institute for AI",
+    "abstract": "A synthetic sequence modeling study focusing on seq2seq and its downstream impact on LLM research.",
+    "authors": [
+      "Pieter Abbeel",
+      "Hao Zhang",
+      "Han Xiao",
+      "Tao Qin"
+    ],
+    "keywords": [
+      "lstm",
+      "seq2seq",
+      "translation"
+    ],
+    "topic": "lstm",
+    "citations_count": 29156,
+    "influential_citations_count": 2332,
+    "venue": "CVPR",
+    "institution": "Anthropic",
     "country": "USA",
     "community": "english",
     "org_type": "research_lab",
-    "pagerank": 0.016,
-    "collaboration_breadth": 0.41
+    "pagerank": 0.0222,
+    "collaboration_breadth": 0.3
+  },
+  {
+    "id": "p2017_word2vec_4",
+    "title": "Representation Learning for Human Feedback",
+    "year": 2017,
+    "abstract": "A synthetic representation learning study focusing on word2vec and its downstream impact on LLM research.",
+    "authors": [
+      "Percy Liang",
+      "Lilian Weng",
+      "Zhiyuan Liu"
+    ],
+    "keywords": [
+      "word2vec",
+      "embedding",
+      "semantic search"
+    ],
+    "topic": "word2vec",
+    "citations_count": 26792,
+    "influential_citations_count": 4555,
+    "venue": "EMNLP",
+    "institution": "University of Toronto",
+    "country": "Canada",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0207,
+    "collaboration_breadth": 0.25
+  },
+  {
+    "id": "p2017_transformer_3",
+    "title": "Transformer Architectures for Open Evaluation",
+    "year": 2017,
+    "abstract": "A synthetic transformer architectures study focusing on parallel sequence modeling and its downstream impact on LLM research.",
+    "authors": [
+      "Alec Radford",
+      "Diyi Yang",
+      "Wei Li",
+      "Yue Cao"
+    ],
+    "keywords": [
+      "transformer",
+      "self-attention",
+      "parallel sequence modeling"
+    ],
+    "topic": "transformer",
+    "citations_count": 24428,
+    "influential_citations_count": 3420,
+    "venue": "ICLR",
+    "institution": "National University of Singapore",
+    "country": "Singapore",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0193,
+    "collaboration_breadth": 0.67
+  },
+  {
+    "id": "p2017_lstm_1",
+    "title": "Sequence Modeling for Robust Reasoning",
+    "year": 2017,
+    "abstract": "A synthetic sequence modeling study focusing on lstm and its downstream impact on LLM research.",
+    "authors": [
+      "Oriol Vinyals",
+      "Noam Shazeer",
+      "Fei-Fei Li",
+      "Andrew Ng"
+    ],
+    "keywords": [
+      "lstm",
+      "seq2seq",
+      "translation"
+    ],
+    "topic": "lstm",
+    "citations_count": 22300,
+    "influential_citations_count": 1784,
+    "venue": "ICML",
+    "institution": "UC Berkeley",
+    "country": "USA",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0179,
+    "collaboration_breadth": 0.58
+  },
+  {
+    "id": "p2017_attention_2",
+    "title": "Attention Mechanisms for Domain Transfer",
+    "year": 2017,
+    "abstract": "A synthetic attention mechanisms study focusing on alignment and its downstream impact on LLM research.",
+    "authors": [
+      "Geoffrey Hinton",
+      "Chelsea Finn",
+      "Kaiming He"
+    ],
+    "keywords": [
+      "attention",
+      "alignment",
+      "context modeling"
+    ],
+    "topic": "attention",
+    "citations_count": 22064,
+    "influential_citations_count": 2427,
+    "venue": "ACL",
+    "institution": "Zhejiang University",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "university",
+    "pagerank": 0.0178,
+    "collaboration_breadth": 0.63
   },
   {
     "id": "p2018_bert",
     "title": "Bidirectional Pretraining with Masked Objectives",
     "year": 2018,
-    "abstract": "Introduces bidirectional masked pretraining and fine-tuning for many NLP benchmarks.",
-    "authors": ["Jacob D", "Ming-Wei C"],
-    "citations_count": 32800,
-    "influential_citations_count": 6410,
-    "venue": "NAACL",
-    "institution": "Google AI",
+    "abstract": "A synthetic anchor paper about bidirectional pretraining, used to test interactions across citation paths, topic streams, and institution views.",
+    "authors": [
+      "Jacob Devlin",
+      "Ming Zhou",
+      "Kaiming He"
+    ],
+    "keywords": [
+      "bert",
+      "masked language modeling",
+      "pretraining"
+    ],
+    "topic": "bert",
+    "citations_count": 36090,
+    "influential_citations_count": 5774,
+    "venue": "EMNLP",
+    "institution": "Google Research",
     "country": "USA",
     "community": "english",
     "org_type": "company",
-    "pagerank": 0.036,
-    "collaboration_breadth": 0.62
+    "pagerank": 0.0361,
+    "collaboration_breadth": 0.54
   },
   {
     "id": "p2018_gpt",
     "title": "Generative Pretraining for Language Understanding",
     "year": 2018,
-    "abstract": "Demonstrates transfer gains from left-to-right language model pretraining.",
-    "authors": ["Alec R", "Karthik N"],
-    "citations_count": 9420,
-    "influential_citations_count": 1710,
-    "venue": "OpenAI Report",
+    "abstract": "A synthetic anchor paper about autoregressive scaling, used to test interactions across citation paths, topic streams, and institution views.",
+    "authors": [
+      "Alec Radford",
+      "Ilya Sutskever",
+      "Wei Li",
+      "Yue Cao"
+    ],
+    "keywords": [
+      "gpt",
+      "few-shot learning",
+      "scaling law"
+    ],
+    "topic": "gpt",
+    "citations_count": 24385,
+    "influential_citations_count": 4511,
+    "venue": "CVPR",
     "institution": "OpenAI",
     "country": "USA",
     "community": "english",
     "org_type": "research_lab",
-    "pagerank": 0.013,
-    "collaboration_breadth": 0.55
+    "pagerank": 0.0263,
+    "collaboration_breadth": 0.59
   },
   {
-    "id": "p2019_xlnet",
-    "title": "Generalized Autoregressive Pretraining",
-    "year": 2019,
-    "abstract": "Combines permutation language modeling with segment recurrence for long context.",
-    "authors": ["Zhilin Y", "Zihang D"],
-    "citations_count": 7360,
-    "influential_citations_count": 1220,
-    "venue": "NeurIPS",
-    "institution": "Carnegie Mellon University",
-    "country": "USA",
-    "community": "english",
+    "id": "p2018_transformer_5",
+    "title": "Transformer Architectures for Efficient Deployment",
+    "year": 2018,
+    "abstract": "A synthetic transformer architectures study focusing on self-attention and its downstream impact on LLM research.",
+    "authors": [
+      "Andrew Ng",
+      "Minlie Huang",
+      "Yiming Yang"
+    ],
+    "keywords": [
+      "transformer",
+      "self-attention",
+      "parallel sequence modeling"
+    ],
+    "topic": "transformer",
+    "citations_count": 23954,
+    "influential_citations_count": 1916,
+    "venue": "KDD",
+    "institution": "Tsinghua University",
+    "country": "China",
+    "community": "chinese",
     "org_type": "university",
-    "pagerank": 0.011,
-    "collaboration_breadth": 0.49
+    "pagerank": 0.019,
+    "collaboration_breadth": 0.34
   },
   {
-    "id": "p2019_gpt2",
-    "title": "Large-Scale Language Models as Unsupervised Multitask Learners",
-    "year": 2019,
-    "abstract": "Shows scaling effects in generation quality and broad transfer behavior.",
-    "authors": ["Alec R", "Jeff W"],
-    "citations_count": 14980,
-    "influential_citations_count": 2710,
-    "venue": "OpenAI Report",
-    "institution": "OpenAI",
-    "country": "USA",
-    "community": "english",
-    "org_type": "research_lab",
-    "pagerank": 0.02,
-    "collaboration_breadth": 0.57
-  },
-  {
-    "id": "p2020_t5",
-    "title": "Unified Text-to-Text Transfer Transformer",
-    "year": 2020,
-    "abstract": "Frames all NLP tasks as text-to-text and emphasizes transfer via scale.",
-    "authors": ["Colin R", "Noam S"],
-    "citations_count": 13540,
-    "influential_citations_count": 2440,
-    "venue": "JMLR",
-    "institution": "Google Research",
+    "id": "p2018_instruction_4",
+    "title": "Instruction Tuning for Human Feedback",
+    "year": 2018,
+    "abstract": "A synthetic instruction tuning study focusing on instruction tuning and its downstream impact on LLM research.",
+    "authors": [
+      "Pieter Abbeel",
+      "Hao Zhang",
+      "Han Xiao",
+      "Tao Qin"
+    ],
+    "keywords": [
+      "instruction tuning",
+      "rlhf",
+      "human feedback"
+    ],
+    "topic": "instruction",
+    "citations_count": 22012,
+    "influential_citations_count": 3742,
+    "venue": "CVPR",
+    "institution": "Microsoft Research",
     "country": "USA",
     "community": "english",
     "org_type": "company",
-    "pagerank": 0.019,
-    "collaboration_breadth": 0.61
+    "pagerank": 0.0178,
+    "collaboration_breadth": 0.3
+  },
+  {
+    "id": "p2018_gpt_3",
+    "title": "Autoregressive Scaling for Open Evaluation",
+    "year": 2018,
+    "abstract": "A synthetic autoregressive scaling study focusing on scaling law and its downstream impact on LLM research.",
+    "authors": [
+      "Percy Liang",
+      "Lilian Weng",
+      "Zhiyuan Liu"
+    ],
+    "keywords": [
+      "gpt",
+      "few-shot learning",
+      "scaling law"
+    ],
+    "topic": "gpt",
+    "citations_count": 20069,
+    "influential_citations_count": 2810,
+    "venue": "EMNLP",
+    "institution": "OpenAI",
+    "country": "USA",
+    "community": "english",
+    "org_type": "research_lab",
+    "pagerank": 0.0165,
+    "collaboration_breadth": 0.25
+  },
+  {
+    "id": "p2018_transformer_1",
+    "title": "Transformer Architectures for Robust Reasoning",
+    "year": 2018,
+    "abstract": "A synthetic transformer architectures study focusing on transformer and its downstream impact on LLM research.",
+    "authors": [
+      "Geoffrey Hinton",
+      "Chelsea Finn",
+      "Kaiming He"
+    ],
+    "keywords": [
+      "transformer",
+      "self-attention",
+      "parallel sequence modeling"
+    ],
+    "topic": "transformer",
+    "citations_count": 18785,
+    "influential_citations_count": 1503,
+    "venue": "ACL",
+    "institution": "Beijing Academy of AI",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "research_lab",
+    "pagerank": 0.0157,
+    "collaboration_breadth": 0.63
+  },
+  {
+    "id": "p2018_bert_2",
+    "title": "Bidirectional Pretraining for Domain Transfer",
+    "year": 2018,
+    "abstract": "A synthetic bidirectional pretraining study focusing on masked language modeling and its downstream impact on LLM research.",
+    "authors": [
+      "Alec Radford",
+      "Diyi Yang",
+      "Wei Li",
+      "Yue Cao"
+    ],
+    "keywords": [
+      "bert",
+      "masked language modeling",
+      "pretraining"
+    ],
+    "topic": "bert",
+    "citations_count": 18127,
+    "influential_citations_count": 1994,
+    "venue": "ICLR",
+    "institution": "ETH Zurich",
+    "country": "Switzerland",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0153,
+    "collaboration_breadth": 0.67
+  },
+  {
+    "id": "p2019_transformer_5",
+    "title": "Transformer Architectures for Efficient Deployment",
+    "year": 2019,
+    "abstract": "A synthetic transformer architectures study focusing on self-attention and its downstream impact on LLM research.",
+    "authors": [
+      "Jie Tang",
+      "Qing Li",
+      "Junxian He",
+      "Anima Anandkumar"
+    ],
+    "keywords": [
+      "transformer",
+      "self-attention",
+      "parallel sequence modeling"
+    ],
+    "topic": "transformer",
+    "citations_count": 19299,
+    "influential_citations_count": 1544,
+    "venue": "NeurIPS",
+    "institution": "National University of Singapore",
+    "country": "Singapore",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0161,
+    "collaboration_breadth": 0.39
+  },
+  {
+    "id": "p2019_instruction_4",
+    "title": "Instruction Tuning for Human Feedback",
+    "year": 2019,
+    "abstract": "A synthetic instruction tuning study focusing on instruction tuning and its downstream impact on LLM research.",
+    "authors": [
+      "Andrew Ng",
+      "Minlie Huang",
+      "Yiming Yang"
+    ],
+    "keywords": [
+      "instruction tuning",
+      "rlhf",
+      "human feedback"
+    ],
+    "topic": "instruction",
+    "citations_count": 17734,
+    "influential_citations_count": 3015,
+    "venue": "KDD",
+    "institution": "Zhejiang University",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "university",
+    "pagerank": 0.0151,
+    "collaboration_breadth": 0.34
+  },
+  {
+    "id": "p2019_gpt_3",
+    "title": "Autoregressive Scaling for Open Evaluation",
+    "year": 2019,
+    "abstract": "A synthetic autoregressive scaling study focusing on scaling law and its downstream impact on LLM research.",
+    "authors": [
+      "Pieter Abbeel",
+      "Hao Zhang",
+      "Han Xiao",
+      "Tao Qin"
+    ],
+    "keywords": [
+      "gpt",
+      "few-shot learning",
+      "scaling law"
+    ],
+    "topic": "gpt",
+    "citations_count": 16170,
+    "influential_citations_count": 2264,
+    "venue": "CVPR",
+    "institution": "UC Berkeley",
+    "country": "USA",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0141,
+    "collaboration_breadth": 0.3
+  },
+  {
+    "id": "p2019_transformer_1",
+    "title": "Transformer Architectures for Robust Reasoning",
+    "year": 2019,
+    "abstract": "A synthetic transformer architectures study focusing on transformer and its downstream impact on LLM research.",
+    "authors": [
+      "Alec Radford",
+      "Diyi Yang",
+      "Wei Li",
+      "Yue Cao"
+    ],
+    "keywords": [
+      "transformer",
+      "self-attention",
+      "parallel sequence modeling"
+    ],
+    "topic": "transformer",
+    "citations_count": 15640,
+    "influential_citations_count": 1251,
+    "venue": "ICLR",
+    "institution": "Inria",
+    "country": "France",
+    "community": "english",
+    "org_type": "research_lab",
+    "pagerank": 0.0138,
+    "collaboration_breadth": 0.67
+  },
+  {
+    "id": "p2019_bert_2",
+    "title": "Bidirectional Pretraining for Domain Transfer",
+    "year": 2019,
+    "abstract": "A synthetic bidirectional pretraining study focusing on masked language modeling and its downstream impact on LLM research.",
+    "authors": [
+      "Percy Liang",
+      "Lilian Weng",
+      "Zhiyuan Liu"
+    ],
+    "keywords": [
+      "bert",
+      "masked language modeling",
+      "pretraining"
+    ],
+    "topic": "bert",
+    "citations_count": 14605,
+    "influential_citations_count": 1607,
+    "venue": "EMNLP",
+    "institution": "Meta AI",
+    "country": "USA",
+    "community": "english",
+    "org_type": "company",
+    "pagerank": 0.0131,
+    "collaboration_breadth": 0.25
   },
   {
     "id": "p2020_gpt3",
     "title": "Few-Shot Learners at Scale",
     "year": 2020,
-    "abstract": "Demonstrates emergent few-shot capabilities in very large autoregressive models.",
-    "authors": ["Tom B", "Jared K"],
-    "citations_count": 22100,
-    "influential_citations_count": 4210,
-    "venue": "NeurIPS",
+    "abstract": "A synthetic anchor paper about autoregressive scaling, used to test interactions across citation paths, topic streams, and institution views.",
+    "authors": [
+      "Alec Radford",
+      "Denny Zhou",
+      "Zhiyuan Liu"
+    ],
+    "keywords": [
+      "gpt",
+      "few-shot learning",
+      "scaling law"
+    ],
+    "topic": "gpt",
+    "citations_count": 20681,
+    "influential_citations_count": 4343,
+    "venue": "KDD",
     "institution": "OpenAI",
     "country": "USA",
     "community": "english",
     "org_type": "research_lab",
-    "pagerank": 0.03,
-    "collaboration_breadth": 0.68
+    "pagerank": 0.0232,
+    "collaboration_breadth": 0.65
   },
   {
-    "id": "p2021_switch",
-    "title": "Sparse Mixture-of-Experts Transformers",
-    "year": 2021,
-    "abstract": "Improves compute efficiency by routing tokens through sparse expert pathways.",
-    "authors": ["William F", "Noam S"],
-    "citations_count": 8620,
-    "influential_citations_count": 1360,
-    "venue": "JMLR",
-    "institution": "Google Research",
-    "country": "USA",
-    "community": "english",
-    "org_type": "company",
-    "pagerank": 0.014,
-    "collaboration_breadth": 0.59
-  },
-  {
-    "id": "p2021_clip",
-    "title": "Contrastive Language-Image Pretraining",
-    "year": 2021,
-    "abstract": "Connects language and vision through large-scale contrastive pretraining.",
-    "authors": ["Alec R", "Ilya S"],
-    "citations_count": 17460,
-    "influential_citations_count": 2990,
+    "id": "p2020_transformer_5",
+    "title": "Transformer Architectures for Efficient Deployment",
+    "year": 2020,
+    "abstract": "A synthetic transformer architectures study focusing on self-attention and its downstream impact on LLM research.",
+    "authors": [
+      "Yue Cao",
+      "Ming Zhou",
+      "Daphne Koller"
+    ],
+    "keywords": [
+      "transformer",
+      "self-attention",
+      "parallel sequence modeling"
+    ],
+    "topic": "transformer",
+    "citations_count": 15192,
+    "influential_citations_count": 1215,
     "venue": "ICML",
     "institution": "OpenAI",
     "country": "USA",
     "community": "english",
     "org_type": "research_lab",
-    "pagerank": 0.021,
-    "collaboration_breadth": 0.65
+    "pagerank": 0.0135,
+    "collaboration_breadth": 0.44
+  },
+  {
+    "id": "p2020_instruction_4",
+    "title": "Instruction Tuning for Human Feedback",
+    "year": 2020,
+    "abstract": "A synthetic instruction tuning study focusing on instruction tuning and its downstream impact on LLM research.",
+    "authors": [
+      "Jie Tang",
+      "Qing Li",
+      "Junxian He",
+      "Anima Anandkumar"
+    ],
+    "keywords": [
+      "instruction tuning",
+      "rlhf",
+      "human feedback"
+    ],
+    "topic": "instruction",
+    "citations_count": 13960,
+    "influential_citations_count": 2373,
+    "venue": "NeurIPS",
+    "institution": "ETH Zurich",
+    "country": "Switzerland",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0127,
+    "collaboration_breadth": 0.39
+  },
+  {
+    "id": "p2020_transformer_1",
+    "title": "Transformer Architectures for Robust Reasoning",
+    "year": 2020,
+    "abstract": "A synthetic transformer architectures study focusing on transformer and its downstream impact on LLM research.",
+    "authors": [
+      "Percy Liang",
+      "Lilian Weng",
+      "Zhiyuan Liu"
+    ],
+    "keywords": [
+      "transformer",
+      "self-attention",
+      "parallel sequence modeling"
+    ],
+    "topic": "transformer",
+    "citations_count": 12865,
+    "influential_citations_count": 1029,
+    "venue": "EMNLP",
+    "institution": "DeepMind",
+    "country": "UK",
+    "community": "english",
+    "org_type": "company",
+    "pagerank": 0.012,
+    "collaboration_breadth": 0.25
+  },
+  {
+    "id": "p2020_gpt_3",
+    "title": "Autoregressive Scaling for Open Evaluation",
+    "year": 2020,
+    "abstract": "A synthetic autoregressive scaling study focusing on scaling law and its downstream impact on LLM research.",
+    "authors": [
+      "Andrew Ng",
+      "Minlie Huang",
+      "Yiming Yang"
+    ],
+    "keywords": [
+      "gpt",
+      "few-shot learning",
+      "scaling law"
+    ],
+    "topic": "gpt",
+    "citations_count": 12729,
+    "influential_citations_count": 1782,
+    "venue": "KDD",
+    "institution": "Beijing Academy of AI",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "research_lab",
+    "pagerank": 0.012,
+    "collaboration_breadth": 0.34
+  },
+  {
+    "id": "p2020_bert_2",
+    "title": "Bidirectional Pretraining for Domain Transfer",
+    "year": 2020,
+    "abstract": "A synthetic bidirectional pretraining study focusing on masked language modeling and its downstream impact on LLM research.",
+    "authors": [
+      "Pieter Abbeel",
+      "Hao Zhang",
+      "Han Xiao",
+      "Tao Qin"
+    ],
+    "keywords": [
+      "bert",
+      "masked language modeling",
+      "pretraining"
+    ],
+    "topic": "bert",
+    "citations_count": 11497,
+    "influential_citations_count": 1265,
+    "venue": "CVPR",
+    "institution": "Carnegie Mellon University",
+    "country": "USA",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0112,
+    "collaboration_breadth": 0.3
+  },
+  {
+    "id": "p2021_clip",
+    "title": "Contrastive Language-Image Pretraining",
+    "year": 2021,
+    "abstract": "A synthetic anchor paper about multimodal foundation models, used to test interactions across citation paths, topic streams, and institution views.",
+    "authors": [
+      "Alec Radford",
+      "Fei-Fei Li",
+      "Han Xiao",
+      "Tao Qin"
+    ],
+    "keywords": [
+      "multimodal",
+      "vision-language",
+      "contrastive learning"
+    ],
+    "topic": "multimodal",
+    "citations_count": 19914,
+    "influential_citations_count": 4680,
+    "venue": "NeurIPS",
+    "institution": "OpenAI",
+    "country": "USA",
+    "community": "english",
+    "org_type": "research_lab",
+    "pagerank": 0.0226,
+    "collaboration_breadth": 0.71
+  },
+  {
+    "id": "p2021_agent_5",
+    "title": "Agentic Planning for Efficient Deployment",
+    "year": 2021,
+    "abstract": "A synthetic agentic planning study focusing on tool use and its downstream impact on LLM research.",
+    "authors": [
+      "Rui Wang",
+      "Xiang Ren",
+      "Oriol Vinyals",
+      "Noam Shazeer"
+    ],
+    "keywords": [
+      "agent",
+      "tool use",
+      "planning"
+    ],
+    "topic": "agent",
+    "citations_count": 11633,
+    "influential_citations_count": 931,
+    "venue": "ACL",
+    "institution": "UC Berkeley",
+    "country": "USA",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0113,
+    "collaboration_breadth": 0.48
+  },
+  {
+    "id": "p2021_multimodal_4",
+    "title": "Multimodal Foundation Models for Human Feedback",
+    "year": 2021,
+    "abstract": "A synthetic multimodal foundation models study focusing on multimodal and its downstream impact on LLM research.",
+    "authors": [
+      "Yue Cao",
+      "Ming Zhou",
+      "Daphne Koller"
+    ],
+    "keywords": [
+      "multimodal",
+      "vision-language",
+      "contrastive learning"
+    ],
+    "topic": "multimodal",
+    "citations_count": 10690,
+    "influential_citations_count": 1817,
+    "venue": "ICML",
+    "institution": "Meta AI",
+    "country": "USA",
+    "community": "english",
+    "org_type": "company",
+    "pagerank": 0.0107,
+    "collaboration_breadth": 0.44
+  },
+  {
+    "id": "p2021_gpt_1",
+    "title": "Autoregressive Scaling for Robust Reasoning",
+    "year": 2021,
+    "abstract": "A synthetic autoregressive scaling study focusing on gpt and its downstream impact on LLM research.",
+    "authors": [
+      "Pieter Abbeel",
+      "Hao Zhang",
+      "Han Xiao",
+      "Tao Qin"
+    ],
+    "keywords": [
+      "gpt",
+      "few-shot learning",
+      "scaling law"
+    ],
+    "topic": "gpt",
+    "citations_count": 10460,
+    "influential_citations_count": 837,
+    "venue": "CVPR",
+    "institution": "Peking University",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "university",
+    "pagerank": 0.0105,
+    "collaboration_breadth": 0.3
+  },
+  {
+    "id": "p2021_rag_3",
+    "title": "Retrieval Augmentation for Open Evaluation",
+    "year": 2021,
+    "abstract": "A synthetic retrieval augmentation study focusing on factuality and its downstream impact on LLM research.",
+    "authors": [
+      "Jie Tang",
+      "Qing Li",
+      "Junxian He",
+      "Anima Anandkumar"
+    ],
+    "keywords": [
+      "rag",
+      "retrieval",
+      "factuality"
+    ],
+    "topic": "rag",
+    "citations_count": 9746,
+    "influential_citations_count": 1364,
+    "venue": "NeurIPS",
+    "institution": "Inria",
+    "country": "France",
+    "community": "english",
+    "org_type": "research_lab",
+    "pagerank": 0.0101,
+    "collaboration_breadth": 0.39
+  },
+  {
+    "id": "p2021_instruction_2",
+    "title": "Instruction Tuning for Domain Transfer",
+    "year": 2021,
+    "abstract": "A synthetic instruction tuning study focusing on rlhf and its downstream impact on LLM research.",
+    "authors": [
+      "Andrew Ng",
+      "Minlie Huang",
+      "Yiming Yang"
+    ],
+    "keywords": [
+      "instruction tuning",
+      "rlhf",
+      "human feedback"
+    ],
+    "topic": "instruction",
+    "citations_count": 8803,
+    "influential_citations_count": 968,
+    "venue": "KDD",
+    "institution": "Alibaba DAMO Academy",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "company",
+    "pagerank": 0.0095,
+    "collaboration_breadth": 0.34
   },
   {
     "id": "p2022_instructgpt",
     "title": "Instruction Tuning with Human Feedback",
     "year": 2022,
-    "abstract": "Aligns model behavior with user intent using preference data and RLHF.",
-    "authors": ["Long O", "Jeff W"],
-    "citations_count": 9120,
-    "influential_citations_count": 1780,
-    "venue": "NeurIPS",
+    "abstract": "A synthetic anchor paper about instruction tuning, used to test interactions across citation paths, topic streams, and institution views.",
+    "authors": [
+      "Lilian Weng",
+      "Denny Zhou",
+      "Yiming Yang"
+    ],
+    "keywords": [
+      "instruction tuning",
+      "rlhf",
+      "human feedback"
+    ],
+    "topic": "instruction",
+    "citations_count": 19074,
+    "influential_citations_count": 3052,
+    "venue": "ICML",
     "institution": "OpenAI",
     "country": "USA",
     "community": "english",
     "org_type": "research_lab",
-    "pagerank": 0.016,
-    "collaboration_breadth": 0.71
+    "pagerank": 0.0219,
+    "collaboration_breadth": 0.32
   },
   {
-    "id": "p2022_palm",
-    "title": "Pathways Language Model",
+    "id": "p2022_agent_5",
+    "title": "Agentic Planning for Efficient Deployment",
     "year": 2022,
-    "abstract": "Trains a large dense transformer with broad multilingual and reasoning evaluations.",
-    "authors": ["Aakanksha C", "Denny Z"],
-    "citations_count": 10510,
-    "influential_citations_count": 1880,
-    "venue": "arXiv",
-    "institution": "Google Research",
+    "abstract": "A synthetic agentic planning study focusing on tool use and its downstream impact on LLM research.",
+    "authors": [
+      "Tao Qin",
+      "Christopher Manning",
+      "Geoffrey Hinton"
+    ],
+    "keywords": [
+      "agent",
+      "tool use",
+      "planning"
+    ],
+    "topic": "agent",
+    "citations_count": 8621,
+    "influential_citations_count": 690,
+    "venue": "ICLR",
+    "institution": "Beijing Academy of AI",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "research_lab",
+    "pagerank": 0.0094,
+    "collaboration_breadth": 0.53
+  },
+  {
+    "id": "p2022_gpt_1",
+    "title": "Autoregressive Scaling for Robust Reasoning",
+    "year": 2022,
+    "abstract": "A synthetic autoregressive scaling study focusing on gpt and its downstream impact on LLM research.",
+    "authors": [
+      "Andrew Ng",
+      "Minlie Huang",
+      "Yiming Yang"
+    ],
+    "keywords": [
+      "gpt",
+      "few-shot learning",
+      "scaling law"
+    ],
+    "topic": "gpt",
+    "citations_count": 8425,
+    "influential_citations_count": 674,
+    "venue": "KDD",
+    "institution": "University of Tokyo",
+    "country": "Japan",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0093,
+    "collaboration_breadth": 0.34
+  },
+  {
+    "id": "p2022_multimodal_4",
+    "title": "Multimodal Foundation Models for Human Feedback",
+    "year": 2022,
+    "abstract": "A synthetic multimodal foundation models study focusing on multimodal and its downstream impact on LLM research.",
+    "authors": [
+      "Rui Wang",
+      "Xiang Ren",
+      "Oriol Vinyals",
+      "Noam Shazeer"
+    ],
+    "keywords": [
+      "multimodal",
+      "vision-language",
+      "contrastive learning"
+    ],
+    "topic": "multimodal",
+    "citations_count": 7922,
+    "influential_citations_count": 1347,
+    "venue": "ACL",
+    "institution": "Carnegie Mellon University",
     "country": "USA",
     "community": "english",
+    "org_type": "university",
+    "pagerank": 0.009,
+    "collaboration_breadth": 0.48
+  },
+  {
+    "id": "p2022_rag_3",
+    "title": "Retrieval Augmentation for Open Evaluation",
+    "year": 2022,
+    "abstract": "A synthetic retrieval augmentation study focusing on factuality and its downstream impact on LLM research.",
+    "authors": [
+      "Yue Cao",
+      "Ming Zhou",
+      "Daphne Koller"
+    ],
+    "keywords": [
+      "rag",
+      "retrieval",
+      "factuality"
+    ],
+    "topic": "rag",
+    "citations_count": 7223,
+    "influential_citations_count": 1011,
+    "venue": "ICML",
+    "institution": "DeepMind",
+    "country": "UK",
+    "community": "english",
     "org_type": "company",
-    "pagerank": 0.017,
-    "collaboration_breadth": 0.67
+    "pagerank": 0.0085,
+    "collaboration_breadth": 0.44
+  },
+  {
+    "id": "p2022_instruction_2",
+    "title": "Instruction Tuning for Domain Transfer",
+    "year": 2022,
+    "abstract": "A synthetic instruction tuning study focusing on rlhf and its downstream impact on LLM research.",
+    "authors": [
+      "Jie Tang",
+      "Qing Li",
+      "Junxian He",
+      "Anima Anandkumar"
+    ],
+    "keywords": [
+      "instruction tuning",
+      "rlhf",
+      "human feedback"
+    ],
+    "topic": "instruction",
+    "citations_count": 6524,
+    "influential_citations_count": 718,
+    "venue": "NeurIPS",
+    "institution": "Mila",
+    "country": "Canada",
+    "community": "english",
+    "org_type": "research_lab",
+    "pagerank": 0.0081,
+    "collaboration_breadth": 0.39
   },
   {
     "id": "p2023_llama",
     "title": "Open Foundation Models at Smaller Scale",
     "year": 2023,
-    "abstract": "Shows strong open foundation models with efficient training recipes.",
-    "authors": ["Hugo T", "Tim D"],
-    "citations_count": 12140,
-    "influential_citations_count": 2230,
-    "venue": "Meta Report",
+    "abstract": "A synthetic anchor paper about efficient and local llms, used to test interactions across citation paths, topic streams, and institution views.",
+    "authors": [
+      "Kaiming He",
+      "Percy Liang",
+      "Junxian He",
+      "Anima Anandkumar"
+    ],
+    "keywords": [
+      "distillation",
+      "small llm",
+      "edge deployment"
+    ],
+    "topic": "small_llm",
+    "citations_count": 18293,
+    "influential_citations_count": 3384,
+    "venue": "ACL",
     "institution": "Meta AI",
     "country": "USA",
     "community": "english",
     "org_type": "company",
-    "pagerank": 0.018,
-    "collaboration_breadth": 0.64
+    "pagerank": 0.0212,
+    "collaboration_breadth": 0.38
   },
   {
-    "id": "p2023_rlhf_cn",
-    "title": "Preference Alignment for Chinese Large Models",
+    "id": "p2023_instruction_1",
+    "title": "Instruction Tuning for Robust Reasoning",
     "year": 2023,
-    "abstract": "Studies RLHF pipelines for Chinese dialogue systems and safety control.",
-    "authors": ["Liu Y", "Chen K"],
-    "citations_count": 1320,
-    "influential_citations_count": 210,
-    "venue": "CCL",
-    "institution": "Tsinghua University",
+    "abstract": "A synthetic instruction tuning study focusing on instruction tuning and its downstream impact on LLM research.",
+    "authors": [
+      "Jie Tang",
+      "Qing Li",
+      "Junxian He",
+      "Anima Anandkumar"
+    ],
+    "keywords": [
+      "instruction tuning",
+      "rlhf",
+      "human feedback"
+    ],
+    "topic": "instruction",
+    "citations_count": 6760,
+    "influential_citations_count": 541,
+    "venue": "NeurIPS",
+    "institution": "Google Research",
+    "country": "USA",
+    "community": "english",
+    "org_type": "company",
+    "pagerank": 0.0082,
+    "collaboration_breadth": 0.39
+  },
+  {
+    "id": "p2023_moe_5",
+    "title": "Sparse Expert Models for Efficient Deployment",
+    "year": 2023,
+    "abstract": "A synthetic sparse expert models study focusing on expert routing and its downstream impact on LLM research.",
+    "authors": [
+      "Denny Zhou",
+      "Yoshua Bengio",
+      "Alec Radford",
+      "Diyi Yang"
+    ],
+    "keywords": [
+      "moe",
+      "expert routing",
+      "efficient scaling"
+    ],
+    "topic": "moe",
+    "citations_count": 6157,
+    "influential_citations_count": 493,
+    "venue": "EMNLP",
+    "institution": "Inria",
+    "country": "France",
+    "community": "english",
+    "org_type": "research_lab",
+    "pagerank": 0.0078,
+    "collaboration_breadth": 0.58
+  },
+  {
+    "id": "p2023_agent_4",
+    "title": "Agentic Planning for Human Feedback",
+    "year": 2023,
+    "abstract": "A synthetic agentic planning study focusing on agent and its downstream impact on LLM research.",
+    "authors": [
+      "Tao Qin",
+      "Christopher Manning",
+      "Geoffrey Hinton"
+    ],
+    "keywords": [
+      "agent",
+      "tool use",
+      "planning"
+    ],
+    "topic": "agent",
+    "citations_count": 5658,
+    "influential_citations_count": 962,
+    "venue": "ICLR",
+    "institution": "Alibaba DAMO Academy",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "company",
+    "pagerank": 0.0075,
+    "collaboration_breadth": 0.53
+  },
+  {
+    "id": "p2023_multimodal_3",
+    "title": "Multimodal Foundation Models for Open Evaluation",
+    "year": 2023,
+    "abstract": "A synthetic multimodal foundation models study focusing on contrastive learning and its downstream impact on LLM research.",
+    "authors": [
+      "Rui Wang",
+      "Xiang Ren",
+      "Oriol Vinyals",
+      "Noam Shazeer"
+    ],
+    "keywords": [
+      "multimodal",
+      "vision-language",
+      "contrastive learning"
+    ],
+    "topic": "multimodal",
+    "citations_count": 5158,
+    "influential_citations_count": 722,
+    "venue": "ACL",
+    "institution": "Peking University",
     "country": "China",
     "community": "chinese",
     "org_type": "university",
-    "pagerank": 0.004,
-    "collaboration_breadth": 0.36
+    "pagerank": 0.0072,
+    "collaboration_breadth": 0.48
+  },
+  {
+    "id": "p2023_rag_2",
+    "title": "Retrieval Augmentation for Domain Transfer",
+    "year": 2023,
+    "abstract": "A synthetic retrieval augmentation study focusing on retrieval and its downstream impact on LLM research.",
+    "authors": [
+      "Yue Cao",
+      "Ming Zhou",
+      "Daphne Koller"
+    ],
+    "keywords": [
+      "rag",
+      "retrieval",
+      "factuality"
+    ],
+    "topic": "rag",
+    "citations_count": 4659,
+    "influential_citations_count": 512,
+    "venue": "ICML",
+    "institution": "Stanford University",
+    "country": "USA",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0069,
+    "collaboration_breadth": 0.44
   },
   {
     "id": "p2024_rag",
     "title": "Retrieval-Augmented Generation for Reliable LLMs",
     "year": 2024,
-    "abstract": "Integrates retrieval pipelines with generation to reduce hallucination and improve grounding.",
-    "authors": ["Patrick L", "Wei H"],
-    "citations_count": 2780,
-    "influential_citations_count": 470,
-    "venue": "ACL",
-    "institution": "University of Washington",
+    "abstract": "A synthetic anchor paper about retrieval augmentation, used to test interactions across citation paths, topic streams, and institution views.",
+    "authors": [
+      "Percy Liang",
+      "Christopher Manning",
+      "Daphne Koller"
+    ],
+    "keywords": [
+      "rag",
+      "retrieval",
+      "factuality"
+    ],
+    "topic": "rag",
+    "citations_count": 11065,
+    "influential_citations_count": 2324,
+    "venue": "ICLR",
+    "institution": "Stanford University",
     "country": "USA",
     "community": "english",
     "org_type": "university",
-    "pagerank": 0.006,
+    "pagerank": 0.0152,
+    "collaboration_breadth": 0.43
+  },
+  {
+    "id": "p2024_instruction_1",
+    "title": "Instruction Tuning for Robust Reasoning",
+    "year": 2024,
+    "abstract": "A synthetic instruction tuning study focusing on instruction tuning and its downstream impact on LLM research.",
+    "authors": [
+      "Yue Cao",
+      "Ming Zhou",
+      "Daphne Koller"
+    ],
+    "keywords": [
+      "instruction tuning",
+      "rlhf",
+      "human feedback"
+    ],
+    "topic": "instruction",
+    "citations_count": 5465,
+    "influential_citations_count": 437,
+    "venue": "ICML",
+    "institution": "MIT CSAIL",
+    "country": "USA",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0074,
+    "collaboration_breadth": 0.44
+  },
+  {
+    "id": "p2024_moe_5",
+    "title": "Sparse Expert Models for Efficient Deployment",
+    "year": 2024,
+    "abstract": "A synthetic sparse expert models study focusing on expert routing and its downstream impact on LLM research.",
+    "authors": [
+      "Anima Anandkumar",
+      "Ashish Vaswani",
+      "Percy Liang"
+    ],
+    "keywords": [
+      "moe",
+      "expert routing",
+      "efficient scaling"
+    ],
+    "topic": "moe",
+    "citations_count": 4240,
+    "influential_citations_count": 339,
+    "venue": "CVPR",
+    "institution": "DeepMind",
+    "country": "UK",
+    "community": "english",
+    "org_type": "company",
+    "pagerank": 0.0066,
     "collaboration_breadth": 0.63
   },
   {
-    "id": "p2024_moe_agent",
-    "title": "Agentic Planning with Mixture-of-Experts LLMs",
+    "id": "p2024_agent_4",
+    "title": "Agentic Planning for Human Feedback",
     "year": 2024,
-    "abstract": "Combines sparse experts and tool-using planning policies for multi-step tasks.",
-    "authors": ["Dario A", "Sam M"],
-    "citations_count": 2110,
-    "influential_citations_count": 350,
-    "venue": "ICLR",
-    "institution": "Anthropic",
-    "country": "USA",
+    "abstract": "A synthetic agentic planning study focusing on agent and its downstream impact on LLM research.",
+    "authors": [
+      "Denny Zhou",
+      "Yoshua Bengio",
+      "Alec Radford",
+      "Diyi Yang"
+    ],
+    "keywords": [
+      "agent",
+      "tool use",
+      "planning"
+    ],
+    "topic": "agent",
+    "citations_count": 3896,
+    "influential_citations_count": 662,
+    "venue": "EMNLP",
+    "institution": "Mila",
+    "country": "Canada",
     "community": "english",
     "org_type": "research_lab",
-    "pagerank": 0.007,
-    "collaboration_breadth": 0.66
+    "pagerank": 0.0064,
+    "collaboration_breadth": 0.58
+  },
+  {
+    "id": "p2024_multimodal_3",
+    "title": "Multimodal Foundation Models for Open Evaluation",
+    "year": 2024,
+    "abstract": "A synthetic multimodal foundation models study focusing on contrastive learning and its downstream impact on LLM research.",
+    "authors": [
+      "Tao Qin",
+      "Christopher Manning",
+      "Geoffrey Hinton"
+    ],
+    "keywords": [
+      "multimodal",
+      "vision-language",
+      "contrastive learning"
+    ],
+    "topic": "multimodal",
+    "citations_count": 3553,
+    "influential_citations_count": 497,
+    "venue": "ICLR",
+    "institution": "University of Tokyo",
+    "country": "Japan",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0062,
+    "collaboration_breadth": 0.53
+  },
+  {
+    "id": "p2024_rag_2",
+    "title": "Retrieval Augmentation for Domain Transfer",
+    "year": 2024,
+    "abstract": "A synthetic retrieval augmentation study focusing on retrieval and its downstream impact on LLM research.",
+    "authors": [
+      "Rui Wang",
+      "Xiang Ren",
+      "Oriol Vinyals",
+      "Noam Shazeer"
+    ],
+    "keywords": [
+      "rag",
+      "retrieval",
+      "factuality"
+    ],
+    "topic": "rag",
+    "citations_count": 3209,
+    "influential_citations_count": 353,
+    "venue": "ACL",
+    "institution": "Shanghai AI Lab",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "research_lab",
+    "pagerank": 0.006,
+    "collaboration_breadth": 0.48
   },
   {
     "id": "p2025_multimodal_agent",
     "title": "Unified Multimodal Agent Models",
     "year": 2025,
-    "abstract": "Builds an agent that reasons over text, image, and action traces with feedback loops.",
-    "authors": ["Demis H", "Oriol V"],
-    "citations_count": 980,
-    "influential_citations_count": 170,
-    "venue": "NeurIPS",
+    "abstract": "A synthetic anchor paper about agentic planning, used to test interactions across citation paths, topic streams, and institution views.",
+    "authors": [
+      "Oriol Vinyals",
+      "Fei-Fei Li",
+      "Noam Shazeer",
+      "Andrew Ng"
+    ],
+    "keywords": [
+      "agent",
+      "tool use",
+      "planning"
+    ],
+    "topic": "agent",
+    "citations_count": 11357,
+    "influential_citations_count": 2669,
+    "venue": "EMNLP",
     "institution": "DeepMind",
     "country": "UK",
     "community": "english",
     "org_type": "company",
-    "pagerank": 0.003,
-    "collaboration_breadth": 0.74
+    "pagerank": 0.0155,
+    "collaboration_breadth": 0.48
   },
   {
-    "id": "p2025_small_llm_cn",
-    "title": "Compact Chinese LLMs with Distillation and RAG",
+    "id": "p2025_instruction_1",
+    "title": "Instruction Tuning for Robust Reasoning",
     "year": 2025,
-    "abstract": "Focuses on cost-effective Chinese LLM deployment with retrieval and distillation.",
-    "authors": ["Xu J", "Guo Z"],
-    "citations_count": 740,
-    "influential_citations_count": 120,
-    "venue": "EMNLP",
-    "institution": "Shanghai AI Laboratory",
+    "abstract": "A synthetic instruction tuning study focusing on instruction tuning and its downstream impact on LLM research.",
+    "authors": [
+      "Rui Wang",
+      "Xiang Ren",
+      "Oriol Vinyals",
+      "Noam Shazeer"
+    ],
+    "keywords": [
+      "instruction tuning",
+      "rlhf",
+      "human feedback"
+    ],
+    "topic": "instruction",
+    "citations_count": 4540,
+    "influential_citations_count": 363,
+    "venue": "ACL",
+    "institution": "Huawei Noah Ark Lab",
     "country": "China",
     "community": "chinese",
-    "org_type": "research_lab",
-    "pagerank": 0.002,
-    "collaboration_breadth": 0.52
+    "org_type": "company",
+    "pagerank": 0.0068,
+    "collaboration_breadth": 0.48
+  },
+  {
+    "id": "p2025_moe_5",
+    "title": "Sparse Expert Models for Efficient Deployment",
+    "year": 2025,
+    "abstract": "A synthetic sparse expert models study focusing on expert routing and its downstream impact on LLM research.",
+    "authors": [
+      "Ilya Sutskever",
+      "Jason Wei",
+      "Pieter Abbeel",
+      "Hao Zhang"
+    ],
+    "keywords": [
+      "moe",
+      "expert routing",
+      "efficient scaling"
+    ],
+    "topic": "moe",
+    "citations_count": 2871,
+    "influential_citations_count": 230,
+    "venue": "KDD",
+    "institution": "Peking University",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "university",
+    "pagerank": 0.0058,
+    "collaboration_breadth": 0.67
+  },
+  {
+    "id": "p2025_agent_4",
+    "title": "Agentic Planning for Human Feedback",
+    "year": 2025,
+    "abstract": "A synthetic agentic planning study focusing on agent and its downstream impact on LLM research.",
+    "authors": [
+      "Anima Anandkumar",
+      "Ashish Vaswani",
+      "Percy Liang"
+    ],
+    "keywords": [
+      "agent",
+      "tool use",
+      "planning"
+    ],
+    "topic": "agent",
+    "citations_count": 2638,
+    "influential_citations_count": 448,
+    "venue": "CVPR",
+    "institution": "Stanford University",
+    "country": "USA",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0056,
+    "collaboration_breadth": 0.63
+  },
+  {
+    "id": "p2025_multimodal_3",
+    "title": "Multimodal Foundation Models for Open Evaluation",
+    "year": 2025,
+    "abstract": "A synthetic multimodal foundation models study focusing on contrastive learning and its downstream impact on LLM research.",
+    "authors": [
+      "Denny Zhou",
+      "Yoshua Bengio",
+      "Alec Radford",
+      "Diyi Yang"
+    ],
+    "keywords": [
+      "multimodal",
+      "vision-language",
+      "contrastive learning"
+    ],
+    "topic": "multimodal",
+    "citations_count": 2406,
+    "influential_citations_count": 337,
+    "venue": "EMNLP",
+    "institution": "Google Research",
+    "country": "USA",
+    "community": "english",
+    "org_type": "company",
+    "pagerank": 0.0055,
+    "collaboration_breadth": 0.58
+  },
+  {
+    "id": "p2025_rag_2",
+    "title": "Retrieval Augmentation for Domain Transfer",
+    "year": 2025,
+    "abstract": "A synthetic retrieval augmentation study focusing on retrieval and its downstream impact on LLM research.",
+    "authors": [
+      "Tao Qin",
+      "Christopher Manning",
+      "Geoffrey Hinton"
+    ],
+    "keywords": [
+      "rag",
+      "retrieval",
+      "factuality"
+    ],
+    "topic": "rag",
+    "citations_count": 2173,
+    "influential_citations_count": 239,
+    "venue": "ICLR",
+    "institution": "University of Oxford",
+    "country": "UK",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0054,
+    "collaboration_breadth": 0.53
   },
   {
     "id": "p2026_world_model_agent",
     "title": "World-Model Grounded Foundation Agents",
     "year": 2026,
-    "abstract": "Connects planning agents with latent world models for long-horizon reasoning.",
-    "authors": ["Jane Q", "Alex T"],
-    "citations_count": 320,
-    "influential_citations_count": 60,
-    "venue": "arXiv",
-    "institution": "OpenAI",
+    "abstract": "A synthetic anchor paper about agentic planning, used to test interactions across citation paths, topic streams, and institution views.",
+    "authors": [
+      "Chelsea Finn",
+      "Pieter Abbeel",
+      "Geoffrey Hinton"
+    ],
+    "keywords": [
+      "agent",
+      "tool use",
+      "planning"
+    ],
+    "topic": "agent",
+    "citations_count": 11885,
+    "influential_citations_count": 1902,
+    "venue": "CVPR",
+    "institution": "Google Research",
+    "country": "USA",
+    "community": "english",
+    "org_type": "company",
+    "pagerank": 0.0159,
+    "collaboration_breadth": 0.54
+  },
+  {
+    "id": "p2026_instruction_1",
+    "title": "Instruction Tuning for Robust Reasoning",
+    "year": 2026,
+    "abstract": "A synthetic instruction tuning study focusing on instruction tuning and its downstream impact on LLM research.",
+    "authors": [
+      "Tao Qin",
+      "Christopher Manning",
+      "Geoffrey Hinton"
+    ],
+    "keywords": [
+      "instruction tuning",
+      "rlhf",
+      "human feedback"
+    ],
+    "topic": "instruction",
+    "citations_count": 3985,
+    "influential_citations_count": 319,
+    "venue": "ICLR",
+    "institution": "University of Toronto",
+    "country": "Canada",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0065,
+    "collaboration_breadth": 0.53
+  },
+  {
+    "id": "p2026_moe_5",
+    "title": "Sparse Expert Models for Efficient Deployment",
+    "year": 2026,
+    "abstract": "A synthetic sparse expert models study focusing on expert routing and its downstream impact on LLM research.",
+    "authors": [
+      "Noam Shazeer",
+      "Fei-Fei Li",
+      "Andrew Ng"
+    ],
+    "keywords": [
+      "moe",
+      "expert routing",
+      "efficient scaling"
+    ],
+    "topic": "moe",
+    "citations_count": 2050,
+    "influential_citations_count": 164,
+    "venue": "NeurIPS",
+    "institution": "University of Tokyo",
+    "country": "Japan",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0053,
+    "collaboration_breadth": 0.25
+  },
+  {
+    "id": "p2026_agent_4",
+    "title": "Agentic Planning for Human Feedback",
+    "year": 2026,
+    "abstract": "A synthetic agentic planning study focusing on agent and its downstream impact on LLM research.",
+    "authors": [
+      "Ilya Sutskever",
+      "Jason Wei",
+      "Pieter Abbeel",
+      "Hao Zhang"
+    ],
+    "keywords": [
+      "agent",
+      "tool use",
+      "planning"
+    ],
+    "topic": "agent",
+    "citations_count": 1884,
+    "influential_citations_count": 320,
+    "venue": "KDD",
+    "institution": "Shanghai AI Lab",
+    "country": "China",
+    "community": "chinese",
+    "org_type": "research_lab",
+    "pagerank": 0.0052,
+    "collaboration_breadth": 0.67
+  },
+  {
+    "id": "p2026_multimodal_3",
+    "title": "Multimodal Foundation Models for Open Evaluation",
+    "year": 2026,
+    "abstract": "A synthetic multimodal foundation models study focusing on contrastive learning and its downstream impact on LLM research.",
+    "authors": [
+      "Anima Anandkumar",
+      "Ashish Vaswani",
+      "Percy Liang"
+    ],
+    "keywords": [
+      "multimodal",
+      "vision-language",
+      "contrastive learning"
+    ],
+    "topic": "multimodal",
+    "citations_count": 1717,
+    "influential_citations_count": 240,
+    "venue": "CVPR",
+    "institution": "MIT CSAIL",
+    "country": "USA",
+    "community": "english",
+    "org_type": "university",
+    "pagerank": 0.0051,
+    "collaboration_breadth": 0.63
+  },
+  {
+    "id": "p2026_rag_2",
+    "title": "Retrieval Augmentation for Domain Transfer",
+    "year": 2026,
+    "abstract": "A synthetic retrieval augmentation study focusing on retrieval and its downstream impact on LLM research.",
+    "authors": [
+      "Denny Zhou",
+      "Yoshua Bengio",
+      "Alec Radford",
+      "Diyi Yang"
+    ],
+    "keywords": [
+      "rag",
+      "retrieval",
+      "factuality"
+    ],
+    "topic": "rag",
+    "citations_count": 1551,
+    "influential_citations_count": 171,
+    "venue": "EMNLP",
+    "institution": "Anthropic",
     "country": "USA",
     "community": "english",
     "org_type": "research_lab",
-    "pagerank": 0.001,
-    "collaboration_breadth": 0.78
+    "pagerank": 0.005,
+    "collaboration_breadth": 0.58
   }
 ]
