@@ -1,5 +1,7 @@
 const DEFAULT_STATE = {
   year: 2026,
+  yearRangeStart: 2013,
+  yearRangeEnd: 2026,
   selectedPaperId: 'p2017_transformer',
   selectedInstitutionId: null
 };

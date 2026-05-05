@@ -269,7 +269,7 @@ export async function initThemeRiver(container) {
         ? `<strong>${focusedKeyword}</strong> 单主题模式：拖动年份可查看该主题热度如何上升、回落或保持平台期。`
         : `<strong>${phaseLabelByYear(year)}</strong>：${year} 年最突出的主题是 ${top.map((item) => item.keyword).join('、')}。`;
 
-      if (shouldPublish) setAppState({ year }, 'theme-river');
+      if (shouldPublish) setAppState({ year, yearRangeStart: year, yearRangeEnd: year }, 'theme-river');
     }
 
     slider.addEventListener('input', () => updateFocus(true));

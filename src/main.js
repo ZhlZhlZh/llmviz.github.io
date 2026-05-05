@@ -27,8 +27,10 @@ async function initFocusPanel() {
 
   function render(state) {
     const node = nodeById.get(state.selectedPaperId);
-    yearEl.textContent = String(state.year);
-    phaseEl.textContent = phaseLabelByYear(state.year);
+    const rangeStart = Number.isFinite(state.yearRangeStart) ? state.yearRangeStart : state.year;
+    const rangeEnd = Number.isFinite(state.yearRangeEnd) ? state.yearRangeEnd : state.year;
+    yearEl.textContent = rangeStart !== rangeEnd ? `${rangeStart}-${rangeEnd}` : String(rangeEnd);
+    phaseEl.textContent = phaseLabelByYear(rangeEnd);
     paperEl.textContent = node ? shorten(node.title, 56) : '未选择论文';
   }
 

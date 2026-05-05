@@ -16,6 +16,14 @@
   stroke-width: 0.8;
 }
 
+.map-canvas {
+  cursor: move;
+}
+
+.map-viewport {
+  transform-origin: 0 0;
+}
+
 .map-point {
   fill-opacity: 0.88;
   stroke: #ffffff;

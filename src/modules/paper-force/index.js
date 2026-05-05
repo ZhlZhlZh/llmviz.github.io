@@ -70,9 +70,14 @@ export async function initPaperForce(container) {
       <p class="module-subtitle">搜索作者后，以该作者最高引用论文为中心，递归保留最相关的引用和被引用论文；画布支持滚轮缩放、拖拽平移和节点拖动。</p>
       <div class="chart-toolbar chart-toolbar-wrap">
         <label class="chart-control">
-          显示至年份
-          <input class="chart-range force-year-range" type="range" min="2013" max="2026" step="1" value="2026" />
-          <output class="year-badge force-year-output">2026</output>
+          起始年份
+          <input class="chart-range force-year-start" type="range" min="2013" max="2026" step="1" value="2013" />
+          <output class="year-badge force-year-start-output">2013</output>
+        </label>
+        <label class="chart-control">
+          结束年份
+          <input class="chart-range force-year-end" type="range" min="2013" max="2026" step="1" value="2026" />
+          <output class="year-badge force-year-end-output">2026</output>
         </label>
         <label class="chart-control">
           作者搜索
@@ -82,6 +87,14 @@ export async function initPaperForce(container) {
         <label class="chart-control">
           最大节点
           <input class="chart-number force-max-input" type="number" min="20" max="120" step="5" value="55" />
+        </label>
+        <label class="chart-control">
+          显示信息
+          <select class="chart-select force-label-mode">
+            <option value="full">完整</option>
+            <option value="brief">简略</option>
+            <option value="dots">仅圆点</option>
+          </select>
         </label>
         <button class="chart-button force-reset-button" type="button">重置视图</button>
         <div class="chart-stat" aria-live="polite">加载中...</div>
@@ -99,17 +112,20 @@ export async function initPaperForce(container) {
     </div>
   `;
 
-  const slider = container.querySelector('.force-year-range');
-  const yearOutput = container.querySelector('.force-year-output');
+  const startSlider = container.querySelector('.force-year-start');
+  const endSlider = container.querySelector('.force-year-end');
+  const startOutput = container.querySelector('.force-year-start-output');
+  const endOutput = container.querySelector('.force-year-end-output');
   const authorInput = container.querySelector('.force-author-input');
   const authorList = container.querySelector('#force-author-list');
   const maxInput = container.querySelector('.force-max-input');
+  const labelMode = container.querySelector('.force-label-mode');
   const resetButton = container.querySelector('.force-reset-button');
   const statEl = container.querySelector('.chart-stat');
   const detailEl = container.querySelector('.force-detail');
   const svg = container.querySelector('.force-svg');
 
-  if (!slider || !yearOutput || !authorInput || !authorList || !maxInput || !resetButton || !statEl || !detailEl || !svg) return;
+  if (!startSlider || !endSlider || !startOutput || !endOutput || !authorInput || !authorList || !maxInput || !labelMode || !resetButton || !statEl || !detailEl || !svg) return;
 
   try {
     const [nodesData, edgesData] = await Promise.all([
@@ -123,6 +139,13 @@ export async function initPaperForce(container) {
     const centerY = height / 2;
     const minCitations = Math.min(...nodesData.map((item) => item.citations_count));
     const maxCitations = Math.max(...nodesData.map((item) => item.citations_count));
+    const minYear = Math.min(...nodesData.map((item) => item.year));
+    const maxYear = Math.max(...nodesData.map((item) => item.year));
+
+    startSlider.min = String(minYear);
+    startSlider.max = String(maxYear);
+    endSlider.min = String(minYear);
+    endSlider.max = String(maxYear);
 
     const nodes = nodesData.map((item, index) => {
       const angle = (Math.PI * 2 * index) / nodesData.length;
@@ -167,6 +190,46 @@ export async function initPaperForce(container) {
     let draggingNode = null;
     let panning = null;
 
+    function normalizeYearRange(start, end) {
+      const safeStart = Number.isFinite(start) ? start : minYear;
+      const safeEnd = Number.isFinite(end) ? end : maxYear;
+      const clampedStart = Math.min(Math.max(safeStart, minYear), maxYear);
+      const clampedEnd = Math.min(Math.max(safeEnd, minYear), maxYear);
+      return {
+        start: Math.min(clampedStart, clampedEnd),
+        end: Math.max(clampedStart, clampedEnd)
+      };
+    }
+
+    function syncYearRangeInputs(start, end) {
+      startSlider.value = String(start);
+      endSlider.value = String(end);
+      startOutput.textContent = String(start);
+      endOutput.textContent = String(end);
+    }
+
+    function getActiveYearRange() {
+      return normalizeYearRange(Number(startSlider.value), Number(endSlider.value));
+    }
+
+    function expandRangeForYear(range, year) {
+      if (!Number.isFinite(year)) return range;
+      return normalizeYearRange(Math.min(range.start, year), Math.max(range.end, year));
+    }
+
+    function publishYearRange() {
+      const range = getActiveYearRange();
+      syncYearRangeInputs(range.start, range.end);
+      setAppState({ year: range.end, yearRangeStart: range.start, yearRangeEnd: range.end }, 'paper-force');
+      return range;
+    }
+
+    const initialRange = normalizeYearRange(
+      Number.isFinite(getAppState().yearRangeStart) ? getAppState().yearRangeStart : minYear,
+      Number.isFinite(getAppState().yearRangeEnd) ? getAppState().yearRangeEnd : getAppState().year
+    );
+    syncYearRangeInputs(initialRange.start, initialRange.end);
+
     function applyTransform() {
       viewport.setAttribute('transform', `translate(${transform.x} ${transform.y}) scale(${transform.k})`);
     }
@@ -181,9 +244,9 @@ export async function initPaperForce(container) {
     }
 
     function buildVisibleSet() {
-      const activeYear = Number(slider.value);
+      const { start, end } = getActiveYearRange();
       const maxNodes = Number(maxInput.value) || 55;
-      const eligible = nodes.filter((node) => node.year <= activeYear);
+      const eligible = nodes.filter((node) => node.year >= start && node.year <= end);
       const eligibleSet = new Set(eligible.map((node) => node.id));
       const query = selectedAuthorsQuery();
 
@@ -233,7 +296,9 @@ export async function initPaperForce(container) {
     }
 
     function renderGraph() {
-      yearOutput.textContent = slider.value;
+      const range = getActiveYearRange();
+      syncYearRangeInputs(range.start, range.end);
+      const labelModeValue = labelMode.value;
       visibleNodeIds = buildVisibleSet();
       visibleLinks = links.filter((link) => visibleNodeIds.has(link.source) && visibleNodeIds.has(link.target));
 
@@ -262,21 +327,28 @@ export async function initPaperForce(container) {
         title.textContent = `${node.title}\n${node.year} · ${(node.authors || []).join(', ')}`;
         circle.appendChild(title);
 
-        const label = createSvgElement('text', {
-          class: 'force-node-label',
-          x: node.r + 5,
-          y: -2
-        });
-        label.textContent = `${node.year} · ${shorten(node.title, 34)}`;
-
-        const subLabel = createSvgElement('text', {
-          class: 'force-node-sublabel',
-          x: node.r + 5,
-          y: 12
-        });
-        subLabel.textContent = shorten((node.authors || []).slice(0, 2).join(', '), 36);
-
-        group.append(circle, label, subLabel);
+        group.appendChild(circle);
+        const showLabels = labelModeValue !== 'dots';
+        const showSubLabel = labelModeValue === 'full';
+        if (showLabels) {
+          const label = createSvgElement('text', {
+            class: 'force-node-label',
+            x: node.r + 5,
+            y: -2
+          });
+          const labelLimit = labelModeValue === 'brief' ? 22 : 34;
+          label.textContent = `${node.year} · ${shorten(node.title, labelLimit)}`;
+          group.appendChild(label);
+        }
+        if (showSubLabel) {
+          const subLabel = createSvgElement('text', {
+            class: 'force-node-sublabel',
+            x: node.r + 5,
+            y: 12
+          });
+          subLabel.textContent = shorten((node.authors || []).slice(0, 2).join(', '), 36);
+          group.appendChild(subLabel);
+        }
         group.addEventListener('pointerdown', (event) => {
           event.stopPropagation();
           draggingNode = {
@@ -289,15 +361,30 @@ export async function initPaperForce(container) {
           group.setPointerCapture(event.pointerId);
         });
         group.addEventListener('click', () => {
-          setAppState({ selectedPaperId: node.id, year: Math.max(Number(slider.value), node.year) }, 'paper-force');
+          const currentRange = getActiveYearRange();
+          const nextRange = expandRangeForYear(currentRange, node.year);
+          if (nextRange.start !== currentRange.start || nextRange.end !== currentRange.end) {
+            syncYearRangeInputs(nextRange.start, nextRange.end);
+            renderGraph();
+          }
+          setAppState(
+            {
+              selectedPaperId: node.id,
+              year: nextRange.end,
+              yearRangeStart: nextRange.start,
+              yearRangeEnd: nextRange.end
+            },
+            'paper-force'
+          );
         });
         nodeLayer.appendChild(group);
         node.el = group;
       });
 
+      const rangeLabel = range.start === range.end ? String(range.end) : `${range.start}-${range.end}`;
       statEl.textContent = selectedAuthorsQuery()
-        ? `作者中心网络：${visibleNodeIds.size} 篇论文，${visibleLinks.length} 条边`
-        : `高影响论文网络：${visibleNodeIds.size} 篇论文，${visibleLinks.length} 条边`;
+        ? `作者中心网络：${visibleNodeIds.size} 篇论文，${visibleLinks.length} 条边 · 年份 ${rangeLabel}`
+        : `高影响论文网络：${visibleNodeIds.size} 篇论文，${visibleLinks.length} 条边 · 年份 ${rangeLabel}`;
       updateDetail();
     }
 
@@ -431,26 +518,51 @@ export async function initPaperForce(container) {
       panning = null;
     });
 
-    slider.value = String(getAppState().year);
-    slider.addEventListener('input', () => {
-      setAppState({ year: Number(slider.value) }, 'paper-force');
+    const handleRangeInput = () => {
+      publishYearRange();
       renderGraph();
-    });
+    };
+    startSlider.addEventListener('input', handleRangeInput);
+    endSlider.addEventListener('input', handleRangeInput);
     authorInput.addEventListener('input', () => {
       renderGraph();
       const node = nodeById.get(centerId);
       if (selectedAuthorsQuery() && node) {
-        setAppState({ selectedPaperId: node.id, year: Math.max(Number(slider.value), node.year) }, 'paper-force');
+        const currentRange = getActiveYearRange();
+        const nextRange = expandRangeForYear(currentRange, node.year);
+        if (nextRange.start !== currentRange.start || nextRange.end !== currentRange.end) {
+          syncYearRangeInputs(nextRange.start, nextRange.end);
+          renderGraph();
+        }
+        setAppState(
+          {
+            selectedPaperId: node.id,
+            year: nextRange.end,
+            yearRangeStart: nextRange.start,
+            yearRangeEnd: nextRange.end
+          },
+          'paper-force'
+        );
       }
     });
     maxInput.addEventListener('change', renderGraph);
+    labelMode.addEventListener('change', renderGraph);
     resetButton.addEventListener('click', resetView);
     onAppStateChange(({ state, source }) => {
-      if (source !== 'paper-force' && slider.value !== String(state.year)) {
-        slider.value = String(state.year);
-        renderGraph();
+      if (source === 'paper-force') {
+        updateDetail();
+        return;
       }
-      updateDetail();
+      const nextStart = Number.isFinite(state.yearRangeStart) ? state.yearRangeStart : state.year;
+      const nextEnd = Number.isFinite(state.yearRangeEnd) ? state.yearRangeEnd : state.year;
+      const normalized = normalizeYearRange(nextStart, nextEnd);
+      const needsUpdate = Number(startSlider.value) !== normalized.start || Number(endSlider.value) !== normalized.end;
+      if (needsUpdate) {
+        syncYearRangeInputs(normalized.start, normalized.end);
+        renderGraph();
+      } else {
+        updateDetail();
+      }
     });
 
     resetView();

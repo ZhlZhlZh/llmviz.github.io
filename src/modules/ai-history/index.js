@@ -193,7 +193,10 @@ export async function initAiHistory(container) {
       title.textContent = `${node.title} (${node.year})`;
       mark.appendChild(title);
       mark.addEventListener('click', () => {
-        setAppState({ selectedPaperId: node.id, year: node.year }, 'ai-history');
+        setAppState(
+          { selectedPaperId: node.id, year: node.year, yearRangeStart: node.year, yearRangeEnd: node.year },
+          'ai-history'
+        );
       });
       root.appendChild(mark);
       marks.set(node.id, mark);
@@ -247,13 +250,19 @@ export async function initAiHistory(container) {
     selectEl.value = getAppState().selectedPaperId;
     selectEl.addEventListener('change', () => {
       const node = nodeById.get(selectEl.value);
-      setAppState(
-        {
-          selectedPaperId: selectEl.value,
-          year: node ? node.year : getAppState().year
-        },
-        'ai-history'
-      );
+      if (node) {
+        setAppState(
+          {
+            selectedPaperId: selectEl.value,
+            year: node.year,
+            yearRangeStart: node.year,
+            yearRangeEnd: node.year
+          },
+          'ai-history'
+        );
+      } else {
+        setAppState({ selectedPaperId: selectEl.value }, 'ai-history');
+      }
     });
     onAppStateChange(({ state }) => render(state.selectedPaperId));
     render(getAppState().selectedPaperId);

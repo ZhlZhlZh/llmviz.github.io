@@ -96,9 +96,14 @@ export async function initButterflyPath(container) {
       <p class="module-subtitle">既可不选中心、按年份浏览全局论文空间，也可选择中心和目标论文来高亮最短影响路径；画布支持缩放、平移和节点拖动。</p>
       <div class="chart-toolbar chart-toolbar-wrap">
         <label class="chart-control">
-          年份
-          <input class="chart-range butterfly-year-range" type="range" min="2013" max="2026" step="1" value="2026" />
-          <output class="year-badge butterfly-year-output">2026</output>
+          起始年份
+          <input class="chart-range butterfly-year-start" type="range" min="2013" max="2026" step="1" value="2013" />
+          <output class="year-badge butterfly-year-start-output">2013</output>
+        </label>
+        <label class="chart-control">
+          结束年份
+          <input class="chart-range butterfly-year-end" type="range" min="2013" max="2026" step="1" value="2026" />
+          <output class="year-badge butterfly-year-end-output">2026</output>
         </label>
         <label class="chart-control">
           中心论文
@@ -121,6 +126,7 @@ export async function initButterflyPath(container) {
           <input class="chart-number butterfly-max-input" type="number" min="25" max="140" step="5" value="70" />
         </label>
         <button class="chart-button butterfly-clear-button" type="button">清除选择</button>
+        <button class="chart-button butterfly-reset-button" type="button">重置视图</button>
         <datalist id="butterfly-paper-list"></datalist>
         <div class="chart-stat" aria-live="polite">加载中...</div>
       </div>
@@ -136,8 +142,10 @@ export async function initButterflyPath(container) {
     </div>
   `;
 
-  const yearRange = container.querySelector('.butterfly-year-range');
-  const yearOutput = container.querySelector('.butterfly-year-output');
+  const startSlider = container.querySelector('.butterfly-year-start');
+  const endSlider = container.querySelector('.butterfly-year-end');
+  const startOutput = container.querySelector('.butterfly-year-start-output');
+  const endOutput = container.querySelector('.butterfly-year-end-output');
   const centerSelect = container.querySelector('.butterfly-center-select');
   const targetSelect = container.querySelector('.butterfly-target-select');
   const centerSearch = container.querySelector('.butterfly-center-search');
@@ -145,11 +153,12 @@ export async function initButterflyPath(container) {
   const paperList = container.querySelector('#butterfly-paper-list');
   const maxInput = container.querySelector('.butterfly-max-input');
   const clearButton = container.querySelector('.butterfly-clear-button');
+  const resetButton = container.querySelector('.butterfly-reset-button');
   const statEl = container.querySelector('.chart-stat');
   const detailEl = container.querySelector('.butterfly-detail');
   const svg = container.querySelector('.butterfly-svg');
 
-  if (!yearRange || !yearOutput || !centerSelect || !targetSelect || !centerSearch || !targetSearch || !paperList || !maxInput || !clearButton || !statEl || !detailEl || !svg) return;
+  if (!startSlider || !endSlider || !startOutput || !endOutput || !centerSelect || !targetSelect || !centerSearch || !targetSearch || !paperList || !maxInput || !clearButton || !resetButton || !statEl || !detailEl || !svg) return;
 
   try {
     const [nodesData, edgesData] = await Promise.all([
@@ -162,6 +171,10 @@ export async function initButterflyPath(container) {
     const margin = { top: 28, right: 30, bottom: 40, left: 42 };
     const minYear = Math.min(...nodesData.map((node) => node.year));
     const maxYear = Math.max(...nodesData.map((node) => node.year));
+    startSlider.min = String(minYear);
+    startSlider.max = String(maxYear);
+    endSlider.min = String(minYear);
+    endSlider.max = String(maxYear);
     const topics = Array.from(new Set(nodesData.map((node) => node.topic || 'other'))).sort();
     const nodeById = new Map(nodesData.map((node) => [node.id, { ...node, x: 0, y: 0, fixed: false }]));
     const nodes = Array.from(nodeById.values());
@@ -178,6 +191,41 @@ export async function initButterflyPath(container) {
     let transform = { x: 0, y: 0, k: 1 };
     let draggingNode = null;
     let panning = null;
+    let pendingCenterId = null;
+    let pendingCenterKeepScale = true;
+
+    function normalizeYearRange(start, end) {
+      const safeStart = Number.isFinite(start) ? start : minYear;
+      const safeEnd = Number.isFinite(end) ? end : maxYear;
+      const clampedStart = Math.min(Math.max(safeStart, minYear), maxYear);
+      const clampedEnd = Math.min(Math.max(safeEnd, minYear), maxYear);
+      return {
+        start: Math.min(clampedStart, clampedEnd),
+        end: Math.max(clampedStart, clampedEnd)
+      };
+    }
+
+    function syncYearRangeInputs(start, end) {
+      startSlider.value = String(start);
+      endSlider.value = String(end);
+      startOutput.textContent = String(start);
+      endOutput.textContent = String(end);
+    }
+
+    function getActiveYearRange() {
+      return normalizeYearRange(Number(startSlider.value), Number(endSlider.value));
+    }
+
+    function expandRangeForYear(range, year) {
+      if (!Number.isFinite(year)) return range;
+      return normalizeYearRange(Math.min(range.start, year), Math.max(range.end, year));
+    }
+
+    const initialRange = normalizeYearRange(
+      Number.isFinite(getAppState().yearRangeStart) ? getAppState().yearRangeStart : minYear,
+      Number.isFinite(getAppState().yearRangeEnd) ? getAppState().yearRangeEnd : getAppState().year
+    );
+    syncYearRangeInputs(initialRange.start, initialRange.end);
 
     const viewport = createSvgElement('g', { class: 'graph-viewport' });
     const edgeLayer = createSvgElement('g');
@@ -187,6 +235,35 @@ export async function initButterflyPath(container) {
 
     function applyTransform() {
       viewport.setAttribute('transform', `translate(${transform.x} ${transform.y}) scale(${transform.k})`);
+    }
+
+    function centerOnNode(node, keepScale = true) {
+      const k = keepScale ? transform.k : 1;
+      transform.k = k;
+      transform.x = width / 2 - node.x * k;
+      transform.y = height / 2 - node.y * k;
+      applyTransform();
+    }
+
+    function scheduleCenter(id, keepScale = true) {
+      pendingCenterId = id;
+      pendingCenterKeepScale = keepScale;
+    }
+
+    function applyPendingCenter() {
+      if (!pendingCenterId) return;
+      const node = nodeById.get(pendingCenterId);
+      if (node) centerOnNode(node, pendingCenterKeepScale);
+      pendingCenterId = null;
+    }
+
+    function resetView() {
+      transform = { x: 0, y: 0, k: 1 };
+      if (centerId && nodeById.has(centerId)) {
+        centerOnNode(nodeById.get(centerId), false);
+      } else {
+        applyTransform();
+      }
     }
 
     function optionText(node) {
@@ -253,9 +330,9 @@ export async function initButterflyPath(container) {
     }
 
     function buildVisibleIds() {
-      const activeYear = Number(yearRange.value);
+      const { start, end } = getActiveYearRange();
       const maxNodes = Number(maxInput.value) || 70;
-      const eligible = nodes.filter((node) => node.year <= activeYear);
+      const eligible = nodes.filter((node) => node.year >= start && node.year <= end);
       const eligibleSet = new Set(eligible.map((node) => node.id));
 
       if (centerId && eligibleSet.has(centerId)) {
@@ -283,7 +360,8 @@ export async function initButterflyPath(container) {
     }
 
     function render() {
-      yearOutput.textContent = yearRange.value;
+      const range = getActiveYearRange();
+      syncYearRangeInputs(range.start, range.end);
       centerSelect.value = centerId;
       targetSelect.value = targetId;
       visibleIds = buildVisibleIds();
@@ -340,7 +418,21 @@ export async function initButterflyPath(container) {
         group.addEventListener('click', () => {
           if (!centerId) {
             centerId = node.id;
-            setAppState({ selectedPaperId: node.id, year: node.year }, 'butterfly-path');
+            const currentRange = getActiveYearRange();
+            const nextRange = expandRangeForYear(currentRange, node.year);
+            if (nextRange.start !== currentRange.start || nextRange.end !== currentRange.end) {
+              syncYearRangeInputs(nextRange.start, nextRange.end);
+            }
+            setAppState(
+              {
+                selectedPaperId: node.id,
+                year: nextRange.end,
+                yearRangeStart: nextRange.start,
+                yearRangeEnd: nextRange.end
+              },
+              'butterfly-path'
+            );
+            scheduleCenter(centerId);
           } else if (node.id !== centerId) {
             targetId = node.id;
           }
@@ -364,8 +456,10 @@ export async function initButterflyPath(container) {
       } else {
         detailEl.textContent = '当前为全局年份网络：横向按年份排列，纵向按主题分布，可拖动画布探索密集区域。';
       }
-      statEl.textContent = `${visibleIds.size} 个节点，${visibleLinks.length} 条边${pathIds.length ? `，路径 ${pathIds.length} 步` : ''}`;
+      const rangeLabel = range.start === range.end ? String(range.end) : `${range.start}-${range.end}`;
+      statEl.textContent = `${visibleIds.size} 个节点，${visibleLinks.length} 条边${pathIds.length ? `，路径 ${pathIds.length} 步` : ''} · 年份 ${rangeLabel}`;
       updatePositions();
+      applyPendingCenter();
     }
 
     function updatePositions() {
@@ -388,22 +482,55 @@ export async function initButterflyPath(container) {
       if (!node) return;
       if (role === 'center') {
         centerId = node.id;
-        setAppState({ selectedPaperId: node.id, year: Math.max(Number(yearRange.value), node.year) }, 'butterfly-path');
+        const currentRange = getActiveYearRange();
+        const nextRange = expandRangeForYear(currentRange, node.year);
+        if (nextRange.start !== currentRange.start || nextRange.end !== currentRange.end) {
+          syncYearRangeInputs(nextRange.start, nextRange.end);
+        }
+        setAppState(
+          {
+            selectedPaperId: node.id,
+            year: nextRange.end,
+            yearRangeStart: nextRange.start,
+            yearRangeEnd: nextRange.end
+          },
+          'butterfly-path'
+        );
+        scheduleCenter(centerId);
       } else {
         targetId = node.id;
       }
       render();
     }
 
-    yearRange.value = String(getAppState().year);
-    yearRange.addEventListener('input', () => {
-      setAppState({ year: Number(yearRange.value) }, 'butterfly-path');
+    const handleRangeInput = () => {
+      const range = getActiveYearRange();
+      syncYearRangeInputs(range.start, range.end);
+      setAppState({ year: range.end, yearRangeStart: range.start, yearRangeEnd: range.end }, 'butterfly-path');
       render();
-    });
+    };
+    startSlider.addEventListener('input', handleRangeInput);
+    endSlider.addEventListener('input', handleRangeInput);
     centerSelect.addEventListener('change', () => {
       centerId = centerSelect.value;
       const node = nodeById.get(centerId);
-      if (node) setAppState({ selectedPaperId: centerId, year: Math.max(Number(yearRange.value), node.year) }, 'butterfly-path');
+      if (node) {
+        const currentRange = getActiveYearRange();
+        const nextRange = expandRangeForYear(currentRange, node.year);
+        if (nextRange.start !== currentRange.start || nextRange.end !== currentRange.end) {
+          syncYearRangeInputs(nextRange.start, nextRange.end);
+        }
+        setAppState(
+          {
+            selectedPaperId: centerId,
+            year: nextRange.end,
+            yearRangeStart: nextRange.start,
+            yearRangeEnd: nextRange.end
+          },
+          'butterfly-path'
+        );
+        scheduleCenter(centerId);
+      }
       render();
     });
     targetSelect.addEventListener('change', () => {
@@ -420,10 +547,19 @@ export async function initButterflyPath(container) {
       targetSearch.value = '';
       render();
     });
+    resetButton.addEventListener('click', resetView);
     onAppStateChange(({ state, source }) => {
       if (source === 'butterfly-path') return;
-      yearRange.value = String(state.year);
-      if (state.selectedPaperId && nodeById.has(state.selectedPaperId)) centerId = state.selectedPaperId;
+      const nextStart = Number.isFinite(state.yearRangeStart) ? state.yearRangeStart : state.year;
+      const nextEnd = Number.isFinite(state.yearRangeEnd) ? state.yearRangeEnd : state.year;
+      const normalized = normalizeYearRange(nextStart, nextEnd);
+      syncYearRangeInputs(normalized.start, normalized.end);
+      if (state.selectedPaperId && nodeById.has(state.selectedPaperId)) {
+        if (centerId !== state.selectedPaperId) {
+          centerId = state.selectedPaperId;
+          scheduleCenter(centerId);
+        }
+      }
       render();
     });
 
