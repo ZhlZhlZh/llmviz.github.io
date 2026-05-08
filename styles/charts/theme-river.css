@@ -13,6 +13,12 @@
   font-size: var(--fs-200);
 }
 
+.chart-axis-title {
+  fill: var(--muted-strong);
+  font-size: var(--fs-100);
+  font-weight: 700;
+}
+
 .chart-focus-line {
   stroke: var(--accent-strong);
   stroke-width: 1.2;
@@ -20,24 +26,40 @@
   pointer-events: none;
 }
 
+.theme-river-canvas {
+  min-height: 390px;
+}
+
+.theme-river-canvas-inner {
+  position: relative;
+}
+
 .theme-river-area {
   cursor: pointer;
-  transition: fill-opacity 180ms ease, filter 180ms ease;
+  transform-origin: center;
+  pointer-events: visiblePainted;
+  transition: fill-opacity 220ms ease, filter 220ms ease, stroke-width 220ms ease;
+  animation: theme-river-flow-in 420ms ease both;
 }
 
 .theme-river-area:hover,
 .theme-river-area.is-focused {
   filter: drop-shadow(0 4px 12px rgba(15, 76, 92, 0.18));
+  stroke-width: 1.4;
 }
 
 .theme-river-label {
-  fill: var(--muted-strong);
-  font-size: var(--fs-300);
+  fill: #1f2937;
+  font-size: var(--fs-400);
   font-weight: var(--font-weight-semibold);
   paint-order: stroke;
   pointer-events: none;
   stroke: rgba(255, 255, 255, 0.9);
-  stroke-width: 1.5px;
+  stroke-width: 2px;
+}
+
+.theme-river-label-focus {
+  letter-spacing: 0;
 }
 
 .legend-chip-active {
@@ -46,6 +68,47 @@
 
 .chart-legend .legend-chip {
   cursor: pointer;
+}
+
+.theme-river-tooltip {
+  position: absolute;
+  z-index: 3;
+  min-width: 180px;
+  max-width: 260px;
+  border: var(--border-width) solid var(--line-strong);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 28px rgba(29, 41, 57, 0.14);
+  color: var(--muted-strong);
+  font-size: var(--fs-100);
+  padding: var(--space-3) var(--space-4);
+  pointer-events: none;
+}
+
+.theme-river-tooltip strong,
+.theme-river-tooltip span {
+  display: block;
+}
+
+.theme-river-tooltip strong {
+  color: var(--text);
+  font-size: var(--fs-200);
+}
+
+.theme-river-chip {
+  gap: 6px;
+}
+
+@keyframes theme-river-flow-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .chart-color-0 {

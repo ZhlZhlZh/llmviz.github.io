@@ -1,255 +1,216 @@
+.paper-obsidian-shell {
+  --graph-bg: #fcfbf9;
+  --graph-bg-soft: #f8f8f6;
+  --graph-grid: rgba(23, 107, 135, 0.055);
+  --graph-line: rgba(85, 85, 85, 0.18);
+  --graph-text: #2c2c2c;
+  --graph-muted: #8b928f;
+  --graph-blue: #176b87;
+  --graph-cyan: #0f766e;
+  --graph-amber: #c98f42;
+  --graph-hot: #a63a2e;
+}
+
+.obsidian-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.obsidian-search {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--muted);
+  font-size: var(--fs-300);
+}
+
+.obsidian-search .chart-input {
+  min-width: 300px;
+}
+
+.force-canvas {
+  margin-top: var(--space-4);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--graph-bg);
+  box-shadow: var(--shadow);
+  cursor: grab;
+}
+
+.force-canvas:active {
+  cursor: grabbing;
+}
+
+.force-svg {
+  min-height: 560px;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(23, 107, 135, 0.09), transparent 46%),
+    var(--graph-bg);
+  background-size: auto, auto;
+}
+
 .force-link {
-  stroke: var(--line-strong);
-  stroke-opacity: 0.45;
-  stroke-width: 1;
+  stroke: var(--graph-line);
+  stroke-linecap: round;
+  stroke-width: 0.85;
+  transition: opacity 160ms ease, stroke 160ms ease, stroke-width 160ms ease;
+}
+
+.force-link.is-active {
+  stroke: rgba(23, 107, 135, 0.72);
+  stroke-width: 1.45;
+}
+
+.force-link.is-dimmed {
+  opacity: 0.11;
+}
+
+.force-link.is-hidden,
+.force-node-group.is-hidden {
+  display: none;
+}
+
+.paper-obsidian-shell.is-edge-explore .force-link {
+  stroke: rgba(23, 107, 135, 0.38);
+  stroke-width: 1.05;
+  opacity: 1;
+}
+
+.paper-obsidian-shell.is-edge-explore .force-link.is-active {
+  stroke: rgba(15, 76, 92, 0.88);
+  stroke-width: 1.7;
+}
+
+.paper-obsidian-shell.is-edge-explore .force-node-group.is-dimmed {
+  opacity: 0.48;
 }
 
 .force-node-group {
   cursor: grab;
+  outline: none;
 }
 
 .force-node-group:active {
   cursor: grabbing;
 }
 
-.force-node-group.is-center .force-node {
-  stroke: var(--accent-strong);
-  stroke-width: 3;
-}
-
 .force-node {
-  stroke: #ffffff;
-  stroke-width: 1.2;
   cursor: pointer;
-  transition: stroke-width 160ms ease, opacity 160ms ease;
+  stroke: rgba(255, 255, 255, 0.92);
+  stroke-width: 1.1;
+  transition: fill 160ms ease, opacity 160ms ease, stroke 160ms ease, stroke-width 160ms ease;
 }
 
 .force-node.phase-foundation {
-  fill: var(--muted);
+  fill: var(--graph-muted);
 }
 
 .force-node.phase-boom {
-  fill: var(--warm);
+  fill: var(--graph-amber);
 }
 
 .force-node.phase-agentic {
-  fill: var(--accent);
+  fill: var(--graph-blue);
 }
 
-.force-node:hover,
+.force-node-halo {
+  fill: transparent;
+  opacity: 0;
+  pointer-events: none;
+  stroke: var(--graph-cyan);
+  stroke-width: 5;
+  transition: opacity 160ms ease, stroke 160ms ease;
+}
+
+.force-node-group:hover .force-node,
+.force-node-group:focus-visible .force-node {
+  stroke: var(--accent-strong);
+  stroke-width: 2.2;
+}
+
 .force-node-group.is-selected .force-node {
+  fill: var(--accent-strong);
   stroke: var(--warm);
-  stroke-width: 3;
+  stroke-width: 2.6;
 }
 
-.force-node-label {
-  fill: var(--muted-strong);
-  font-size: var(--fs-300);
-  font-weight: var(--font-weight-semibold);
-  paint-order: stroke;
-  pointer-events: none;
-  stroke: rgba(255, 255, 255, 0.92);
-  stroke-width: 1.5px;
+.force-node-group.is-selected .force-node-halo {
+  opacity: 0.42;
+  stroke: var(--graph-hot);
 }
 
-.force-node-sublabel {
-  fill: var(--muted);
-  font-size: var(--fs-200);
-  paint-order: stroke;
-  pointer-events: none;
-  stroke: rgba(255, 255, 255, 0.9);
-  stroke-width: 1.2px;
-}
-
-.force-canvas,
-.butterfly-canvas {
-  cursor: move;
-}
-
-.knowledge-lab {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
-  gap: var(--space-4);
-}
-
-.knowledge-box,
-.knowledge-recommend-panel {
-  border: var(--border-width) solid var(--line);
-  border-radius: 8px;
-  background: var(--surface);
-  padding: var(--space-5);
-}
-
-.knowledge-box {
-  min-height: 410px;
-}
-
-.knowledge-box-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-4);
-}
-
-.knowledge-box h4,
-.knowledge-recommend-panel h4 {
-  margin: 0;
-  color: var(--text);
-  font-size: var(--fs-300);
-}
-
-.knowledge-box p,
-.knowledge-recommend-panel p {
-  margin: var(--space-1) 0 0;
-  color: var(--muted);
-  font-size: var(--fs-100);
-}
-
-.knowledge-search-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: var(--space-3);
-  margin-top: var(--space-4);
-}
-
-.knowledge-svg {
-  display: block;
-  width: 100%;
-  min-height: 300px;
-  margin-top: var(--space-4);
-  border: 1px dashed var(--line-strong);
-  border-radius: 8px;
-  background:
-    linear-gradient(90deg, rgba(23, 107, 135, 0.04) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(23, 107, 135, 0.04) 1px, transparent 1px),
-    #fbfcfd;
-  background-size: 24px 24px;
-}
-
-.knowledge-link {
-  stroke: #64748b;
-  stroke-opacity: 0.48;
-  stroke-width: 1.4;
-}
-
-.knowledge-link.is-recommended {
-  stroke: #d97706;
-  stroke-dasharray: 5 5;
-  stroke-opacity: 0.48;
-  stroke-width: 1.2;
-}
-
-.knowledge-node {
-  stroke: #ffffff;
-  stroke-width: 1.4;
-}
-
-.knowledge-node.phase-foundation {
-  fill: #64748b;
-}
-
-.knowledge-node.phase-boom {
-  fill: #ea580c;
-}
-
-.knowledge-node.phase-agentic {
-  fill: #2563eb;
-}
-
-.knowledge-node-group {
-  cursor: pointer;
-}
-
-.knowledge-recommend-node {
-  fill: rgba(255, 244, 220, 0.8);
-  stroke: #d97706;
-  stroke-dasharray: 4 3;
+.force-node-group.is-neighbor .force-node {
+  stroke: var(--graph-cyan);
   stroke-width: 2;
 }
 
-.knowledge-node-label {
-  fill: #172033;
+.force-node-group.is-neighbor .force-node-halo {
+  opacity: 0.18;
+}
+
+.force-node-group.is-dimmed {
+  opacity: 0.2;
+}
+
+.force-node-label {
+  fill: var(--graph-text);
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 650;
   paint-order: stroke;
   pointer-events: none;
-  stroke: rgba(255, 255, 255, 0.92);
-  stroke-width: 3px;
+  stroke: rgba(252, 251, 249, 0.92);
+  stroke-width: 4px;
 }
 
-.knowledge-node-year {
-  fill: #5d6678;
-  font-size: 9px;
-  paint-order: stroke;
-  pointer-events: none;
-  stroke: rgba(255, 255, 255, 0.9);
-  stroke-width: 3px;
-}
-
-.knowledge-empty {
-  fill: #5d6678;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.knowledge-recommend-list {
-  display: grid;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
-}
-
-.knowledge-recommend-row {
-  display: grid;
-  grid-template-columns: 24px minmax(0, 1fr);
-  gap: var(--space-2);
-  width: 100%;
-  border: var(--border-width) dashed #d97706;
-  border-radius: 6px;
-  background: var(--warm-soft);
-  color: var(--muted-strong);
-  cursor: pointer;
-  padding: var(--space-2);
-  text-align: left;
-}
-
-.knowledge-recommend-row:hover,
-.knowledge-recommend-row:focus-visible {
-  border-style: solid;
-  outline: none;
-}
-
-.knowledge-recommend-row span {
-  color: var(--warm);
-  font-size: var(--fs-100);
-  font-weight: 800;
-}
-
-.knowledge-recommend-row strong,
-.knowledge-recommend-row em {
-  display: block;
-  grid-column: 2;
-}
-
-.knowledge-recommend-row strong {
-  overflow: hidden;
-  color: var(--text);
-  font-size: var(--fs-100);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.knowledge-recommend-row em {
-  color: var(--muted);
-  font-size: var(--fs-100);
-  font-style: normal;
-}
-
-.is-hidden {
+.force-node-label.is-hidden {
   display: none;
 }
 
+.force-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-4);
+  align-items: stretch;
+  margin-top: var(--space-4);
+}
+
+.force-hint {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: var(--space-2);
+  min-width: 300px;
+}
+
+.force-hint span {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-soft);
+  color: var(--muted-strong);
+  font-size: var(--fs-100);
+  font-weight: 700;
+  padding: 8px 10px;
+}
+
 @media (max-width: 900px) {
-  .knowledge-lab {
+  .obsidian-search,
+  .obsidian-search .chart-input,
+  .obsidian-toolbar .chart-control,
+  .obsidian-toolbar .chart-select,
+  .obsidian-toolbar .chart-button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .force-detail-grid {
     grid-template-columns: 1fr;
+  }
+
+  .force-hint {
+    min-width: 0;
   }
 }

@@ -6,5 +6,17 @@
   { "canonical": "Stanford University", "aliases": ["Stanford"] },
   { "canonical": "Mila", "aliases": ["Mila, University of Montreal", "Mila, University of Montréal"] },
   { "canonical": "Microsoft", "aliases": ["Microsoft Research"] },
-  { "canonical": "New York University", "aliases": ["NYU"] }
+  { "canonical": "New York University", "aliases": ["NYU"] },
+  { "canonical": "Tsinghua University", "aliases": ["THU", "Tsinghua"] },
+  { "canonical": "Peking University", "aliases": ["PKU", "Beijing University"] },
+  { "canonical": "Chinese Academy of Sciences", "aliases": ["CAS", "Institute of Automation, Chinese Academy of Sciences"] },
+  { "canonical": "National University of Singapore", "aliases": ["NUS"] },
+  { "canonical": "Nanyang Technological University", "aliases": ["NTU Singapore"] },
+  { "canonical": "University of Tokyo", "aliases": ["The University of Tokyo", "UTokyo"] },
+  { "canonical": "KAIST", "aliases": ["Korea Advanced Institute of Science and Technology"] },
+  { "canonical": "ETH Zurich", "aliases": ["ETH Zürich", "Swiss Federal Institute of Technology Zurich"] },
+  { "canonical": "EPFL", "aliases": ["École Polytechnique Fédérale de Lausanne"] },
+  { "canonical": "University of Oxford", "aliases": ["Oxford University"] },
+  { "canonical": "Inria", "aliases": ["INRIA"] },
+  { "canonical": "Max Planck Institute for Informatics", "aliases": ["MPI Informatics", "Max Planck Institute"] }
 ]

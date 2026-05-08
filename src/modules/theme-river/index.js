@@ -3,19 +3,13 @@ import { getAppState, onAppStateChange, phaseLabelByYear, setAppState } from '..
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const STREAM_COLORS = [
-  '#176b87',
-  '#d97706',
-  '#7c3aed',
-  '#16a34a',
-  '#dc2626',
-  '#2563eb',
-  '#0891b2',
-  '#be123c',
-  '#4f46e5',
-  '#0f766e',
-  '#b45309',
-  '#475569'
+  '#2563eb', '#dc2626', '#d97706', '#16a34a', '#7c3aed', '#0891b2',
+  '#be123c', '#4f46e5', '#0f766e', '#b45309', '#475569', '#9333ea',
+  '#15803d', '#c2410c', '#0ea5e9', '#f97316', '#84cc16', '#e11d48',
+  '#14b8a6', '#8b5cf6', '#64748b', '#ca8a04', '#0284c7', '#db2777',
+  '#22c55e', '#a855f7', '#f59e0b', '#06b6d4', '#ef4444', '#10b981'
 ];
+const TOPIC_SELECTION_TEXT = '主题选取：上层分类参考 LLM Survey、Stanford Foundation Models 报告、HELM 与 NIST GenAI Profile 中反复出现的 pre-training、adaptation、utilization、evaluation、systems、data、risk 轴；条带再细分为同级 LLM 研究主题簇，并用 OpenAlex works 按年度分组统计。纵轴使用 OpenAlex group_by 返回的原始 count。';
 
 function createSvgElement(tag, attrs = {}) {
   const el = document.createElementNS(SVG_NS, tag);
@@ -29,14 +23,75 @@ function mapRange(value, domainMin, domainMax, rangeMin, rangeMax) {
   return rangeMin + t * (rangeMax - rangeMin);
 }
 
+function formatTick(value) {
+  return new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(Math.round(value));
+}
+
+function formatZoom(value) {
+  return `${Number(value).toFixed(2).replace(/\.00$/, '').replace(/0$/, '')}x`;
+}
+
+function estimateTextWidth(text) {
+  return text.length * 7.2 + 18;
+}
+
+function labelPositionForRiver(topPoints, bottomPoints, label) {
+  const minThickness = 22;
+  const labelWidth = estimateTextWidth(label);
+  const middleX = topPoints[Math.floor(topPoints.length / 2)]?.x ?? 0;
+  const runs = [];
+  let run = [];
+
+  topPoints.forEach((point, index) => {
+    const bottom = bottomPoints[index];
+    const thickness = bottom.y - point.y;
+    if (thickness >= minThickness) {
+      run.push({ index, x: point.x, y: (point.y + bottom.y) / 2, thickness });
+    } else if (run.length) {
+      runs.push(run);
+      run = [];
+    }
+  });
+  if (run.length) runs.push(run);
+
+  const candidates = runs.map((items) => {
+    const first = items[0];
+    const last = items[items.length - 1];
+    const width = Math.max(last.x - first.x, 72);
+    const center = items[Math.floor(items.length / 2)];
+    const weightedY = items.reduce((sum, item) => sum + item.y * item.thickness, 0) /
+      items.reduce((sum, item) => sum + item.thickness, 0);
+    return {
+      x: (first.x + last.x) / 2,
+      y: weightedY || center.y,
+      width,
+      textLength: Math.min(labelWidth, Math.max(72, width - 18)),
+      score: width + center.thickness * 6 - Math.abs(((first.x + last.x) / 2) - middleX) * 0.2
+    };
+  }).sort((a, b) => b.score - a.score);
+
+  return candidates[0] || null;
+}
+
+function smoothLinePath(points) {
+  if (!points.length) return '';
+  if (points.length === 1) return `M ${points[0].x} ${points[0].y}`;
+  const commands = [`M ${points[0].x} ${points[0].y}`];
+  for (let i = 0; i < points.length - 1; i += 1) {
+    const current = points[i];
+    const next = points[i + 1];
+    commands.push(`Q ${current.x} ${current.y} ${(current.x + next.x) / 2} ${(current.y + next.y) / 2}`);
+  }
+  const last = points[points.length - 1];
+  commands.push(`T ${last.x} ${last.y}`);
+  return commands.join(' ');
+}
+
 function buildAreaPath(topPoints, bottomPoints) {
   if (!topPoints.length) return '';
-  const topPath = topPoints.map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x} ${point.y}`).join(' ');
-  const bottomPath = bottomPoints
-    .slice()
-    .reverse()
-    .map((point) => `L ${point.x} ${point.y}`)
-    .join(' ');
+  const topPath = smoothLinePath(topPoints);
+  const reversedBottom = bottomPoints.slice().reverse();
+  const bottomPath = smoothLinePath(reversedBottom).replace(/^M\s[-.\d]+\s[-.\d]+/, `L ${reversedBottom[0].x} ${reversedBottom[0].y}`);
   return `${topPath} ${bottomPath} Z`;
 }
 
@@ -53,18 +108,22 @@ function toKeywordSeries(records) {
     .map(([keyword, byYear]) => ({
       keyword,
       total: years.reduce((sum, year) => sum + (byYear.get(year) || 0), 0),
-      values: years.map((year) => byYear.get(year) || 0)
+      values: years.map((year) => byYear.get(year) || 0),
+      years
     }))
-    .sort((a, b) => b.total - a.total)
-    .slice(0, 12)
-    .map((item) => ({ ...item, years }));
+    .filter((item) => item.total > 0)
+    .sort((a, b) => b.total - a.total);
+}
+
+function yearRanking(series, yearIndex) {
+  return series
+    .map((item) => ({ keyword: item.keyword, count: item.values[yearIndex] || 0 }))
+    .sort((a, b) => b.count - a.count)
+    .map((item, index) => ({ ...item, rank: index + 1 }));
 }
 
 function topKeywordsForYear(series, yearIndex) {
-  return series
-    .map((item) => ({ keyword: item.keyword, count: item.values[yearIndex] }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 4);
+  return yearRanking(series, yearIndex).slice(0, 5);
 }
 
 export async function initThemeRiver(container) {
@@ -73,44 +132,68 @@ export async function initThemeRiver(container) {
   container.innerHTML = `
     <div class="module-shell">
       <p class="module-tag">Module 01</p>
-      <h3 class="module-title">主题河流图</h3>
-      <p class="module-subtitle">拖动年份查看年度热点；点击某条河流可像 NameVoyager 一样单独聚焦该主题，再次点击或清除恢复总览。</p>
+      <h3 class="module-title">LLM 主题河流图</h3>
+      <p class="module-subtitle">参考 NameVoyager 的连续河流样式，展示 OpenAlex 中 LLM 研究主题年度作品数的迁移。</p>
       <div class="chart-toolbar chart-toolbar-wrap">
         <label class="chart-control river-year-control">
           年份
           <input class="chart-range river-year-range" type="range" min="0" max="0" step="1" value="0" />
-          <output class="year-badge river-year-output">2026</output>
+          <output class="year-badge river-year-output">2025</output>
         </label>
-        <button class="chart-button river-clear-button" type="button">显示全部主题</button>
+        <label class="chart-control river-filter-control">
+          筛选
+          <select class="chart-select river-filter-select">
+            <option value="0">显示全部主题</option>
+            <option value="3">隐藏最大 3 条</option>
+            <option value="5">隐藏最大 5 条</option>
+            <option value="10">隐藏最大 10 条</option>
+            <option value="custom">自定义</option>
+          </select>
+          <input class="chart-number river-filter-number" type="number" min="0" max="46" step="1" value="0" aria-label="自定义隐藏最大主题数量" />
+        </label>
+        <label class="chart-control river-zoom-control">
+          缩放
+          <input class="chart-range river-zoom-range" type="range" min="1" max="5" step="0.25" value="1" />
+          <output class="year-badge river-zoom-output">1x</output>
+        </label>
+        <button class="chart-button river-clear-button" type="button">重置视图</button>
         <div class="chart-stat" aria-live="polite">加载中...</div>
       </div>
-      <div class="module-canvas chart-canvas">
-        <svg class="chart-svg" viewBox="0 0 900 340" role="img" aria-label="Theme river chart"></svg>
+      <div class="module-canvas chart-canvas theme-river-canvas">
+        <div class="theme-river-canvas-inner">
+          <svg class="chart-svg" viewBox="0 0 900 390" role="img" aria-label="LLM theme river chart"></svg>
+          <div class="theme-river-tooltip" hidden></div>
+        </div>
       </div>
       <div class="chart-detail theme-river-detail"></div>
-      <div class="legend-row chart-legend"></div>
     </div>
   `;
 
   const slider = container.querySelector('.river-year-range');
   const yearOutput = container.querySelector('.river-year-output');
+  const filterSelect = container.querySelector('.river-filter-select');
+  const filterNumber = container.querySelector('.river-filter-number');
+  const zoomSlider = container.querySelector('.river-zoom-range');
+  const zoomOutput = container.querySelector('.river-zoom-output');
   const clearButton = container.querySelector('.river-clear-button');
   const statEl = container.querySelector('.chart-stat');
   const svg = container.querySelector('.chart-svg');
-  const legendEl = container.querySelector('.chart-legend');
+  const tooltip = container.querySelector('.theme-river-tooltip');
   const detailEl = container.querySelector('.theme-river-detail');
 
-  if (!slider || !yearOutput || !clearButton || !statEl || !svg || !legendEl || !detailEl) return;
+  if (!slider || !yearOutput || !filterSelect || !filterNumber || !zoomSlider || !zoomOutput || !clearButton || !statEl || !svg || !tooltip || !detailEl) return;
 
   try {
     const records = await loadJson('./data/processed/keyword_trends.json');
     const allSeries = toKeywordSeries(records);
     const years = allSeries[0]?.years || [];
     let focusedKeyword = null;
+    let hiddenTopCount = 0;
+    let zoomLevel = 1;
 
     const width = 900;
-    const height = 340;
-    const margin = { top: 24, right: 30, bottom: 42, left: 42 };
+    const height = 390;
+    const margin = { top: 24, right: 96, bottom: 44, left: 24 };
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
@@ -119,19 +202,21 @@ export async function initThemeRiver(container) {
     const areaGroup = createSvgElement('g');
     const labelGroup = createSvgElement('g');
     const axisGroup = createSvgElement('g');
-    root.append(gridGroup, areaGroup, labelGroup, axisGroup);
+    const yAxisGroup = createSvgElement('g');
+    root.append(gridGroup, areaGroup, labelGroup, axisGroup, yAxisGroup);
     svg.appendChild(root);
-
-    for (let i = 0; i <= 4; i += 1) {
-      const y = mapRange(i, 0, 4, 0, innerHeight);
-      gridGroup.appendChild(createSvgElement('line', {
-        x1: 0,
-        y1: y,
-        x2: innerWidth,
-        y2: y,
-        class: 'chart-grid-line'
-      }));
-    }
+    const clipId = `theme-river-clip-${Math.random().toString(36).slice(2)}`;
+    const defs = createSvgElement('defs');
+    const clipPath = createSvgElement('clipPath', { id: clipId });
+    clipPath.appendChild(createSvgElement('rect', {
+      x: 0,
+      y: 0,
+      width: innerWidth,
+      height: innerHeight
+    }));
+    defs.appendChild(clipPath);
+    svg.appendChild(defs);
+    areaGroup.setAttribute('clip-path', `url(#${clipId})`);
 
     years.forEach((year, index) => {
       const x = mapRange(year, years[0], years[years.length - 1], 0, innerWidth);
@@ -165,26 +250,74 @@ export async function initThemeRiver(container) {
 
     slider.min = '0';
     slider.max = String(Math.max(years.length - 1, 0));
+    filterNumber.max = String(Math.max(allSeries.length - 1, 0));
     const initialIndex = years.indexOf(getAppState().year);
     slider.value = String(initialIndex >= 0 ? initialIndex : years.length - 1);
 
+    function setHiddenTopCount(value) {
+      hiddenTopCount = Math.max(0, Math.min(allSeries.length - 1, Number(value) || 0));
+      filterNumber.value = String(hiddenTopCount);
+      filterSelect.value = ['0', '3', '5', '10'].includes(String(hiddenTopCount)) ? String(hiddenTopCount) : 'custom';
+    }
+
     function activeSeries() {
-      return focusedKeyword
-        ? allSeries.filter((item) => item.keyword === focusedKeyword)
-        : allSeries;
+      if (focusedKeyword) return allSeries.filter((item) => item.keyword === focusedKeyword);
+      const hidden = new Set(allSeries.slice(0, hiddenTopCount).map((item) => item.keyword));
+      return allSeries.filter((item) => !hidden.has(item.keyword));
+    }
+
+    function drawYAxis(yDomainMax) {
+      gridGroup.innerHTML = '';
+      yAxisGroup.innerHTML = '';
+      for (let i = 0; i <= 5; i += 1) {
+        const value = (yDomainMax * i) / 5;
+        const y = mapRange(value, 0, yDomainMax, innerHeight, 0);
+        gridGroup.appendChild(createSvgElement('line', {
+          x1: 0,
+          y1: y,
+          x2: innerWidth,
+          y2: y,
+          class: 'chart-grid-line'
+        }));
+        const tick = createSvgElement('text', {
+          x: innerWidth + 10,
+          y: y + 4,
+          'text-anchor': 'start',
+          class: 'chart-axis-label'
+        });
+        tick.textContent = formatTick(value);
+        yAxisGroup.appendChild(tick);
+      }
+      yAxisGroup.appendChild(createSvgElement('line', {
+        x1: innerWidth,
+        y1: 0,
+        x2: innerWidth,
+        y2: innerHeight,
+        class: 'chart-axis-line'
+      }));
+      const title = createSvgElement('text', {
+        x: innerWidth + 72,
+        y: innerHeight / 2,
+        transform: `rotate(-90 ${innerWidth + 72} ${innerHeight / 2})`,
+        'text-anchor': 'middle',
+        class: 'chart-axis-title'
+      });
+      title.textContent = 'papers count';
+      yAxisGroup.appendChild(title);
     }
 
     function renderRiver() {
       areaGroup.innerHTML = '';
       labelGroup.innerHTML = '';
-      legendEl.innerHTML = '';
 
       const series = activeSeries();
       const totalsByYear = years.map((_, yearIndex) =>
         series.reduce((sum, item) => sum + item.values[yearIndex], 0)
       );
       const maxTotal = Math.max(...totalsByYear, 1);
+      const yDomainMax = Math.max(maxTotal / zoomLevel, 1);
       const cumulativeByYear = new Array(years.length).fill(0);
+      drawYAxis(yDomainMax);
 
       series.forEach((item) => {
         const sourceIndex = allSeries.findIndex((seriesItem) => seriesItem.keyword === item.keyword);
@@ -194,15 +327,13 @@ export async function initThemeRiver(container) {
         let peak = { index: 0, value: -1, y: 0 };
 
         years.forEach((year, yearIndex) => {
-          const total = totalsByYear[yearIndex];
-          const centeredBaseline = focusedKeyword ? 0 : (maxTotal - total) / 2;
-          const y0 = centeredBaseline + cumulativeByYear[yearIndex];
+          const y0 = cumulativeByYear[yearIndex];
           const y1 = y0 + item.values[yearIndex];
           cumulativeByYear[yearIndex] += item.values[yearIndex];
 
           const x = mapRange(year, years[0], years[years.length - 1], 0, innerWidth);
-          const topY = mapRange(y1, 0, maxTotal, innerHeight, 0);
-          const bottomY = mapRange(y0, 0, maxTotal, innerHeight, 0);
+          const topY = mapRange(y1, 0, yDomainMax, innerHeight, 0);
+          const bottomY = mapRange(y0, 0, yDomainMax, innerHeight, 0);
           topPoints.push({ x, y: topY });
           bottomPoints.push({ x, y: bottomY });
 
@@ -214,9 +345,9 @@ export async function initThemeRiver(container) {
         const area = createSvgElement('path', {
           d: buildAreaPath(topPoints, bottomPoints),
           fill: color,
-          'fill-opacity': focusedKeyword && focusedKeyword !== item.keyword ? 0.15 : 0.74,
+          'fill-opacity': focusedKeyword && focusedKeyword !== item.keyword ? 0.12 : 0.7,
           stroke: '#ffffff',
-          'stroke-width': 1,
+          'stroke-width': 0.65,
           class: focusedKeyword === item.keyword ? 'theme-river-area is-focused' : 'theme-river-area',
           'data-keyword': item.keyword
         });
@@ -227,29 +358,40 @@ export async function initThemeRiver(container) {
         });
         area.addEventListener('mouseenter', () => {
           const peakYear = years[peak.index];
-          detailEl.innerHTML = `<strong>${item.keyword}</strong> 的峰值出现在 ${peakYear} 年，热度 ${peak.value}；点击河流可单独查看该主题曲线。`;
+          detailEl.innerHTML = `<strong>${item.keyword}</strong> 的峰值出现在 ${peakYear} 年，OpenAlex count ${formatTick(peak.value)}。点击河流可单独查看该主题。${TOPIC_SELECTION_TEXT}`;
+          tooltip.hidden = false;
+        });
+        area.addEventListener('mousemove', (event) => {
+          const rect = svg.getBoundingClientRect();
+          const px = ((event.clientX - rect.left) / rect.width) * width;
+          const yearIndex = Math.max(0, Math.min(years.length - 1, Math.round(mapRange(px - margin.left, 0, innerWidth, 0, years.length - 1))));
+          const year = years[yearIndex];
+          const heat = item.values[yearIndex] || 0;
+          const rank = yearRanking(allSeries, yearIndex).find((ranked) => ranked.keyword === item.keyword)?.rank || '-';
+          tooltip.innerHTML = `<strong>${item.keyword}</strong><span>${year} 年 · OpenAlex count ${formatTick(heat)}</span><span>当年排名 #${rank}</span>`;
+          tooltip.style.left = `${event.offsetX + 14}px`;
+          tooltip.style.top = `${event.offsetY + 12}px`;
+        });
+        area.addEventListener('mouseleave', () => {
+          tooltip.hidden = true;
         });
         areaGroup.appendChild(area);
 
-        const label = createSvgElement('text', {
-          x: mapRange(years[peak.index], years[0], years[years.length - 1], 0, innerWidth),
-          y: peak.y,
-          'text-anchor': 'middle',
-          class: 'theme-river-label'
-        });
-        label.textContent = item.keyword;
-        labelGroup.appendChild(label);
-
-        const chip = document.createElement('button');
-        chip.type = 'button';
-        chip.className = `legend-chip chart-color-${sourceIndex % STREAM_COLORS.length}`;
-        chip.textContent = item.keyword;
-        chip.addEventListener('click', () => {
-          focusedKeyword = focusedKeyword === item.keyword ? null : item.keyword;
-          renderRiver();
-          updateFocus(false);
-        });
-        legendEl.appendChild(chip);
+        if (focusedKeyword === item.keyword) {
+          const labelPosition = labelPositionForRiver(topPoints, bottomPoints, item.keyword);
+          if (!labelPosition) return;
+          const label = createSvgElement('text', {
+            x: labelPosition.x,
+            y: labelPosition.y,
+            'text-anchor': 'middle',
+            'dominant-baseline': 'middle',
+            textLength: labelPosition.textLength,
+            lengthAdjust: 'spacingAndGlyphs',
+            class: 'theme-river-label theme-river-label-focus'
+          });
+          label.textContent = item.keyword;
+          labelGroup.appendChild(label);
+        }
       });
     }
 
@@ -262,19 +404,45 @@ export async function initThemeRiver(container) {
       yearOutput.textContent = String(year);
 
       const top = topKeywordsForYear(activeSeries(), yearIndex);
+      const filterText = hiddenTopCount > 0 ? ` · 已隐藏最大 ${hiddenTopCount} 条` : '';
+      const zoomText = zoomLevel > 1 ? ` · ${formatZoom(zoomLevel)}` : '';
       statEl.textContent = focusedKeyword
-        ? `${year} 年 · ${focusedKeyword}: ${top[0]?.count ?? 0}`
-        : `${year} 年 Top: ${top.map((item) => `${item.keyword} ${item.count}`).join(' | ')}`;
+        ? `${year} 年 · ${focusedKeyword}: ${formatTick(top[0]?.count ?? 0)}`
+        : `${year} 年 Top: ${top.map((item) => `${item.keyword} ${formatTick(item.count)}`).join(' | ')}${filterText}${zoomText}`;
       detailEl.innerHTML = focusedKeyword
-        ? `<strong>${focusedKeyword}</strong> 单主题模式：拖动年份可查看该主题热度如何上升、回落或保持平台期。`
-        : `<strong>${phaseLabelByYear(year)}</strong>：${year} 年最突出的主题是 ${top.map((item) => item.keyword).join('、')}。`;
+        ? `<strong>${focusedKeyword}</strong> 单主题模式：拖动年份查看该主题的 OpenAlex 年度作品数如何上升、回落或进入平台期。${TOPIC_SELECTION_TEXT}`
+        : `<strong>${phaseLabelByYear(year)}</strong>：${year} 年最突出的主题是 ${top.map((item) => item.keyword).join('、')}。${TOPIC_SELECTION_TEXT}`;
 
       if (shouldPublish) setAppState({ year, yearRangeStart: year, yearRangeEnd: year }, 'theme-river');
     }
 
     slider.addEventListener('input', () => updateFocus(true));
+    filterSelect.addEventListener('change', () => {
+      setHiddenTopCount(filterSelect.value === 'custom' ? filterNumber.value : filterSelect.value);
+      focusedKeyword = null;
+      renderRiver();
+      updateFocus(false);
+    });
+    filterNumber.addEventListener('input', () => {
+      setHiddenTopCount(filterNumber.value);
+      focusedKeyword = null;
+      renderRiver();
+      updateFocus(false);
+    });
+    zoomSlider.addEventListener('input', () => {
+      zoomLevel = Number(zoomSlider.value);
+      zoomOutput.textContent = formatZoom(zoomLevel);
+      renderRiver();
+      updateFocus(false);
+    });
     clearButton.addEventListener('click', () => {
       focusedKeyword = null;
+      hiddenTopCount = 0;
+      zoomLevel = 1;
+      filterSelect.value = '0';
+      filterNumber.value = '0';
+      zoomSlider.value = '1';
+      zoomOutput.textContent = '1x';
       renderRiver();
       updateFocus(false);
     });

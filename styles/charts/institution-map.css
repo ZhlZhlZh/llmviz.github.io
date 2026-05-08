@@ -84,6 +84,13 @@
   font-size: var(--fs-300);
 }
 
+.institution-scenario-evidence {
+  margin: calc(var(--space-4) * -1) 0 var(--space-4);
+  color: var(--text-secondary);
+  font-size: var(--fs-200);
+  line-height: 1.45;
+}
+
 .institution-ranking {
   display: grid;
   gap: var(--space-2);

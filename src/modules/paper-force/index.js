@@ -1,31 +1,17 @@
 import { loadJson } from '../../shared/data-loader.js';
 import { getAppState, onAppStateChange, setAppState } from '../../shared/app-state.js';
-import { applyForceLayout } from '../../shared/force-layout.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
+const WIDTH = 1100;
+const HEIGHT = 680;
+const CENTER = { x: WIDTH / 2, y: HEIGHT / 2 };
 
 function createSvgElement(tag, attrs = {}) {
   const el = document.createElementNS(SVG_NS, tag);
-  Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, String(value)));
+  Object.entries(attrs).forEach(([key, value]) => {
+    if (value !== null && value !== undefined) el.setAttribute(key, String(value));
+  });
   return el;
-}
-
-function phaseClassByYear(year) {
-  if (year <= 2017) return 'phase-foundation';
-  if (year <= 2022) return 'phase-boom';
-  return 'phase-agentic';
-}
-
-function radiusByCitations(citations, minCitations, maxCitations) {
-  const dMin = Math.sqrt(minCitations || 1);
-  const dMax = Math.sqrt(maxCitations || 1);
-  const t = (Math.sqrt(citations || 1) - dMin) / Math.max(dMax - dMin, 1);
-  return 5 + t * 12;
-}
-
-function shorten(text, maxLength) {
-  if (!text || text.length <= maxLength) return text || '';
-  return `${text.slice(0, maxLength - 1)}...`;
 }
 
 function asArray(value) {
@@ -34,143 +20,320 @@ function asArray(value) {
   return [];
 }
 
-function overlapCount(a, b) {
-  const setA = new Set(asArray(a).map((item) => String(item).toLowerCase()));
-  return asArray(b).filter((item) => setA.has(String(item).toLowerCase())).length;
+function shorten(text, maxLength) {
+  if (!text) return '';
+  return text.length > maxLength ? `${text.slice(0, maxLength - 1)}...` : text;
+}
+
+function normalizeText(value) {
+  return String(value || '').trim().toLowerCase();
+}
+
+function paperSearchText(node) {
+  return [
+    node.title,
+    ...(node.authors || []),
+    ...asArray(node.institution),
+    ...asArray(node.topic),
+    ...asArray(node.keywords)
+  ].join(' ').toLowerCase();
+}
+
+function topicSearchText(node) {
+  return [...asArray(node.topic), ...asArray(node.keywords)].join(' ').toLowerCase();
+}
+
+function phaseClassByYear(year) {
+  if (year <= 2017) return 'phase-foundation';
+  if (year <= 2022) return 'phase-boom';
+  return 'phase-agentic';
+}
+
+function radiusByImpact(node, minCitations, maxCitations) {
+  const min = Math.log10((minCitations || 0) + 10);
+  const max = Math.log10((maxCitations || 0) + 10);
+  const value = Math.log10((node.citations_count || 0) + 10);
+  const t = Math.max(0, Math.min(1, (value - min) / Math.max(max - min, 1)));
+  return 3.6 + t * 10.5;
 }
 
 function buildAdjacency(nodes, edges) {
+  const ids = new Set(nodes.map((node) => node.id));
   const adjacency = new Map(nodes.map((node) => [node.id, new Set()]));
   edges.forEach((edge) => {
-    if (!adjacency.has(edge.source) || !adjacency.has(edge.target)) return;
+    if (!ids.has(edge.source) || !ids.has(edge.target)) return;
     adjacency.get(edge.source).add(edge.target);
     adjacency.get(edge.target).add(edge.source);
   });
   return adjacency;
 }
 
-function collectNeighborhood(seedIds, adjacency, maxNodes) {
-  const selected = new Set(seedIds);
-  const queue = seedIds.map((id) => ({ id, depth: 0 }));
-  let cursor = 0;
-
-  while (cursor < queue.length && selected.size < maxNodes) {
-    const { id, depth } = queue[cursor];
-    cursor += 1;
-    if (depth >= 3) continue;
-
-    const neighbors = Array.from(adjacency.get(id) || []);
-    neighbors.forEach((neighbor) => {
-      if (selected.size >= maxNodes) return;
-      if (!selected.has(neighbor)) {
-        selected.add(neighbor);
-        queue.push({ id: neighbor, depth: depth + 1 });
-      }
-    });
-  }
-
-  return selected;
+function makeGraph(nodesData, edgesData) {
+  const minCitations = Math.min(...nodesData.map((node) => node.citations_count || 0));
+  const maxCitations = Math.max(...nodesData.map((node) => node.citations_count || 0));
+  const nodes = nodesData.map((item, index) => {
+    const angle = index * 2.399963 + (item.year || 0) * 0.031;
+    const radius = 38 + Math.sqrt(index + 1) * 24;
+    return {
+      ...item,
+      r: radiusByImpact(item, minCitations, maxCitations),
+      x: CENTER.x + Math.cos(angle) * radius,
+      y: CENTER.y + Math.sin(angle) * radius,
+      vx: 0,
+      vy: 0,
+      pinned: false,
+      search: paperSearchText(item)
+    };
+  });
+  const nodeById = new Map(nodes.map((node) => [node.id, node]));
+  const links = edgesData
+    .map((edge) => ({
+      ...edge,
+      sourceNode: nodeById.get(edge.source),
+      targetNode: nodeById.get(edge.target)
+    }))
+    .filter((edge) => edge.sourceNode && edge.targetNode);
+  const adjacency = buildAdjacency(nodes, links);
+  nodes.forEach((node) => {
+    node.degree = adjacency.get(node.id)?.size || 0;
+  });
+  return { nodes, links, nodeById, adjacency };
 }
 
-function paperSearchText(node) {
-  return `${node.title} ${(node.authors || []).join(' ')} ${asArray(node.topic).join(' ')} ${asArray(node.institution).join(' ')}`.toLowerCase();
+function pickInitialNode(nodes, selectedId, nodeById) {
+  if (selectedId && nodeById.has(selectedId)) return nodeById.get(selectedId);
+  return nodes.find((node) => normalizeText(node.title) === 'attention is all you need') ||
+    nodes.find((node) => normalizeText(node.title).includes('attention is all')) ||
+    nodes.slice().sort((a, b) => (b.citations_count || 0) - (a.citations_count || 0))[0];
+}
+
+function tickObsidianGraph(nodes, links, alpha) {
+  const repel = 1480 * alpha;
+  const collision = 0.34 * alpha;
+  const centerPull = 0.006 * alpha;
+  const maxRepelDistance = 280;
+
+  for (let i = 0; i < nodes.length; i += 1) {
+    const a = nodes[i];
+    for (let j = i + 1; j < nodes.length; j += 1) {
+      const b = nodes[j];
+      let dx = b.x - a.x;
+      let dy = b.y - a.y;
+      let distSq = dx * dx + dy * dy;
+      if (distSq < 0.01) {
+        dx = (Math.random() - 0.5) * 0.4;
+        dy = (Math.random() - 0.5) * 0.4;
+        distSq = dx * dx + dy * dy;
+      }
+      if (distSq > maxRepelDistance * maxRepelDistance) continue;
+      const dist = Math.sqrt(distSq);
+      const minDistance = a.r + b.r + 10;
+      const force = repel / distSq + Math.max(0, minDistance - dist) * collision;
+      const fx = (dx / dist) * force;
+      const fy = (dy / dist) * force;
+      if (!a.pinned) {
+        a.vx -= fx;
+        a.vy -= fy;
+      }
+      if (!b.pinned) {
+        b.vx += fx;
+        b.vy += fy;
+      }
+    }
+  }
+
+  links.forEach((link) => {
+    const source = link.sourceNode;
+    const target = link.targetNode;
+    const dx = target.x - source.x;
+    const dy = target.y - source.y;
+    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+    const ideal = 86 + Math.min(source.r + target.r, 18) * 2.5;
+    const strength = 0.022 * alpha;
+    const force = (dist - ideal) * strength;
+    const fx = (dx / dist) * force;
+    const fy = (dy / dist) * force;
+    if (!source.pinned) {
+      source.vx += fx;
+      source.vy += fy;
+    }
+    if (!target.pinned) {
+      target.vx -= fx;
+      target.vy -= fy;
+    }
+  });
+
+  nodes.forEach((node) => {
+    if (!node.pinned) {
+      node.vx += (CENTER.x - node.x) * centerPull;
+      node.vy += (CENTER.y - node.y) * centerPull;
+      node.vx *= 0.86;
+      node.vy *= 0.86;
+      node.x += node.vx;
+      node.y += node.vy;
+    }
+  });
+}
+
+function screenToGraph(transform, x, y) {
+  return {
+    x: (x - transform.x) / transform.k,
+    y: (y - transform.y) / transform.k
+  };
+}
+
+function zoomAt(transform, point, nextK) {
+  const graphPoint = screenToGraph(transform, point.x, point.y);
+  return {
+    x: point.x - graphPoint.x * nextK,
+    y: point.y - graphPoint.y * nextK,
+    k: nextK
+  };
+}
+
+function contentBounds(nodes, padding = 120) {
+  if (!nodes.length) {
+    return { minX: 0, maxX: WIDTH, minY: 0, maxY: HEIGHT };
+  }
+  const minX = Math.min(...nodes.map((node) => node.x - node.r)) - padding;
+  const maxX = Math.max(...nodes.map((node) => node.x + node.r)) + padding;
+  const minY = Math.min(...nodes.map((node) => node.y - node.r)) - padding;
+  const maxY = Math.max(...nodes.map((node) => node.y + node.r)) + padding;
+  return { minX, maxX, minY, maxY };
+}
+
+function clampTranslate(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function clampTransform(transform, bounds, viewportWidth = WIDTH, viewportHeight = HEIGHT) {
+  const next = { ...transform };
+  const scaledWidth = (bounds.maxX - bounds.minX) * next.k;
+  const scaledHeight = (bounds.maxY - bounds.minY) * next.k;
+
+  if (scaledWidth <= viewportWidth) {
+    next.x = viewportWidth / 2 - ((bounds.minX + bounds.maxX) / 2) * next.k;
+  } else {
+    next.x = clampTranslate(next.x, viewportWidth - bounds.maxX * next.k, -bounds.minX * next.k);
+  }
+
+  if (scaledHeight <= viewportHeight) {
+    next.y = viewportHeight / 2 - ((bounds.minY + bounds.maxY) / 2) * next.k;
+  } else {
+    next.y = clampTranslate(next.y, viewportHeight - bounds.maxY * next.k, -bounds.minY * next.k);
+  }
+
+  return next;
+}
+
+function fitTransform(nodes, padding = 70) {
+  const xs = nodes.map((node) => node.x);
+  const ys = nodes.map((node) => node.y);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+  const graphWidth = Math.max(maxX - minX, 1);
+  const graphHeight = Math.max(maxY - minY, 1);
+  const k = Math.max(0.28, Math.min(1.7, Math.min((WIDTH - padding * 2) / graphWidth, (HEIGHT - padding * 2) / graphHeight)));
+  return {
+    x: WIDTH / 2 - ((minX + maxX) / 2) * k,
+    y: HEIGHT / 2 - ((minY + maxY) / 2) * k,
+    k
+  };
 }
 
 export async function initPaperForce(container) {
   if (!container) return;
 
   container.innerHTML = `
-    <div class="module-shell">
+    <div class="module-shell paper-obsidian-shell">
       <p class="module-tag">Module 02</p>
-      <h3 class="module-title">论文力导向图</h3>
-      <p class="module-subtitle">搜索作者后，以该作者最高引用论文为中心，递归保留最相关的引用和被引用论文；画布支持滚轮缩放、拖拽平移和节点拖动。</p>
-      <div class="chart-toolbar chart-toolbar-wrap">
-        <label class="chart-control">
-          起始年份
-          <input class="chart-range force-year-start" type="range" min="2013" max="2026" step="1" value="2013" />
-          <output class="year-badge force-year-start-output">2013</output>
+      <h3 class="module-title">论文关系图谱</h3>
+      <p class="module-subtitle">全量论文节点在同一张力导向网络中自然聚合，拖拽画布、缩放、搜索或点击节点即可探索引用关系。</p>
+      <div class="obsidian-toolbar">
+        <label class="obsidian-search">
+          <span>论文</span>
+          <input class="chart-input force-search-input" list="force-paper-list" placeholder="标题 / 作者 / 机构 / 关键词" />
+          <datalist id="force-paper-list"></datalist>
         </label>
-        <label class="chart-control">
-          结束年份
-          <input class="chart-range force-year-end" type="range" min="2013" max="2026" step="1" value="2026" />
-          <output class="year-badge force-year-end-output">2026</output>
-        </label>
-        <label class="chart-control">
-          作者搜索
-          <input class="chart-input force-author-input" list="force-author-list" placeholder="例如 Alec Radford" />
+        <label class="obsidian-search">
+          <span>作者</span>
+          <input class="chart-input force-author-input" list="force-author-list" placeholder="例如 Ashish Vaswani" />
           <datalist id="force-author-list"></datalist>
         </label>
-        <label class="chart-control">
-          最大节点
-          <input class="chart-number force-max-input" type="number" min="20" max="120" step="5" value="55" />
+        <label class="obsidian-search">
+          <span>主题</span>
+          <input class="chart-input force-topic-input" list="force-topic-list" placeholder="例如 transformer / reasoning" />
+          <datalist id="force-topic-list"></datalist>
         </label>
         <label class="chart-control">
-          显示信息
-          <select class="chart-select force-label-mode">
-            <option value="full">完整</option>
-            <option value="brief">简略</option>
-            <option value="dots">仅圆点</option>
+          节点
+          <select class="chart-select force-node-limit">
+            <option value="80">80</option>
+            <option value="150">150</option>
+            <option value="260">260</option>
+            <option value="80" selected>80</option>
           </select>
         </label>
+        <label class="chart-control">
+          标签
+          <select class="chart-select force-label-mode">
+            <option value="focus">聚焦显示</option>
+            <option value="important">重要节点</option>
+            <option value="none">隐藏</option>
+          </select>
+        </label>
+        <label class="chart-control">
+          边
+          <select class="chart-select force-edge-mode">
+            <option value="focus">聚焦关系</option>
+            <option value="explore">全边探索</option>
+          </select>
+        </label>
+        <button class="chart-button force-clear-filter-button" type="button">清空筛选</button>
         <button class="chart-button force-reset-button" type="button">重置视图</button>
-        <div class="chart-stat" aria-live="polite">加载中...</div>
+        <button class="chart-button force-reheat-button" type="button">重新布局</button>
+        <div class="chart-stat force-stat" aria-live="polite">加载中...</div>
       </div>
       <div class="module-canvas chart-canvas force-canvas">
-        <svg class="chart-svg force-svg" viewBox="0 0 900 500" role="img" aria-label="Paper force graph"></svg>
+        <svg class="chart-svg force-svg" viewBox="0 0 ${WIDTH} ${HEIGHT}" role="img" aria-label="Paper relation graph"></svg>
       </div>
-      <div class="knowledge-lab">
-        <section class="knowledge-box" aria-label="Personal knowledge base builder">
-          <div class="knowledge-box-head">
-            <div>
-              <h4>我的知识库</h4>
-              <p>把左侧论文拖入空白框，或搜索添加，生成可复用的力导向知识子图。</p>
-            </div>
-            <button class="chart-button knowledge-clear-button" type="button">清空</button>
-          </div>
-          <div class="knowledge-search-row">
-            <input class="chart-input knowledge-search" list="force-paper-list" placeholder="搜索论文标题 / 作者 / 机构" />
-            <button class="chart-button knowledge-add-button" type="button">添加</button>
-            <datalist id="force-paper-list"></datalist>
-          </div>
-          <svg class="knowledge-svg" viewBox="0 0 520 320" role="img" aria-label="Personal paper knowledge base"></svg>
-        </section>
-        <section class="knowledge-recommend-panel">
-          <h4>今日相关 Paper</h4>
-          <p>静态演示：按邻接、主题、作者/机构和引用影响力打分。</p>
-          <div class="knowledge-recommend-list"></div>
-        </section>
+      <div class="force-detail-grid">
+        <div class="chart-detail force-detail"></div>
+        <div class="force-hint">
+          <span>滚轮缩放</span>
+          <span>拖拽平移</span>
+          <span>点击高亮邻居</span>
+          <span>拖拽节点固定局部结构</span>
+        </div>
       </div>
-      <div class="chart-detail force-detail"></div>
       <div class="legend-row">
-        <span class="legend-chip">圆大小 = 引用量</span>
+        <span class="legend-chip">节点大小 = 引用量</span>
+        <span class="legend-chip">连线 = 引用 / 关联关系</span>
         <span class="legend-chip">颜色 = 研究阶段</span>
-        <span class="legend-chip">搜索作者 = 作者中心网络</span>
-        <span class="legend-chip">滚轮/拖拽 = 缩放与平移</span>
+        <span class="legend-chip">光晕 = 当前论文与一阶邻居</span>
       </div>
     </div>
   `;
 
-  const startSlider = container.querySelector('.force-year-start');
-  const endSlider = container.querySelector('.force-year-end');
-  const startOutput = container.querySelector('.force-year-start-output');
-  const endOutput = container.querySelector('.force-year-end-output');
-  const authorInput = container.querySelector('.force-author-input');
-  const authorList = container.querySelector('#force-author-list');
-  const maxInput = container.querySelector('.force-max-input');
-  const labelMode = container.querySelector('.force-label-mode');
-  const resetButton = container.querySelector('.force-reset-button');
-  const statEl = container.querySelector('.chart-stat');
-  const detailEl = container.querySelector('.force-detail');
   const svg = container.querySelector('.force-svg');
-  const knowledgeBox = container.querySelector('.knowledge-box');
-  const knowledgeSvg = container.querySelector('.knowledge-svg');
-  const knowledgeSearch = container.querySelector('.knowledge-search');
-  const knowledgeAddButton = container.querySelector('.knowledge-add-button');
-  const knowledgeClearButton = container.querySelector('.knowledge-clear-button');
+  const shell = container.querySelector('.paper-obsidian-shell');
+  const searchInput = container.querySelector('.force-search-input');
+  const authorInput = container.querySelector('.force-author-input');
+  const topicInput = container.querySelector('.force-topic-input');
   const paperList = container.querySelector('#force-paper-list');
-  const recommendList = container.querySelector('.knowledge-recommend-list');
-
-  if (!startSlider || !endSlider || !startOutput || !endOutput || !authorInput || !authorList || !maxInput || !labelMode || !resetButton || !statEl || !detailEl || !svg || !knowledgeBox || !knowledgeSvg || !knowledgeSearch || !knowledgeAddButton || !knowledgeClearButton || !paperList || !recommendList) return;
+  const authorList = container.querySelector('#force-author-list');
+  const topicList = container.querySelector('#force-topic-list');
+  const nodeLimit = container.querySelector('.force-node-limit');
+  const labelMode = container.querySelector('.force-label-mode');
+  const edgeMode = container.querySelector('.force-edge-mode');
+  const clearFilterButton = container.querySelector('.force-clear-filter-button');
+  const resetButton = container.querySelector('.force-reset-button');
+  const reheatButton = container.querySelector('.force-reheat-button');
+  const statEl = container.querySelector('.force-stat');
+  const detailEl = container.querySelector('.force-detail');
+  if (!svg || !shell || !searchInput || !authorInput || !topicInput || !paperList || !authorList || !topicList || !nodeLimit || !labelMode || !edgeMode || !clearFilterButton || !resetButton || !reheatButton || !statEl || !detailEl) return;
 
   try {
     const [nodesData, edgesData] = await Promise.all([
@@ -178,585 +341,279 @@ export async function initPaperForce(container) {
       loadJson('./data/processed/edges.json')
     ]);
 
-    const width = 900;
-    const height = 500;
-    const centerX = width / 2;
-    const centerY = height / 2;
-    const minCitations = Math.min(...nodesData.map((item) => item.citations_count));
-    const maxCitations = Math.max(...nodesData.map((item) => item.citations_count));
-    const minYear = Math.min(...nodesData.map((item) => item.year));
-    const maxYear = Math.max(...nodesData.map((item) => item.year));
+    const { nodes, links, nodeById, adjacency } = makeGraph(nodesData, edgesData);
+    let selectedNode = pickInitialNode(nodes, getAppState().selectedPaperId, nodeById);
+    let highlightedIds = new Set();
+    let alpha = 1.25;
+    let transform = { x: 0, y: 0, k: 1 };
+    let draggingNode = null;
+    let panning = null;
+    let frame = null;
+    let activeNodeIds = new Set(nodes.map((node) => node.id));
+    let activeNodes = nodes;
+    let activeLinks = links;
 
-    startSlider.min = String(minYear);
-    startSlider.max = String(maxYear);
-    endSlider.min = String(minYear);
-    endSlider.max = String(maxYear);
+    const viewport = createSvgElement('g', { class: 'graph-viewport' });
+    const linkLayer = createSvgElement('g', { class: 'force-edge-layer' });
+    const nodeLayer = createSvgElement('g', { class: 'force-node-layer' });
+    viewport.append(linkLayer, nodeLayer);
+    svg.appendChild(viewport);
 
-    const nodes = nodesData.map((item, index) => {
-      const angle = (Math.PI * 2 * index) / nodesData.length;
-      const ring = 120 + (index % 9) * 20;
-      return {
-        ...item,
-        x: centerX + Math.cos(angle) * ring,
-        y: centerY + Math.sin(angle) * ring,
-        vx: 0,
-        vy: 0,
-        fixed: false,
-        r: radiusByCitations(item.citations_count, minCitations, maxCitations)
-      };
+    const linkEls = links.map((link) => {
+      const line = createSvgElement('line', { class: 'force-link' });
+      linkLayer.appendChild(line);
+      link.el = line;
+      return line;
     });
-    const nodeById = new Map(nodes.map((node) => [node.id, node]));
-    const adjacency = buildAdjacency(nodes, edgesData);
-    const links = edgesData
-      .map((edge) => ({
-        ...edge,
-        sourceNode: nodeById.get(edge.source),
-        targetNode: nodeById.get(edge.target)
-      }))
-      .filter((edge) => edge.sourceNode && edge.targetNode);
 
-    const authors = Array.from(new Set(nodes.flatMap((node) => node.authors || []))).sort();
-    authors.forEach((author) => {
+    nodes.forEach((node) => {
+      const option = document.createElement('option');
+      option.value = `${node.title} | ${(node.authors || []).slice(0, 2).join(', ')} | ${asArray(node.institution).slice(0, 2).join(', ')}`;
+      paperList.appendChild(option);
+
+      const group = createSvgElement('g', {
+        class: 'force-node-group',
+        tabindex: '0',
+        role: 'button',
+        'data-id': node.id
+      });
+      const halo = createSvgElement('circle', { class: 'force-node-halo', r: node.r + 8 });
+      const circle = createSvgElement('circle', { class: `force-node ${phaseClassByYear(node.year)}`, r: node.r });
+      const label = createSvgElement('text', { class: 'force-node-label', x: node.r + 7, y: 4 });
+      label.textContent = shorten(node.title, 38);
+      const title = createSvgElement('title');
+      title.textContent = `${node.title}\n${node.year} · ${(node.authors || []).slice(0, 4).join(', ')}`;
+      circle.appendChild(title);
+      group.append(halo, circle, label);
+      nodeLayer.appendChild(group);
+      node.el = group;
+      node.labelEl = label;
+
+      group.addEventListener('pointerdown', (event) => {
+        event.stopPropagation();
+        const point = screenToGraph(transform, event.offsetX, event.offsetY);
+        draggingNode = {
+          node,
+          pointerId: event.pointerId,
+          offsetX: node.x - point.x,
+          offsetY: node.y - point.y,
+          moved: false,
+          startX: event.clientX,
+          startY: event.clientY
+        };
+        node.pinned = true;
+        group.setPointerCapture(event.pointerId);
+      });
+      group.addEventListener('click', () => {
+        if (node.suppressClick) {
+          node.suppressClick = false;
+          return;
+        }
+        selectNode(node, true);
+      });
+      group.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          selectNode(node, true);
+        }
+      });
+    });
+
+    Array.from(new Set(nodes.flatMap((node) => node.authors || []))).sort().forEach((author) => {
       const option = document.createElement('option');
       option.value = author;
       authorList.appendChild(option);
     });
-    nodes.forEach((node) => {
+    Array.from(new Set(nodes.flatMap((node) => [...asArray(node.topic), ...asArray(node.keywords)]))).sort().forEach((topic) => {
       const option = document.createElement('option');
-      option.value = `${node.title} | ${(node.authors || []).slice(0, 3).join(', ')} | ${asArray(node.institution).join(', ')}`;
-      paperList.appendChild(option);
+      option.value = topic;
+      topicList.appendChild(option);
     });
 
-    const viewport = createSvgElement('g', { class: 'graph-viewport' });
-    const edgeLayer = createSvgElement('g', { class: 'force-edge-layer' });
-    const nodeLayer = createSvgElement('g', { class: 'force-node-layer' });
-    viewport.append(edgeLayer, nodeLayer);
-    svg.appendChild(viewport);
-
-    let transform = { x: 0, y: 0, k: 1 };
-    let visibleNodeIds = new Set();
-    let visibleLinks = [];
-    let centerId = getAppState().selectedPaperId;
-    let draggingNode = null;
-    let panning = null;
-    let knowledgeIds = new Set(nodes.slice().sort((a, b) => b.citations_count - a.citations_count).slice(0, 3).map((node) => node.id));
-    let knowledgeGraphById = new Map();
-    let knowledgeSimNodes = [];
-    let knowledgeSimLinks = [];
-    let knowledgeViewport = null;
-    let knowledgeTransform = { x: 0, y: 0, k: 1 };
-    let draggingKnowledgeNode = null;
-    let panningKnowledge = null;
-
-    function normalizeYearRange(start, end) {
-      const safeStart = Number.isFinite(start) ? start : minYear;
-      const safeEnd = Number.isFinite(end) ? end : maxYear;
-      const clampedStart = Math.min(Math.max(safeStart, minYear), maxYear);
-      const clampedEnd = Math.min(Math.max(safeEnd, minYear), maxYear);
-      return {
-        start: Math.min(clampedStart, clampedEnd),
-        end: Math.max(clampedStart, clampedEnd)
-      };
-    }
-
-    function syncYearRangeInputs(start, end) {
-      startSlider.value = String(start);
-      endSlider.value = String(end);
-      startOutput.textContent = String(start);
-      endOutput.textContent = String(end);
-    }
-
-    function getActiveYearRange() {
-      return normalizeYearRange(Number(startSlider.value), Number(endSlider.value));
-    }
-
-    function expandRangeForYear(range, year) {
-      if (!Number.isFinite(year)) return range;
-      return normalizeYearRange(Math.min(range.start, year), Math.max(range.end, year));
-    }
-
-    function publishYearRange() {
-      const range = getActiveYearRange();
-      syncYearRangeInputs(range.start, range.end);
-      setAppState({ year: range.end, yearRangeStart: range.start, yearRangeEnd: range.end }, 'paper-force');
-      return range;
-    }
-
-    const initialRange = normalizeYearRange(
-      Number.isFinite(getAppState().yearRangeStart) ? getAppState().yearRangeStart : minYear,
-      Number.isFinite(getAppState().yearRangeEnd) ? getAppState().yearRangeEnd : getAppState().year
-    );
-    syncYearRangeInputs(initialRange.start, initialRange.end);
-
     function applyTransform() {
+      transform = clampTransform(transform, contentBounds(activeNodes.length ? activeNodes : nodes));
       viewport.setAttribute('transform', `translate(${transform.x} ${transform.y}) scale(${transform.k})`);
     }
 
-    function resetView() {
-      transform = { x: 0, y: 0, k: 1 };
-      applyTransform();
-    }
-
-    function selectedAuthorsQuery() {
-      return authorInput.value.trim().toLowerCase();
-    }
-
-    function buildVisibleSet() {
-      const { start, end } = getActiveYearRange();
-      const maxNodes = Number(maxInput.value) || 55;
-      const eligible = nodes.filter((node) => node.year >= start && node.year <= end);
-      const eligibleSet = new Set(eligible.map((node) => node.id));
-      const query = selectedAuthorsQuery();
-
-      if (query) {
-        const authorPapers = eligible.filter((node) =>
-          (node.authors || []).some((author) => author.toLowerCase().includes(query))
-        );
-        if (authorPapers.length) {
-          const sortedAuthorPapers = authorPapers.slice().sort((a, b) => b.citations_count - a.citations_count);
-          centerId = sortedAuthorPapers[0].id;
-          const neighborhood = collectNeighborhood(sortedAuthorPapers.map((node) => node.id), adjacency, maxNodes * 2);
-          return new Set(
-            Array.from(neighborhood)
-              .map((id) => nodeById.get(id))
-              .filter((node) => node && eligibleSet.has(node.id))
-              .sort((a, b) => {
-                const aAuthor = sortedAuthorPapers.some((paper) => paper.id === a.id) ? 1 : 0;
-                const bAuthor = sortedAuthorPapers.some((paper) => paper.id === b.id) ? 1 : 0;
-                if (aAuthor !== bAuthor) return bAuthor - aAuthor;
-                return b.citations_count - a.citations_count;
-              })
-              .slice(0, maxNodes)
-              .map((node) => node.id)
-          );
-        }
-      }
-
-      const selectedId = getAppState().selectedPaperId;
-      const top = eligible.slice().sort((a, b) => b.citations_count - a.citations_count).slice(0, maxNodes);
-      const ids = new Set(top.map((node) => node.id));
-      if (eligibleSet.has(selectedId)) ids.add(selectedId);
-      centerId = ids.has(selectedId) ? selectedId : top[0]?.id;
-      return ids;
-    }
-
-    function findPaper(query) {
-      const q = query.trim().toLowerCase();
-      if (!q) return null;
-      return nodes
-        .filter((node) => paperSearchText(node).includes(q))
-        .sort((a, b) => b.citations_count - a.citations_count)[0] || null;
-    }
-
-    function isPointerInsideKnowledgeBox(event) {
-      const rect = knowledgeBox.getBoundingClientRect();
-      return event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
-    }
-
-    function addKnowledgePaper(id) {
-      if (!id || !nodeById.has(id)) return;
-      knowledgeIds.add(id);
-      renderKnowledgeBase();
-    }
-
-    function removeKnowledgePaper(id) {
-      knowledgeIds.delete(id);
-      knowledgeGraphById.delete(id);
-      renderKnowledgeBase();
-    }
-
-    function scoreRecommendation(candidate, knowledgeNodes) {
-      const neighborHits = knowledgeNodes.reduce((sum, paper) => sum + (adjacency.get(candidate.id)?.has(paper.id) ? 1 : 0), 0);
-      const topicHits = knowledgeNodes.reduce((sum, paper) => sum + overlapCount(candidate.topic, paper.topic), 0);
-      const authorHits = knowledgeNodes.reduce((sum, paper) => sum + overlapCount(candidate.authors, paper.authors), 0);
-      const institutionHits = knowledgeNodes.reduce((sum, paper) => sum + overlapCount(candidate.institution, paper.institution), 0);
-      const citationBoost = Math.log10((candidate.citations_count || 1) + 1) / 3;
-      return neighborHits * 8 + topicHits * 2.4 + authorHits * 3 + institutionHits * 2.2 + citationBoost;
-    }
-
-    function relationScore(a, b) {
-      return (adjacency.get(a.id)?.has(b.id) ? 8 : 0)
-        + overlapCount(a.topic, b.topic) * 2.4
-        + overlapCount(a.authors, b.authors) * 3
-        + overlapCount(a.institution, b.institution) * 2.2;
-    }
-
-    function similarityScore(a, b) {
-      return overlapCount(a.topic, b.topic) * 2.4
-        + overlapCount(a.authors, b.authors) * 3
-        + overlapCount(a.institution, b.institution) * 2.2;
-    }
-
-    function buildKnowledgeRelationLinks(knowledgeNodes, graphById) {
-      const realLinks = [];
-      const inferredLinks = [];
-      for (let i = 0; i < knowledgeNodes.length; i += 1) {
-        for (let j = i + 1; j < knowledgeNodes.length; j += 1) {
-          const source = knowledgeNodes[i];
-          const target = knowledgeNodes[j];
-          const sourceNode = graphById.get(source.id);
-          const targetNode = graphById.get(target.id);
-          if (!sourceNode || !targetNode) continue;
-          if (adjacency.get(source.id)?.has(target.id)) {
-            realLinks.push({
-              source,
-              target,
-              score: relationScore(source, target),
-              inferred: false,
-              sourceNode,
-              targetNode
-            });
-            continue;
-          }
-          const score = similarityScore(source, target);
-          if (score <= 0) continue;
-          inferredLinks.push({
-            source,
-            target,
-            score,
-            inferred: true,
-            sourceNode,
-            targetNode
-          });
-        }
-      }
-      const inferredLimit = Math.max(knowledgeNodes.length + 1 - realLinks.length, 0);
-      return [
-        ...realLinks.sort((a, b) => b.score - a.score),
-        ...inferredLinks.sort((a, b) => b.score - a.score).slice(0, inferredLimit)
-      ];
-    }
-
-    function getRecommendations() {
-      const knowledgeNodes = Array.from(knowledgeIds).map((id) => nodeById.get(id)).filter(Boolean);
-      if (!knowledgeNodes.length) {
-        return nodes.slice().sort((a, b) => b.citations_count - a.citations_count).slice(3, 9);
-      }
-      return nodes
-        .filter((node) => !knowledgeIds.has(node.id))
-        .map((node) => ({ node, score: scoreRecommendation(node, knowledgeNodes) }))
-        .sort((a, b) => b.score - a.score || b.node.citations_count - a.node.citations_count)
-        .slice(0, 6)
-        .map((item) => item.node);
-    }
-
-    function createKnowledgeNode(node, index, total, recommended = false) {
-      const existing = knowledgeGraphById.get(node.id);
-      if (existing) {
-        existing.data = node;
-        existing.recommended = recommended;
-        return existing;
-      }
-      const angle = (Math.PI * 2 * index) / Math.max(total, 1) - Math.PI / 2;
-      const radius = recommended ? 128 : 68;
-      const graphNode = {
-        id: node.id,
-        data: node,
-        recommended,
-        x: 260 + Math.cos(angle) * radius,
-        y: 160 + Math.sin(angle) * radius,
-        vx: 0,
-        vy: 0,
-        fixed: false
-      };
-      if (!recommended) knowledgeGraphById.set(node.id, graphNode);
-      return graphNode;
-    }
-
-    function bestRecommendationLink(recommendation, knowledgeNodes) {
-      const candidates = knowledgeNodes
-        .map((paper) => ({
-          paper,
-          score: (adjacency.get(recommendation.id)?.has(paper.id) ? 8 : 0)
-            + overlapCount(recommendation.topic, paper.topic) * 2.4
-            + overlapCount(recommendation.authors, paper.authors) * 3
-            + overlapCount(recommendation.institution, paper.institution) * 2.2
-        }))
-        .sort((a, b) => b.score - a.score);
-      return candidates[0]?.paper || knowledgeNodes[0];
-    }
-
-    function renderKnowledgeBase() {
-      const knowledgeNodes = Array.from(knowledgeIds).map((id) => nodeById.get(id)).filter(Boolean);
-      const recommendations = getRecommendations();
-      knowledgeGraphById.forEach((_, id) => {
-        if (!knowledgeIds.has(id)) knowledgeGraphById.delete(id);
-      });
-      const knowledgeGraphNodes = knowledgeNodes.map((node, index) => createKnowledgeNode(node, index, knowledgeNodes.length));
-      const recommendationGraphNodes = recommendations.map((node, index) => createKnowledgeNode(node, index, recommendations.length, true));
-      const graphById = new Map([...knowledgeGraphNodes, ...recommendationGraphNodes].map((node) => [node.id, node]));
-      knowledgeSimNodes = [...knowledgeGraphNodes, ...recommendationGraphNodes];
-      knowledgeSimLinks = [];
-      knowledgeSvg.innerHTML = '';
-
-      if (!knowledgeNodes.length) {
-        const empty = createSvgElement('text', { x: 260, y: 158, class: 'knowledge-empty', 'text-anchor': 'middle' });
-        empty.textContent = '拖入论文或搜索添加，开始搭建你的知识库。';
-        knowledgeSvg.appendChild(empty);
-      }
-
-      buildKnowledgeRelationLinks(knowledgeNodes, graphById)
-        .forEach((link) => {
-          const line = createSvgElement('line', { class: link.inferred ? 'knowledge-link is-inferred' : 'knowledge-link' });
-          knowledgeSvg.appendChild(line);
-          knowledgeSimLinks.push({
-            sourceNode: link.sourceNode,
-            targetNode: link.targetNode,
-            el: line,
-            springLength: Math.max(60, 108 - link.score * 4),
-            springStrength: link.inferred ? 0.002 : 0.0055
-          });
-        });
-
-      recommendations.forEach((node) => {
-        const recommendationGraphNode = graphById.get(node.id);
-        const target = bestRecommendationLink(node, knowledgeNodes);
-        const targetGraphNode = target ? graphById.get(target.id) : null;
-        if (recommendationGraphNode && targetGraphNode) {
-          const line = createSvgElement('line', { class: 'knowledge-link is-recommended' });
-          knowledgeSvg.appendChild(line);
-          knowledgeSimLinks.push({
-            sourceNode: recommendationGraphNode,
-            targetNode: targetGraphNode,
-            el: line,
-            springLength: 118,
-            springStrength: 0.0025
-          });
-        }
-      });
-
-      recommendationGraphNodes.forEach((graphNode) => {
-        const node = graphNode.data;
-        const group = createSvgElement('g', { class: 'knowledge-node-group is-recommended', tabindex: '0', role: 'button' });
-        const circle = createSvgElement('circle', { r: 12, class: 'knowledge-recommend-node' });
-        const label = createSvgElement('text', { x: 16, y: 4, class: 'knowledge-node-label' });
-        label.textContent = shorten(node.title, 26);
-        group.append(circle, label);
-        group.addEventListener('click', () => addKnowledgePaper(node.id));
-        group.addEventListener('keydown', (event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            addKnowledgePaper(node.id);
-          }
-        });
-        knowledgeSvg.appendChild(group);
-        graphNode.el = group;
-      });
-
-      knowledgeGraphNodes.forEach((graphNode) => {
-        const node = graphNode.data;
-        const group = createSvgElement('g', { class: 'knowledge-node-group', tabindex: '0', role: 'button' });
-        const circle = createSvgElement('circle', { r: 14, class: `knowledge-node ${phaseClassByYear(node.year)}` });
-        const label = createSvgElement('text', { x: 18, y: -2, class: 'knowledge-node-label' });
-        label.textContent = shorten(node.title, 28);
-        const year = createSvgElement('text', { x: 18, y: 11, class: 'knowledge-node-year' });
-        year.textContent = String(node.year);
-        const title = createSvgElement('title');
-        title.textContent = `${node.title}\n点击选中，双击移出知识库`;
-        circle.appendChild(title);
-        group.append(circle, label, year);
-        group.addEventListener('click', () => setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: node.year, yearRangeEnd: node.year }, 'paper-force'));
-        group.addEventListener('dblclick', () => removeKnowledgePaper(node.id));
-        knowledgeSvg.appendChild(group);
-        graphNode.el = group;
-      });
-
-      recommendList.innerHTML = recommendations.map((node, index) => {
-        const score = scoreRecommendation(node, knowledgeNodes).toFixed(1);
-        return `<button class="knowledge-recommend-row" type="button" data-id="${node.id}"><span>${index + 1}</span><strong>${shorten(node.title, 58)}</strong><em>${node.year} · score ${score}</em></button>`;
-      }).join('');
-      recommendList.querySelectorAll('.knowledge-recommend-row').forEach((row) => {
-        row.addEventListener('click', () => addKnowledgePaper(row.getAttribute('data-id')));
-      });
-      renderKnowledgePositions();
+    function updateHighlightedIds() {
+      highlightedIds = new Set(selectedNode ? [selectedNode.id, ...(adjacency.get(selectedNode.id) || [])] : []);
     }
 
     function updateDetail() {
-      let selected = nodeById.get(getAppState().selectedPaperId);
-      if (!selected || !visibleNodeIds.has(selected.id)) {
-        selected = nodeById.get(centerId);
-      }
-      if (!selected) {
-        detailEl.textContent = '没有可显示的论文。';
+      if (!selectedNode) {
+        detailEl.textContent = '点击任意节点查看论文详情。';
         return;
       }
-      const authorText = (selected.authors || []).join(', ');
-      detailEl.innerHTML = `<strong>${selected.title}</strong> (${selected.year}) · ${selected.venue} · ${selected.institution}<br />作者：${authorText}<br />引用数 ${selected.citations_count.toLocaleString()}；主题 ${selected.topic}。${selected.abstract}`;
+      const neighbors = adjacency.get(selectedNode.id)?.size || 0;
+      const authors = (selectedNode.authors || []).slice(0, 6).join(', ') || '未知作者';
+      const institutions = asArray(selectedNode.institution).join(', ') || '未知机构';
+      const keywords = asArray(selectedNode.keywords).slice(0, 8).join('、') || asArray(selectedNode.topic).join('、') || '暂无关键词';
+      detailEl.innerHTML = `<strong>${selectedNode.title}</strong> (${selectedNode.year}) · ${selectedNode.venue || 'Unknown'}<br />作者：${authors}<br />机构：${institutions}<br />引用：${(selectedNode.citations_count || 0).toLocaleString()} · 相邻节点：${neighbors}<br />关键词：${keywords}`;
     }
 
-    function renderGraph() {
-      const range = getActiveYearRange();
-      syncYearRangeInputs(range.start, range.end);
-      const labelModeValue = labelMode.value;
-      visibleNodeIds = buildVisibleSet();
-      visibleLinks = links.filter((link) => visibleNodeIds.has(link.source) && visibleNodeIds.has(link.target));
+    function getFilterQueries() {
+      return {
+        paper: normalizeText(searchInput.value).split('|')[0].trim(),
+        author: normalizeText(authorInput.value),
+        topic: normalizeText(topicInput.value),
+        limit: Number(nodeLimit.value) || nodes.length
+      };
+    }
 
-      edgeLayer.innerHTML = '';
-      nodeLayer.innerHTML = '';
+    function nodeMatchesFilters(node, queries) {
+      if (queries.paper && !node.search.includes(queries.paper) && !normalizeText(node.title).includes(queries.paper)) return false;
+      if (queries.author && !(node.authors || []).some((author) => normalizeText(author).includes(queries.author))) return false;
+      if (queries.topic && !topicSearchText(node).includes(queries.topic)) return false;
+      return true;
+    }
 
-      visibleLinks.forEach((link) => {
-        const line = createSvgElement('line', { class: 'force-link' });
-        edgeLayer.appendChild(line);
-        link.el = line;
+    function rankNode(node, seedIds) {
+      const seedBoost = seedIds.has(node.id) ? 1_000_000 : 0;
+      const selectedBoost = selectedNode?.id === node.id ? 500_000 : 0;
+      const neighborSeedHits = Array.from(adjacency.get(node.id) || []).filter((id) => seedIds.has(id)).length;
+      return seedBoost + selectedBoost + neighborSeedHits * 30_000 + (node.degree || 0) * 700 + Math.log10((node.citations_count || 0) + 10) * 1600;
+    }
+
+    function applyGraphFilters({ refit = false } = {}) {
+      const queries = getFilterQueries();
+      const hasFilters = Boolean(queries.paper || queries.author || queries.topic);
+      const seedNodes = hasFilters ? nodes.filter((node) => nodeMatchesFilters(node, queries)) : nodes;
+      const seedIds = new Set(seedNodes.map((node) => node.id));
+      const candidateIds = new Set(seedIds);
+
+      if (hasFilters) {
+        seedIds.forEach((id) => {
+          (adjacency.get(id) || []).forEach((neighborId) => candidateIds.add(neighborId));
+        });
+      }
+
+      const rankedNodes = nodes
+        .filter((node) => candidateIds.has(node.id))
+        .sort((a, b) => rankNode(b, seedIds) - rankNode(a, seedIds))
+        .slice(0, queries.limit);
+
+      activeNodeIds = new Set(rankedNodes.map((node) => node.id));
+      activeNodes = rankedNodes;
+      activeLinks = links.filter((link) => activeNodeIds.has(link.source) && activeNodeIds.has(link.target));
+
+      if (!activeNodeIds.has(selectedNode?.id)) {
+        selectedNode = activeNodes[0] || null;
+        updateHighlightedIds();
+      }
+
+      nodes.forEach((node) => node.el.classList.toggle('is-hidden', !activeNodeIds.has(node.id)));
+      links.forEach((link) => link.el.classList.toggle('is-hidden', !activeNodeIds.has(link.source) || !activeNodeIds.has(link.target)));
+
+      if (refit && activeNodes.length) {
+        transform = fitTransform(activeNodes);
+        applyTransform();
+      }
+      alpha = Math.max(alpha, 0.72);
+      updateStyles();
+    }
+
+    function updateStyles() {
+      const mode = labelMode.value;
+      const edgeModeValue = edgeMode.value;
+      const exploreEdges = edgeModeValue === 'explore';
+      svg.classList.toggle('is-edge-explore', exploreEdges);
+      shell.classList.toggle('is-edge-explore', exploreEdges);
+      nodes.forEach((node) => {
+        if (!activeNodeIds.has(node.id)) return;
+        const isSelected = selectedNode?.id === node.id;
+        const isNeighbor = highlightedIds.has(node.id) && !isSelected;
+        const isDimmed = selectedNode && !highlightedIds.has(node.id);
+        const showLabel = mode === 'focus'
+          ? isSelected || isNeighbor || node.degree >= 8 || node.r >= 11
+          : mode === 'important' && (node.degree >= 8 || node.r >= 11);
+        node.el.classList.toggle('is-selected', isSelected);
+        node.el.classList.toggle('is-neighbor', isNeighbor);
+        node.el.classList.toggle('is-dimmed', Boolean(isDimmed));
+        node.labelEl.classList.toggle('is-hidden', !showLabel);
       });
-
-      Array.from(visibleNodeIds).forEach((id) => {
-        const node = nodeById.get(id);
-        if (!node) return;
-
-        const group = createSvgElement('g', {
-          class: `force-node-group ${node.id === centerId ? 'is-center' : ''}`,
-          'data-id': node.id
-        });
-        const circle = createSvgElement('circle', {
-          class: `force-node ${phaseClassByYear(node.year)}`,
-          r: node.r
-        });
-        const title = createSvgElement('title');
-        title.textContent = `${node.title}\n${node.year} · ${(node.authors || []).join(', ')}`;
-        circle.appendChild(title);
-
-        group.appendChild(circle);
-        const showLabels = labelModeValue !== 'dots';
-        const showSubLabel = labelModeValue === 'full';
-        if (showLabels) {
-          const label = createSvgElement('text', {
-            class: 'force-node-label',
-            x: node.r + 5,
-            y: -2
-          });
-          const labelLimit = labelModeValue === 'brief' ? 22 : 34;
-          label.textContent = `${node.year} · ${shorten(node.title, labelLimit)}`;
-          group.appendChild(label);
-        }
-        if (showSubLabel) {
-          const subLabel = createSvgElement('text', {
-            class: 'force-node-sublabel',
-            x: node.r + 5,
-            y: 12
-          });
-          subLabel.textContent = shorten((node.authors || []).slice(0, 2).join(', '), 36);
-          group.appendChild(subLabel);
-        }
-        group.addEventListener('pointerdown', (event) => {
-          event.stopPropagation();
-          draggingNode = {
-            node,
-            pointerId: event.pointerId,
-            lastX: event.clientX,
-            lastY: event.clientY,
-            moved: false
-          };
-          node.fixed = true;
-          group.setPointerCapture(event.pointerId);
-        });
-        group.addEventListener('click', () => {
-          if (node.suppressClick) {
-            node.suppressClick = false;
-            return;
-          }
-          const currentRange = getActiveYearRange();
-          const nextRange = expandRangeForYear(currentRange, node.year);
-          if (nextRange.start !== currentRange.start || nextRange.end !== currentRange.end) {
-            syncYearRangeInputs(nextRange.start, nextRange.end);
-            renderGraph();
-          }
-          setAppState(
-            {
-              selectedPaperId: node.id,
-              year: nextRange.end,
-              yearRangeStart: nextRange.start,
-              yearRangeEnd: nextRange.end
-            },
-            'paper-force'
-          );
-        });
-        nodeLayer.appendChild(group);
-        node.el = group;
+      links.forEach((link) => {
+        if (!activeNodeIds.has(link.source) || !activeNodeIds.has(link.target)) return;
+        const active = selectedNode && link.source !== selectedNode.id && link.target !== selectedNode.id
+          ? highlightedIds.has(link.source) && highlightedIds.has(link.target)
+          : selectedNode && (link.source === selectedNode.id || link.target === selectedNode.id);
+        link.el.classList.toggle('is-active', Boolean(active));
+        link.el.classList.toggle('is-dimmed', Boolean(selectedNode && !active && !exploreEdges));
       });
-
-      const rangeLabel = range.start === range.end ? String(range.end) : `${range.start}-${range.end}`;
-      statEl.textContent = selectedAuthorsQuery()
-        ? `作者中心网络：${visibleNodeIds.size} 篇论文，${visibleLinks.length} 条边 · 年份 ${rangeLabel}`
-        : `高影响论文网络：${visibleNodeIds.size} 篇论文，${visibleLinks.length} 条边 · 年份 ${rangeLabel}`;
+      const queries = getFilterQueries();
+      const filtered = queries.paper || queries.author || queries.topic || activeNodes.length < nodes.length;
+      statEl.textContent = `${activeNodes.length}/${nodes.length} 篇论文 · ${activeLinks.length}/${links.length} 条关系${filtered ? ' · 已筛选' : ''} · 当前：${selectedNode ? shorten(selectedNode.title, 34) : '未选择'}`;
       updateDetail();
     }
 
-    function tick() {
-      const visibleNodes = Array.from(visibleNodeIds).map((id) => nodeById.get(id)).filter(Boolean);
-      const repulsion = visibleNodes.length > 60 ? 800 : 1200;
-      const springLength = visibleNodes.length > 60 ? 58 : 82;
-      applyForceLayout(visibleNodes, visibleLinks, {
-        centerX,
-        centerY,
-        repulsion,
-        springLength,
-        bounds: { left: 20, right: width - 20, top: 20, bottom: height - 20 }
-      });
+    function selectNode(node, publish = false) {
+      if (!node) return;
+      selectedNode = node;
+      updateHighlightedIds();
+      if (!activeNodeIds.has(node.id)) applyGraphFilters();
+      updateStyles();
+      if (publish) {
+        setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: node.year, yearRangeEnd: node.year }, 'paper-force');
+      }
     }
 
     function renderPositions() {
-      visibleLinks.forEach((link) => {
-        if (!link.el) return;
-        link.el.setAttribute('x1', link.sourceNode.x);
-        link.el.setAttribute('y1', link.sourceNode.y);
-        link.el.setAttribute('x2', link.targetNode.x);
-        link.el.setAttribute('y2', link.targetNode.y);
+      linkEls.forEach((line, index) => {
+        const link = links[index];
+        if (!activeNodeIds.has(link.source) || !activeNodeIds.has(link.target)) return;
+        line.setAttribute('x1', link.sourceNode.x);
+        line.setAttribute('y1', link.sourceNode.y);
+        line.setAttribute('x2', link.targetNode.x);
+        line.setAttribute('y2', link.targetNode.y);
       });
-
-      Array.from(visibleNodeIds).forEach((id) => {
-        const node = nodeById.get(id);
-        if (!node?.el) return;
-        node.el.setAttribute('transform', `translate(${node.x} ${node.y})`);
-        node.el.classList.toggle('is-selected', node.id === getAppState().selectedPaperId);
-      });
-    }
-
-    function tickKnowledgeBase() {
-      if (!knowledgeSimNodes.length) return;
-      applyForceLayout(knowledgeSimNodes, knowledgeSimLinks, {
-        centerX: 260,
-        centerY: 160,
-        repulsion: 620,
-        springLength: 92,
-        springStrength: 0.006,
-        centerStrength: 0.0022,
-        damping: 0.82,
-        bounds: { left: 26, right: 494, top: 26, bottom: 294 }
-      });
-    }
-
-    function renderKnowledgePositions() {
-      knowledgeSimLinks.forEach((link) => {
-        if (!link.el) return;
-        link.el.setAttribute('x1', link.sourceNode.x);
-        link.el.setAttribute('y1', link.sourceNode.y);
-        link.el.setAttribute('x2', link.targetNode.x);
-        link.el.setAttribute('y2', link.targetNode.y);
-      });
-      knowledgeSimNodes.forEach((node) => {
-        if (!node.el) return;
+      activeNodes.forEach((node) => {
         node.el.setAttribute('transform', `translate(${node.x} ${node.y})`);
       });
     }
 
     function animate() {
-      tick();
+      if (alpha > 0.018) {
+        tickObsidianGraph(activeNodes, activeLinks, alpha);
+        alpha *= 0.986;
+      }
       renderPositions();
-      tickKnowledgeBase();
-      renderKnowledgePositions();
-      requestAnimationFrame(animate);
+      frame = requestAnimationFrame(animate);
+    }
+
+    function findPaper(query) {
+      const q = normalizeText(query).split('|')[0].trim();
+      if (!q) return null;
+      return nodes
+        .filter((node) => node.search.includes(q) || normalizeText(node.title).includes(q))
+        .sort((a, b) => (b.citations_count || 0) - (a.citations_count || 0))[0] || null;
+    }
+
+    function focusNode(node, scale = 1.35) {
+      if (!node) return;
+      const nextK = Math.max(0.35, Math.min(3.6, scale));
+      transform = {
+        x: WIDTH / 2 - node.x * nextK,
+        y: HEIGHT / 2 - node.y * nextK,
+        k: nextK
+      };
+      applyTransform();
+      selectNode(node, true);
+    }
+
+    function resetView() {
+      transform = fitTransform(activeNodes.length ? activeNodes : nodes);
+      applyTransform();
+      updateStyles();
     }
 
     svg.addEventListener('wheel', (event) => {
       event.preventDefault();
       const rect = svg.getBoundingClientRect();
-      const px = ((event.clientX - rect.left) / rect.width) * width;
-      const py = ((event.clientY - rect.top) / rect.height) * height;
-      const nextK = Math.max(0.45, Math.min(3.2, transform.k * (event.deltaY > 0 ? 0.9 : 1.1)));
-      transform.x = px - ((px - transform.x) / transform.k) * nextK;
-      transform.y = py - ((py - transform.y) / transform.k) * nextK;
-      transform.k = nextK;
+      const point = {
+        x: ((event.clientX - rect.left) / rect.width) * WIDTH,
+        y: ((event.clientY - rect.top) / rect.height) * HEIGHT
+      };
+      const nextK = Math.max(0.22, Math.min(4.2, transform.k * (event.deltaY > 0 ? 0.9 : 1.12)));
+      transform = zoomAt(transform, point, nextK);
       applyTransform();
     }, { passive: false });
 
@@ -766,34 +623,34 @@ export async function initPaperForce(container) {
     });
     svg.addEventListener('pointermove', (event) => {
       if (draggingNode) {
-        const dx = (event.clientX - draggingNode.lastX) / transform.k;
-        const dy = (event.clientY - draggingNode.lastY) / transform.k;
-        if (Math.abs(event.clientX - draggingNode.lastX) + Math.abs(event.clientY - draggingNode.lastY) > 2) {
-          draggingNode.moved = true;
-        }
-        draggingNode.node.x += dx;
-        draggingNode.node.y += dy;
+        const rect = svg.getBoundingClientRect();
+        const local = {
+          x: ((event.clientX - rect.left) / rect.width) * WIDTH,
+          y: ((event.clientY - rect.top) / rect.height) * HEIGHT
+        };
+        const point = screenToGraph(transform, local.x, local.y);
+        draggingNode.node.x = point.x + draggingNode.offsetX;
+        draggingNode.node.y = point.y + draggingNode.offsetY;
         draggingNode.node.vx = 0;
         draggingNode.node.vy = 0;
-        draggingNode.lastX = event.clientX;
-        draggingNode.lastY = event.clientY;
+        draggingNode.moved = Math.hypot(event.clientX - draggingNode.startX, event.clientY - draggingNode.startY) > 3;
+        alpha = Math.max(alpha, 0.35);
+        renderPositions();
         return;
       }
-      if (panning) {
-        transform.x += event.clientX - panning.lastX;
-        transform.y += event.clientY - panning.lastY;
-        panning.lastX = event.clientX;
-        panning.lastY = event.clientY;
-        applyTransform();
-      }
+      if (!panning) return;
+      const rect = svg.getBoundingClientRect();
+      transform.x += ((event.clientX - panning.lastX) / rect.width) * WIDTH;
+      transform.y += ((event.clientY - panning.lastY) / rect.height) * HEIGHT;
+      panning.lastX = event.clientX;
+      panning.lastY = event.clientY;
+      applyTransform();
     });
-    svg.addEventListener('pointerup', (event) => {
+    svg.addEventListener('pointerup', () => {
       if (draggingNode) {
-        draggingNode.node.fixed = false;
-        if (draggingNode.moved && isPointerInsideKnowledgeBox(event)) {
-          addKnowledgePaper(draggingNode.node.id);
-          draggingNode.node.suppressClick = true;
-        }
+        draggingNode.node.suppressClick = draggingNode.moved;
+        draggingNode.node.pinned = false;
+        alpha = Math.max(alpha, 0.42);
       }
       draggingNode = null;
       panning = null;
@@ -802,82 +659,63 @@ export async function initPaperForce(container) {
       panning = null;
     });
 
-    const handleRangeInput = () => {
-      publishYearRange();
-      renderGraph();
-    };
-    startSlider.addEventListener('input', handleRangeInput);
-    endSlider.addEventListener('input', handleRangeInput);
-    authorInput.addEventListener('input', () => {
-      renderGraph();
-      const node = nodeById.get(centerId);
-      if (selectedAuthorsQuery() && node) {
-        const currentRange = getActiveYearRange();
-        const nextRange = expandRangeForYear(currentRange, node.year);
-        if (nextRange.start !== currentRange.start || nextRange.end !== currentRange.end) {
-          syncYearRangeInputs(nextRange.start, nextRange.end);
-          renderGraph();
-        }
-        setAppState(
-          {
-            selectedPaperId: node.id,
-            year: nextRange.end,
-            yearRangeStart: nextRange.start,
-            yearRangeEnd: nextRange.end
-          },
-          'paper-force'
-        );
-      }
+    searchInput.addEventListener('input', () => {
+      applyGraphFilters({ refit: true });
     });
-    maxInput.addEventListener('change', renderGraph);
-    labelMode.addEventListener('change', renderGraph);
-    resetButton.addEventListener('click', resetView);
-    knowledgeAddButton.addEventListener('click', () => {
-      const node = findPaper(knowledgeSearch.value);
-      if (!node) return;
-      addKnowledgePaper(node.id);
-      knowledgeSearch.value = '';
-    });
-    knowledgeSearch.addEventListener('keydown', (event) => {
+    searchInput.addEventListener('keydown', (event) => {
       if (event.key !== 'Enter') return;
-      event.preventDefault();
-      const node = findPaper(knowledgeSearch.value);
-      if (!node) return;
-      addKnowledgePaper(node.id);
-      knowledgeSearch.value = '';
+      const node = findPaper(searchInput.value);
+      if (node) focusNode(node, 1.65);
     });
-    knowledgeClearButton.addEventListener('click', () => {
-      knowledgeIds = new Set();
-      knowledgeGraphById = new Map();
-      knowledgeSimNodes = [];
-      knowledgeSimLinks = [];
-      renderKnowledgeBase();
+    authorInput.addEventListener('input', () => applyGraphFilters({ refit: true }));
+    topicInput.addEventListener('input', () => applyGraphFilters({ refit: true }));
+    nodeLimit.addEventListener('change', () => applyGraphFilters({ refit: true }));
+    labelMode.addEventListener('change', updateStyles);
+    edgeMode.addEventListener('change', updateStyles);
+    clearFilterButton.addEventListener('click', () => {
+      searchInput.value = '';
+      authorInput.value = '';
+      topicInput.value = '';
+      nodeLimit.value = String(nodes.length);
+      selectedNode = pickInitialNode(nodes, getAppState().selectedPaperId, nodeById);
+      updateHighlightedIds();
+      applyGraphFilters({ refit: true });
     });
-    onAppStateChange(({ state, source }) => {
-      if (source === 'paper-force') {
-        updateDetail();
-        renderKnowledgeBase();
-        return;
-      }
-      const nextStart = Number.isFinite(state.yearRangeStart) ? state.yearRangeStart : state.year;
-      const nextEnd = Number.isFinite(state.yearRangeEnd) ? state.yearRangeEnd : state.year;
-      const normalized = normalizeYearRange(nextStart, nextEnd);
-      const needsUpdate = Number(startSlider.value) !== normalized.start || Number(endSlider.value) !== normalized.end;
-      if (needsUpdate) {
-        syncYearRangeInputs(normalized.start, normalized.end);
-        renderGraph();
-      } else {
-        updateDetail();
-      }
-      renderKnowledgeBase();
+    resetButton.addEventListener('click', resetView);
+    reheatButton.addEventListener('click', () => {
+      nodes.forEach((node, index) => {
+        const angle = index * 2.399963 + Math.random() * 0.35;
+        const radius = 42 + Math.sqrt(index + 1) * 24;
+        node.x = CENTER.x + Math.cos(angle) * radius;
+        node.y = CENTER.y + Math.sin(angle) * radius;
+        node.vx = 0;
+        node.vy = 0;
+      });
+      alpha = 1.25;
+      applyGraphFilters({ refit: true });
     });
 
+    onAppStateChange(({ state, source }) => {
+      if (source === 'paper-force') return;
+      const node = state.selectedPaperId ? nodeById.get(state.selectedPaperId) : null;
+      if (node) {
+        selectNode(node, false);
+        applyGraphFilters();
+      }
+    });
+
+    updateHighlightedIds();
+    applyGraphFilters();
     resetView();
-    renderGraph();
-    renderKnowledgeBase();
+    focusNode(selectedNode, 1.15);
     animate();
+
+    container.addEventListener('codex:dispose', () => {
+      if (frame) cancelAnimationFrame(frame);
+    });
   } catch (error) {
-    statEl.textContent = '数据加载失败，请检查 nodes.json 与 edges.json';
+    statEl.textContent = '数据加载失败，请检查 nodes.json 和 edges.json。';
+    detailEl.textContent = error.message;
     svg.innerHTML = '';
   }
 }

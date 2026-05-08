@@ -13,6 +13,27 @@ const LINES = [
   { id: 'efficient', label: '高效架构', color: '#0f766e', test: /mamba|lora|qlora|flashattention|pagedattention|efficient|quantized|state space/i }
 ];
 
+const METRO_SCENARIOS = {
+  transition: {
+    label: '范式如何迁移',
+    question: 'LLM 研究主线如何从表示学习走向 Transformer、规模化和智能体？',
+    description: '按年份铺开高影响论文，把每条主题线视为一条研究路线，观察主线的出现、延展和交叉。',
+    detail: '适合从宏观时间线解释研究范式如何一站一站迁移。'
+  },
+  transfer: {
+    label: '哪里发生换乘',
+    question: '哪些论文同时服务多个研究流派，成为主题换乘站？',
+    description: '优先保留跨多个主题线的论文，突出多模态、对齐、高效架构等方向并入基础模型主线的位置。',
+    detail: '换乘站越多，说明该论文越容易被多个方向共同借用。'
+  },
+  frontier: {
+    label: '近期分化在哪',
+    question: '2020 年后哪些新路线从主线中分化出来？',
+    description: '提高近期论文权重，帮助定位 RAG、智能体、长上下文和高效架构等新支线的出现位置。',
+    detail: '近期站点用于解释 LLM 从单一预训练主线扩展成多任务、多模态和工具调用生态。'
+  }
+};
+
 function createSvgElement(tag, attrs = {}) {
   const el = document.createElementNS(SVG_NS, tag);
   Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, String(value)));
@@ -47,7 +68,17 @@ export async function initMetroMap(container) {
     <div class="module-shell">
       <p class="module-tag">Module 05</p>
       <h3 class="module-title">主题流派地铁图</h3>
-      <p class="module-subtitle">同一研究流派固定在同一条直线上；论文如果同时属于多个流派，就作为换乘站显示。</p>
+      <p class="module-subtitle">把主题线当作研究路线，把跨主题论文当作换乘站，用来解释 LLM 研究主线如何分叉、汇合和再分化。</p>
+      <div class="scenario-panel metro-scenario-panel">
+        <div>
+          <p class="scenario-kicker">问题场景</p>
+          <h4 class="scenario-title metro-question-title"></h4>
+          <p class="scenario-copy metro-question-copy"></p>
+        </div>
+        <div class="scenario-switch metro-scenario-switch" role="tablist" aria-label="地铁图问题场景">
+          ${Object.entries(METRO_SCENARIOS).map(([id, scenario]) => `<button class="scenario-button metro-scenario" type="button" data-scenario="${id}">${scenario.label}</button>`).join('')}
+        </div>
+      </div>
       <div class="chart-toolbar chart-toolbar-wrap">
         <label class="chart-control">
           年份
@@ -75,7 +106,10 @@ export async function initMetroMap(container) {
   const detailEl = container.querySelector('.metro-detail');
   const legendEl = container.querySelector('.metro-legend');
   const svg = container.querySelector('.metro-svg');
-  if (!yearSlider || !yearOutput || !limitInput || !statEl || !detailEl || !legendEl || !svg) return;
+  const scenarioButtons = Array.from(container.querySelectorAll('.metro-scenario'));
+  const questionTitleEl = container.querySelector('.metro-question-title');
+  const questionCopyEl = container.querySelector('.metro-question-copy');
+  if (!yearSlider || !yearOutput || !limitInput || !statEl || !detailEl || !legendEl || !svg || !questionTitleEl || !questionCopyEl) return;
 
   try {
     const [nodesData, edges] = await Promise.all([
@@ -98,6 +132,11 @@ export async function initMetroMap(container) {
     const margin = { top: 48, right: 34, bottom: 46, left: 118 };
     const lineGap = (height - margin.top - margin.bottom) / (LINES.length - 1);
     const yByLine = new Map(LINES.map((line, index) => [line.id, margin.top + index * lineGap]));
+    let activeScenarioId = 'transition';
+
+    function activeScenario() {
+      return METRO_SCENARIOS[activeScenarioId] || METRO_SCENARIOS.transition;
+    }
 
     function activeNodes() {
       const year = Number(yearSlider.value);
@@ -106,7 +145,14 @@ export async function initMetroMap(container) {
         .filter((node) => node.year <= year)
         .sort((a, b) => {
           const selectedBoost = a.id === getAppState().selectedPaperId ? -1 : b.id === getAppState().selectedPaperId ? 1 : 0;
-          return selectedBoost || (b.citations_count || 0) - (a.citations_count || 0);
+          if (selectedBoost) return selectedBoost;
+          if (activeScenarioId === 'transfer') {
+            return b.lines.length - a.lines.length || (b.citations_count || 0) - (a.citations_count || 0);
+          }
+          if (activeScenarioId === 'frontier') {
+            return b.year - a.year || (b.citations_count || 0) - (a.citations_count || 0);
+          }
+          return (b.citations_count || 0) - (a.citations_count || 0);
         })
         .slice(0, limit)
         .sort((a, b) => a.year - b.year || (b.citations_count || 0) - (a.citations_count || 0));
@@ -125,6 +171,17 @@ export async function initMetroMap(container) {
         chip.className = 'legend-chip';
         chip.innerHTML = `<span class="legend-swatch" style="background:${line.color}"></span>${line.label}`;
         legendEl.appendChild(chip);
+      });
+    }
+
+    function renderScenario() {
+      const scenario = activeScenario();
+      questionTitleEl.textContent = scenario.question;
+      questionCopyEl.textContent = scenario.description;
+      scenarioButtons.forEach((button) => {
+        const active = button.dataset.scenario === activeScenarioId;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-selected', String(active));
       });
     }
 
@@ -208,8 +265,9 @@ export async function initMetroMap(container) {
       const selected = nodeById.get(getAppState().selectedPaperId) || visible.find((node) => node.lines.length > 1) || visible[0];
       const transferCount = visible.filter((node) => node.lines.length > 1).length;
       statEl.textContent = `${visible.length} 个站点 · ${transferCount} 个换乘站 · 截止 ${year}`;
+      renderScenario();
       detailEl.innerHTML = selected
-        ? `<strong>${selected.title}</strong><br />${selected.year} · ${selected.lines.map((id) => lineById(id).label).join(' / ')}。换乘站代表它同时被多个研究流派借用，常见于跨模态、对齐或高效训练进入基础模型主线的节点。`
+        ? `<strong>${selected.title}</strong><br />${selected.year} · ${selected.lines.map((id) => lineById(id).label).join(' / ')}。${activeScenario().detail}`
         : '暂无可展示论文。';
       renderLegend();
     }
@@ -219,6 +277,16 @@ export async function initMetroMap(container) {
       render();
     });
     limitInput.addEventListener('change', render);
+    scenarioButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        activeScenarioId = button.dataset.scenario || 'transition';
+        if (activeScenarioId === 'frontier') {
+          yearSlider.value = String(maxYear);
+          setAppState({ year: maxYear, yearRangeStart: Math.max(2020, minYear), yearRangeEnd: maxYear }, 'metro-map');
+        }
+        render();
+      });
+    });
     onAppStateChange(({ state, source }) => {
       if (source === 'metro-map') return;
       if (Number.isFinite(state.year)) yearSlider.value = String(Math.min(Math.max(state.year, minYear), maxYear));

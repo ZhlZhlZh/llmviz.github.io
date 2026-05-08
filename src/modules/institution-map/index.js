@@ -3,6 +3,30 @@ import { getAppState, onAppStateChange, setAppState } from '../../shared/app-sta
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
+const MAP_SCENARIOS = {
+  leader: {
+    label: '谁在主导',
+    question: '哪些机构在 LLM 论文主线中最有影响力？',
+    description: '按综合影响力展示头部机构，适合回答研究力量是否集中在少数公司、实验室和大学。',
+    rankTitle: '影响力排行',
+    metric: 'influence_score'
+  },
+  paper: {
+    label: '论文背后是谁',
+    question: '当前选中的论文由哪些机构推动？',
+    description: '保留头部机构，同时把选中论文对应机构拉入视野，用描边和排行高亮说明论文背后的组织来源。',
+    rankTitle: '当前论文相关机构',
+    metric: 'papers_count'
+  },
+  bridge: {
+    label: '谁连接主线',
+    question: '哪些机构通过引用关系把不同论文主线连接起来？',
+    description: '优先展示机构之间的共同引用联系，帮助观察哪些机构在不同阶段和不同流派之间承担桥梁角色。',
+    rankTitle: '联系强度排行',
+    metric: 'link_count'
+  }
+};
+
 function createSvgElement(tag, attrs = {}) {
   const el = document.createElementNS(SVG_NS, tag);
   Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, String(value)));
@@ -46,6 +70,30 @@ function geometryToPath(geometry, width, height, padding) {
 function mapRange(value, domainMin, domainMax, rangeMin, rangeMax) {
   if (domainMin === domainMax) return (rangeMin + rangeMax) / 2;
   return rangeMin + ((value - domainMin) / (domainMax - domainMin)) * (rangeMax - rangeMin);
+}
+
+function clampTranslate(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function clampTransform(transform, bounds, viewportWidth, viewportHeight) {
+  const next = { ...transform };
+  const scaledWidth = (bounds.maxX - bounds.minX) * next.k;
+  const scaledHeight = (bounds.maxY - bounds.minY) * next.k;
+
+  if (scaledWidth <= viewportWidth) {
+    next.x = viewportWidth / 2 - ((bounds.minX + bounds.maxX) / 2) * next.k;
+  } else {
+    next.x = clampTranslate(next.x, viewportWidth - bounds.maxX * next.k, -bounds.minX * next.k);
+  }
+
+  if (scaledHeight <= viewportHeight) {
+    next.y = viewportHeight / 2 - ((bounds.minY + bounds.maxY) / 2) * next.k;
+  } else {
+    next.y = clampTranslate(next.y, viewportHeight - bounds.maxY * next.k, -bounds.minY * next.k);
+  }
+
+  return next;
 }
 
 function colorByMode(item, mode) {
@@ -106,6 +154,56 @@ function mergeInstitutions(rawInstitutions, aliasLookup) {
   return Array.from(merged.values());
 }
 
+function createLinkStrength(links) {
+  const strength = new Map();
+  links.forEach((link) => {
+    strength.set(link.source, (strength.get(link.source) || 0) + link.count);
+    strength.set(link.target, (strength.get(link.target) || 0) + link.count);
+  });
+  return strength;
+}
+
+function scenarioValue(item, scenario, linkStrength) {
+  if (scenario.metric === 'link_count') return linkStrength.get(item.institution) || 0;
+  return Number(item[scenario.metric]) || 0;
+}
+
+function regionOfInstitution(item) {
+  if (item.lng < -30 && item.lat > 15) return 'North America';
+  if (item.lng >= -30 && item.lng <= 45 && item.lat > 35) return 'Europe';
+  if (item.lng >= 95 && item.lat > 15) return 'East Asia';
+  if (item.lng >= 90 && item.lng <= 130) return 'Southeast Asia';
+  return 'Other regions';
+}
+
+function pickBalancedInstitutions(items, scoreFn, limit = 22) {
+  const sorted = items.slice().sort((a, b) => scoreFn(b) - scoreFn(a) || b.influence_score - a.influence_score);
+  const regions = ['North America', 'Europe', 'East Asia', 'Southeast Asia', 'Other regions'];
+  const selected = [];
+  const selectedIds = new Set();
+
+  regions.forEach((region) => {
+    sorted
+      .filter((item) => regionOfInstitution(item) === region)
+      .slice(0, region === 'North America' ? 7 : 4)
+      .forEach((item) => {
+        if (selected.length < limit && !selectedIds.has(item.id)) {
+          selected.push(item);
+          selectedIds.add(item.id);
+        }
+      });
+  });
+
+  sorted.forEach((item) => {
+    if (selected.length < limit && !selectedIds.has(item.id)) {
+      selected.push(item);
+      selectedIds.add(item.id);
+    }
+  });
+
+  return selected;
+}
+
 function buildInstitutionLinks(nodes, edges, aliasLookup, institutionNames) {
   const nodeById = new Map(nodes.map((node) => [node.id, node]));
   const linkMap = new Map();
@@ -140,7 +238,17 @@ export async function initInstitutionMap(container) {
     <div class="module-shell">
       <p class="module-tag">Module 04</p>
       <h3 class="module-title">机构影响力地理图</h3>
-      <p class="module-subtitle">机构名称先做别名归一化；选中论文后，地图和排行榜会高亮对应机构。</p>
+      <p class="module-subtitle">把机构地图从“哪里有点”改成“谁在推动这条研究主线”：比较主导机构、当前论文来源和跨主线连接者。</p>
+      <div class="scenario-panel institution-scenario-panel">
+        <div>
+          <p class="scenario-kicker">问题场景</p>
+          <h4 class="scenario-title map-question-title"></h4>
+          <p class="scenario-copy map-question-copy"></p>
+        </div>
+        <div class="scenario-switch map-scenario-switch" role="tablist" aria-label="机构地图问题场景">
+          ${Object.entries(MAP_SCENARIOS).map(([id, scenario]) => `<button class="scenario-button map-scenario" type="button" data-scenario="${id}">${scenario.label}</button>`).join('')}
+        </div>
+      </div>
       <div class="chart-toolbar chart-toolbar-wrap">
         <label class="chart-control">
           颜色维度
@@ -168,7 +276,8 @@ export async function initInstitutionMap(container) {
           <svg class="chart-svg" viewBox="0 0 900 440" role="img" aria-label="Institution world map scatter chart"></svg>
         </div>
         <aside class="institution-side-panel">
-          <h4>机构排行榜</h4>
+          <h4 class="institution-ranking-title">机构排行榜</h4>
+          <p class="institution-scenario-evidence"></p>
           <div class="institution-ranking"></div>
         </aside>
       </div>
@@ -185,8 +294,13 @@ export async function initInstitutionMap(container) {
   const detailEl = container.querySelector('.map-detail');
   const legendEl = container.querySelector('.map-legend');
   const rankingEl = container.querySelector('.institution-ranking');
+  const scenarioButtons = Array.from(container.querySelectorAll('.map-scenario'));
+  const questionTitleEl = container.querySelector('.map-question-title');
+  const questionCopyEl = container.querySelector('.map-question-copy');
+  const evidenceEl = container.querySelector('.institution-scenario-evidence');
+  const rankingTitleEl = container.querySelector('.institution-ranking-title');
 
-  if (!colorModeEl || !sizeModeEl || !linkToggle || !statEl || !svg || !detailEl || !legendEl || !rankingEl) return;
+  if (!colorModeEl || !sizeModeEl || !linkToggle || !statEl || !svg || !detailEl || !legendEl || !rankingEl || !questionTitleEl || !questionCopyEl || !evidenceEl || !rankingTitleEl) return;
 
   try {
     const [world, rawInstitutions, nodes, edges, aliasRows] = await Promise.all([
@@ -205,6 +319,7 @@ export async function initInstitutionMap(container) {
     const institutionNames = new Set(institutions.map((item) => item.institution));
     const byName = new Map(institutions.map((item) => [item.institution, item]));
     const instLinks = buildInstitutionLinks(nodes, edges, aliasLookup, institutionNames).slice(0, 55);
+    const linkStrength = createLinkStrength(instLinks);
     const papersByInstitution = new Map(institutions.map((item) => [item.institution, []]));
     nodes.forEach((node) => {
       normalizeNodeInstitutions(node, aliasLookup, institutionNames).forEach((name) => {
@@ -214,11 +329,12 @@ export async function initInstitutionMap(container) {
 
     const viewport = createSvgElement('g', { class: 'map-viewport' });
     const mapLayer = createSvgElement('g');
+    const anchorLayer = createSvgElement('g');
     const linkLayer = createSvgElement('g');
     const pointLayer = createSvgElement('g');
     const labelLayer = createSvgElement('g');
     viewport.append(mapLayer);
-    svg.append(viewport, linkLayer, pointLayer, labelLayer);
+    svg.append(viewport, anchorLayer, linkLayer, pointLayer, labelLayer);
 
     (world.features || []).forEach((feature) => {
       const pathData = geometryToPath(feature.geometry, width, height, padding);
@@ -228,7 +344,13 @@ export async function initInstitutionMap(container) {
     let transform = { x: 0, y: 0, k: 1 };
     let panning = null;
     let positionById = new Map();
+    let anchorById = new Map();
     let visibleIds = new Set();
+    let activeScenarioId = 'leader';
+
+    function activeScenario() {
+      return MAP_SCENARIOS[activeScenarioId] || MAP_SCENARIOS.leader;
+    }
 
     function selectedPaperInstitutions() {
       const paper = nodes.find((node) => node.id === getAppState().selectedPaperId);
@@ -244,29 +366,76 @@ export async function initInstitutionMap(container) {
       return { x: transform.x + position.x * transform.k, y: transform.y + position.y * transform.k };
     }
 
-    function computePositions(items) {
-      const groups = new Map();
-      items.forEach((item) => {
-        const key = `${Math.round(item.lat * 5) / 5}_${Math.round(item.lng * 5) / 5}`;
-        if (!groups.has(key)) groups.set(key, []);
-        groups.get(key).push(item);
-      });
+    function computePositions(items, radiusById) {
       const positions = new Map();
-      groups.forEach((group) => {
-        group
-          .slice()
-          .sort((a, b) => b.influence_score - a.influence_score)
-          .forEach((item, index) => {
-            const base = projectLonLat(item.lng, item.lat, width, height, padding);
-            const radius = index === 0 ? 0 : 17 + 12 * Math.sqrt(index);
-            const angle = index * 2.399963;
-            positions.set(item.id, { x: base.x + Math.cos(angle) * radius, y: base.y + Math.sin(angle) * radius });
-          });
+      anchorById = new Map();
+      items.forEach((item, index) => {
+        const anchor = projectLonLat(item.lng, item.lat, width, height, padding);
+        anchorById.set(item.id, anchor);
+        positions.set(item.id, { ...anchor, index });
       });
+
+      for (let iteration = 0; iteration < 90; iteration += 1) {
+        for (let i = 0; i < items.length; i += 1) {
+          for (let j = i + 1; j < items.length; j += 1) {
+            const a = items[i];
+            const b = items[j];
+            const pa = positions.get(a.id);
+            const pb = positions.get(b.id);
+            let dx = pb.x - pa.x;
+            let dy = pb.y - pa.y;
+            let distance = Math.hypot(dx, dy);
+            if (distance < 0.01) {
+              const angle = (i + j + 1) * 2.399963;
+              dx = Math.cos(angle);
+              dy = Math.sin(angle);
+              distance = 1;
+            }
+            const minDistance = (radiusById.get(a.id) || 7) + (radiusById.get(b.id) || 7) + 9;
+            if (distance >= minDistance) continue;
+            const push = (minDistance - distance) / 2;
+            const ux = dx / distance;
+            const uy = dy / distance;
+            pa.x -= ux * push;
+            pa.y -= uy * push;
+            pb.x += ux * push;
+            pb.y += uy * push;
+          }
+        }
+
+        items.forEach((item) => {
+          const position = positions.get(item.id);
+          const anchor = anchorById.get(item.id);
+          position.x += (anchor.x - position.x) * 0.035;
+          position.y += (anchor.y - position.y) * 0.035;
+          position.x = clampTranslate(position.x, padding, width - padding);
+          position.y = clampTranslate(position.y, padding, height - padding);
+        });
+      }
+
       return positions;
     }
 
     function updateOverlayPositions() {
+      anchorLayer.querySelectorAll('.map-anchor-line').forEach((line) => {
+        const id = line.getAttribute('data-id');
+        const anchor = anchorById.get(id);
+        const position = positionById.get(id);
+        if (!anchor || !position) return;
+        const a = toScreen(anchor);
+        const b = toScreen(position);
+        line.setAttribute('x1', a.x);
+        line.setAttribute('y1', a.y);
+        line.setAttribute('x2', b.x);
+        line.setAttribute('y2', b.y);
+      });
+      anchorLayer.querySelectorAll('.map-anchor-dot').forEach((dot) => {
+        const anchor = anchorById.get(dot.getAttribute('data-id'));
+        if (!anchor) return;
+        const p = toScreen(anchor);
+        dot.setAttribute('cx', p.x);
+        dot.setAttribute('cy', p.y);
+      });
       linkLayer.querySelectorAll('.map-institution-link').forEach((line) => {
         const sourcePos = positionById.get(line.getAttribute('data-source-id'));
         const targetPos = positionById.get(line.getAttribute('data-target-id'));
@@ -295,18 +464,50 @@ export async function initInstitutionMap(container) {
     }
 
     function applyTransform() {
+      transform = clampTransform(transform, { minX: 0, maxX: width, minY: 0, maxY: height }, width, height);
       viewport.setAttribute('transform', `translate(${transform.x} ${transform.y}) scale(${transform.k})`);
       updateOverlayPositions();
     }
 
     function visibleInstitutions() {
       const relatedNames = selectedPaperInstitutions();
-      const top = institutions.slice().sort((a, b) => b.influence_score - a.influence_score).slice(0, 18);
+      const scenario = activeScenario();
+      let top;
+      if (activeScenarioId === 'bridge') {
+        top = pickBalancedInstitutions(institutions, (item) => scenarioValue(item, scenario, linkStrength));
+      } else if (activeScenarioId === 'paper' && relatedNames.size) {
+        top = pickBalancedInstitutions(institutions, (item) => (relatedNames.has(item.institution) ? 1000 : 0) + item.influence_score);
+      } else {
+        top = pickBalancedInstitutions(institutions, (item) => item.influence_score);
+      }
       relatedNames.forEach((name) => {
         const item = byName.get(name);
         if (item && !top.some((candidate) => candidate.id === item.id)) top.push(item);
       });
       return top;
+    }
+
+    function renderScenario() {
+      const scenario = activeScenario();
+      questionTitleEl.textContent = scenario.question;
+      questionCopyEl.textContent = scenario.description;
+      rankingTitleEl.textContent = scenario.rankTitle;
+      scenarioButtons.forEach((button) => {
+        const active = button.dataset.scenario === activeScenarioId;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-selected', String(active));
+      });
+      const paperInsts = selectedPaperInstitutions();
+      if (activeScenarioId === 'paper') {
+        evidenceEl.textContent = paperInsts.size
+          ? `当前论文关联 ${paperInsts.size} 个已归一化机构。`
+          : '先在论文网络、路径图或地铁图中选中论文，可查看其机构归属。';
+      } else if (activeScenarioId === 'bridge') {
+        evidenceEl.textContent = `基于 ${instLinks.length} 条机构共同引用联系计算。`;
+      } else {
+        const top = institutions.slice().sort((a, b) => b.influence_score - a.influence_score)[0];
+        evidenceEl.textContent = top ? `当前样本最高影响力机构：${top.institution}。` : '';
+      }
     }
 
     function renderLegend() {
@@ -320,7 +521,7 @@ export async function initInstitutionMap(container) {
         chip.innerHTML = `<span class="legend-swatch" style="background:${color}"></span>${label}`;
         legendEl.appendChild(chip);
       });
-      ['圆形=公司', '方形=大学', '三角=研究实验室', '描边=当前论文机构'].forEach((label) => {
+      ['圆形=公司', '方形=大学', '三角=研究实验室', '细线=真实地理锚点', '描边=当前论文机构'].forEach((label) => {
         const chip = document.createElement('span');
         chip.className = 'legend-chip';
         chip.textContent = label;
@@ -360,16 +561,23 @@ export async function initInstitutionMap(container) {
 
     function renderRanking() {
       const paperInsts = selectedPaperInstitutions();
+      const scenario = activeScenario();
       rankingEl.innerHTML = '';
       institutions
         .slice()
-        .sort((a, b) => b.influence_score - a.influence_score)
+        .sort((a, b) => {
+          const relatedDiff = activeScenarioId === 'paper'
+            ? Number(paperInsts.has(b.institution)) - Number(paperInsts.has(a.institution))
+            : 0;
+          return relatedDiff || scenarioValue(b, scenario, linkStrength) - scenarioValue(a, scenario, linkStrength) || b.influence_score - a.influence_score;
+        })
         .slice(0, 12)
         .forEach((item, index) => {
           const row = document.createElement('button');
           row.type = 'button';
           row.className = paperInsts.has(item.institution) ? 'institution-rank-row is-related' : 'institution-rank-row';
-          row.innerHTML = `<span>${index + 1}</span><strong>${item.institution}</strong><em>${item.influence_score}</em>`;
+          const value = scenarioValue(item, scenario, linkStrength);
+          row.innerHTML = `<span>${index + 1}</span><strong>${item.institution}</strong><em>${value}</em>`;
           row.addEventListener('click', () => setAppState({ selectedInstitutionId: item.id }, 'institution-map'));
           rankingEl.appendChild(row);
         });
@@ -387,7 +595,8 @@ export async function initInstitutionMap(container) {
         ? `当前选中论文《${selectedPaper.title}》${selectedPaperInstitutions().has(selected.institution) ? '属于该机构。' : '暂未归到该机构。'}`
         : '尚未选中论文。';
       const paperText = summarizePapers(papers).join('；') || '暂无可展示论文';
-      detailEl.innerHTML = `<strong>${selected.institution}</strong> · ${selected.city}, ${selected.country}<br />论文数 ${selected.papers_count}，引用数 ${selected.citations_count.toLocaleString()}，影响力 ${selected.influence_score}，类型 ${selected.org_type}。<br />${selectedPaperText}<br />代表论文：${paperText}`;
+      const linkText = `机构联系强度 ${linkStrength.get(selected.institution) || 0}`;
+      detailEl.innerHTML = `<strong>${selected.institution}</strong> · ${selected.city}, ${selected.country}<br />论文数 ${selected.papers_count}，引用数 ${selected.citations_count.toLocaleString()}，影响力 ${selected.influence_score}，类型 ${selected.org_type}，${linkText}。<br />${selectedPaperText}<br />代表论文：${paperText}`;
     }
 
     function renderPoints() {
@@ -396,14 +605,22 @@ export async function initInstitutionMap(container) {
       const visible = visibleInstitutions();
       const selectedNames = selectedPaperInstitutions();
       visibleIds = new Set(visible.map((item) => item.id));
-      positionById = computePositions(visible);
       pointLayer.innerHTML = '';
       labelLayer.innerHTML = '';
+      anchorLayer.innerHTML = '';
       const values = visible.map((item) => Number(item[sizeMode]) || 0);
       const minValue = Math.min(...values);
       const maxValue = Math.max(...values);
+      const radiusById = new Map(visible.map((item) => [item.id, mapRange(Number(item[sizeMode]) || 0, minValue, maxValue, 4, 11)]));
+      positionById = computePositions(visible, radiusById);
       visible.forEach((item) => {
-        const radius = mapRange(Number(item[sizeMode]) || 0, minValue, maxValue, 4, 11);
+        const radius = radiusById.get(item.id);
+        const anchor = anchorById.get(item.id);
+        const projected = positionById.get(item.id);
+        if (anchor && projected && Math.hypot(projected.x - anchor.x, projected.y - anchor.y) > 3) {
+          anchorLayer.appendChild(createSvgElement('line', { class: 'map-anchor-line', 'data-id': item.id }));
+          anchorLayer.appendChild(createSvgElement('circle', { class: 'map-anchor-dot', 'data-id': item.id, r: 2.1 }));
+        }
         const position = toScreen(positionById.get(item.id) || projectLonLat(item.lng, item.lat, width, height, padding));
         const group = createSvgElement('g', { class: 'map-point-group', 'data-id': item.id, transform: `translate(${position.x} ${position.y})`, tabindex: '0', role: 'button' });
         const symbol = createSymbol(item, radius, colorByMode(item, colorMode));
@@ -431,6 +648,7 @@ export async function initInstitutionMap(container) {
         }
       });
       statEl.textContent = `可见机构 ${visible.length}/${institutions.length} · 归一化别名 ${aliasLookup.size} 个 · 联系 ${instLinks.length} 条`;
+      renderScenario();
       renderLinks();
       renderRanking();
       renderLegend();
@@ -441,6 +659,13 @@ export async function initInstitutionMap(container) {
     colorModeEl.addEventListener('change', renderPoints);
     sizeModeEl.addEventListener('change', renderPoints);
     linkToggle.addEventListener('change', renderPoints);
+    scenarioButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        activeScenarioId = button.dataset.scenario || 'leader';
+        if (activeScenarioId === 'bridge') sizeModeEl.value = 'influence_score';
+        renderPoints();
+      });
+    });
     onAppStateChange(() => renderPoints());
     svg.addEventListener('wheel', (event) => {
       event.preventDefault();

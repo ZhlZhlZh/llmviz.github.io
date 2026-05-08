@@ -1,131 +1,197 @@
 .butterfly-canvas {
-  min-height: 340px;
+  min-height: 360px;
 }
 
-.butterfly-lane-line {
-  stroke: #d9dee8;
-  stroke-dasharray: 3 6;
-  stroke-width: 1;
+.butterfly-svg {
+  min-height: 430px;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(23, 107, 135, 0.08), transparent 34%),
+    linear-gradient(90deg, rgba(23, 107, 135, 0.035), transparent 18%, transparent 82%, rgba(201, 143, 66, 0.04)),
+    #fbfcfd;
 }
 
-.butterfly-lane-label {
-  fill: #5d6678;
-  font-size: 11px;
+.butterfly-wing-title {
+  fill: var(--accent-strong);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.butterfly-empty-wing {
+  fill: var(--muted);
+  font-size: 13px;
   font-weight: 700;
 }
 
-.butterfly-path-link {
-  stroke: #176b87;
+.butterfly-influence-link {
+  fill: none;
   stroke-linecap: round;
-  stroke-width: 3.2;
-  stroke-opacity: 0.72;
+  stroke-width: 1.8;
 }
 
-.butterfly-path-link.is-cross {
-  stroke: #d97706;
-  stroke-dasharray: 7 5;
-  stroke-opacity: 0.9;
+.butterfly-influence-link.depth-2 {
+  stroke-width: 1.35;
+  stroke-dasharray: 5 5;
+  opacity: 0.72;
 }
 
-.butterfly-path-node-group {
+.butterfly-influence-link.depth-3 {
+  stroke-width: 1.05;
+  stroke-dasharray: 2 5;
+  opacity: 0.54;
+}
+
+.butterfly-influence-link.is-upstream {
+  stroke: rgba(23, 107, 135, 0.46);
+}
+
+.butterfly-influence-link.is-downstream {
+  stroke: rgba(201, 143, 66, 0.58);
+}
+
+.butterfly-node-group {
   cursor: pointer;
+  outline: none;
 }
 
-.butterfly-path-node {
+.butterfly-node {
   stroke: #ffffff;
-  stroke-width: 1.6;
+  stroke-width: 1.8;
+  transition: stroke-width 160ms ease, filter 160ms ease;
 }
 
-.butterfly-path-node-group.phase-foundation .butterfly-path-node {
+.butterfly-node-group:hover .butterfly-node,
+.butterfly-node-group:focus-visible .butterfly-node {
+  filter: drop-shadow(0 4px 10px rgba(23, 107, 135, 0.22));
+  stroke-width: 3;
+}
+
+.butterfly-node-group.phase-foundation .butterfly-node {
   fill: #64748b;
 }
 
-.butterfly-path-node-group.phase-boom .butterfly-path-node {
+.butterfly-node-group.phase-boom .butterfly-node {
   fill: #ea580c;
 }
 
-.butterfly-path-node-group.phase-agentic .butterfly-path-node {
+.butterfly-node-group.phase-agentic .butterfly-node {
   fill: #2563eb;
 }
 
-.butterfly-path-node-group.is-start .butterfly-path-node {
-  stroke: #facc15;
-  stroke-width: 2.4;
+.butterfly-node-group.is-center .butterfly-node {
+  fill: #ffffff;
+  stroke: #dc2626;
+  stroke-width: 3;
 }
 
-.butterfly-path-node-group.is-end .butterfly-path-node {
-  fill: #14b8a6;
-  stroke: #0f766e;
-  stroke-width: 2.2;
+.butterfly-node-group.depth-2 {
+  opacity: 0.82;
 }
 
-.butterfly-path-year {
+.butterfly-node-group.depth-3 {
+  opacity: 0.68;
+}
+
+.butterfly-node-year {
   fill: #ffffff;
   font-size: 9px;
   font-weight: 800;
   pointer-events: none;
 }
 
-.butterfly-path-label {
-  fill: #172033;
-  font-size: 10px;
-  font-weight: 700;
+.butterfly-node-year.is-outside {
+  fill: var(--muted-strong);
+  font-size: 9px;
   paint-order: stroke;
-  pointer-events: none;
-  stroke: rgba(255, 255, 255, 0.92);
+  stroke: rgba(255, 255, 255, 0.94);
   stroke-width: 3px;
 }
 
-.butterfly-empty {
-  fill: #5d6678;
-  font-size: 13px;
-  font-weight: 700;
+.butterfly-node-group.is-center .butterfly-node-year {
+  fill: #dc2626;
+  font-size: 10px;
+}
+
+.butterfly-node-label {
+  fill: #172033;
+  font-size: 10px;
+  font-weight: 750;
+  paint-order: stroke;
+  pointer-events: none;
+  stroke: rgba(255, 255, 255, 0.94);
+  stroke-width: 3px;
+}
+
+.butterfly-node-group.depth-3 .butterfly-node-label {
+  display: none;
 }
 
 .butterfly-explain-grid {
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(300px, 1.05fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
   gap: var(--space-4);
 }
 
-.butterfly-step-list {
-  max-height: 220px;
-  margin: 0;
-  overflow: auto;
+.butterfly-wing-lists {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.butterfly-wing-lists section {
   border: var(--border-width) solid var(--line);
   border-radius: 8px;
   background: var(--surface);
-  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-7);
+  padding: var(--space-4);
 }
 
-.butterfly-step-list li {
-  margin-bottom: var(--space-3);
+.butterfly-wing-lists h4 {
+  margin: 0 0 var(--space-3);
+  color: var(--text);
+  font-size: var(--fs-300);
+}
+
+.butterfly-wing-lists ol {
+  display: grid;
+  max-height: 260px;
+  margin: 0;
+  overflow: auto;
+  padding-left: var(--space-5);
+  gap: var(--space-2);
+}
+
+.butterfly-wing-lists li {
   color: var(--muted-strong);
+  cursor: pointer;
   font-size: var(--fs-200);
 }
 
-.butterfly-step-list li:last-child {
-  margin-bottom: 0;
+.butterfly-wing-lists li:hover {
+  color: var(--accent-strong);
 }
 
-.butterfly-step-list strong,
-.butterfly-step-list span,
-.butterfly-step-list em {
+.butterfly-wing-lists li.is-empty {
+  cursor: default;
+}
+
+.butterfly-wing-lists strong,
+.butterfly-wing-lists span {
   display: block;
 }
 
-.butterfly-step-list strong {
+.butterfly-wing-lists strong {
   color: var(--text);
+  font-weight: 700;
 }
 
-.butterfly-step-list em {
+.butterfly-wing-lists span {
   color: var(--muted);
   font-size: var(--fs-100);
-  font-style: normal;
 }
 
-@media (max-width: 780px) {
-  .butterfly-explain-grid {
+@media (max-width: 900px) {
+  .butterfly-explain-grid,
+  .butterfly-wing-lists {
     grid-template-columns: 1fr;
   }
 }
