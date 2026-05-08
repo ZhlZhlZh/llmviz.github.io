@@ -15,7 +15,9 @@
     "link": "https://www.semanticscholar.org/paper/cd18800a0fe0b668a1cc19f2ec95b5003d0a5035",
     "citations_count": 14671,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "OpenAI"
+    ]
   },
   {
     "id": "df2b0e26d0599ce3e70df8a9da02e51594e0e992",
@@ -34,7 +36,9 @@
     "link": "https://www.semanticscholar.org/paper/df2b0e26d0599ce3e70df8a9da02e51594e0e992",
     "citations_count": 113983,
     "venue": "North American Chapter of the Association for Computational Linguistics",
-    "institution": []
+    "institution": [
+      "Google Research"
+    ]
   },
   {
     "id": "7bbc7595196a0606a07506c4fb1473e5e87f6082",
@@ -51,7 +55,10 @@
     "link": "https://www.semanticscholar.org/paper/7bbc7595196a0606a07506c4fb1473e5e87f6082",
     "citations_count": 6800,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Carnegie Mellon University",
+      "Princeton University"
+    ]
   },
   {
     "id": "90abbc2cf38462b954ae1b772fac9532e2ccd8b0",
@@ -187,7 +194,6 @@
     "institution": [
       "Google Research",
       "Inflection AI",
-      "Google Brain",
       "Stanford University",
       "University of Utah",
       "Google",
@@ -219,7 +225,8 @@
     "citations_count": 25449,
     "venue": "Journal of machine learning research",
     "institution": [
-      "Google"
+      "Google",
+      "Google Research"
     ]
   },
   {
@@ -277,7 +284,7 @@
     "venue": "Neural Information Processing Systems",
     "institution": [
       "New York University",
-      "Facebook AI Research",
+      "Meta AI",
       "University College London"
     ]
   },
@@ -298,7 +305,8 @@
     "citations_count": 3768,
     "venue": "Journal of machine learning research",
     "institution": [
-      "Google"
+      "Google",
+      "Google Research"
     ]
   },
   {
@@ -326,7 +334,9 @@
     "link": "https://www.semanticscholar.org/paper/6f870f7f02a8c59c3e23f407f3ef00dd1dcf8fc4",
     "citations_count": 47856,
     "venue": "International Conference on Machine Learning",
-    "institution": []
+    "institution": [
+      "OpenAI"
+    ]
   },
   {
     "id": "fdacf2a732f55befdc410ea927091cad3b791f13",
@@ -345,7 +355,8 @@
     "citations_count": 3768,
     "venue": "Journal of machine learning research",
     "institution": [
-      "Google"
+      "Google",
+      "Google Research"
     ]
   },
   {
@@ -373,7 +384,9 @@
     "link": "https://www.semanticscholar.org/paper/6f870f7f02a8c59c3e23f407f3ef00dd1dcf8fc4",
     "citations_count": 47857,
     "venue": "International Conference on Machine Learning",
-    "institution": []
+    "institution": [
+      "OpenAI"
+    ]
   },
   {
     "id": "ff0b2681d7b05e16c46dfb71d980cc2f605907cd",
@@ -436,7 +449,9 @@
     "link": "https://www.semanticscholar.org/paper/d766bffc357127e0dc86dd69561d5aeb520d6f4c",
     "citations_count": 20323,
     "venue": "Neural Information Processing Systems",
-    "institution": []
+    "institution": [
+      "OpenAI"
+    ]
   },
   {
     "id": "094ff971d6a8b8ff870946c9b3ce5aa173617bfb",
@@ -521,7 +536,6 @@
     "institution": [
       "Google Research",
       "Google",
-      "Google Brain",
       "Arizona State University",
       "University of Utah",
       "Inflection AI",
@@ -561,10 +575,8 @@
     "citations_count": 4688,
     "venue": "arXiv.org",
     "institution": [
-      "Facebook",
       "Meta AI",
-      "University of Washington",
-      "Facebook AI Research"
+      "University of Washington"
     ]
   },
   {
@@ -594,7 +606,9 @@
     "link": "https://www.semanticscholar.org/paper/57e849d0de13ed5f91d086936296721d4ff75a75",
     "citations_count": 19682,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Meta AI"
+    ]
   },
   {
     "id": "163b4d6a79a5b19af88b8585456363340d9efd04",
@@ -889,11 +903,12 @@
     "citations_count": 24086,
     "venue": "Unknown",
     "institution": [
-      "Google Brain",
-      "University of California, Berkeley",
+      "Google Research",
+      "UC Berkeley",
       "Google",
       "University of Washington",
-      "EleutherAI"
+      "EleutherAI",
+      "OpenAI"
     ]
   },
   {
@@ -979,9 +994,7 @@
     "venue": "arXiv.org",
     "institution": [
       "Meta AI",
-      "Facebook AI Research",
-      "Inria",
-      "Facebook AI"
+      "Inria"
     ]
   },
   {
@@ -1006,7 +1019,7 @@
     "venue": "arXiv.org",
     "institution": [
       "Toyota Technological Institute at Chicago",
-      "Microsoft Research"
+      "Microsoft"
     ]
   },
   {
@@ -1028,7 +1041,10 @@
     "link": "https://www.semanticscholar.org/paper/d2c733e34d48784a37d717fe43d9e93277a8c53e",
     "citations_count": 72674,
     "venue": "2009 IEEE Conference on Computer Vision and Pattern Recognition",
-    "institution": []
+    "institution": [
+      "Stanford University",
+      "Princeton University"
+    ]
   },
   {
     "id": "0060745e006c5f14ec326904119dca19c6545e51",
@@ -1048,7 +1064,9 @@
     "link": "https://www.semanticscholar.org/paper/0060745e006c5f14ec326904119dca19c6545e51",
     "citations_count": 7982,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "University of Toronto"
+    ]
   },
   {
     "id": "6296aa7cab06eaf058f7291040b320b5a83c0091",
@@ -1073,7 +1091,7 @@
     "citations_count": 30549,
     "venue": "International Conference on Computing Communication and Networking Technologies",
     "institution": [
-      "DeepMind"
+      "Google DeepMind"
     ]
   },
   {
@@ -1093,7 +1111,9 @@
     "link": "https://www.semanticscholar.org/paper/fa72afa9b2cbc8f0d7b05d52548906610ffbb9c5",
     "citations_count": 29304,
     "venue": "International Conference on Learning Representations",
-    "institution": []
+    "institution": [
+      "Mila"
+    ]
   },
   {
     "id": "995c5f5e62614fcb4d2796ad2faab969da51713e",
@@ -1111,7 +1131,7 @@
     "citations_count": 46546,
     "venue": "International Conference on Machine Learning",
     "institution": [
-      "Google (United States)"
+      "Google Research"
     ]
   },
   {
@@ -1132,7 +1152,7 @@
     "citations_count": 226835,
     "venue": "Computer Vision and Pattern Recognition",
     "institution": [
-      "Facebook AI Research"
+      "Meta AI"
     ]
   },
   {
@@ -1155,7 +1175,9 @@
     "link": "https://www.semanticscholar.org/paper/9405cc0d6169988371b2755e573cc28650d14dfe",
     "citations_count": 28350,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "OpenAI"
+    ]
   },
   {
     "id": "dc32a984b651256a8ec282be52310e6bd33d9815",
@@ -1208,7 +1230,7 @@
     "citations_count": 35130,
     "venue": "Nature",
     "institution": [
-      "DeepMind",
+      "Google DeepMind",
       "Seoul National University, Johns Hopkins University, Max Planck Institute"
     ]
   },
@@ -1315,7 +1337,9 @@
     "link": "https://www.semanticscholar.org/paper/d766bffc357127e0dc86dd69561d5aeb520d6f4c",
     "citations_count": 20329,
     "venue": "Neural Information Processing Systems",
-    "institution": []
+    "institution": [
+      "OpenAI"
+    ]
   },
   {
     "id": "87c5b281fa43e6f27191b20a8dd694eda1126336",
@@ -1335,7 +1359,9 @@
     "link": "https://www.semanticscholar.org/paper/87c5b281fa43e6f27191b20a8dd694eda1126336",
     "citations_count": 4169,
     "venue": "Neural Information Processing Systems",
-    "institution": []
+    "institution": [
+      "Stanford University"
+    ]
   },
   {
     "id": "c10075b3746a9f3dd5811970e93c8ca3ad39b39d",
@@ -1387,7 +1413,9 @@
     "link": "https://www.semanticscholar.org/paper/57e849d0de13ed5f91d086936296721d4ff75a75",
     "citations_count": 19683,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Meta AI"
+    ]
   },
   {
     "id": "32ac52069e562d4f900afee70bdca63f53461481",
@@ -1407,7 +1435,7 @@
     "citations_count": 4429,
     "venue": "Neural Information Processing Systems",
     "institution": [
-      "Facebook",
+      "Meta AI",
       "University of Washington"
     ]
   },
@@ -1431,9 +1459,8 @@
     "citations_count": 8363,
     "venue": "Neural Information Processing Systems",
     "institution": [
-      "Stanford",
-      "Google",
-      "Stanford University"
+      "Stanford University",
+      "Google"
     ]
   },
   {
@@ -1496,7 +1523,8 @@
     "citations_count": 3400,
     "venue": "arXiv.org",
     "institution": [
-      "University of Cambridge"
+      "University of Cambridge",
+      "Mistral AI"
     ]
   },
   {
@@ -2014,11 +2042,9 @@
     "venue": "arXiv.org",
     "institution": [
       "Google DeepMind",
-      "Google Deepmind",
       "University of Amsterdam",
       "University of Edinburgh",
-      "Mila, University of Montreal",
-      "Google Brain",
+      "Mila",
       "Google Research",
       "The University of Edinburgh"
     ]
@@ -2084,7 +2110,7 @@
     "citations_count": 30552,
     "venue": "International Conference on Computing Communication and Networking Technologies",
     "institution": [
-      "DeepMind"
+      "Google DeepMind"
     ]
   },
   {
@@ -2141,7 +2167,7 @@
     "citations_count": 226812,
     "venue": "Computer Vision and Pattern Recognition",
     "institution": [
-      "Facebook AI Research"
+      "Meta AI"
     ]
   },
   {
@@ -2334,7 +2360,9 @@
     "link": "https://www.semanticscholar.org/paper/a8ca46b171467ceb2d7652fbfb67fe701ad86092",
     "citations_count": 18720,
     "venue": "International Conference on Learning Representations",
-    "institution": []
+    "institution": [
+      "Microsoft"
+    ]
   },
   {
     "id": "7cbc2a7843411a1768ab762930707af0a3c33a19",
@@ -2468,7 +2496,7 @@
       "UC Berkeley",
       "Stanford University",
       "OpenAI",
-      "NYU"
+      "New York University"
     ]
   },
   {
@@ -2508,7 +2536,8 @@
     "citations_count": 115,
     "venue": "Annual Meeting of the Association for Computational Linguistics",
     "institution": [
-      "Johns Hopkins University"
+      "Johns Hopkins University",
+      "Stanford University"
     ]
   },
   {
@@ -2556,7 +2585,10 @@
     "link": "https://www.semanticscholar.org/paper/edd1dc1e8d7989f36c0e54f69f4aeb5e597edc8b",
     "citations_count": 669,
     "venue": "Annual Meeting of the Association for Computational Linguistics",
-    "institution": []
+    "institution": [
+      "Princeton University",
+      "Meta AI"
+    ]
   },
   {
     "id": "a1455ebf34e25cf0c6db4573258bb09d49f0b77c",
@@ -2574,7 +2606,10 @@
     "link": "https://www.semanticscholar.org/paper/a1455ebf34e25cf0c6db4573258bb09d49f0b77c",
     "citations_count": 12,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Carnegie Mellon University",
+      "Princeton University"
+    ]
   },
   {
     "id": "db633c6b1c286c0386f0078d8a2e6224e03a6227",
@@ -2609,7 +2644,8 @@
     "citations_count": 3398,
     "venue": "arXiv.org",
     "institution": [
-      "University of Cambridge"
+      "University of Cambridge",
+      "Mistral AI"
     ]
   },
   {
@@ -3129,11 +3165,9 @@
       "University of Edinburgh",
       "Google DeepMind",
       "Google Research",
-      "Google Brain",
       "The University of Edinburgh",
       "University of Amsterdam",
-      "Google Deepmind",
-      "Mila, University of Montreal"
+      "Mila"
     ]
   },
   {
@@ -3468,7 +3502,7 @@
       "Google DeepMind",
       "MIT,Google",
       "University of Southern California",
-      "Google Brain",
+      "Google Research",
       "Google"
     ]
   }

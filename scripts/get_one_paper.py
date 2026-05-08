@@ -60,4 +60,4 @@ def get_one_paper(title):
 
 # 示例调用（可选，如需调用可取消注释）
 if __name__ == "__main__":
-    get_one_paper("Attention Is All You Need")
+    get_one_paper("BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding")

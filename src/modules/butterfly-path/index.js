@@ -3,6 +3,51 @@ import { getAppState, onAppStateChange, setAppState } from '../../shared/app-sta
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
+const PRESET_DEFINITIONS = [
+  {
+    label: 'Transformer -> GPT-3',
+    start: 'Attention is All you Need',
+    end: 'Language Models are Few-Shot Learners',
+    note: '从注意力架构到大规模自回归语言模型，展示“结构创新如何变成规模化范式”。'
+  },
+  {
+    label: 'GPT-1 -> GPT-3',
+    start: 'Improving Language Understanding by Generative Pre-Training',
+    end: 'Language Models are Few-Shot Learners',
+    note: '从生成式预训练到少样本学习，解释 GPT 路线如何把预训练模型推向通用接口。'
+  },
+  {
+    label: 'BERT -> RoBERTa',
+    start: 'BERT: Pre-training of Deep Bidirectional Transformers',
+    end: 'RoBERTa',
+    note: '同一预训练流派内部的优化路径，突出目标函数、数据和训练策略的迭代。'
+  },
+  {
+    label: 'RAG -> GPT-4',
+    start: 'Retrieval-Augmented Generation',
+    end: 'GPT-4 Technical Report',
+    note: '从外部知识注入到通用模型能力，观察检索增强与大模型推理之间的连接。'
+  },
+  {
+    label: 'CLIP -> Gemini 1.5',
+    start: 'Learning Transferable Visual Models From Natural Language Supervision',
+    end: 'Gemini 1.5',
+    note: '从图文对齐到长上下文多模态，说明视觉-语言表示如何进入基础模型主线。'
+  },
+  {
+    label: 'InstructGPT -> DPO',
+    start: 'Training language models to follow instructions with human feedback',
+    end: 'Direct Preference Optimization',
+    note: '从人类反馈强化学习到直接偏好优化，展示对齐方法从复杂管线走向轻量训练目标。'
+  },
+  {
+    label: 'Mamba -> 长上下文模型',
+    start: 'Mamba: Linear-Time Sequence Modeling',
+    end: 'Gemini 1.5',
+    note: '把高效序列建模放到长上下文问题中，比较注意力替代路线与主流基础模型需求。'
+  }
+];
+
 function createSvgElement(tag, attrs = {}) {
   const el = document.createElementNS(SVG_NS, tag);
   Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, String(value)));
@@ -12,6 +57,26 @@ function createSvgElement(tag, attrs = {}) {
 function shorten(text, maxLength) {
   if (!text || text.length <= maxLength) return text || '';
   return `${text.slice(0, maxLength - 1)}...`;
+}
+
+function asArray(value) {
+  if (Array.isArray(value)) return value.filter(Boolean);
+  if (value) return [value];
+  return [];
+}
+
+function primaryTopic(node) {
+  const topics = asArray(node.topic);
+  if (topics.some((topic) => /linguistics/i.test(topic))) return '语言';
+  if (topics.some((topic) => /medicine|biology/i.test(topic))) return '应用';
+  if (topics.some((topic) => /mathematics/i.test(topic))) return '方法';
+  return '计算';
+}
+
+function phaseLabel(year) {
+  if (year <= 2017) return '基础机制';
+  if (year <= 2022) return '预训练扩展';
+  return '对齐与智能体';
 }
 
 function phaseClassByYear(year) {
@@ -30,60 +95,58 @@ function buildAdjacency(nodes, edges) {
   return adjacency;
 }
 
-function shortestPath(adjacency, startId, endId, allowedSet) {
+function shortestPath(adjacency, startId, endId, maxDepth = 9) {
   if (!startId || !endId) return [];
   if (startId === endId) return [startId];
-  const queue = [startId];
+  const queue = [{ id: startId, depth: 0 }];
   const prev = new Map();
   const visited = new Set([startId]);
 
-  while (queue.length) {
-    const current = queue.shift();
-    for (const next of adjacency.get(current) || []) {
-      if (!allowedSet.has(next) || visited.has(next)) continue;
+  for (let cursor = 0; cursor < queue.length; cursor += 1) {
+    const { id, depth } = queue[cursor];
+    if (depth >= maxDepth) continue;
+    for (const next of adjacency.get(id) || []) {
+      if (visited.has(next)) continue;
       visited.add(next);
-      prev.set(next, current);
+      prev.set(next, id);
       if (next === endId) {
         const path = [endId];
-        let cursor = endId;
-        while (prev.has(cursor)) {
-          cursor = prev.get(cursor);
-          path.push(cursor);
+        let current = endId;
+        while (prev.has(current)) {
+          current = prev.get(current);
+          path.push(current);
         }
         return path.reverse();
       }
-      queue.push(next);
+      queue.push({ id: next, depth: depth + 1 });
     }
   }
   return [];
 }
 
-function collectNeighborhood(centerId, adjacency, maxNodes) {
-  if (!centerId) return new Set();
-  const selected = new Set([centerId]);
-  const queue = [{ id: centerId, depth: 0 }];
-  let cursor = 0;
-
-  while (cursor < queue.length && selected.size < maxNodes) {
-    const { id, depth } = queue[cursor];
-    cursor += 1;
-    if (depth >= 3) continue;
-    Array.from(adjacency.get(id) || []).forEach((next) => {
-      if (selected.size >= maxNodes || selected.has(next)) return;
-      selected.add(next);
-      queue.push({ id: next, depth: depth + 1 });
-    });
-  }
-  return selected;
+function findByTitle(nodes, query) {
+  const q = query.toLowerCase();
+  return nodes
+    .filter((node) => node.title.toLowerCase().includes(q))
+    .sort((a, b) => (b.citations_count || 0) - (a.citations_count || 0))[0] || null;
 }
 
-function edgeKey(a, b) {
-  return a < b ? `${a}__${b}` : `${b}__${a}`;
+function optionText(node) {
+  return `${node.year} | ${shorten(node.title, 64)}`;
 }
 
-function mapRange(value, domainMin, domainMax, rangeMin, rangeMax) {
-  if (domainMin === domainMax) return (rangeMin + rangeMax) / 2;
-  return rangeMin + ((value - domainMin) / (domainMax - domainMin)) * (rangeMax - rangeMin);
+function summarizePath(pathNodes, fallbackNote) {
+  if (!pathNodes.length) return '请选择起点和终点论文，系统会只展示两者之间的可达路径。';
+  const start = pathNodes[0];
+  const end = pathNodes[pathNodes.length - 1];
+  const topics = Array.from(new Set(pathNodes.map(primaryTopic)));
+  const institutions = Array.from(
+    new Set(pathNodes.flatMap((node) => asArray(node.institution)).slice(0, 12))
+  );
+  const bridge = pathNodes.slice(1, -1).sort((a, b) => (b.citations_count || 0) - (a.citations_count || 0))[0];
+  const bridgeText = bridge ? `中间最像桥梁的是《${shorten(bridge.title, 42)}》，它把 ${phaseLabel(start.year)} 的问题带到 ${phaseLabel(end.year)}。` : '这是一条直接连接。';
+  const instText = institutions.length ? `涉及机构包括 ${institutions.slice(0, 5).join('、')}。` : '这条路径的机构数据仍需继续补齐。';
+  return `${fallbackNote || `这条路径连接《${shorten(start.title, 32)}》与《${shorten(end.title, 32)}》。`} ${bridgeText} 主题跨度：${topics.join(' / ')}。${instText}`;
 }
 
 export async function initButterflyPath(container) {
@@ -93,72 +156,57 @@ export async function initButterflyPath(container) {
     <div class="module-shell">
       <p class="module-tag">Module 03</p>
       <h3 class="module-title">蝴蝶影响路径图</h3>
-      <p class="module-subtitle">既可不选中心、按年份浏览全局论文空间，也可选择中心和目标论文来高亮最短影响路径；画布支持缩放、平移和节点拖动。</p>
+      <p class="module-subtitle">把局部网络改成“路径解释器”：选择一条预设路线，或手动指定起点与终点，只保留路径相关论文。</p>
       <div class="chart-toolbar chart-toolbar-wrap">
         <label class="chart-control">
-          起始年份
-          <input class="chart-range butterfly-year-start" type="range" min="2013" max="2026" step="1" value="2013" />
-          <output class="year-badge butterfly-year-start-output">2013</output>
+          预设路径
+          <select class="chart-select butterfly-preset-select"></select>
         </label>
         <label class="chart-control">
-          结束年份
-          <input class="chart-range butterfly-year-end" type="range" min="2013" max="2026" step="1" value="2026" />
-          <output class="year-badge butterfly-year-end-output">2026</output>
+          起点论文
+          <select class="chart-select butterfly-start-select"></select>
         </label>
         <label class="chart-control">
-          中心论文
-          <select class="chart-select butterfly-center-select"></select>
+          终点论文
+          <select class="chart-select butterfly-end-select"></select>
         </label>
         <label class="chart-control">
-          搜索中心
-          <input class="chart-input butterfly-center-search" list="butterfly-paper-list" placeholder="标题 / 作者 / 机构" />
+          搜索论文
+          <input class="chart-input butterfly-search" list="butterfly-paper-list" placeholder="标题 / 作者 / 机构" />
         </label>
-        <label class="chart-control">
-          相关论文
-          <select class="chart-select butterfly-target-select"></select>
-        </label>
-        <label class="chart-control">
-          搜索相关
-          <input class="chart-input butterfly-target-search" list="butterfly-paper-list" placeholder="标题 / 作者 / 机构" />
-        </label>
-        <label class="chart-control">
-          最大节点
-          <input class="chart-number butterfly-max-input" type="number" min="25" max="140" step="5" value="70" />
-        </label>
-        <button class="chart-button butterfly-clear-button" type="button">清除选择</button>
-        <button class="chart-button butterfly-reset-button" type="button">重置视图</button>
+        <button class="chart-button butterfly-use-search-start" type="button">设为起点</button>
+        <button class="chart-button butterfly-use-search-end" type="button">设为终点</button>
         <datalist id="butterfly-paper-list"></datalist>
         <div class="chart-stat" aria-live="polite">加载中...</div>
       </div>
       <div class="module-canvas chart-canvas butterfly-canvas">
-        <svg class="chart-svg butterfly-svg" viewBox="0 0 900 500" role="img" aria-label="Butterfly network path chart"></svg>
+        <svg class="chart-svg butterfly-svg" viewBox="0 0 900 460" role="img" aria-label="Hierarchical influence path chart"></svg>
       </div>
-      <div class="chart-detail butterfly-detail"></div>
+      <div class="butterfly-explain-grid">
+        <div class="chart-detail butterfly-detail"></div>
+        <ol class="butterfly-step-list"></ol>
+      </div>
       <div class="legend-row">
-        <span class="legend-chip">无中心 = 全局年份网络</span>
-        <span class="legend-chip">中心 + 相关 = 路径高亮</span>
-        <span class="legend-chip">点击节点 = 选择相关论文</span>
+        <span class="legend-chip">横向 = 路径顺序</span>
+        <span class="legend-chip">纵向 = 论文主要领域</span>
+        <span class="legend-chip">虚线 = 跨领域影响</span>
       </div>
     </div>
   `;
 
-  const startSlider = container.querySelector('.butterfly-year-start');
-  const endSlider = container.querySelector('.butterfly-year-end');
-  const startOutput = container.querySelector('.butterfly-year-start-output');
-  const endOutput = container.querySelector('.butterfly-year-end-output');
-  const centerSelect = container.querySelector('.butterfly-center-select');
-  const targetSelect = container.querySelector('.butterfly-target-select');
-  const centerSearch = container.querySelector('.butterfly-center-search');
-  const targetSearch = container.querySelector('.butterfly-target-search');
+  const presetSelect = container.querySelector('.butterfly-preset-select');
+  const startSelect = container.querySelector('.butterfly-start-select');
+  const endSelect = container.querySelector('.butterfly-end-select');
+  const searchInput = container.querySelector('.butterfly-search');
+  const useSearchStart = container.querySelector('.butterfly-use-search-start');
+  const useSearchEnd = container.querySelector('.butterfly-use-search-end');
   const paperList = container.querySelector('#butterfly-paper-list');
-  const maxInput = container.querySelector('.butterfly-max-input');
-  const clearButton = container.querySelector('.butterfly-clear-button');
-  const resetButton = container.querySelector('.butterfly-reset-button');
   const statEl = container.querySelector('.chart-stat');
   const detailEl = container.querySelector('.butterfly-detail');
+  const stepList = container.querySelector('.butterfly-step-list');
   const svg = container.querySelector('.butterfly-svg');
 
-  if (!startSlider || !endSlider || !startOutput || !endOutput || !centerSelect || !targetSelect || !centerSearch || !targetSearch || !paperList || !maxInput || !clearButton || !resetButton || !statEl || !detailEl || !svg) return;
+  if (!presetSelect || !startSelect || !endSelect || !searchInput || !useSearchStart || !useSearchEnd || !paperList || !statEl || !detailEl || !stepList || !svg) return;
 
   try {
     const [nodesData, edgesData] = await Promise.all([
@@ -166,121 +214,32 @@ export async function initButterflyPath(container) {
       loadJson('./data/processed/edges.json')
     ]);
 
-    const width = 900;
-    const height = 500;
-    const margin = { top: 28, right: 30, bottom: 40, left: 42 };
-    const minYear = Math.min(...nodesData.map((node) => node.year));
-    const maxYear = Math.max(...nodesData.map((node) => node.year));
-    startSlider.min = String(minYear);
-    startSlider.max = String(maxYear);
-    endSlider.min = String(minYear);
-    endSlider.max = String(maxYear);
-    const topics = Array.from(new Set(nodesData.map((node) => node.topic || 'other'))).sort();
-    const nodeById = new Map(nodesData.map((node) => [node.id, { ...node, x: 0, y: 0, fixed: false }]));
-    const nodes = Array.from(nodeById.values());
+    const nodes = nodesData.map((node) => ({ ...node }));
+    const nodeById = new Map(nodes.map((node) => [node.id, node]));
     const adjacency = buildAdjacency(nodes, edgesData);
-    const links = edgesData
-      .map((edge) => ({ ...edge, sourceNode: nodeById.get(edge.source), targetNode: nodeById.get(edge.target) }))
-      .filter((edge) => edge.sourceNode && edge.targetNode);
+    const width = 900;
+    const height = 460;
+    const margin = { top: 56, right: 42, bottom: 54, left: 78 };
+    const laneLabels = ['计算', '语言', '方法', '应用'];
+    const laneY = new Map(laneLabels.map((label, index) => [
+      label,
+      margin.top + index * ((height - margin.top - margin.bottom) / Math.max(laneLabels.length - 1, 1))
+    ]));
 
-    let centerId = getAppState().selectedPaperId || '';
-    let targetId = '';
-    let visibleIds = new Set();
-    let visibleLinks = [];
-    let pathIds = [];
-    let transform = { x: 0, y: 0, k: 1 };
-    let draggingNode = null;
-    let panning = null;
-    let pendingCenterId = null;
-    let pendingCenterKeepScale = true;
+    let activeNote = '';
+    let startId = getAppState().selectedPaperId || '';
+    let endId = '';
+    let activePath = [];
 
-    function normalizeYearRange(start, end) {
-      const safeStart = Number.isFinite(start) ? start : minYear;
-      const safeEnd = Number.isFinite(end) ? end : maxYear;
-      const clampedStart = Math.min(Math.max(safeStart, minYear), maxYear);
-      const clampedEnd = Math.min(Math.max(safeEnd, minYear), maxYear);
-      return {
-        start: Math.min(clampedStart, clampedEnd),
-        end: Math.max(clampedStart, clampedEnd)
-      };
-    }
-
-    function syncYearRangeInputs(start, end) {
-      startSlider.value = String(start);
-      endSlider.value = String(end);
-      startOutput.textContent = String(start);
-      endOutput.textContent = String(end);
-    }
-
-    function getActiveYearRange() {
-      return normalizeYearRange(Number(startSlider.value), Number(endSlider.value));
-    }
-
-    function expandRangeForYear(range, year) {
-      if (!Number.isFinite(year)) return range;
-      return normalizeYearRange(Math.min(range.start, year), Math.max(range.end, year));
-    }
-
-    const initialRange = normalizeYearRange(
-      Number.isFinite(getAppState().yearRangeStart) ? getAppState().yearRangeStart : minYear,
-      Number.isFinite(getAppState().yearRangeEnd) ? getAppState().yearRangeEnd : getAppState().year
-    );
-    syncYearRangeInputs(initialRange.start, initialRange.end);
-
-    const viewport = createSvgElement('g', { class: 'graph-viewport' });
-    const edgeLayer = createSvgElement('g');
-    const nodeLayer = createSvgElement('g');
-    viewport.append(edgeLayer, nodeLayer);
-    svg.appendChild(viewport);
-
-    function applyTransform() {
-      viewport.setAttribute('transform', `translate(${transform.x} ${transform.y}) scale(${transform.k})`);
-    }
-
-    function centerOnNode(node, keepScale = true) {
-      const k = keepScale ? transform.k : 1;
-      transform.k = k;
-      transform.x = width / 2 - node.x * k;
-      transform.y = height / 2 - node.y * k;
-      applyTransform();
-    }
-
-    function scheduleCenter(id, keepScale = true) {
-      pendingCenterId = id;
-      pendingCenterKeepScale = keepScale;
-    }
-
-    function applyPendingCenter() {
-      if (!pendingCenterId) return;
-      const node = nodeById.get(pendingCenterId);
-      if (node) centerOnNode(node, pendingCenterKeepScale);
-      pendingCenterId = null;
-    }
-
-    function resetView() {
-      transform = { x: 0, y: 0, k: 1 };
-      if (centerId && nodeById.has(centerId)) {
-        centerOnNode(nodeById.get(centerId), false);
-      } else {
-        applyTransform();
-      }
-    }
-
-    function optionText(node) {
-      return `${node.year} | ${shorten(node.title, 42)}`;
-    }
-
-    function fillSelect(select, includeNone = true) {
+    function fillPaperSelect(select) {
       select.innerHTML = '';
-      if (includeNone) {
-        const none = document.createElement('option');
-        none.value = '';
-        none.textContent = '不选择，显示全局网络';
-        select.appendChild(none);
-      }
+      const empty = document.createElement('option');
+      empty.value = '';
+      empty.textContent = '请选择论文';
+      select.appendChild(empty);
       nodes
         .slice()
-        .sort((a, b) => a.year - b.year || b.citations_count - a.citations_count)
+        .sort((a, b) => a.year - b.year || (b.citations_count || 0) - (a.citations_count || 0))
         .forEach((node) => {
           const option = document.createElement('option');
           option.value = node.id;
@@ -289,324 +248,214 @@ export async function initButterflyPath(container) {
         });
     }
 
-    fillSelect(centerSelect, true);
-    fillSelect(targetSelect, true);
-    nodes.forEach((node) => {
-      const option = document.createElement('option');
-      option.value = `${node.title} | ${(node.authors || []).join(', ')} | ${node.institution}`;
-      paperList.appendChild(option);
-    });
-
-    function findPaper(query) {
-      const q = query.trim().toLowerCase();
+    function findSearchPaper() {
+      const q = searchInput.value.trim().toLowerCase();
       if (!q) return null;
       return nodes
         .filter((node) => {
-          const haystack = `${node.title} ${(node.authors || []).join(' ')} ${node.institution}`.toLowerCase();
+          const haystack = `${node.title} ${(node.authors || []).join(' ')} ${asArray(node.institution).join(' ')}`.toLowerCase();
           return haystack.includes(q);
         })
-        .sort((a, b) => b.citations_count - a.citations_count)[0] || null;
+        .sort((a, b) => (b.citations_count || 0) - (a.citations_count || 0))[0] || null;
     }
 
-    function layout(ids) {
-      const groupedByYear = new Map();
-      Array.from(ids).forEach((id) => {
-        const node = nodeById.get(id);
-        if (!node) return;
-        if (!groupedByYear.has(node.year)) groupedByYear.set(node.year, []);
-        groupedByYear.get(node.year).push(node);
-      });
+    fillPaperSelect(startSelect);
+    fillPaperSelect(endSelect);
+    nodes.forEach((node) => {
+      const option = document.createElement('option');
+      option.value = `${node.title} | ${(node.authors || []).slice(0, 3).join(', ')} | ${asArray(node.institution).join(', ')}`;
+      paperList.appendChild(option);
+    });
 
-      Array.from(groupedByYear.entries()).forEach(([year, group]) => {
-        group.sort((a, b) => topics.indexOf(a.topic) - topics.indexOf(b.topic) || b.citations_count - a.citations_count);
-        group.forEach((node, index) => {
-          if (node.fixed) return;
-          const topicIndex = Math.max(0, topics.indexOf(node.topic));
-          const laneY = mapRange(topicIndex, 0, Math.max(topics.length - 1, 1), margin.top + 30, height - margin.bottom);
-          node.x = mapRange(year, minYear, maxYear, margin.left, width - margin.right) + ((index % 3) - 1) * 18;
-          node.y = laneY + (Math.floor(index / 3) % 5 - 2) * 14;
-        });
-      });
+    const presets = PRESET_DEFINITIONS
+      .map((preset) => {
+        const start = findByTitle(nodes, preset.start);
+        const end = findByTitle(nodes, preset.end);
+        if (!start || !end) return null;
+        const path = shortestPath(adjacency, start.id, end.id);
+        return path.length ? { ...preset, startId: start.id, endId: end.id, path } : null;
+      })
+      .filter(Boolean)
+      .slice(0, 8);
+
+    presetSelect.innerHTML = '';
+    presets.forEach((preset, index) => {
+      const option = document.createElement('option');
+      option.value = String(index);
+      option.textContent = preset.label;
+      presetSelect.appendChild(option);
+    });
+    const custom = document.createElement('option');
+    custom.value = 'custom';
+    custom.textContent = '手动选择起点和终点';
+    presetSelect.appendChild(custom);
+
+    if (!startId && presets[0]) {
+      startId = presets[0].startId;
+      endId = presets[0].endId;
+      activeNote = presets[0].note;
     }
 
-    function buildVisibleIds() {
-      const { start, end } = getActiveYearRange();
-      const maxNodes = Number(maxInput.value) || 70;
-      const eligible = nodes.filter((node) => node.year >= start && node.year <= end);
-      const eligibleSet = new Set(eligible.map((node) => node.id));
+    function nodePoint(node, index, total) {
+      const x = total <= 1
+        ? width / 2
+        : margin.left + index * ((width - margin.left - margin.right) / (total - 1));
+      return { x, y: laneY.get(primaryTopic(node)) || laneY.get('计算') };
+    }
 
-      if (centerId && eligibleSet.has(centerId)) {
-        const neighborhood = collectNeighborhood(centerId, adjacency, maxNodes * 2);
-        const ids = Array.from(neighborhood)
-          .map((id) => nodeById.get(id))
-          .filter((node) => node && eligibleSet.has(node.id))
-          .sort((a, b) => {
-            if (a.id === centerId) return -1;
-            if (b.id === centerId) return 1;
-            return b.citations_count - a.citations_count;
-          })
-          .slice(0, maxNodes)
-          .map((node) => node.id);
-        return new Set(ids);
-      }
-
-      return new Set(
-        eligible
-          .slice()
-          .sort((a, b) => b.citations_count - a.citations_count)
-          .slice(0, maxNodes)
-          .map((node) => node.id)
-      );
+    function renderAxis() {
+      laneLabels.forEach((label) => {
+        const y = laneY.get(label);
+        svg.appendChild(createSvgElement('line', {
+          x1: margin.left - 18,
+          y1: y,
+          x2: width - margin.right + 14,
+          y2: y,
+          class: 'butterfly-lane-line'
+        }));
+        const text = createSvgElement('text', { x: 16, y: y + 4, class: 'butterfly-lane-label' });
+        text.textContent = label;
+        svg.appendChild(text);
+      });
     }
 
     function render() {
-      const range = getActiveYearRange();
-      syncYearRangeInputs(range.start, range.end);
-      centerSelect.value = centerId;
-      targetSelect.value = targetId;
-      visibleIds = buildVisibleIds();
-      if (targetId) visibleIds.add(targetId);
-      if (centerId) visibleIds.add(centerId);
-      layout(visibleIds);
+      startSelect.value = startId;
+      endSelect.value = endId;
+      activePath = shortestPath(adjacency, startId, endId);
+      svg.innerHTML = '';
+      renderAxis();
 
-      pathIds = centerId && targetId ? shortestPath(adjacency, centerId, targetId, visibleIds) : [];
-      const pathSet = new Set(pathIds);
-      const pathEdges = new Set();
-      for (let i = 0; i < pathIds.length - 1; i += 1) pathEdges.add(edgeKey(pathIds[i], pathIds[i + 1]));
-      visibleLinks = links.filter((link) => visibleIds.has(link.source) && visibleIds.has(link.target));
+      const pathNodes = activePath.map((id) => nodeById.get(id)).filter(Boolean);
+      const points = pathNodes.map((node, index) => nodePoint(node, index, pathNodes.length));
 
-      edgeLayer.innerHTML = '';
-      nodeLayer.innerHTML = '';
-
-      visibleLinks.forEach((link) => {
-        const onPath = pathEdges.has(edgeKey(link.source, link.target));
-        const line = createSvgElement('line', {
-          class: onPath ? 'butterfly-network-link is-path' : 'butterfly-network-link'
-        });
-        edgeLayer.appendChild(line);
-        link.el = line;
+      points.slice(0, -1).forEach((point, index) => {
+        const next = points[index + 1];
+        const isCross = primaryTopic(pathNodes[index]) !== primaryTopic(pathNodes[index + 1]);
+        svg.appendChild(createSvgElement('line', {
+          x1: point.x,
+          y1: point.y,
+          x2: next.x,
+          y2: next.y,
+          class: isCross ? 'butterfly-path-link is-cross' : 'butterfly-path-link'
+        }));
       });
 
-      Array.from(visibleIds).forEach((id) => {
-        const node = nodeById.get(id);
-        if (!node) return;
+      pathNodes.forEach((node, index) => {
+        const point = points[index];
         const group = createSvgElement('g', {
           class: [
-            'butterfly-network-node-group',
+            'butterfly-path-node-group',
             phaseClassByYear(node.year),
-            node.id === centerId ? 'is-center' : '',
-            node.id === targetId ? 'is-target' : '',
-            pathSet.has(node.id) ? 'is-path' : ''
+            index === 0 ? 'is-start' : '',
+            index === pathNodes.length - 1 ? 'is-end' : ''
           ].filter(Boolean).join(' '),
-          'data-id': node.id
+          transform: `translate(${point.x} ${point.y})`,
+          tabindex: '0',
+          role: 'button'
         });
-        const circle = createSvgElement('circle', { r: node.id === centerId ? 9 : 6, class: 'butterfly-network-node' });
-        const label = createSvgElement('text', { x: 10, y: -4, class: 'butterfly-network-label' });
-        label.textContent = shorten(node.title, 26);
-        const sub = createSvgElement('text', { x: 10, y: 9, class: 'butterfly-network-sublabel' });
-        sub.textContent = `${node.year} · ${node.topic}`;
+        const circle = createSvgElement('circle', { r: index === 0 || index === pathNodes.length - 1 ? 10 : 7, class: 'butterfly-path-node' });
+        const label = createSvgElement('text', {
+          x: 0,
+          y: point.y > height * 0.68 ? -18 : 24,
+          class: 'butterfly-path-label',
+          'text-anchor': 'middle'
+        });
+        label.textContent = shorten(node.title, 24);
+        const year = createSvgElement('text', {
+          x: 0,
+          y: 4,
+          class: 'butterfly-path-year',
+          'text-anchor': 'middle'
+        });
+        year.textContent = node.year;
         const title = createSvgElement('title');
-        title.textContent = `${node.title}\n${(node.authors || []).join(', ')}`;
+        title.textContent = `${node.title}\n${phaseLabel(node.year)}\n${asArray(node.institution).join(', ') || '机构待补齐'}`;
         circle.appendChild(title);
-        group.append(circle, label, sub);
-        group.addEventListener('pointerdown', (event) => {
-          event.stopPropagation();
-          draggingNode = { node, lastX: event.clientX, lastY: event.clientY };
-          node.fixed = true;
-          group.setPointerCapture(event.pointerId);
-        });
+        group.append(circle, year, label);
         group.addEventListener('click', () => {
-          if (!centerId) {
-            centerId = node.id;
-            const currentRange = getActiveYearRange();
-            const nextRange = expandRangeForYear(currentRange, node.year);
-            if (nextRange.start !== currentRange.start || nextRange.end !== currentRange.end) {
-              syncYearRangeInputs(nextRange.start, nextRange.end);
-            }
-            setAppState(
-              {
-                selectedPaperId: node.id,
-                year: nextRange.end,
-                yearRangeStart: nextRange.start,
-                yearRangeEnd: nextRange.end
-              },
-              'butterfly-path'
-            );
-            scheduleCenter(centerId);
-          } else if (node.id !== centerId) {
-            targetId = node.id;
-          }
-          render();
+          setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: node.year, yearRangeEnd: node.year }, 'butterfly-path');
         });
-        nodeLayer.appendChild(group);
-        node.el = group;
+        group.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: node.year, yearRangeEnd: node.year }, 'butterfly-path');
+          }
+        });
+        svg.appendChild(group);
       });
 
-      if (pathIds.length) {
-        detailEl.innerHTML = pathIds.map((id, index) => {
-          const node = nodeById.get(id);
-          const prefix = index === 0 ? '中心' : index === pathIds.length - 1 ? '目标' : `桥梁 ${index}`;
-          return `<strong>${prefix}</strong>：${node.year} · ${shorten(node.title, 80)}`;
-        }).join('<br />');
-      } else if (centerId && targetId) {
-        detailEl.textContent = '当前渲染范围内没有找到中心到目标的可达路径，可以提高最大节点数或放宽年份。';
-      } else if (centerId) {
-        const center = nodeById.get(centerId);
-        detailEl.innerHTML = `<strong>${center.title}</strong> 的局部引用网络。点击其他节点可设为相关论文并高亮路径。`;
-      } else {
-        detailEl.textContent = '当前为全局年份网络：横向按年份排列，纵向按主题分布，可拖动画布探索密集区域。';
+      if (!pathNodes.length && startId && endId) {
+        const empty = createSvgElement('text', { x: width / 2, y: height / 2, class: 'butterfly-empty', 'text-anchor': 'middle' });
+        empty.textContent = '当前图数据中没有找到可达路径，可以换一组起点和终点。';
+        svg.appendChild(empty);
       }
-      const rangeLabel = range.start === range.end ? String(range.end) : `${range.start}-${range.end}`;
-      statEl.textContent = `${visibleIds.size} 个节点，${visibleLinks.length} 条边${pathIds.length ? `，路径 ${pathIds.length} 步` : ''} · 年份 ${rangeLabel}`;
-      updatePositions();
-      applyPendingCenter();
+
+      detailEl.textContent = summarizePath(pathNodes, activeNote);
+      stepList.innerHTML = pathNodes.map((node, index) => {
+        const institutions = asArray(node.institution);
+        return `<li><strong>${index + 1}. ${node.year}</strong><span>${shorten(node.title, 72)}</span><em>${phaseLabel(node.year)} · ${primaryTopic(node)} · ${institutions[0] || '机构待补齐'}</em></li>`;
+      }).join('');
+      statEl.textContent = pathNodes.length
+        ? `${pathNodes.length} 个路径节点，${Math.max(pathNodes.length - 1, 0)} 段影响连接`
+        : '请选择起点和终点';
     }
 
-    function updatePositions() {
-      visibleLinks.forEach((link) => {
-        if (!link.el) return;
-        link.el.setAttribute('x1', link.sourceNode.x);
-        link.el.setAttribute('y1', link.sourceNode.y);
-        link.el.setAttribute('x2', link.targetNode.x);
-        link.el.setAttribute('y2', link.targetNode.y);
-      });
-      Array.from(visibleIds).forEach((id) => {
-        const node = nodeById.get(id);
-        if (!node?.el) return;
-        node.el.setAttribute('transform', `translate(${node.x} ${node.y})`);
-      });
-    }
-
-    function pickSearch(input, role) {
-      const node = findPaper(input.value);
-      if (!node) return;
-      if (role === 'center') {
-        centerId = node.id;
-        const currentRange = getActiveYearRange();
-        const nextRange = expandRangeForYear(currentRange, node.year);
-        if (nextRange.start !== currentRange.start || nextRange.end !== currentRange.end) {
-          syncYearRangeInputs(nextRange.start, nextRange.end);
-        }
-        setAppState(
-          {
-            selectedPaperId: node.id,
-            year: nextRange.end,
-            yearRangeStart: nextRange.start,
-            yearRangeEnd: nextRange.end
-          },
-          'butterfly-path'
-        );
-        scheduleCenter(centerId);
-      } else {
-        targetId = node.id;
-      }
-      render();
-    }
-
-    const handleRangeInput = () => {
-      const range = getActiveYearRange();
-      syncYearRangeInputs(range.start, range.end);
-      setAppState({ year: range.end, yearRangeStart: range.start, yearRangeEnd: range.end }, 'butterfly-path');
-      render();
-    };
-    startSlider.addEventListener('input', handleRangeInput);
-    endSlider.addEventListener('input', handleRangeInput);
-    centerSelect.addEventListener('change', () => {
-      centerId = centerSelect.value;
-      const node = nodeById.get(centerId);
-      if (node) {
-        const currentRange = getActiveYearRange();
-        const nextRange = expandRangeForYear(currentRange, node.year);
-        if (nextRange.start !== currentRange.start || nextRange.end !== currentRange.end) {
-          syncYearRangeInputs(nextRange.start, nextRange.end);
-        }
-        setAppState(
-          {
-            selectedPaperId: centerId,
-            year: nextRange.end,
-            yearRangeStart: nextRange.start,
-            yearRangeEnd: nextRange.end
-          },
-          'butterfly-path'
-        );
-        scheduleCenter(centerId);
-      }
-      render();
-    });
-    targetSelect.addEventListener('change', () => {
-      targetId = targetSelect.value;
-      render();
-    });
-    centerSearch.addEventListener('change', () => pickSearch(centerSearch, 'center'));
-    targetSearch.addEventListener('change', () => pickSearch(targetSearch, 'target'));
-    maxInput.addEventListener('change', render);
-    clearButton.addEventListener('click', () => {
-      centerId = '';
-      targetId = '';
-      centerSearch.value = '';
-      targetSearch.value = '';
-      render();
-    });
-    resetButton.addEventListener('click', resetView);
-    onAppStateChange(({ state, source }) => {
-      if (source === 'butterfly-path') return;
-      const nextStart = Number.isFinite(state.yearRangeStart) ? state.yearRangeStart : state.year;
-      const nextEnd = Number.isFinite(state.yearRangeEnd) ? state.yearRangeEnd : state.year;
-      const normalized = normalizeYearRange(nextStart, nextEnd);
-      syncYearRangeInputs(normalized.start, normalized.end);
-      if (state.selectedPaperId && nodeById.has(state.selectedPaperId)) {
-        if (centerId !== state.selectedPaperId) {
-          centerId = state.selectedPaperId;
-          scheduleCenter(centerId);
-        }
-      }
-      render();
-    });
-
-    svg.addEventListener('wheel', (event) => {
-      event.preventDefault();
-      const rect = svg.getBoundingClientRect();
-      const px = ((event.clientX - rect.left) / rect.width) * width;
-      const py = ((event.clientY - rect.top) / rect.height) * height;
-      const nextK = Math.max(0.45, Math.min(3.4, transform.k * (event.deltaY > 0 ? 0.9 : 1.1)));
-      transform.x = px - ((px - transform.x) / transform.k) * nextK;
-      transform.y = py - ((py - transform.y) / transform.k) * nextK;
-      transform.k = nextK;
-      applyTransform();
-    }, { passive: false });
-    svg.addEventListener('pointerdown', (event) => {
-      panning = { lastX: event.clientX, lastY: event.clientY };
-      svg.setPointerCapture(event.pointerId);
-    });
-    svg.addEventListener('pointermove', (event) => {
-      if (draggingNode) {
-        draggingNode.node.x += (event.clientX - draggingNode.lastX) / transform.k;
-        draggingNode.node.y += (event.clientY - draggingNode.lastY) / transform.k;
-        draggingNode.lastX = event.clientX;
-        draggingNode.lastY = event.clientY;
-        updatePositions();
+    presetSelect.addEventListener('change', () => {
+      const preset = presets[Number(presetSelect.value)];
+      if (!preset) {
+        activeNote = '';
+        render();
         return;
       }
-      if (panning) {
-        transform.x += event.clientX - panning.lastX;
-        transform.y += event.clientY - panning.lastY;
-        panning.lastX = event.clientX;
-        panning.lastY = event.clientY;
-        applyTransform();
+      startId = preset.startId;
+      endId = preset.endId;
+      activeNote = preset.note;
+      setAppState({ selectedPaperId: startId, year: nodeById.get(startId)?.year }, 'butterfly-path');
+      render();
+    });
+    startSelect.addEventListener('change', () => {
+      presetSelect.value = 'custom';
+      startId = startSelect.value;
+      activeNote = '';
+      const node = nodeById.get(startId);
+      if (node) setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: node.year, yearRangeEnd: node.year }, 'butterfly-path');
+      render();
+    });
+    endSelect.addEventListener('change', () => {
+      presetSelect.value = 'custom';
+      endId = endSelect.value;
+      activeNote = '';
+      render();
+    });
+    useSearchStart.addEventListener('click', () => {
+      const node = findSearchPaper();
+      if (!node) return;
+      presetSelect.value = 'custom';
+      startId = node.id;
+      activeNote = '';
+      setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: node.year, yearRangeEnd: node.year }, 'butterfly-path');
+      render();
+    });
+    useSearchEnd.addEventListener('click', () => {
+      const node = findSearchPaper();
+      if (!node) return;
+      presetSelect.value = 'custom';
+      endId = node.id;
+      activeNote = '';
+      render();
+    });
+    onAppStateChange(({ state, source }) => {
+      if (source === 'butterfly-path') return;
+      if (state.selectedPaperId && nodeById.has(state.selectedPaperId)) {
+        presetSelect.value = 'custom';
+        startId = state.selectedPaperId;
+        activeNote = '';
+        render();
       }
     });
-    svg.addEventListener('pointerup', () => {
-      if (draggingNode) draggingNode.node.fixed = false;
-      draggingNode = null;
-      panning = null;
-    });
-    svg.addEventListener('pointerleave', () => {
-      if (draggingNode) draggingNode.node.fixed = false;
-      draggingNode = null;
-      panning = null;
-    });
 
-    applyTransform();
+    if (presets[0]) presetSelect.value = '0';
     render();
   } catch (error) {
     statEl.textContent = '数据加载失败，请检查 nodes.json 与 edges.json';

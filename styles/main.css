@@ -3,6 +3,7 @@
 @import './charts/paper-force.css';
 @import './charts/butterfly-path.css';
 @import './charts/institution-map.css';
+@import './charts/metro-map.css';
 
 :root {
   --bg: #fafaf8;
