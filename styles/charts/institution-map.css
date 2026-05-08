@@ -1,13 +1,20 @@
+.institution-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
 .map-institution-link {
   stroke: #64748b;
   stroke-linecap: round;
-  stroke-opacity: 0.22;
+  stroke-opacity: 0.2;
   transition: stroke-opacity 160ms ease, stroke 160ms ease;
 }
 
 .map-institution-link.is-active {
   stroke: #d97706;
-  stroke-opacity: 0.72;
+  stroke-opacity: 0.78;
 }
 
 .world-land {
@@ -27,9 +34,9 @@
 .map-point {
   fill-opacity: 0.88;
   stroke: #ffffff;
-  stroke-width: 0.8;
+  stroke-width: 0.9;
   cursor: pointer;
-  transition: fill-opacity 160ms ease, stroke-width 160ms ease;
+  transition: fill-opacity 160ms ease, stroke-width 160ms ease, stroke 160ms ease;
 }
 
 .map-point:hover,
@@ -37,6 +44,12 @@
   fill-opacity: 1;
   stroke: #111827;
   stroke-width: 2;
+}
+
+.map-point.is-related {
+  fill-opacity: 1;
+  stroke: #facc15;
+  stroke-width: 2.6;
 }
 
 .map-label {
@@ -55,4 +68,72 @@
   height: 10px;
   border-radius: 999px;
   margin-right: 6px;
+}
+
+.institution-side-panel {
+  min-height: 100%;
+  border: var(--border-width) solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: var(--space-5);
+}
+
+.institution-side-panel h4 {
+  margin: 0 0 var(--space-4);
+  color: var(--text);
+  font-size: var(--fs-300);
+}
+
+.institution-ranking {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.institution-rank-row {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 42px;
+  gap: var(--space-2);
+  align-items: center;
+  width: 100%;
+  border: var(--border-width) solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-soft);
+  color: var(--muted-strong);
+  cursor: pointer;
+  padding: var(--space-2);
+  text-align: left;
+}
+
+.institution-rank-row:hover,
+.institution-rank-row:focus-visible,
+.institution-rank-row.is-related {
+  border-color: #d97706;
+  outline: none;
+}
+
+.institution-rank-row span {
+  color: var(--muted);
+  font-size: var(--fs-100);
+}
+
+.institution-rank-row strong {
+  overflow: hidden;
+  color: var(--text);
+  font-size: var(--fs-100);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.institution-rank-row em {
+  color: var(--accent-strong);
+  font-size: var(--fs-100);
+  font-style: normal;
+  font-weight: 700;
+  text-align: right;
+}
+
+@media (max-width: 900px) {
+  .institution-layout {
+    grid-template-columns: 1fr;
+  }
 }

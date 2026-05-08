@@ -1,76 +1,131 @@
-.butterfly-network-link {
-  stroke: #c3ceda;
-  stroke-width: 1.1;
-  stroke-opacity: 0.55;
+.butterfly-canvas {
+  min-height: 340px;
 }
 
-.butterfly-network-link.is-path {
-  stroke: #f97316;
-  stroke-width: 2.4;
-  stroke-opacity: 1;
+.butterfly-lane-line {
+  stroke: #d9dee8;
+  stroke-dasharray: 3 6;
+  stroke-width: 1;
 }
 
-.butterfly-network-node-group {
-  cursor: grab;
+.butterfly-lane-label {
+  fill: #5d6678;
+  font-size: 11px;
+  font-weight: 700;
 }
 
-.butterfly-network-node-group:active {
-  cursor: grabbing;
+.butterfly-path-link {
+  stroke: #176b87;
+  stroke-linecap: round;
+  stroke-width: 3.2;
+  stroke-opacity: 0.72;
 }
 
-.butterfly-network-node {
-  stroke: #ffffff;
-  stroke-width: 1.2;
+.butterfly-path-link.is-cross {
+  stroke: #d97706;
+  stroke-dasharray: 7 5;
+  stroke-opacity: 0.9;
+}
+
+.butterfly-path-node-group {
   cursor: pointer;
 }
 
-.butterfly-network-node-group.phase-foundation .butterfly-network-node {
+.butterfly-path-node {
+  stroke: #ffffff;
+  stroke-width: 1.6;
+}
+
+.butterfly-path-node-group.phase-foundation .butterfly-path-node {
   fill: #64748b;
 }
 
-.butterfly-network-node-group.phase-boom .butterfly-network-node {
+.butterfly-path-node-group.phase-boom .butterfly-path-node {
   fill: #ea580c;
 }
 
-.butterfly-network-node-group.phase-agentic .butterfly-network-node {
+.butterfly-path-node-group.phase-agentic .butterfly-path-node {
   fill: #2563eb;
 }
 
-.butterfly-network-node-group.is-center .butterfly-network-node {
-  fill: #111827;
+.butterfly-path-node-group.is-start .butterfly-path-node {
   stroke: #facc15;
-  stroke-width: 2;
+  stroke-width: 2.4;
 }
 
-.butterfly-network-node-group.is-target .butterfly-network-node {
+.butterfly-path-node-group.is-end .butterfly-path-node {
   fill: #14b8a6;
   stroke: #0f766e;
-  stroke-width: 1.8;
+  stroke-width: 2.2;
 }
 
-.butterfly-network-node-group.is-path .butterfly-network-node {
-  filter: drop-shadow(0 0 2px rgba(249, 115, 22, 0.45));
+.butterfly-path-year {
+  fill: #ffffff;
+  font-size: 9px;
+  font-weight: 800;
+  pointer-events: none;
 }
 
-.butterfly-network-label {
+.butterfly-path-label {
   fill: #172033;
   font-size: 10px;
   font-weight: 700;
   paint-order: stroke;
   pointer-events: none;
-  stroke: rgba(255, 255, 255, 0.9);
+  stroke: rgba(255, 255, 255, 0.92);
   stroke-width: 3px;
 }
 
-.butterfly-network-sublabel {
+.butterfly-empty {
   fill: #5d6678;
-  font-size: 9px;
-  paint-order: stroke;
-  pointer-events: none;
-  stroke: rgba(255, 255, 255, 0.9);
-  stroke-width: 3px;
+  font-size: 13px;
+  font-weight: 700;
 }
 
-.butterfly-network-node-group.is-path .butterfly-network-label {
-  fill: #c2410c;
+.butterfly-explain-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(300px, 1.05fr);
+  gap: var(--space-4);
+}
+
+.butterfly-step-list {
+  max-height: 220px;
+  margin: 0;
+  overflow: auto;
+  border: var(--border-width) solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-7);
+}
+
+.butterfly-step-list li {
+  margin-bottom: var(--space-3);
+  color: var(--muted-strong);
+  font-size: var(--fs-200);
+}
+
+.butterfly-step-list li:last-child {
+  margin-bottom: 0;
+}
+
+.butterfly-step-list strong,
+.butterfly-step-list span,
+.butterfly-step-list em {
+  display: block;
+}
+
+.butterfly-step-list strong {
+  color: var(--text);
+}
+
+.butterfly-step-list em {
+  color: var(--muted);
+  font-size: var(--fs-100);
+  font-style: normal;
+}
+
+@media (max-width: 780px) {
+  .butterfly-explain-grid {
+    grid-template-columns: 1fr;
+  }
 }

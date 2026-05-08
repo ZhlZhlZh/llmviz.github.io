@@ -1,0 +1,53 @@
+.metro-canvas {
+  min-height: 380px;
+}
+
+.metro-line-track {
+  stroke-linecap: round;
+  stroke-opacity: 0.72;
+  stroke-width: 5;
+}
+
+.metro-line-label {
+  fill: #172033;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.metro-transfer-link {
+  stroke: #aeb8c8;
+  stroke-dasharray: 4 6;
+  stroke-linecap: round;
+  stroke-width: 1.2;
+  stroke-opacity: 0.62;
+}
+
+.metro-station-group {
+  cursor: pointer;
+}
+
+.metro-station {
+  stroke: #ffffff;
+  stroke-width: 1.5;
+}
+
+.metro-station-group.is-transfer .metro-station {
+  stroke: #111827;
+  stroke-width: 2.2;
+}
+
+.metro-station-group.is-selected .metro-station {
+  filter: drop-shadow(0 0 3px rgba(217, 119, 6, 0.7));
+  stroke: #facc15;
+  stroke-width: 3;
+}
+
+.metro-station-label {
+  fill: #172033;
+  font-size: 10px;
+  font-weight: 700;
+  paint-order: stroke;
+  pointer-events: none;
+  stroke: rgba(255, 255, 255, 0.92);
+  stroke-width: 3px;
+}

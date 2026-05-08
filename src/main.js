@@ -2,6 +2,7 @@ import { initThemeRiver } from './modules/theme-river/index.js';
 import { initPaperForce } from './modules/paper-force/index.js';
 import { initButterflyPath } from './modules/butterfly-path/index.js';
 import { initInstitutionMap } from './modules/institution-map/index.js';
+import { initMetroMap } from './modules/metro-map/index.js';
 import { getAppState, onAppStateChange, phaseLabelByYear } from './shared/app-state.js';
 import { loadJson } from './shared/data-loader.js';
 
@@ -42,8 +43,9 @@ export function bootstrapApp() {
   const paperForceEl = document.getElementById('paper-force');
   const butterflyPathEl = document.getElementById('butterfly-path');
   const institutionMapEl = document.getElementById('institution-map');
+  const metroMapEl = document.getElementById('metro-map');
 
-  if (!themeRiverEl || !paperForceEl || !butterflyPathEl || !institutionMapEl) {
+  if (!themeRiverEl || !paperForceEl || !butterflyPathEl || !institutionMapEl || !metroMapEl) {
     throw new Error('Missing one or more module mount elements in index.html');
   }
 
@@ -51,6 +53,7 @@ export function bootstrapApp() {
   initPaperForce(paperForceEl);
   initButterflyPath(butterflyPathEl);
   initInstitutionMap(institutionMapEl);
+  initMetroMap(metroMapEl);
   initFocusPanel().catch(() => {
     // The charts remain usable even if the summary panel cannot load its copy.
   });

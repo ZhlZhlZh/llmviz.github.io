@@ -1,0 +1,10 @@
+[
+  { "canonical": "Google Research", "aliases": ["Google Brain", "Google (United States)", "Google Inc.", "Google LLC"] },
+  { "canonical": "Google DeepMind", "aliases": ["Google Deepmind", "DeepMind Technologies", "DeepMind"] },
+  { "canonical": "Meta AI", "aliases": ["Facebook AI", "Facebook", "FAIR", "Facebook AI Research"] },
+  { "canonical": "UC Berkeley", "aliases": ["University of California, Berkeley", "Berkeley"] },
+  { "canonical": "Stanford University", "aliases": ["Stanford"] },
+  { "canonical": "Mila", "aliases": ["Mila, University of Montreal", "Mila, University of Montréal"] },
+  { "canonical": "Microsoft", "aliases": ["Microsoft Research"] },
+  { "canonical": "New York University", "aliases": ["NYU"] }
+]
