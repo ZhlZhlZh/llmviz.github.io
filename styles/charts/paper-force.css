@@ -1,5 +1,5 @@
 .force-link {
-  stroke: #9aa3af;
+  stroke: var(--line-strong);
   stroke-opacity: 0.45;
   stroke-width: 1;
 }
@@ -13,7 +13,7 @@
 }
 
 .force-node-group.is-center .force-node {
-  stroke: #111827;
+  stroke: var(--accent-strong);
   stroke-width: 3;
 }
 
@@ -25,40 +25,40 @@
 }
 
 .force-node.phase-foundation {
-  fill: #64748b;
+  fill: var(--muted);
 }
 
 .force-node.phase-boom {
-  fill: #ea580c;
+  fill: var(--warm);
 }
 
 .force-node.phase-agentic {
-  fill: #2563eb;
+  fill: var(--accent);
 }
 
 .force-node:hover,
 .force-node-group.is-selected .force-node {
-  stroke: #facc15;
+  stroke: var(--warm);
   stroke-width: 3;
 }
 
 .force-node-label {
-  fill: #172033;
-  font-size: 10px;
-  font-weight: 700;
+  fill: var(--muted-strong);
+  font-size: var(--fs-300);
+  font-weight: var(--font-weight-semibold);
   paint-order: stroke;
   pointer-events: none;
   stroke: rgba(255, 255, 255, 0.92);
-  stroke-width: 3px;
+  stroke-width: 1.5px;
 }
 
 .force-node-sublabel {
-  fill: #5d6678;
-  font-size: 9px;
+  fill: var(--muted);
+  font-size: var(--fs-200);
   paint-order: stroke;
   pointer-events: none;
   stroke: rgba(255, 255, 255, 0.9);
-  stroke-width: 3px;
+  stroke-width: 1.2px;
 }
 
 .force-canvas,
