@@ -1,18 +1,18 @@
 .map-institution-link {
-  stroke: #64748b;
+  stroke: var(--muted);
   stroke-linecap: round;
   stroke-opacity: 0.22;
   transition: stroke-opacity 160ms ease, stroke 160ms ease;
 }
 
 .map-institution-link.is-active {
-  stroke: #d97706;
+  stroke: var(--warm);
   stroke-opacity: 0.72;
 }
 
 .world-land {
-  fill: #eef2f7;
-  stroke: #c8d1dc;
+  fill: var(--surface-soft);
+  stroke: var(--line);
   stroke-width: 0.8;
 }
 
@@ -35,18 +35,18 @@
 .map-point:hover,
 .map-point.is-selected {
   fill-opacity: 1;
-  stroke: #111827;
+  stroke: var(--accent-strong);
   stroke-width: 2;
 }
 
 .map-label {
-  fill: #172033;
-  font-size: 10px;
-  font-weight: 700;
+  fill: var(--muted-strong);
+  font-size: var(--fs-300);
+  font-weight: var(--font-weight-semibold);
   paint-order: stroke;
   pointer-events: none;
   stroke: rgba(255, 255, 255, 0.9);
-  stroke-width: 3px;
+  stroke-width: 1.5px;
 }
 
 .legend-swatch {

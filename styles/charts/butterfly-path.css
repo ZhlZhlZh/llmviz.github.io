@@ -1,11 +1,11 @@
 .butterfly-network-link {
-  stroke: #c3ceda;
+  stroke: var(--line);
   stroke-width: 1.1;
   stroke-opacity: 0.55;
 }
 
 .butterfly-network-link.is-path {
-  stroke: #f97316;
+  stroke: var(--warm);
   stroke-width: 2.4;
   stroke-opacity: 1;
 }
@@ -25,52 +25,52 @@
 }
 
 .butterfly-network-node-group.phase-foundation .butterfly-network-node {
-  fill: #64748b;
+  fill: var(--muted);
 }
 
 .butterfly-network-node-group.phase-boom .butterfly-network-node {
-  fill: #ea580c;
+  fill: var(--warm);
 }
 
 .butterfly-network-node-group.phase-agentic .butterfly-network-node {
-  fill: #2563eb;
+  fill: var(--accent);
 }
 
 .butterfly-network-node-group.is-center .butterfly-network-node {
-  fill: #111827;
-  stroke: #facc15;
+  fill: var(--muted-strong);
+  stroke: var(--warm);
   stroke-width: 2;
 }
 
 .butterfly-network-node-group.is-target .butterfly-network-node {
-  fill: #14b8a6;
-  stroke: #0f766e;
+  fill: var(--accent-strong);
+  stroke: var(--accent);
   stroke-width: 1.8;
 }
 
 .butterfly-network-node-group.is-path .butterfly-network-node {
-  filter: drop-shadow(0 0 2px rgba(249, 115, 22, 0.45));
+  filter: drop-shadow(0 4px 12px rgba(15, 76, 92, 0.12));
 }
 
 .butterfly-network-label {
-  fill: #172033;
-  font-size: 10px;
-  font-weight: 700;
+  fill: var(--muted-strong);
+  font-size: var(--fs-300);
+  font-weight: var(--font-weight-semibold);
   paint-order: stroke;
   pointer-events: none;
   stroke: rgba(255, 255, 255, 0.9);
-  stroke-width: 3px;
+  stroke-width: 1.5px;
 }
 
 .butterfly-network-sublabel {
-  fill: #5d6678;
-  font-size: 9px;
+  fill: var(--muted);
+  font-size: var(--fs-200);
   paint-order: stroke;
   pointer-events: none;
   stroke: rgba(255, 255, 255, 0.9);
-  stroke-width: 3px;
+  stroke-width: 1.2px;
 }
 
 .butterfly-network-node-group.is-path .butterfly-network-label {
-  fill: #c2410c;
+  fill: var(--warm);
 }
