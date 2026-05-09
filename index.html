@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="交互式探索 LLM 论文主题热度、引用网络、关键路径与研究机构影响力。"
+      content="用故事化叙事回看 LLM 从表示学习到智能体的演进，图表作为辅助理解工具。"
     />
-    <title>LLM 论文研究热点可视化</title>
+    <title>LLM 发展史故事地图</title>
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="./styles/main.css" />
   </head>
@@ -16,157 +16,205 @@
       <header class="site-header">
         <div class="hero-copy">
           <p class="eyebrow">大数据可视化与可视分析 · 期末课程设计</p>
-          <h1>LLM 论文研究热点如何从表示学习演化到智能体？</h1>
+          <h1>我们把 LLM 的发展史讲成一条可以翻阅的故事线</h1>
           <p class="site-subtitle">
-            本作品把论文、关键词、引用关系和机构地理分布组织成一个可探索的数据文档，
-            聚焦 2013-2026 年大语言模型研究热点的阶段迁移、关键论文桥梁和机构影响力格局。
+            LLM 从表示学习到智能体的演进故事。图表是理解这段历史的工具。
           </p>
         </div>
-        <aside class="focus-panel" aria-live="polite">
-          <p class="focus-label">当前探索焦点</p>
-          <div class="focus-grid">
-            <div>
-              <span class="focus-value" id="focus-year">2026</span>
-              <span class="focus-caption">年份</span>
-            </div>
-            <div>
-              <span class="focus-value" id="focus-phase">智能体阶段</span>
-              <span class="focus-caption">阶段</span>
-            </div>
-            <div>
-              <span class="focus-value focus-paper" id="focus-paper">Attention-Only Neural Architectures</span>
-              <span class="focus-caption">选中论文</span>
-            </div>
-          </div>
-        </aside>
       </header>
 
-      <nav class="quick-nav" aria-label="Section navigation">
-        <a href="#section-river">主题河流</a>
-        <a href="#section-force">论文网络</a>
-        <a href="#section-butterfly">影响路径</a>
-        <a href="#section-map">机构地图</a>
-        <a href="#section-metro">主题地铁图</a>
-        <a href="#section-method">设计说明</a>
+      <nav class="story-nav" aria-label="Section navigation">
+        <div class="nav-toggle-header">
+          <span class="nav-header">故事流程</span>
+          <button class="nav-toggle" id="nav-toggle" aria-expanded="true" aria-label="折叠侧栏">
+            <span class="toggle-icon">❮</span>
+          </button>
+        </div>
+        
+        <div class="nav-focus-panel" aria-live="polite">
+          <div class="focus-item">
+            <span class="focus-label">当前年份</span>
+            <span class="focus-value" id="focus-year">2026</span>
+          </div>
+          <div class="focus-item">
+            <span class="focus-label">故事阶段</span>
+            <span class="focus-value" id="focus-phase">智能体阶段</span>
+          </div>
+          <div class="focus-item">
+            <span class="focus-label">当前论文</span>
+            <span class="focus-value focus-paper" id="focus-paper">Attention-Only</span>
+          </div>
+        </div>
+        
+        <div class="nav-links-wrapper">
+          <a href="#section-river" class="nav-link">
+            <span class="nav-marker">①</span>
+            <span class="nav-text">开场：主题如何变化</span>
+          </a>
+          <a href="#section-force" class="nav-link">
+            <span class="nav-marker">②</span>
+            <span class="nav-text">中段：哪些论文撑起主线</span>
+          </a>
+          <a href="#section-butterfly" class="nav-link">
+            <span class="nav-marker">③</span>
+            <span class="nav-text">转折：两篇论文如何接上</span>
+          </a>
+          <a href="#section-map" class="nav-link">
+            <span class="nav-marker">④</span>
+            <span class="nav-text">幕后：谁在推动</span>
+          </a>
+          <a href="#section-metro" class="nav-link">
+            <span class="nav-marker">⑤</span>
+            <span class="nav-text">分叉：路线怎么增多</span>
+          </a>
+        </div>
       </nav>
 
       <main>
         <section class="story-intro" aria-labelledby="intro-title">
           <div>
-            <h2 id="intro-title">分析问题</h2>
+            <h2 id="intro-title">先看看这五步</h2>
             <p>
-              LLM 研究不是线性增长，而是由若干关键机制反复重组形成的热点迁移：
-              表示学习奠基、Transformer 预训练爆发、对齐与智能体成为新中心。
-              页面中的控件共享同一个年份和论文焦点，便于从宏观主题进入具体论文路径。
+              LLM 研究不是一路直线往前跑的，而是每个阶段都在盯不一样的问题。下面这五张图，就按时间顺着把这条路讲清楚。
             </p>
           </div>
           <div class="insight-strip">
             <article>
               <span>01</span>
-              <p>Transformer 之后，主题热度从模型结构转向规模化预训练。</p>
+              <p>很多真正的变化，不是某一篇论文突然冒出来，而是一批论文一起把问题换了个说法。</p>
             </article>
             <article>
               <span>02</span>
-              <p>引用网络中的桥梁节点通常连接了不同阶段的研究范式。</p>
+              <p>图里越靠中间的论文，通常越像这一阶段的“带头人”。</p>
             </article>
             <article>
               <span>03</span>
-              <p>研究机构影响力集中在少数实验室与公司，但中文社区在对齐和小模型方向形成分支。</p>
+              <p>机构不只是挂个名字，它们其实会影响一条线能不能一直被追下去。</p>
             </article>
           </div>
         </section>
 
         <section id="section-river" class="story-section">
           <div class="section-heading">
-            <p class="section-kicker">主题演化</p>
-            <h2>01 主题河流图</h2>
-            <p class="section-note">关键词热度随时间变化，突出阶段性跃迁。</p>
+            <p class="section-kicker">开场</p>
+            <h2>01 主题是怎么变的</h2>
+            <p class="section-note">先看看大家当时都在盯什么，再顺着看它怎么从表示学习、预训练，一路走到对齐和智能体。</p>
           </div>
           <div id="theme-river" class="module-slot"></div>
         </section>
 
+        <section class="story-bridge" aria-label="章节过渡 1">
+          <p class="bridge-copy">
+            先把大背景铺开。主题热度这张图告诉我们，LLM 研究不是沿着一条线匀速往前走的，而是一段一段地换题、转向、加速。数据里有 28 个主题，覆盖 2013 到 2025 年，已经足够把这条主线的大致轮廓看出来了。往前看，早期更多是在打基础；再往后，重点慢慢移到预训练、规模化、对齐，最后才冒出更明显的智能体和工具使用方向。
+          </p>
+        </section>
+
         <section id="section-force" class="story-section">
           <div class="section-heading">
-            <p class="section-kicker">论文结构</p>
-            <h2>02 论文力导向图</h2>
-            <p class="section-note">论文节点与引文关系网络，展示结构中心性。</p>
+            <p class="section-kicker">中段</p>
+            <h2>02 哪些论文把主线撑起来了</h2>
+            <p class="section-note">把论文关系当成故事里的人物关系来看，谁是主角，谁在前后章节之间搭桥，一眼就能看出来。</p>
           </div>
           <div id="paper-force" class="module-slot"></div>
         </section>
 
+        <section class="story-bridge" aria-label="章节过渡 2">
+          <p class="bridge-copy">
+            主题看完了，接下来就该看是谁把这些主题真正撑起来。引用网络里一共有 500 个节点、858 条边；高影响论文不一定只是引用数高，更关键的是它们在结构上把 GPT-3、PaLM、InstructGPT、LLaMA、LoRA、DPO 这些节点串了起来。这样一来，论文力导向图讲的就不只是“谁最热”，而是“谁把一条研究路线撑成了主干”。
+          </p>
+        </section>
+
         <section id="section-butterfly" class="story-section">
           <div class="section-heading">
-            <p class="section-kicker">路径解释</p>
-            <h2>03 蝴蝶影响路径图</h2>
-            <p class="section-note">从中心论文展开局部网络，追踪两篇论文之间的影响路径。</p>
+            <p class="section-kicker">转折</p>
+            <h2>03 两篇论文之间是怎么连上的</h2>
+            <p class="section-note">选一篇论文，看看它前面接住了什么，后面又带出了什么，这就是范式转折最直接的线索。</p>
           </div>
           <div id="butterfly-path" class="module-slot"></div>
         </section>
 
+        <section class="story-bridge" aria-label="章节过渡 3">
+          <p class="bridge-copy">
+            这里把“转折”说得再具体一点：一篇论文不是凭空蹦出来的，它往往一边接住前面的积累，一边又把后面的方向提前打开。像 Transformer、GPT-3、InstructGPT 这种关键节点，前后影响链通常比单看标题更能说明问题。蝴蝶路径图正好适合讲这种“接力”关系：左边看它接了谁的棒，右边看它又把棒传给了谁。
+          </p>
+        </section>
+
         <section id="section-map" class="story-section">
           <div class="section-heading">
-            <p class="section-kicker">空间格局</p>
-            <h2>04 机构影响力地图</h2>
-            <p class="section-note">围绕“谁在主导、论文背后是谁、谁连接主线”三个问题，解释机构影响力的空间与组织证据。</p>
+            <p class="section-kicker">幕后</p>
+            <h2>04 是哪些机构在把故事往前推</h2>
+            <p class="section-note">论文背后不是一串抽象的点，而是公司、实验室和大学在持续投钱、定方向、推问题。</p>
           </div>
           <div id="institution-map" class="module-slot"></div>
         </section>
 
+        <section class="story-bridge" aria-label="章节过渡 4">
+          <p class="bridge-copy">
+            机构地图更像是一份“幕后名单”。当前数据只覆盖了一部分机构字段，所以它不是完整的全球统计，更适合拿来看看核心论文和高影响机构的样本分布。像 Google Research、OpenAI、Stanford、Meta AI、Anthropic 这些名字，往往对应着不同阶段的主线推进。说白了，这张图不是在比谁最多，而是在看谁在关键时候一直把问题往前推。
+          </p>
+        </section>
+
         <section id="section-metro" class="story-section">
           <div class="section-heading">
-            <p class="section-kicker">交叉影响</p>
-            <h2>05 主题流派地铁图</h2>
-            <p class="section-note">围绕“范式如何迁移、哪里发生换乘、近期分化在哪”三个问题，阅读主题路线的交叉影响。</p>
+            <p class="section-kicker">分叉</p>
+            <h2>05 研究路线在哪里分岔、汇合、再分化</h2>
+            <p class="section-note">把主题线当成不同的研究路线来看，就能看出它们怎么从同一条主干走向不同的应用场景。</p>
           </div>
           <div id="metro-map" class="module-slot"></div>
         </section>
 
+        <section class="story-bridge" aria-label="章节过渡 5">
+          <p class="bridge-copy">
+            最后这张图更像是一张“分流图”。它把对齐、安全、多模态、RAG、长上下文和高效架构这些后期方向放到一条线上，看看它们是怎么从基础模型主线里分出来、又彼此交叉的。这样一起看，后期研究就不只是“模型变大”这么简单了，而是慢慢分出了一批更专门的能力路线。
+          </p>
+        </section>
+
         <section id="section-method" class="story-section method-section">
           <div class="section-heading">
-            <p class="section-kicker">提交说明</p>
-            <h2>设计说明与开发记录</h2>
+            <p class="section-kicker">为什么这样讲</p>
+            <h2>我们怎么把数据讲成一段可读的历史</h2>
           </div>
           <div class="method-grid">
             <article>
-              <h3>可视化问题</h3>
+              <h3>我们想回答什么</h3>
               <p>
-                本项目旨在回答：LLM 论文研究热点在 2013-2026 年间经历了哪些阶段迁移，
-                哪些论文承担了范式转换的桥梁作用，机构影响力又如何分布？
+                我们想回答的不是“哪些图最热闹”，而是“LLM 是怎么一步步走到今天这一步的”。
+                也就是把 2013-2026 年这段研究史讲清楚：每个阶段在争什么、谁把方向带偏了、故事又是怎么接上的。
               </p>
             </article>
             <article>
-              <h3>设计决策</h3>
+              <h3>为什么用这些图</h3>
               <p>
-                主题河流用于表现关键词热度的时间连续性；力导向网络用于暴露论文引用结构；
-                局部路径图用于解释两篇论文之间的可达关系；地图用于补充机构空间分布。
-                交互采用年份过滤、节点选择、路径高亮、指标切换和按需详情，服务于“从宏观趋势到微观论文”的分析流程。
+                河流图负责告诉你“这一时期大家在关心什么”；网络图负责告诉你“哪些论文撑住了主线”；
+                路径图负责告诉你“转折是怎么接上的”；地图负责告诉你“背后是谁在推这条线”。
+                图表不是主角，主角还是这段研究史本身。
               </p>
             </article>
             <article>
-              <h3>替代方案</h3>
+              <h3>为什么不是别的讲法</h3>
               <p>
-                曾考虑使用堆叠柱图替代河流图、邻接矩阵替代力导向图。最终保留河流图和网络布局，
-                因为它们更适合课堂演示中的趋势感知与探索式讲解；邻接矩阵可读性更稳定，但对非专业观众不够直观。
+                我们也试过更“分析型”的说法，但最后还是保留了这些更适合顺着读下去的图。
+                因为这门课想展示的不是一堆报表，而是让不做这个方向的人也能顺着页面读懂一段技术演进。
               </p>
             </article>
             <article>
               <h3>数据与引用</h3>
               <p>
-                当前数据位于 <code>data/processed</code>，为课程原型阶段生成的合成论文、关键词、引用边和机构地理数据，
-                用于测试可视化与交互流程；世界底图使用公开 GeoJSON。若后续替换为真实论文语料，可保持同一 JSON 字段结构直接接入。
+                当前数据放在 <code>data/processed</code>，是课程原型阶段整理出来的一套可视化练习数据。
+                它已经够我们把故事结构讲明白了；如果以后换成更完整的真实语料，只要字段结构不变，基本就能直接接上。
               </p>
             </article>
             <article>
               <h3>开发流程</h3>
               <p>
-                预计开发约 30-40 工时。耗时最多的环节是数据结构设计、跨图联动、交互状态调试和移动端布局。
-                项目适合 1-4 人小组分工：数据清洗、可视化实现、叙事文案、部署与演示视频。
+                这个页面的重点不只是把图做出来，更重要的是把整页排成一条能顺着讲下去的线路。
+                真正花时间的地方，很多时候不是画图，而是把标题、过渡语和图之间的关系调顺。
               </p>
             </article>
             <article>
               <h3>部署方式</h3>
               <p>
-                本项目无需定制服务器，可直接通过 GitHub Pages 从仓库根目录部署。源代码、静态数据和说明文档均随页面发布。
+                页面可以直接用 GitHub Pages 部署，打开之后更像在看一篇带图的长文。
               </p>
             </article>
           </div>
@@ -174,5 +222,31 @@
       </main>
     </div>
     <script type="module" src="./src/main.js"></script>
+    <script>
+      // Sidebar toggle functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const navToggle = document.getElementById('nav-toggle');
+        const toggleIcon = document.querySelector('.toggle-icon');
+        const storyNav = document.querySelector('.story-nav');
+        
+        if (navToggle && storyNav && toggleIcon) {
+          const syncToggleIcon = function() {
+            const collapsed = storyNav.classList.contains('is-collapsed');
+            toggleIcon.textContent = collapsed ? '❮' : '❯';
+            navToggle.setAttribute('aria-label', collapsed ? '展开侧栏' : '折叠侧栏');
+          };
+
+          syncToggleIcon();
+
+          navToggle.addEventListener('click', function() {
+            storyNav.classList.toggle('is-collapsed');
+            navToggle.setAttribute('aria-expanded', 
+              navToggle.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
+            );
+            syncToggleIcon();
+          });
+        }
+      });
+    </script>
   </body>
 </html>
