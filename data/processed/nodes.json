@@ -2035,8 +2035,7 @@
       "University of Amsterdam",
       "University of Edinburgh",
       "Mila",
-      "Google Research",
-      "The University of Edinburgh"
+      "Google Research"
     ]
   },
   {
@@ -2134,7 +2133,7 @@
     "venue": "arXiv.org",
     "institution": [
       "Google Research",
-      "École Polytechnique Fédérale de Lausanne"
+      "EPFL"
     ]
   },
   {
@@ -2707,7 +2706,7 @@
     "citations_count": 2,
     "venue": "arXiv.org",
     "institution": [
-      "University of Illinois Urbana-Champaign",
+      "University of Illinois",
       "Shanghai Jiao Tong University"
     ]
   },
@@ -3165,7 +3164,7 @@
     "venue": "International Conference on Learning Representations",
     "institution": [
       "University of Amsterdam",
-      "Google Brain"
+      "Google Research"
     ]
   },
   {
@@ -3327,7 +3326,7 @@
     "citations_count": 51572,
     "venue": "Neural Information Processing Systems",
     "institution": [
-      "Facebook AI Research"
+      "Meta AI"
     ]
   },
   {
@@ -3687,7 +3686,7 @@
     "citations_count": 115072,
     "venue": "Machine-mediated learning",
     "institution": [
-      "University of California, Berkeley"
+      "UC Berkeley"
     ]
   },
   {
@@ -4110,7 +4109,7 @@
     "citations_count": 5365,
     "venue": "arXiv.org",
     "institution": [
-      "Allen Institute for Artificial Intelligence"
+      "Allen Institute for AI"
     ]
   },
   {
@@ -4159,7 +4158,7 @@
     "citations_count": 72177,
     "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
     "institution": [
-      "Microsoft Research"
+      "Microsoft"
     ]
   },
   {
@@ -4297,7 +4296,7 @@
     "citations_count": 17948,
     "venue": "European Conference on Computer Vision",
     "institution": [
-      "Facebook AI Research"
+      "Meta AI"
     ]
   },
   {
@@ -4437,7 +4436,7 @@
     "citations_count": 4477,
     "venue": "arXiv.org",
     "institution": [
-      "Allen Institute for Artificial Intelligence"
+      "Allen Institute for AI"
     ]
   },
   {
@@ -4474,7 +4473,7 @@
     "citations_count": 88474,
     "venue": "Journal of machine learning research",
     "institution": [
-      "INRIA Saclay Île-de-France",
+      "Inria",
       "Université Paris-Saclay",
       "Université de Paris-Sud"
     ]
@@ -4506,7 +4505,7 @@
     "citations_count": 5027,
     "venue": "NeurIPS Datasets and Benchmarks",
     "institution": [
-      "University of California, Berkeley",
+      "UC Berkeley",
       "OpenAI"
     ]
   },
@@ -4934,9 +4933,7 @@
     "institution": [
       "University of Michigan",
       "University of California, San Francisco",
-      "National Cancer Center Hospital East",
-      "University of Michigan",
-      "University of California, San Francisco"
+      "National Cancer Center Hospital East"
     ]
   },
   {
@@ -5356,24 +5353,6 @@
     "institution": [
       "University of Michigan",
       "University of the Basque Country",
-      "University of Navarra",
-      "University of Michigan",
-      "University of the Basque Country",
-      "University of Navarra",
-      "University of Michigan",
-      "University of the Basque Country",
-      "University of Navarra",
-      "University of Michigan",
-      "University of the Basque Country",
-      "University of Navarra",
-      "University of Michigan",
-      "University of the Basque Country",
-      "University of Navarra",
-      "University of Michigan",
-      "University of the Basque Country",
-      "University of Navarra",
-      "University of Michigan",
-      "University of the Basque Country",
       "University of Navarra"
     ]
   },
@@ -5544,7 +5523,7 @@
     "venue": "bioRxiv",
     "institution": [
       "University of Macau",
-      "SIAT, Chinese Academy of Sciences"
+      "Chinese Academy of Sciences"
     ]
   },
   {
@@ -5622,8 +5601,7 @@
     "venue": "Unknown",
     "institution": [
       "University of Michigan",
-      "University of Edinburgh",
-      "University of Michigan"
+      "University of Edinburgh"
     ]
   },
   {
@@ -6512,7 +6490,7 @@
     "citations_count": 5617,
     "venue": "Conference on Empirical Methods in Natural Language Processing",
     "institution": [
-      "Facebook AI Research",
+      "Meta AI",
       "Princeton University",
       "University of Washington"
     ]
@@ -6779,7 +6757,7 @@
     "venue": "Annual Meeting of the Association for Computational Linguistics",
     "institution": [
       "University of Washington",
-      "Allen Institute for Artificial Intelligence",
+      "Allen Institute for AI",
       "University of Michigan"
     ]
   },
@@ -6854,7 +6832,7 @@
     "citations_count": 3088,
     "venue": "Advances in Neural Information Processing Systems 35",
     "institution": [
-      "DeepMind"
+      "Google DeepMind"
     ]
   },
   {
@@ -6912,7 +6890,7 @@
     "institution": [
       "University of Tübingen",
       "University of Washington",
-      "Meta AI Research"
+      "Meta AI"
     ]
   },
   {
@@ -7092,9 +7070,9 @@
     "venue": "European Conference on Computer Vision",
     "institution": [
       "University of California, San Diego",
-      "University of California, Berkeley",
+      "UC Berkeley",
       "Cornell University",
-      "University of Illinois at Urbana-Champaign"
+      "University of Illinois"
     ]
   },
   {
@@ -7303,7 +7281,7 @@
     "citations_count": 3214,
     "venue": "Annual Meeting of the Association for Computational Linguistics",
     "institution": [
-      "University of California, Berkeley",
+      "UC Berkeley",
       "University of Oxford"
     ]
   },
@@ -7364,7 +7342,7 @@
     "citations_count": 6904,
     "venue": "Computer Vision and Pattern Recognition",
     "institution": [
-      "NVIDIA Research"
+      "NVIDIA"
     ]
   },
   {
@@ -7521,7 +7499,7 @@
     "venue": "arXiv.org",
     "institution": [
       "Google Research",
-      "University of California, Berkeley",
+      "UC Berkeley",
       "University of Edinburgh"
     ]
   },
@@ -7630,8 +7608,8 @@
     "citations_count": 10062,
     "venue": "2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition",
     "institution": [
-      "Facebook AI Research",
-      "University of California, Berkeley"
+      "Meta AI",
+      "UC Berkeley"
     ]
   },
   {
@@ -7670,7 +7648,7 @@
     "institution": [
       "Google Research",
       "Stanford University",
-      "University of California, Berkeley",
+      "UC Berkeley",
       "University of Toronto"
     ]
   },
@@ -7696,7 +7674,7 @@
     "venue": "Neural Information Processing Systems",
     "institution": [
       "University of Geneva",
-      "École Polytechnique Fédérale de Lausanne"
+      "EPFL"
     ]
   },
   {
@@ -7863,7 +7841,7 @@
     "venue": "International Conference on Learning Representations",
     "institution": [
       "University of Washington",
-      "Allen Institute for Artificial Intelligence"
+      "Allen Institute for AI"
     ]
   },
   {
@@ -7909,7 +7887,7 @@
       "Hugging Face",
       "New York University",
       "University of Washington",
-      "Université de Montréal",
+      "Mila",
       "University of Cambridge"
     ]
   },
@@ -7963,7 +7941,7 @@
       "Meta AI",
       "New York University",
       "University of Washington",
-      "Université de Montréal",
+      "Mila",
       "University of Cambridge"
     ]
   },
@@ -8016,7 +7994,7 @@
       "Google Research",
       "New York University",
       "University of Washington",
-      "Université de Montréal",
+      "Mila",
       "University of Cambridge"
     ]
   },
@@ -8245,7 +8223,9 @@
     "link": "https://www.semanticscholar.org/paper/d2d44f4934bd54c8a08109ec45871aca6c5b58e1",
     "citations_count": 0,
     "venue": "IEEE Journal of Solid-State Circuits",
-    "institution": []
+    "institution": [
+      "KAIST"
+    ]
   },
   {
     "id": "814e029d0cac30f4b062c54191b16370672517e1",
@@ -8272,7 +8252,9 @@
     "link": "https://www.semanticscholar.org/paper/814e029d0cac30f4b062c54191b16370672517e1",
     "citations_count": 0,
     "venue": "IEEE Robotics and Automation Letters",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "956f7d5f8797255183dee1df26eff4dc2f0c6a3a",
@@ -8319,7 +8301,9 @@
     "link": "https://www.semanticscholar.org/paper/e4bd25b80291a24c4d9e0dcd25b939dca7a833a0",
     "citations_count": 0,
     "venue": "IEEE Robotics and Automation Letters",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "796d85bb95483accd72cfd749e86adaaf5cf734c",
@@ -8344,7 +8328,9 @@
     "link": "https://www.semanticscholar.org/paper/796d85bb95483accd72cfd749e86adaaf5cf734c",
     "citations_count": 4,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "University of Illinois"
+    ]
   },
   {
     "id": "59b87bd76120b9ec22af4c9cb20671107f104272",
@@ -8371,7 +8357,9 @@
     "link": "https://www.semanticscholar.org/paper/59b87bd76120b9ec22af4c9cb20671107f104272",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "University of Michigan"
+    ]
   },
   {
     "id": "0b2f7f64b3d98c33e360a41de34cbb53b4a46454",
@@ -8420,7 +8408,9 @@
     "link": "https://www.semanticscholar.org/paper/3f85ab80d5efb5a7d668f4a50371b70b4364624e",
     "citations_count": 1,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "d98375c2dbbade32217544b5fa61f23b742bb779",
@@ -8445,7 +8435,9 @@
     "link": "https://www.semanticscholar.org/paper/d98375c2dbbade32217544b5fa61f23b742bb779",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "2248a61fbd7463305bd65a08c2249051cba4561c",
@@ -8473,7 +8465,9 @@
     "link": "https://www.semanticscholar.org/paper/2248a61fbd7463305bd65a08c2249051cba4561c",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "UniProt Consortium"
+    ]
   },
   {
     "id": "1ec91abe8dfc52b4769fb8e45c39a7d658ae17c9",
@@ -8497,7 +8491,9 @@
     "link": "https://www.semanticscholar.org/paper/1ec91abe8dfc52b4769fb8e45c39a7d658ae17c9",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "University of Tokyo"
+    ]
   },
   {
     "id": "c2227d805f8ea8e2541b2237b76bd6246b0d9974",
@@ -8526,7 +8522,9 @@
     "link": "https://www.semanticscholar.org/paper/c2227d805f8ea8e2541b2237b76bd6246b0d9974",
     "citations_count": 4,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "d397b476d1267d22d25887abd679d3bb855c7652",
@@ -8574,7 +8572,9 @@
     "link": "https://www.semanticscholar.org/paper/801a53071080ec39262284bf4c75668f7ffac6c9",
     "citations_count": 2,
     "venue": "IEEE transactions on industrial electronics (1982. Print)",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "a7c72e310c3fb5411f690cd4937f31a3028ea1d2",
@@ -8599,7 +8599,9 @@
     "link": "https://www.semanticscholar.org/paper/a7c72e310c3fb5411f690cd4937f31a3028ea1d2",
     "citations_count": 1,
     "venue": "Engineering applications of artificial intelligence",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "b991d4aef45f0696eeaccd70e864835713212a92",
@@ -8647,7 +8649,9 @@
     "link": "https://www.semanticscholar.org/paper/cf62b29825fa8076e55a826db08bc1f90b135559",
     "citations_count": 2,
     "venue": "Biomedical Signal Processing and Control",
-    "institution": []
+    "institution": [
+      "Seoul National University"
+    ]
   },
   {
     "id": "a3b7fb8b1c2fe4e8e1c50e13178a101df3a8c98f",
@@ -8671,7 +8675,9 @@
     "link": "https://www.semanticscholar.org/paper/a3b7fb8b1c2fe4e8e1c50e13178a101df3a8c98f",
     "citations_count": 0,
     "venue": "Biomedical Signal Processing and Control",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "312420f0ca699399f7072bc094894d4945e30309",
@@ -8695,7 +8701,9 @@
     "link": "https://www.semanticscholar.org/paper/312420f0ca699399f7072bc094894d4945e30309",
     "citations_count": 1,
     "venue": "IEEE International Conference on Acoustics, Speech, and Signal Processing",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "0028af771cccb949c0790956d4148b8d44203dcd",
@@ -8780,7 +8788,9 @@
     "link": "https://www.semanticscholar.org/paper/cb60e9385da7a872809ebc76a9558155878202c9",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "91b8c2386840a8f6d9a1903bf8affbfe7f98bfbd",
@@ -8829,7 +8839,9 @@
     "link": "https://www.semanticscholar.org/paper/3f278644c49e33fa3835f3d3161becd0d7d89a76",
     "citations_count": 0,
     "venue": "IEEE Robotics and Automation Letters",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "fec27ef81cbc1f980c61426c03cd1a59054daa68",
@@ -8854,7 +8866,9 @@
     "link": "https://www.semanticscholar.org/paper/fec27ef81cbc1f980c61426c03cd1a59054daa68",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "49b7bfd75f59e9ad935ec1797d014ca53f54e392",
@@ -8876,7 +8890,9 @@
     "link": "https://www.semanticscholar.org/paper/49b7bfd75f59e9ad935ec1797d014ca53f54e392",
     "citations_count": 2,
     "venue": "Expert systems with applications",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "7cdea6dae6e17a279a745d8ecff5131d98c0e574",
@@ -8912,7 +8928,9 @@
     "link": "https://www.semanticscholar.org/paper/7cdea6dae6e17a279a745d8ecff5131d98c0e574",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "1851d3cb7da364633a39ccd73225b117ba94eee2",
@@ -8940,7 +8958,9 @@
     "link": "https://www.semanticscholar.org/paper/1851d3cb7da364633a39ccd73225b117ba94eee2",
     "citations_count": 0,
     "venue": "IEEE Transactions on Parallel and Distributed Systems",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "767be2141a4252c163857cb045cc38f83b65f565",
@@ -8969,7 +8989,9 @@
     "link": "https://www.semanticscholar.org/paper/767be2141a4252c163857cb045cc38f83b65f565",
     "citations_count": 0,
     "venue": "International Journal of Artificial Intelligence Research",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "e3b1d1fc93047d5cb30924fcf01e55d95e48414e",
@@ -8996,7 +9018,9 @@
     "link": "https://www.semanticscholar.org/paper/e3b1d1fc93047d5cb30924fcf01e55d95e48414e",
     "citations_count": 1,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "229a13e8deaf3407c067cedee99ac0868955b560",
@@ -9021,7 +9045,9 @@
     "link": "https://www.semanticscholar.org/paper/229a13e8deaf3407c067cedee99ac0868955b560",
     "citations_count": 2,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "University of Edinburgh"
+    ]
   },
   {
     "id": "116a979e82c551b5778ea77999acd0b1828ba41d",
@@ -9112,7 +9138,9 @@
     "link": "https://www.semanticscholar.org/paper/a8814f539909c64d8c23f3abb70d529b900fd56c",
     "citations_count": 0,
     "venue": "Expert systems with applications",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "4f50d1dca626fa31f38bea1a6a436b181ee4b912",
@@ -9142,7 +9170,9 @@
     "link": "https://www.semanticscholar.org/paper/4f50d1dca626fa31f38bea1a6a436b181ee4b912",
     "citations_count": 0,
     "venue": "European journal of sustainable development research",
-    "institution": []
+    "institution": [
+      "IISc Bangalore"
+    ]
   },
   {
     "id": "2f4745d6631b271508514ba81d18150c4d28e9b4",
@@ -9195,7 +9225,9 @@
     "link": "https://www.semanticscholar.org/paper/765ac550fd37f9753c27fc7e4965761876d4fa54",
     "citations_count": 0,
     "venue": "IEEE Robotics and Automation Letters",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "81c58c9a61abd4125eb703f156cf4c792f6e8dd6",
@@ -9216,7 +9248,9 @@
     "link": "https://www.semanticscholar.org/paper/81c58c9a61abd4125eb703f156cf4c792f6e8dd6",
     "citations_count": 10,
     "venue": "Conference on Empirical Methods in Natural Language Processing",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "3635f982858098ce0aa94e15a6135d9c56dcf731",
@@ -9240,7 +9274,9 @@
     "link": "https://www.semanticscholar.org/paper/3635f982858098ce0aa94e15a6135d9c56dcf731",
     "citations_count": 0,
     "venue": "IEEE Transactions on Artificial Intelligence",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "d99b7a45cd1117b860fdc2fa52ef2d88065ef0e3",
@@ -9293,7 +9329,9 @@
     "link": "https://www.semanticscholar.org/paper/eb9128e5bf86fcf67cff77ac8b79fc396dfce0ea",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "1f5d84b278ba6ec99d11f09897b94d0173e33992",
@@ -9323,7 +9361,10 @@
     "link": "https://www.semanticscholar.org/paper/1f5d84b278ba6ec99d11f09897b94d0173e33992",
     "citations_count": 12,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Microsoft",
+      "University of Washington"
+    ]
   },
   {
     "id": "ba5661b82da8bb9078656558d878595042dc0041",
@@ -9347,7 +9388,9 @@
     "link": "https://www.semanticscholar.org/paper/ba5661b82da8bb9078656558d878595042dc0041",
     "citations_count": 7,
     "venue": "International journal of human computer interactions",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "20ded62fa14c77ff10626d0b2e3547012062ed2d",
@@ -9367,7 +9410,9 @@
     "link": "https://www.semanticscholar.org/paper/20ded62fa14c77ff10626d0b2e3547012062ed2d",
     "citations_count": 5,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "University of Michigan"
+    ]
   },
   {
     "id": "317e44334f966711eb22827063264fab9862a34f",
@@ -9409,7 +9454,9 @@
     "link": "https://www.semanticscholar.org/paper/317e44334f966711eb22827063264fab9862a34f",
     "citations_count": 37,
     "venue": "Patterns",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "fbca0c2ec5425bbd8dc4898d684c909a58dab1de",
@@ -9462,7 +9509,9 @@
     "link": "https://www.semanticscholar.org/paper/f9d241a68b2d48e31d863ded43479845dd80ef9f",
     "citations_count": 1,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "9f7f77822b61007fac16a644b4670429f31c4744",
@@ -9627,7 +9676,11 @@
     "link": "https://www.semanticscholar.org/paper/74276a37bfa50f90dfae37f767b2b67784bd402a",
     "citations_count": 3147,
     "venue": "North American Chapter of the Association for Computational Linguistics",
-    "institution": []
+    "institution": [
+      "Google Research",
+      "Anthropic",
+      "Google DeepMind"
+    ]
   },
   {
     "id": "b5246fa284f86b544a7c31f050b3bd0defd053fd",
@@ -9650,7 +9703,9 @@
     "link": "https://www.semanticscholar.org/paper/b5246fa284f86b544a7c31f050b3bd0defd053fd",
     "citations_count": 4073,
     "venue": "Conference on Empirical Methods in Natural Language Processing",
-    "institution": []
+    "institution": [
+      "Google Research"
+    ]
   },
   {
     "id": "d9f6ada77448664b71128bb19df15765336974a6",
@@ -9677,7 +9732,10 @@
     "link": "https://www.semanticscholar.org/paper/d9f6ada77448664b71128bb19df15765336974a6",
     "citations_count": 2736,
     "venue": "Neural Information Processing Systems",
-    "institution": []
+    "institution": [
+      "New York University",
+      "Meta AI"
+    ]
   },
   {
     "id": "2cbb8de53759e75411bc528518947a3094fbce3a",
@@ -9698,7 +9756,9 @@
     "link": "https://www.semanticscholar.org/paper/2cbb8de53759e75411bc528518947a3094fbce3a",
     "citations_count": 5081,
     "venue": "IEEE Transactions on Big Data",
-    "institution": []
+    "institution": [
+      "Meta AI"
+    ]
   },
   {
     "id": "4954fa180728932959997a4768411ff9136aac81",
@@ -9738,7 +9798,11 @@
     "link": "https://www.semanticscholar.org/paper/4954fa180728932959997a4768411ff9136aac81",
     "citations_count": 19548,
     "venue": "USENIX Symposium on Operating Systems Design and Implementation",
-    "institution": []
+    "institution": [
+      "Google Research",
+      "Anthropic",
+      "Meta AI"
+    ]
   },
   {
     "id": "add2f205338d70e10ce5e686df4a690e2851bdfc",
@@ -9761,7 +9825,12 @@
     "link": "https://www.semanticscholar.org/paper/add2f205338d70e10ce5e686df4a690e2851bdfc",
     "citations_count": 14786,
     "venue": "Computer Vision and Pattern Recognition",
-    "institution": []
+    "institution": [
+      "Meta AI",
+      "University of Michigan",
+      "Google Research",
+      "Microsoft"
+    ]
   },
   {
     "id": "510e26733aaff585d65701b9f1be7ca9d5afc586",
@@ -9825,7 +9894,9 @@
     "link": "https://www.semanticscholar.org/paper/38f93092ece8eee9771e61c1edaf11b1293cae1b",
     "citations_count": 8416,
     "venue": "Neural Information Processing Systems",
-    "institution": []
+    "institution": [
+      "Google DeepMind"
+    ]
   },
   {
     "id": "04f4e55e14150b7c48b0287ba77c7443df76ed45",
@@ -9854,7 +9925,10 @@
     "link": "https://www.semanticscholar.org/paper/04f4e55e14150b7c48b0287ba77c7443df76ed45",
     "citations_count": 2903,
     "venue": "AAAI Conference on Artificial Intelligence",
-    "institution": []
+    "institution": [
+      "University of Washington",
+      "Anthropic"
+    ]
   },
   {
     "id": "053b1d7b97eb2c91fc3921d589c160b0923c70b1",
@@ -10397,7 +10471,10 @@
     "link": "https://www.semanticscholar.org/paper/db1afe3b3cd4cd90e41fbba65d3075dd5aebb61e",
     "citations_count": 2762,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Google Research",
+      "Anthropic"
+    ]
   },
   {
     "id": "c4744a7c2bb298e4a52289a1e085c71cc3d37bc6",
@@ -10423,7 +10500,11 @@
     "link": "https://www.semanticscholar.org/paper/c4744a7c2bb298e4a52289a1e085c71cc3d37bc6",
     "citations_count": 4295,
     "venue": "Annual Meeting of the Association for Computational Linguistics",
-    "institution": []
+    "institution": [
+      "Google",
+      "Google Research",
+      "University of Toronto"
+    ]
   },
   {
     "id": "3aaf6a2cbad5850ad81ab5c163599cb3d523436f",
@@ -10460,7 +10541,11 @@
     "link": "https://www.semanticscholar.org/paper/3aaf6a2cbad5850ad81ab5c163599cb3d523436f",
     "citations_count": 3315,
     "venue": "Neural Information Processing Systems",
-    "institution": []
+    "institution": [
+      "Microsoft",
+      "Google",
+      "Allen Institute for AI"
+    ]
   },
   {
     "id": "8dbd57469bb32e6d57f23f5e765bf1c9ac8e080c",
@@ -10498,7 +10583,9 @@
     "link": "https://www.semanticscholar.org/paper/8dbd57469bb32e6d57f23f5e765bf1c9ac8e080c",
     "citations_count": 4136,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Toyota Technological Institute at Chicago"
+    ]
   },
   {
     "id": "5d90f06bb70a0a3dced62413346235c02b1aa086",
@@ -10517,7 +10604,9 @@
     "link": "https://www.semanticscholar.org/paper/5d90f06bb70a0a3dced62413346235c02b1aa086",
     "citations_count": 41843,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "University of Toronto"
+    ]
   },
   {
     "id": "744fe47157477235032f7bb3777800f9f2f45e52",
@@ -10540,7 +10629,9 @@
     "link": "https://www.semanticscholar.org/paper/744fe47157477235032f7bb3777800f9f2f45e52",
     "citations_count": 8440,
     "venue": "International Conference on Learning Representations",
-    "institution": []
+    "institution": [
+      "NVIDIA"
+    ]
   },
   {
     "id": "8729441d734782c3ed532a7d2d9611b438c0a09a",
@@ -10582,7 +10673,10 @@
     "link": "https://www.semanticscholar.org/paper/f8e79ac0ea341056ef20f2616628b3e964764cfd",
     "citations_count": 45007,
     "venue": "Computer Vision and Pattern Recognition",
-    "institution": []
+    "institution": [
+      "Microsoft",
+      "University of Washington"
+    ]
   },
   {
     "id": "6fc6803df5f9ae505cae5b2f178ade4062c768d0",
@@ -10603,7 +10697,9 @@
     "link": "https://www.semanticscholar.org/paper/6fc6803df5f9ae505cae5b2f178ade4062c768d0",
     "citations_count": 41659,
     "venue": "Computer Vision and Pattern Recognition",
-    "institution": []
+    "institution": [
+      "UC Berkeley"
+    ]
   },
   {
     "id": "18a93dc1558bf9d7534d0b416633cebaf75c1145",
@@ -10631,7 +10727,10 @@
     "link": "https://www.semanticscholar.org/paper/18a93dc1558bf9d7534d0b416633cebaf75c1145",
     "citations_count": 2987,
     "venue": "Proceedings of the National Academy of Sciences of the United States of America",
-    "institution": []
+    "institution": [
+      "Meta AI",
+      "University of California, San Diego"
+    ]
   },
   {
     "id": "49a049dc85e2380dde80501a984878341dd8efdf",
@@ -10655,7 +10754,9 @@
     "link": "https://www.semanticscholar.org/paper/49a049dc85e2380dde80501a984878341dd8efdf",
     "citations_count": 8191,
     "venue": "Neural Information Processing Systems",
-    "institution": []
+    "institution": [
+      "Meta AI"
+    ]
   },
   {
     "id": "4d1c856275744c0284312a3a50efb6ca9dc4cd4c",
@@ -10749,7 +10850,9 @@
     "link": "https://www.semanticscholar.org/paper/6471fd1cbc081fb3b7b5b14d6ab9eaaba02b5c17",
     "citations_count": 4276,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Google DeepMind"
+    ]
   },
   {
     "id": "22655979df781d222eaf812b0d325fa9adf11594",
@@ -10880,7 +10983,9 @@
     "link": "https://www.semanticscholar.org/paper/f010affab57b5fcf1cd6be23df79d8ec98c7289c",
     "citations_count": 3721,
     "venue": "Annual Meeting of the Association for Computational Linguistics",
-    "institution": []
+    "institution": [
+      "Meta AI"
+    ]
   },
   {
     "id": "acd87843a451d18b4dc6474ddce1ae946429eaf1",
@@ -10902,7 +11007,9 @@
     "link": "https://www.semanticscholar.org/paper/acd87843a451d18b4dc6474ddce1ae946429eaf1",
     "citations_count": 9388,
     "venue": "International Conference on Machine Learning",
-    "institution": []
+    "institution": [
+      "Meta AI"
+    ]
   },
   {
     "id": "2f4df08d9072fc2ac181b7fced6a245315ce05c8",
@@ -10926,7 +11033,9 @@
     "link": "https://www.semanticscholar.org/paper/2f4df08d9072fc2ac181b7fced6a245315ce05c8",
     "citations_count": 28826,
     "venue": "2014 IEEE Conference on Computer Vision and Pattern Recognition",
-    "institution": []
+    "institution": [
+      "Microsoft"
+    ]
   },
   {
     "id": "ac3ee98020251797c2b401e1389461df88e52e62",
@@ -11224,7 +11333,9 @@
     "link": "https://www.semanticscholar.org/paper/1c61f9ef06fe74505775a833ff849185757199e7",
     "citations_count": 5948,
     "venue": "Annual Meeting of the Association for Computational Linguistics",
-    "institution": []
+    "institution": [
+      "Stanford University"
+    ]
   },
   {
     "id": "156d217b0a911af97fa1b5a71dc909ccef7a8028",
@@ -11248,7 +11359,9 @@
     "link": "https://www.semanticscholar.org/paper/156d217b0a911af97fa1b5a71dc909ccef7a8028",
     "citations_count": 3671,
     "venue": "Conference on Empirical Methods in Natural Language Processing",
-    "institution": []
+    "institution": [
+      "Allen Institute for AI"
+    ]
   },
   {
     "id": "e94d5f4399e51f007dde78b13dc44b8e9598ef79",
@@ -11290,7 +11403,9 @@
     "link": "https://www.semanticscholar.org/paper/c21a4d70d83e0f6eb2a9e1c41d034842dd561e47",
     "citations_count": 2385,
     "venue": "North American Chapter of the Association for Computational Linguistics",
-    "institution": []
+    "institution": [
+      "Anthropic"
+    ]
   },
   {
     "id": "d0e8c5dcbfb15d1dab2e1d5a1405e5ded3e9bb45",
@@ -11323,7 +11438,9 @@
     "link": "https://www.semanticscholar.org/paper/d0e8c5dcbfb15d1dab2e1d5a1405e5ded3e9bb45",
     "citations_count": 0,
     "venue": "medRxiv",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "f78cab73c0901fc912428e425308983607fb2487",
@@ -11547,7 +11664,9 @@
     "link": "https://www.semanticscholar.org/paper/aabd4bd8aedda787702e56192a12c1565330ad47",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "cfaa56c217d48b5efdcfbdcb907954faad3947a6",
@@ -11601,7 +11720,9 @@
     "link": "https://www.semanticscholar.org/paper/f7e31af3a020472fb2a26e3154fa0daa6686f70f",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "ee46c77d966f4b7836e97de10fdc03c4305b73f0",
@@ -11625,7 +11746,9 @@
     "link": "https://www.semanticscholar.org/paper/ee46c77d966f4b7836e97de10fdc03c4305b73f0",
     "citations_count": 2,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Google DeepMind"
+    ]
   },
   {
     "id": "6d25937953f2bff98f6acd34bc94d3ca355547ec",
@@ -11678,7 +11801,9 @@
     "link": "https://www.semanticscholar.org/paper/1408d44c4040c84040e74f8d1dac00dbf5ce391d",
     "citations_count": 0,
     "venue": "IEEE Transactions on Artificial Intelligence",
-    "institution": []
+    "institution": [
+      "IISc Bangalore"
+    ]
   },
   {
     "id": "a9cd5f087800e2afd6cdcd6dee240fc7298654ff",
@@ -11709,7 +11834,9 @@
     "link": "https://www.semanticscholar.org/paper/a9cd5f087800e2afd6cdcd6dee240fc7298654ff",
     "citations_count": 1,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "OpenAI"
+    ]
   },
   {
     "id": "89f9515575a8ad98303cb35f3d252106ca9e6e8e",
@@ -11739,7 +11866,9 @@
     "link": "https://www.semanticscholar.org/paper/89f9515575a8ad98303cb35f3d252106ca9e6e8e",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "a1b8beec29a4fa12b9b7bdd8f0a78437fa711d7e",
@@ -11762,7 +11891,9 @@
     "link": "https://www.semanticscholar.org/paper/a1b8beec29a4fa12b9b7bdd8f0a78437fa711d7e",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "89c891ca4dfded59bb90cc1f15bb06d36e767543",
@@ -11790,7 +11921,9 @@
     "link": "https://www.semanticscholar.org/paper/89c891ca4dfded59bb90cc1f15bb06d36e767543",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "9fad258f1fb82d76eddc3bcb37142f8edfb0b329",
@@ -11893,7 +12026,9 @@
     "link": "https://www.semanticscholar.org/paper/679f6d96eed93fbdecc9a3885892924f9a227e28",
     "citations_count": 0,
     "venue": "IEEE transactions on industrial electronics (1982. Print)",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "9dfa8b6673115c2d3cfe1d48d088bdcfcd09fb59",
@@ -11915,7 +12050,9 @@
     "link": "https://www.semanticscholar.org/paper/9dfa8b6673115c2d3cfe1d48d088bdcfcd09fb59",
     "citations_count": 1,
     "venue": "Engineering applications of artificial intelligence",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "8ff5451bcc95a463709400cfa8c4b13c2b047e82",
@@ -11970,7 +12107,9 @@
     "link": "https://www.semanticscholar.org/paper/9f329f2af24ae67554527028dfc94d6435b95553",
     "citations_count": 0,
     "venue": "Biomedical Signal Processing and Control",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "030f5c29b867b622df2c9ea2a934620a25d3c120",
@@ -12141,7 +12280,9 @@
     "link": "https://www.semanticscholar.org/paper/34ba72423471ed574e800d9c9bd77d2fdad51487",
     "citations_count": 0,
     "venue": "IEEE transactions on fuzzy systems",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "4152e9b5305eeafe5c89d130d8628f459630910b",
@@ -12171,7 +12312,9 @@
     "link": "https://www.semanticscholar.org/paper/4152e9b5305eeafe5c89d130d8628f459630910b",
     "citations_count": 0,
     "venue": "IEEE Robotics and Automation Letters",
-    "institution": []
+    "institution": [
+      "KAIST"
+    ]
   },
   {
     "id": "30d9e69ed0026668a3894673963722580bd9e1d0",
@@ -12201,7 +12344,9 @@
     "link": "https://www.semanticscholar.org/paper/30d9e69ed0026668a3894673963722580bd9e1d0",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "06bd069861fe1a35223b41404b82d9fd9b0f75c6",
@@ -12225,7 +12370,9 @@
     "link": "https://www.semanticscholar.org/paper/06bd069861fe1a35223b41404b82d9fd9b0f75c6",
     "citations_count": 1,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Stanford University"
+    ]
   },
   {
     "id": "a43978f7c0237671a672e4d40062547de1531f40",
@@ -12341,7 +12488,9 @@
     "link": "https://www.semanticscholar.org/paper/56836039a028e56560b03d23978783f131031366",
     "citations_count": 0,
     "venue": "Robot Learning",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "1f1e3b7ac933713e47e67edc7911e7177ee506e2",
@@ -12391,7 +12540,9 @@
     "link": "https://www.semanticscholar.org/paper/72df46342ee74e01d867be9d9defaba0d28ae595",
     "citations_count": 1,
     "venue": "Biomedical Signal Processing and Control",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "e64ee172f969e1c8c14f53f60aa8b91efff87512",
@@ -12415,7 +12566,9 @@
     "link": "https://www.semanticscholar.org/paper/e64ee172f969e1c8c14f53f60aa8b91efff87512",
     "citations_count": 0,
     "venue": "IEEE Transactions on Biometrics Behavior and Identity Science",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "e575e8bcea016a1786bb47d79d8007769a6b5481",
@@ -12439,7 +12592,9 @@
     "link": "https://www.semanticscholar.org/paper/e575e8bcea016a1786bb47d79d8007769a6b5481",
     "citations_count": 0,
     "venue": "Biomedical Signal Processing and Control",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "4f366d0d2cad5a03787044205628fd1f82245f11",
@@ -12464,7 +12619,9 @@
     "link": "https://www.semanticscholar.org/paper/4f366d0d2cad5a03787044205628fd1f82245f11",
     "citations_count": 0,
     "venue": "Engineering applications of artificial intelligence",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "febc321097c7f12a0430b4696208270fddc0a59b",
@@ -12517,7 +12674,9 @@
     "link": "https://www.semanticscholar.org/paper/0862560c2d0797a7cbfe47e599e5950203b24c7d",
     "citations_count": 0,
     "venue": "IEEE Robotics and Automation Letters",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "5dece901894f588b76727f51dd810ba561df4c47",
@@ -12607,7 +12766,9 @@
     "link": "https://www.semanticscholar.org/paper/1befc6d24d377239bf1acd90c95113d95c727dbd",
     "citations_count": 2,
     "venue": "International Journal of Molecular Sciences",
-    "institution": []
+    "institution": [
+      "Seoul National University"
+    ]
   },
   {
     "id": "0929797d9ed62919d9ea132a474e61381e523ab5",
@@ -12633,7 +12794,9 @@
     "link": "https://www.semanticscholar.org/paper/0929797d9ed62919d9ea132a474e61381e523ab5",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "b733f723e11f12c8493ff73b092891e11cd2302e",
@@ -12660,7 +12823,9 @@
     "link": "https://www.semanticscholar.org/paper/b733f723e11f12c8493ff73b092891e11cd2302e",
     "citations_count": 10,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "756cc1ff2894b466a5d9a2f09f1b71134ed171bc",
@@ -12689,7 +12854,9 @@
     "link": "https://www.semanticscholar.org/paper/756cc1ff2894b466a5d9a2f09f1b71134ed171bc",
     "citations_count": 5,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "b32c7671f795085a9430ed9a4c066d72b1636a6e",
@@ -12709,7 +12876,9 @@
     "link": "https://www.semanticscholar.org/paper/b32c7671f795085a9430ed9a4c066d72b1636a6e",
     "citations_count": 5,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "University of Michigan"
+    ]
   },
   {
     "id": "a5558a4a7d24d6083a26fe287fa2e2d2337114f0",
@@ -12772,7 +12941,9 @@
     "link": "https://www.semanticscholar.org/paper/8974829e4269f5f1800f08603f052b29fa8b26a8",
     "citations_count": 5,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "695933fbd7b9b87acffa263d8aba03057be280c0",
@@ -12842,7 +13013,9 @@
     "link": "https://www.semanticscholar.org/paper/25d8e50d31b3c2eff8a876466189e729efd2da61",
     "citations_count": 0,
     "venue": "International Conference on Power Electronics and Artificial Intelligence",
-    "institution": []
+    "institution": [
+      "Zhejiang University"
+    ]
   },
   {
     "id": "27d9475c210d4cb69d4fd8d00b34165fecb3a1b0",
@@ -12889,7 +13062,10 @@
     "link": "https://www.semanticscholar.org/paper/f3de86aeb442216a8391befcacb49e58b478f512",
     "citations_count": 9717,
     "venue": "International Conference on Machine Learning",
-    "institution": []
+    "institution": [
+      "Google Research",
+      "Google"
+    ]
   },
   {
     "id": "8323c591e119eb09b28b29fd6c7bc76bd889df7a",
@@ -12916,7 +13092,10 @@
     "link": "https://www.semanticscholar.org/paper/8323c591e119eb09b28b29fd6c7bc76bd889df7a",
     "citations_count": 2713,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Microsoft",
+      "OpenAI"
+    ]
   },
   {
     "id": "5cbe278b65a81602a864184bbca37de91448a5f5",
@@ -12968,7 +13147,12 @@
     "link": "https://www.semanticscholar.org/paper/5cbe278b65a81602a864184bbca37de91448a5f5",
     "citations_count": 2115,
     "venue": "Science",
-    "institution": []
+    "institution": [
+      "Google DeepMind",
+      "Mila",
+      "OpenAI",
+      "Google Research"
+    ]
   },
   {
     "id": "b4bfadfca9742bb3ee98a0cd322d5ce4e59a3ceb",
@@ -13015,7 +13199,9 @@
     "link": "https://www.semanticscholar.org/paper/0e6824e137847be0599bb0032e37042ed2ef5045",
     "citations_count": 2734,
     "venue": "IEEE International Conference on Computer Vision",
-    "institution": []
+    "institution": [
+      "University of Toronto"
+    ]
   },
   {
     "id": "faadd7d081c8d67e8c2567e8a5579e46cd6b2280",
@@ -13041,7 +13227,9 @@
     "link": "https://www.semanticscholar.org/paper/faadd7d081c8d67e8c2567e8a5579e46cd6b2280",
     "citations_count": 3374,
     "venue": "North American Chapter of the Association for Computational Linguistics",
-    "institution": []
+    "institution": [
+      "Meta AI"
+    ]
   },
   {
     "id": "d1505c6123c102e53eb19dff312cb25cea840b72",
@@ -13067,7 +13255,9 @@
     "link": "https://www.semanticscholar.org/paper/d1505c6123c102e53eb19dff312cb25cea840b72",
     "citations_count": 3828,
     "venue": "Neural Information Processing Systems",
-    "institution": []
+    "institution": [
+      "Google DeepMind"
+    ]
   },
   {
     "id": "65a9c7b0800c86a196bc14e7621ff895cc6ab287",
@@ -13143,7 +13333,11 @@
     "link": "https://www.semanticscholar.org/paper/a1b8a8df281bbaec148a897927a49ea47ea31515",
     "citations_count": 3909,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "University of Michigan",
+      "Microsoft",
+      "Meta AI"
+    ]
   },
   {
     "id": "85e7d63f75c0916bd350a229e040c5fbb1472e7a",
@@ -13167,7 +13361,10 @@
     "link": "https://www.semanticscholar.org/paper/85e7d63f75c0916bd350a229e040c5fbb1472e7a",
     "citations_count": 2258,
     "venue": "Annual Meeting of the Association for Computational Linguistics",
-    "institution": []
+    "institution": [
+      "Anthropic",
+      "Meta AI"
+    ]
   },
   {
     "id": "7a15950dc71079285a4eaf195de5aadd87c41b40",
@@ -13259,7 +13456,13 @@
     "link": "https://www.semanticscholar.org/paper/17dd3555fd1ccf1141cf984347fa1b3fd6b009ca",
     "citations_count": 1975,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Hugging Face",
+      "Google Research",
+      "University of Cambridge",
+      "Anthropic",
+      "Google DeepMind"
+    ]
   },
   {
     "id": "f4df78183261538e718066331898ee5cad7cad05",
@@ -13286,7 +13489,11 @@
     "link": "https://www.semanticscholar.org/paper/f4df78183261538e718066331898ee5cad7cad05",
     "citations_count": 1968,
     "venue": "Conference on Empirical Methods in Natural Language Processing",
-    "institution": []
+    "institution": [
+      "Meta AI",
+      "University of Washington",
+      "Anthropic"
+    ]
   },
   {
     "id": "964bd39b546f0f6625ff3b9ef1083f797807ef2e",
@@ -13698,7 +13905,20 @@
     "link": "https://www.semanticscholar.org/paper/964bd39b546f0f6625ff3b9ef1083f797807ef2e",
     "citations_count": 2899,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "University of Cambridge",
+      "Meta AI",
+      "Anthropic",
+      "Hugging Face",
+      "Google Research",
+      "University of Washington",
+      "Allen Institute for AI",
+      "Stanford University",
+      "University of Tübingen",
+      "Microsoft",
+      "Google DeepMind",
+      "New York University"
+    ]
   },
   {
     "id": "e65b346d442e9962a4276dc1c1af2956d9d5f1eb",
@@ -13726,7 +13946,9 @@
     "link": "https://www.semanticscholar.org/paper/e65b346d442e9962a4276dc1c1af2956d9d5f1eb",
     "citations_count": 3149,
     "venue": "Annual Meeting of the Association for Computational Linguistics",
-    "institution": []
+    "institution": [
+      "Anthropic"
+    ]
   },
   {
     "id": "4d98ce60f4f8ed822503b8d13b0605f8c5d74ca7",
@@ -13767,7 +13989,9 @@
     "link": "https://www.semanticscholar.org/paper/d1ee87290fa827f1217b8fa2bccb3485da1a300e",
     "citations_count": 25934,
     "venue": "Machine-mediated learning",
-    "institution": []
+    "institution": [
+      "UC Berkeley"
+    ]
   },
   {
     "id": "22aab110058ebbd198edb1f1e7b4f69fb13c0613",
@@ -13789,7 +14013,10 @@
     "link": "https://www.semanticscholar.org/paper/22aab110058ebbd198edb1f1e7b4f69fb13c0613",
     "citations_count": 6071,
     "venue": "International Conference on Learning Representations",
-    "institution": []
+    "institution": [
+      "Google DeepMind",
+      "University of Oxford"
+    ]
   },
   {
     "id": "84069287da0a6b488b8c933f3cb5be759cb6237e",
@@ -13835,7 +14062,9 @@
     "link": "https://www.semanticscholar.org/paper/d6f2f611da110b5b5061731be3fc4c7f45d8ee23",
     "citations_count": 20402,
     "venue": "IEEE International Conference on Computer Vision",
-    "institution": []
+    "institution": [
+      "Meta AI"
+    ]
   },
   {
     "id": "7ffdbc358b63378f07311e883dddacc9faeeaf4b",
@@ -13854,7 +14083,9 @@
     "link": "https://www.semanticscholar.org/paper/7ffdbc358b63378f07311e883dddacc9faeeaf4b",
     "citations_count": 28214,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Microsoft"
+    ]
   },
   {
     "id": "5132500b23d2da47129b3f4f68dd30947a29e502",
@@ -13883,7 +14114,9 @@
     "link": "https://www.semanticscholar.org/paper/5132500b23d2da47129b3f4f68dd30947a29e502",
     "citations_count": 2972,
     "venue": "IEEE International Conference on Computer Vision",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "0fe2636446cd686830da3d971b31a004d6094b3c",
@@ -13915,7 +14148,9 @@
     "link": "https://www.semanticscholar.org/paper/0fe2636446cd686830da3d971b31a004d6094b3c",
     "citations_count": 3782,
     "venue": "Findings",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "2f3efe44083af91cef562c1a3451eee2f8601d22",
@@ -13955,7 +14190,12 @@
     "link": "https://www.semanticscholar.org/paper/2f3efe44083af91cef562c1a3451eee2f8601d22",
     "citations_count": 1798,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Google Research",
+      "OpenAI",
+      "Columbia University",
+      "Anthropic"
+    ]
   },
   {
     "id": "ac2618b2ce5cdcf86f9371bcca98bc5e37e46f51",
@@ -14006,7 +14246,9 @@
     "link": "https://www.semanticscholar.org/paper/7002ae048e4b8c9133a55428441e8066070995cb",
     "citations_count": 4691,
     "venue": "International Conference on Machine Learning",
-    "institution": []
+    "institution": [
+      "OpenAI"
+    ]
   },
   {
     "id": "9770fff7379a7ab9006b48939462354dda9a2053",
@@ -14125,7 +14367,10 @@
     "link": "https://www.semanticscholar.org/paper/1536e8958697c5364f68b2e2448905dbbeb3a0ca",
     "citations_count": 2339,
     "venue": "Conference on Empirical Methods in Natural Language Processing",
-    "institution": []
+    "institution": [
+      "Meta AI",
+      "Allen Institute for AI"
+    ]
   },
   {
     "id": "de18baa4964804cf471d85a5a090498242d2e79f",
@@ -14175,7 +14420,10 @@
     "link": "https://www.semanticscholar.org/paper/6bdb186ec4726e00a8051119636d4df3b94043b5",
     "citations_count": 14841,
     "venue": "ACM Multimedia",
-    "institution": []
+    "institution": [
+      "Google Research",
+      "Microsoft"
+    ]
   },
   {
     "id": "93499a7c7f699b6630a86fad964536f9423bb6d0",
@@ -14229,7 +14477,11 @@
     "link": "https://www.semanticscholar.org/paper/df0402517a7338ae28bc54acaac400de6b456a46",
     "citations_count": 8169,
     "venue": "Speech Synthesis Workshop",
-    "institution": []
+    "institution": [
+      "Google Research",
+      "University of Oxford",
+      "Google DeepMind"
+    ]
   },
   {
     "id": "d7ac65d335b5d847f4f5826313a8732bc7abc7a8",
@@ -14259,7 +14511,9 @@
     "link": "https://www.semanticscholar.org/paper/d7ac65d335b5d847f4f5826313a8732bc7abc7a8",
     "citations_count": 1843,
     "venue": "International Conference on Machine Learning",
-    "institution": []
+    "institution": [
+      "OpenAI"
+    ]
   },
   {
     "id": "d79a26226393f687ddbc375e32055b40b8ad8d38",
@@ -14285,7 +14539,9 @@
     "link": "https://www.semanticscholar.org/paper/d79a26226393f687ddbc375e32055b40b8ad8d38",
     "citations_count": 2069,
     "venue": "Neural Information Processing Systems",
-    "institution": []
+    "institution": [
+      "Google Research"
+    ]
   },
   {
     "id": "a2f38d03fd363e920494ad65a5f0ad8bd18cd60b",
@@ -14319,7 +14575,9 @@
     "link": "https://www.semanticscholar.org/paper/a2f38d03fd363e920494ad65a5f0ad8bd18cd60b",
     "citations_count": 2398,
     "venue": "ACM Trans. Comput. Heal.",
-    "institution": []
+    "institution": [
+      "Microsoft"
+    ]
   },
   {
     "id": "023f6fc69fe1f6498e35dbf85932ecb549d36ca4",
@@ -14367,7 +14625,9 @@
     "link": "https://www.semanticscholar.org/paper/e816f788767eec6a8ef0ea9eddd0e902435d4271",
     "citations_count": 2933,
     "venue": "Annual Meeting of the Association for Computational Linguistics",
-    "institution": []
+    "institution": [
+      "Allen Institute for AI"
+    ]
   },
   {
     "id": "38fb1902c6a2ab4f767d4532b28a92473ea737aa",
@@ -14400,7 +14660,10 @@
     "link": "https://www.semanticscholar.org/paper/38fb1902c6a2ab4f767d4532b28a92473ea737aa",
     "citations_count": 2065,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Google DeepMind",
+      "University of Oxford"
+    ]
   },
   {
     "id": "e86f71ca2948d17b003a5f068db1ecb2b77827f7",
@@ -14452,7 +14715,9 @@
     "link": "https://www.semanticscholar.org/paper/0df347f5e3118fac7c351917e3a497899b071d1e",
     "citations_count": 2838,
     "venue": "Communications of the ACM",
-    "institution": []
+    "institution": [
+      "University of Washington"
+    ]
   },
   {
     "id": "405f8f5f1c6df1b3343c812832479aad5180b65f",
@@ -14503,7 +14768,10 @@
     "link": "https://www.semanticscholar.org/paper/92e121c6e114fe3cfb89370df03847c66a9b4e28",
     "citations_count": 3025,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Anthropic",
+      "University of Washington"
+    ]
   },
   {
     "id": "3731b79d26faf162e1f1cec4803bb94c21b994a2",
@@ -14530,7 +14798,9 @@
     "link": "https://www.semanticscholar.org/paper/3731b79d26faf162e1f1cec4803bb94c21b994a2",
     "citations_count": 0,
     "venue": "IEEE Transactions on Knowledge and Data Engineering",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "a5bf1839870c0749bcf48d6cb8e8f4c8cc37e9f6",
@@ -14559,7 +14829,9 @@
     "link": "https://www.semanticscholar.org/paper/a5bf1839870c0749bcf48d6cb8e8f4c8cc37e9f6",
     "citations_count": 0,
     "venue": "Journal of Applied Fluid Mechanics",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "d1267d2a26ea0d5ca060d0d8228822666a92e915",
@@ -14583,7 +14855,9 @@
     "link": "https://www.semanticscholar.org/paper/d1267d2a26ea0d5ca060d0d8228822666a92e915",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "694a027ba47a827b67b0a18d0cf95cfe0829f38d",
@@ -14693,7 +14967,9 @@
     "link": "https://www.semanticscholar.org/paper/6df244935f75b0cf9b248e0f85ee0372c2d8a8fd",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "10f0e2491b4202f0a8a89993eca5877fce2880d8",
@@ -14827,7 +15103,9 @@
     "link": "https://www.semanticscholar.org/paper/9b1fab2f483a1c1d325f4c7efa05392a50a14b89",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "acc9f7e537f131cc10a0f1f38b4220ec25986672",
@@ -14859,7 +15137,9 @@
     "link": "https://www.semanticscholar.org/paper/acc9f7e537f131cc10a0f1f38b4220ec25986672",
     "citations_count": 1,
     "venue": "Proceedings of the 2026 CHI Conference on Human Factors in Computing Systems",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "39811762a19327ada4fc5291b2f7f57deee75a8c",
@@ -14888,7 +15168,9 @@
     "link": "https://www.semanticscholar.org/paper/39811762a19327ada4fc5291b2f7f57deee75a8c",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "2acae5835531acf62938d3f625c8e8eaf831a490",
@@ -14912,7 +15194,9 @@
     "link": "https://www.semanticscholar.org/paper/2acae5835531acf62938d3f625c8e8eaf831a490",
     "citations_count": 0,
     "venue": "WIREs Data Mining and Knowledge Discovery",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "64b7b8de01be558231ac3f9992649b6de571892b",
@@ -14964,7 +15248,9 @@
     "link": "https://www.semanticscholar.org/paper/375f042b46f8c1b2a0c02efebc8e70606ea9c0f2",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "04d379662476ec8aff5204c7824df316bd2eec8d",
@@ -14996,7 +15282,9 @@
     "link": "https://www.semanticscholar.org/paper/04d379662476ec8aff5204c7824df316bd2eec8d",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Columbia University"
+    ]
   },
   {
     "id": "1542443fdcf81ae5e373dcab08ded17d85ec0986",
@@ -15020,7 +15308,9 @@
     "link": "https://www.semanticscholar.org/paper/1542443fdcf81ae5e373dcab08ded17d85ec0986",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "1743ed5978a3d8bd648eee1c4a7790c4acd10680",
@@ -15126,7 +15416,9 @@
     "link": "https://www.semanticscholar.org/paper/34b14d72f5bc0d3a88532fbebd38dec8a5adbc78",
     "citations_count": 0,
     "venue": "IEEE Transactions on Biometrics Behavior and Identity Science",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "b0e203aad802d2faeab64f32f3cd724f72e05f47",
@@ -15199,7 +15491,9 @@
     "link": "https://www.semanticscholar.org/paper/7859eed15e1debeea46a6d1a473b3be23766dc71",
     "citations_count": 0,
     "venue": "Materials Science in Semiconductor Processing",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "84dc137f209d76c131504f4c666c694c9fc81b4c",
@@ -15230,7 +15524,9 @@
     "link": "https://www.semanticscholar.org/paper/84dc137f209d76c131504f4c666c694c9fc81b4c",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "SciPy Community"
+    ]
   },
   {
     "id": "16e90f1e3f59377b3cf0a4b4ea5a340b5624d082",
@@ -15259,7 +15555,9 @@
     "link": "https://www.semanticscholar.org/paper/16e90f1e3f59377b3cf0a4b4ea5a340b5624d082",
     "citations_count": 1,
     "venue": "bioRxiv",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "5bbb2da9122dbe8041346ac290a0edebe25ed0c0",
@@ -15339,7 +15637,9 @@
     "link": "https://www.semanticscholar.org/paper/acbeee5002d55b6f03a7fe2e9774492379df30bd",
     "citations_count": 0,
     "venue": "IEEE Transactions on Electron Devices",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "f9d24a2020dcd063be5fda9504628d40048c0ceb",
@@ -15419,7 +15719,9 @@
     "link": "https://www.semanticscholar.org/paper/a8cfc4dbdf2d56b6e3f26daaf26325965edcde45",
     "citations_count": 1,
     "venue": "Infrared Physics &amp; Technology",
-    "institution": []
+    "institution": [
+      "Tsinghua University"
+    ]
   },
   {
     "id": "4d8621982122520882f7210f2ef57c16c55b1d11",
@@ -15449,7 +15751,9 @@
     "link": "https://www.semanticscholar.org/paper/4d8621982122520882f7210f2ef57c16c55b1d11",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "548a0ba909d7063de5b15e45640fda8cdc7442a1",
@@ -15510,7 +15814,9 @@
     "link": "https://www.semanticscholar.org/paper/f8d184291b5687350ceeaaf2b904bb3d959eb24c",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Google DeepMind"
+    ]
   },
   {
     "id": "c6fdaa84594c99e5a1946f739df2b0e4bf593209",
@@ -15547,7 +15853,9 @@
     "link": "https://www.semanticscholar.org/paper/c6fdaa84594c99e5a1946f739df2b0e4bf593209",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Zhejiang University"
+    ]
   },
   {
     "id": "df144792ab52185c54d0acb3283d93dc486176f1",
@@ -15569,7 +15877,9 @@
     "link": "https://www.semanticscholar.org/paper/df144792ab52185c54d0acb3283d93dc486176f1",
     "citations_count": 1,
     "venue": "Learning and Individual Differences",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "7b37447b185d4f74b65f124f582c01fce3d7a3ee",
@@ -15646,7 +15956,9 @@
     "link": "https://www.semanticscholar.org/paper/3fece802945d23e45913d15149121da1a6d8d31b",
     "citations_count": 0,
     "venue": "Fuel processing technology",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "13dca8eda247f0302df63eca58b1d23a005fd79d",
@@ -15673,7 +15985,9 @@
     "link": "https://www.semanticscholar.org/paper/13dca8eda247f0302df63eca58b1d23a005fd79d",
     "citations_count": 0,
     "venue": "Displays (Guildford)",
-    "institution": []
+    "institution": [
+      "Chinese Academy of Sciences"
+    ]
   },
   {
     "id": "9dee49888cf74a443802963d20604f028ee249c4",
@@ -15730,7 +16044,9 @@
     "link": "https://www.semanticscholar.org/paper/5ef2f64ef7301d0efb65c678c322056b51a3b5c6",
     "citations_count": 0,
     "venue": "IEEE Transactions on Knowledge and Data Engineering",
-    "institution": []
+    "institution": [
+      "OpenAI"
+    ]
   },
   {
     "id": "f455201fafc7846c127a58506063271e6b8ae119",
@@ -15756,7 +16072,10 @@
     "link": "https://www.semanticscholar.org/paper/f455201fafc7846c127a58506063271e6b8ae119",
     "citations_count": 7,
     "venue": "Conference on Empirical Methods in Natural Language Processing",
-    "institution": []
+    "institution": [
+      "Google DeepMind",
+      "Allen Institute for AI"
+    ]
   },
   {
     "id": "cdc958dfb444170a51a551c7470e73938b6c347e",
@@ -15840,7 +16159,9 @@
     "link": "https://www.semanticscholar.org/paper/7f7c6573424ec49b986a8f5a4d5f87d896edd364",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "c899e88ea7baea286499a6304fae24f462dea17b",
@@ -15871,7 +16192,9 @@
     "link": "https://www.semanticscholar.org/paper/c899e88ea7baea286499a6304fae24f462dea17b",
     "citations_count": 10,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "de1a8ca9f2bcc5b82d528cdc8b08a939d5a90976",
@@ -15918,7 +16241,9 @@
     "link": "https://www.semanticscholar.org/paper/b742436b7278905b6997d548f622f912fbd12480",
     "citations_count": 5,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "University of Michigan"
+    ]
   },
   {
     "id": "2edd56fd82749d0f0d987ee341d8caf95037b164",
@@ -15984,7 +16309,9 @@
     "link": "https://www.semanticscholar.org/paper/0dbe9847630ad4c0a4f53b88b1fe19b9f369ad82",
     "citations_count": 4,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "2a94f0b621e2be488ed99d7bcfc904a41ceb00e2",
@@ -16036,7 +16363,10 @@
     "link": "https://www.semanticscholar.org/paper/0385b6a7e6cd1f3618f7102343fd38a1ef16cc97",
     "citations_count": 7,
     "venue": "arXiv.org",
-    "institution": []
+    "institution": [
+      "Google Research",
+      "Google DeepMind"
+    ]
   },
   {
     "id": "6a41bb1723b225ba874fd0cd6f9821c573768e9d",
@@ -16093,7 +16423,9 @@
     "link": "https://www.semanticscholar.org/paper/09c6101efc7de83e3c682694345c23f7b90ae93c",
     "citations_count": 0,
     "venue": "Unknown",
-    "institution": []
+    "institution": [
+      "Peking University"
+    ]
   },
   {
     "id": "081651b38ff7533550a3adfc1c00da333a8fe86c",
@@ -16144,7 +16476,10 @@
     "link": "https://www.semanticscholar.org/paper/0feea94f89d395436bf41bd10c797447eecbc128",
     "citations_count": 2640,
     "venue": "Neural Information Processing Systems",
-    "institution": []
+    "institution": [
+      "Google",
+      "Google Research"
+    ]
   },
   {
     "id": "ab0e3d3e4d42369de5933a3b4c237780b41c0d77",
@@ -16178,7 +16513,11 @@
     "link": "https://www.semanticscholar.org/paper/ab0e3d3e4d42369de5933a3b4c237780b41c0d77",
     "citations_count": 1615,
     "venue": "Neural Information Processing Systems",
-    "institution": []
+    "institution": [
+      "Stanford University",
+      "Google DeepMind",
+      "Google Research"
+    ]
   },
   {
     "id": "ec4eba83f6b3266d9ae7cabb2b2cb1518f727edc",
@@ -16199,7 +16538,9 @@
     "link": "https://www.semanticscholar.org/paper/ec4eba83f6b3266d9ae7cabb2b2cb1518f727edc",
     "citations_count": 2980,
     "venue": "Neural Information Processing Systems",
-    "institution": []
+    "institution": [
+      "Meta AI"
+    ]
   },
   {
     "id": "9f9fc406c76255fec51a6196ce167c0ff1d1efc0",
@@ -16226,7 +16567,11 @@
     "link": "https://www.semanticscholar.org/paper/9f9fc406c76255fec51a6196ce167c0ff1d1efc0",
     "citations_count": 1272,
     "venue": "Neural Information Processing Systems",
-    "institution": []
+    "institution": [
+      "Google DeepMind",
+      "Anthropic",
+      "Stanford University"
+    ]
   },
   {
     "id": "d0086b86103a620a86bc918746df0aa642e2a8a3",
@@ -16256,7 +16601,9 @@
     "link": "https://www.semanticscholar.org/paper/d0086b86103a620a86bc918746df0aa642e2a8a3",
     "citations_count": 3116,
     "venue": "Conference on Empirical Methods in Natural Language Processing",
-    "institution": []
+    "institution": [
+      "New York University"
+    ]
   },
   {
     "id": "c8d90974c3f3b40fa05e322df2905fc16204aa56",
@@ -16307,7 +16654,9 @@
     "link": "https://www.semanticscholar.org/paper/79c93274429d6355959f1e4374c2147bb81ea649",
     "citations_count": 2891,
     "venue": "Conference on Empirical Methods in Natural Language Processing",
-    "institution": []
+    "institution": [
+      "Anthropic"
+    ]
   },
   {
     "id": "055fd6a9f7293269f1b22c1470e63bd02d8d9500",
@@ -16390,7 +16739,9 @@
     "link": "https://www.semanticscholar.org/paper/495da6f19baa09c6db3697d839e10432cdc25934",
     "citations_count": 2085,
     "venue": "Transactions of the Association for Computational Linguistics",
-    "institution": []
+    "institution": [
+      "Meta AI"
+    ]
   },
   {
     "id": "d47a682723f710395454687319bb55635e653105",
@@ -16465,7 +16816,13 @@
     "link": "https://www.semanticscholar.org/paper/002c256d30d6be4b23d365a8de8ae0e67e4c9641",
     "citations_count": 1629,
     "venue": "International Conference on Machine Learning",
-    "institution": []
+    "institution": [
+      "Google Research",
+      "University of Cambridge",
+      "Google DeepMind",
+      "Anthropic",
+      "University of Oxford"
+    ]
   },
   {
     "id": "59641c10ed7431a3cf841f308367dc2dc0281b74",
@@ -16492,7 +16849,9 @@
     "link": "https://www.semanticscholar.org/paper/59641c10ed7431a3cf841f308367dc2dc0281b74",
     "citations_count": 1728,
     "venue": "Workshop on Knowledge Extraction and Integration for Deep Learning Architectures; Deep Learning Inside Out",
-    "institution": []
+    "institution": [
+      "Microsoft"
+    ]
   },
   {
     "id": "bdbf780dfd6b3eb0c9e980887feae5f23af15bc4",
@@ -16550,7 +16909,11 @@
     "link": "https://www.semanticscholar.org/paper/663a41c866d49ce052801fbc88947d39764cad29",
     "citations_count": 1836,
     "venue": "Annual Meeting of the Association for Computational Linguistics",
-    "institution": []
+    "institution": [
+      "Google Research",
+      "Stanford University",
+      "Google"
+    ]
   },
   {
     "id": "823ca4778e1027f2f0b356df051d762dcecaaba0",
@@ -16643,7 +17006,9 @@
     "link": "https://www.semanticscholar.org/paper/e23c34414e66118ecd9b08cf0cd4d016f59b0b85",
     "citations_count": 9625,
     "venue": "IEEE Transactions on Signal Processing",
-    "institution": []
+    "institution": [
+      "Google Research"
+    ]
   },
   {
     "id": "ea9d2a2b4ce11aaf85136840c65f3bc9c03ab649",
@@ -16713,6 +17078,8 @@
     "link": "https://www.semanticscholar.org/paper/20ba55ee3229db5cb190a00e788c59f08d2a767d",
     "citations_count": 2727,
     "venue": "Computer Vision and Pattern Recognition",
-    "institution": []
+    "institution": [
+      "Google Research"
+    ]
   }
 ]
