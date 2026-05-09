@@ -118,7 +118,8 @@ function collectInfluenceLayers(centerId, neighborMap, nodeById, maxDepth, limit
       .sort((a, b) => (b.node.citations_count || 0) - (a.node.citations_count || 0))
       .slice(0, limitPerDepth);
     layer.forEach((item) => results.push({ node: item.node, depth, parentId: item.parentId }));
-    frontier = layerIds.map((item) => item.id);
+    // Use only the kept layer nodes as frontier for next depth
+    frontier = layer.map((item) => item.node.id);
     if (!frontier.length) break;
   }
 
@@ -412,12 +413,46 @@ export async function initButterflyPath(container) {
       }
 
       upstreamPoints.forEach((point) => {
-        const parentPoint = point.depth === 1 ? center : upstreamPointById.get(point.parentId);
-        drawCurve(point, parentPoint || center, `butterfly-influence-link is-upstream depth-${point.depth}`);
+        let parentPoint = null;
+        if (point.depth === 1) {
+          parentPoint = center;
+        } else {
+          // Walk up the parent chain until we find a displayed node or reach center
+          let pid = point.parentId;
+          const visited = new Set();
+          while (pid && !parentPoint && !visited.has(pid)) {
+            visited.add(pid);
+            if (upstreamPointById.has(pid)) {
+              parentPoint = upstreamPointById.get(pid);
+            } else {
+              // Find this node's parentId in the upstream list
+              const parentItem = upstream.find((u) => u.node.id === pid);
+              pid = parentItem ? parentItem.parentId : null;
+            }
+          }
+          if (!parentPoint) parentPoint = center;
+        }
+        drawCurve(point, parentPoint, `butterfly-influence-link is-upstream depth-${point.depth}`);
       });
       downstreamPoints.forEach((point) => {
-        const parentPoint = point.depth === 1 ? center : downstreamPointById.get(point.parentId);
-        drawCurve(parentPoint || center, point, `butterfly-influence-link is-downstream depth-${point.depth}`);
+        let parentPoint = null;
+        if (point.depth === 1) {
+          parentPoint = center;
+        } else {
+          let pid = point.parentId;
+          const visited = new Set();
+          while (pid && !parentPoint && !visited.has(pid)) {
+            visited.add(pid);
+            if (downstreamPointById.has(pid)) {
+              parentPoint = downstreamPointById.get(pid);
+            } else {
+              const parentItem = downstream.find((d) => d.node.id === pid);
+              pid = parentItem ? parentItem.parentId : null;
+            }
+          }
+          if (!parentPoint) parentPoint = center;
+        }
+        drawCurve(parentPoint, point, `butterfly-influence-link is-downstream depth-${point.depth}`);
       });
       upstreamPoints.forEach((point) => drawNode(point, 'upstream'));
       downstreamPoints.forEach((point) => drawNode(point, 'downstream'));
