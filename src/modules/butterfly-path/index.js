@@ -1,5 +1,7 @@
 import { loadJson } from '../../shared/data-loader.js';
 import { getAppState, onAppStateChange, setAppState } from '../../shared/app-state.js';
+import { createInteractiveTooltip, escapeHtml, paperLink } from '../../shared/interactive-tooltip.js';
+import { paperMatchesTheme, topThemePaper } from '../../shared/theme-filter.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const WIDTH = 900;
@@ -233,8 +235,9 @@ export async function initButterflyPath(container) {
   const upstreamList = container.querySelector('.butterfly-upstream-list');
   const downstreamList = container.querySelector('.butterfly-downstream-list');
   const svg = container.querySelector('.butterfly-svg');
+  const canvas = container.querySelector('.butterfly-canvas');
 
-  if (!searchInput || !paperList || !limitSelect || !depthSelect || !useSelectedButton || !resetButton || !statEl || !detailEl || !upstreamList || !downstreamList || !svg) return;
+  if (!searchInput || !paperList || !limitSelect || !depthSelect || !useSelectedButton || !resetButton || !statEl || !detailEl || !upstreamList || !downstreamList || !svg || !canvas) return;
 
   try {
     const [nodesData, edgesData] = await Promise.all([
@@ -246,6 +249,8 @@ export async function initButterflyPath(container) {
     const nodeById = new Map(nodes.map((node) => [node.id, node]));
     const { referencesById, citationsById } = buildDirectedNeighbors(nodes, edgesData);
     let centerNode = pickDefaultPaper(nodes, nodeById, getAppState().selectedPaperId);
+    let linkedTheme = getAppState().selectedTheme || null;
+    const tooltip = createInteractiveTooltip(canvas);
 
     nodes.forEach((node) => {
       const option = document.createElement('option');
@@ -266,9 +271,22 @@ export async function initButterflyPath(container) {
     function selectedWings() {
       const limit = Number(limitSelect.value) || 10;
       const depth = Number(depthSelect.value) || 2;
-      const upstream = sortInfluence(collectInfluenceLayers(centerNode.id, referencesById, nodeById, depth, limit), 'upstream', centerNode.year);
-      const downstream = sortInfluence(collectInfluenceLayers(centerNode.id, citationsById, nodeById, depth, limit), 'downstream', centerNode.year);
+      const themeFilter = (item) => !linkedTheme || paperMatchesTheme(item.node || item, linkedTheme);
+      const upstream = sortInfluence(collectInfluenceLayers(centerNode.id, referencesById, nodeById, depth, limit * 3).filter(themeFilter), 'upstream', centerNode.year).slice(0, limit * depth);
+      const downstream = sortInfluence(collectInfluenceLayers(centerNode.id, citationsById, nodeById, depth, limit * 3).filter(themeFilter), 'downstream', centerNode.year).slice(0, limit * depth);
       return { upstream, downstream };
+    }
+
+    function applyLinkedTheme(theme) {
+      linkedTheme = theme || null;
+      if (linkedTheme) {
+        const themeCenter = topThemePaper(nodes, linkedTheme);
+        if (themeCenter) {
+          centerNode = themeCenter;
+          searchInput.value = themeCenter.title;
+        }
+      }
+      render();
     }
 
     function drawCurve(from, to, className) {
@@ -301,10 +319,13 @@ export async function initButterflyPath(container) {
         'text-anchor': 'middle'
       });
       year.textContent = String(node.year || '');
-      const title = createSvgElement('title');
-      title.textContent = `${node.title}\n${phaseLabel(node.year)}\n引用 ${Number(node.citations_count || 0).toLocaleString()}`;
-      circle.appendChild(title);
       group.append(circle, year);
+
+      const url = paperLink(node);
+      const tooltipHtml = `<strong>${escapeHtml(node.title)}</strong><span>${escapeHtml(phaseLabel(node.year))} · ${escapeHtml(node.year || '')}</span><span>引用 ${Number(node.citations_count || 0).toLocaleString()}</span>${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">打开论文链接</a>` : ''}`;
+      group.addEventListener('pointerenter', (event) => tooltip.show(event, tooltipHtml));
+      group.addEventListener('pointermove', (event) => tooltip.move(event));
+      group.addEventListener('pointerleave', () => tooltip.hideSoon());
 
       const labelAnchor = role === 'upstream' ? 'end' : role === 'downstream' ? 'start' : 'middle';
       const labelX = role === 'upstream' ? -18 : role === 'downstream' ? 18 : 0;
@@ -379,16 +400,18 @@ export async function initButterflyPath(container) {
       downstreamPoints.forEach((point) => drawNode(point, 'downstream'));
       drawNode(center, 'center');
 
-      detailEl.innerHTML = `<strong>${centerNode.title}</strong> (${centerNode.year}) · ${centerNode.venue || 'Unknown'}<br />当前向两侧追踪 ${maxDepth} 阶引用链：上游 ${upstream.length} 篇、下游 ${downstream.length} 篇。越靠近中心表示越直接，越外侧表示影响链越长。<br />作者：${(centerNode.authors || []).slice(0, 8).join(', ') || '未知作者'}<br />主题：${asArray(centerNode.keywords).slice(0, 8).join('、') || asArray(centerNode.topic).join('、') || '暂无主题'}`;
+      const themeText = linkedTheme ? `主题模式：${linkedTheme}。` : '';
+      detailEl.innerHTML = `<strong>${centerNode.title}</strong> (${centerNode.year}) · ${centerNode.venue || 'Unknown'}<br />${themeText}当前向两侧追踪 ${maxDepth} 阶引用链：上游 ${upstream.length} 篇、下游 ${downstream.length} 篇。越靠近中心表示越直接，越外侧表示影响链越长。<br />作者：${(centerNode.authors || []).slice(0, 8).join(', ') || '未知作者'}<br />主题：${asArray(centerNode.keywords).slice(0, 8).join('、') || asArray(centerNode.topic).join('、') || '暂无主题'}`;
       upstreamList.innerHTML = listHtml(upstream);
       downstreamList.innerHTML = listHtml(downstream);
       wireList(upstreamList);
       wireList(downstreamList);
 
-      statEl.textContent = `中心论文 1 篇 · ${maxDepth} 阶链路 · 上游 ${upstream.length} · 下游 ${downstream.length}`;
+      statEl.textContent = `中心论文 1 篇 · ${maxDepth} 阶链路 · 上游 ${upstream.length} · 下游 ${downstream.length}${linkedTheme ? ` · 主题：${linkedTheme}` : ''}`;
     }
 
     searchInput.addEventListener('input', () => {
+      linkedTheme = null;
       const node = findPaper(nodes, searchInput.value);
       if (node) selectCenter(node);
     });
@@ -407,10 +430,15 @@ export async function initButterflyPath(container) {
 
     onAppStateChange(({ state, source }) => {
       if (source === 'butterfly-path') return;
+      if (state.selectedTheme !== linkedTheme) {
+        applyLinkedTheme(state.selectedTheme);
+        return;
+      }
       const node = state.selectedPaperId ? nodeById.get(state.selectedPaperId) : null;
       if (node) selectCenter(node, false);
     });
 
+    if (linkedTheme) applyLinkedTheme(linkedTheme);
     selectCenter(centerNode, false);
   } catch (error) {
     statEl.textContent = '数据加载失败，请检查 nodes.json 和 edges.json';

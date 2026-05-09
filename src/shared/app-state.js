@@ -3,7 +3,8 @@ const DEFAULT_STATE = {
   yearRangeStart: 2013,
   yearRangeEnd: 2026,
   selectedPaperId: null,
-  selectedInstitutionId: null
+  selectedInstitutionId: null,
+  selectedTheme: null
 };
 
 const state = { ...DEFAULT_STATE };
