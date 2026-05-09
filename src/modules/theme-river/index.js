@@ -1,6 +1,7 @@
 import { loadJson } from '../../shared/data-loader.js';
 import { getAppState, onAppStateChange, phaseLabelByYear, setAppState } from '../../shared/app-state.js';
 import { themePapers, topThemePaper } from '../../shared/theme-filter.js';
+import { createYearRangeFilter } from '../../shared/year-range-filter.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const STREAM_COLORS = [
@@ -136,11 +137,7 @@ export async function initThemeRiver(container) {
       <h3 class="module-title">LLM 主题河流图</h3>
       <p class="module-subtitle">参考 NameVoyager 的连续河流样式，展示 OpenAlex 中 LLM 研究主题年度作品数的迁移。</p>
       <div class="chart-toolbar chart-toolbar-wrap">
-        <label class="chart-control river-year-control">
-          年份
-          <input class="chart-range river-year-range" type="range" min="0" max="0" step="1" value="0" />
-          <output class="year-badge river-year-output">2025</output>
-        </label>
+        <div class="river-year-slot"></div>
         <label class="chart-control river-filter-control">
           筛选
           <select class="chart-select river-filter-select">
@@ -178,8 +175,7 @@ export async function initThemeRiver(container) {
     </div>
   `;
 
-  const slider = container.querySelector('.river-year-range');
-  const yearOutput = container.querySelector('.river-year-output');
+  const yearSlot = container.querySelector('.river-year-slot');
   const filterSelect = container.querySelector('.river-filter-select');
   const filterNumber = container.querySelector('.river-filter-number');
   const zoomSlider = container.querySelector('.river-zoom-range');
@@ -193,7 +189,7 @@ export async function initThemeRiver(container) {
   const exploreCopy = container.querySelector('.river-explore-copy');
   const exploreButton = container.querySelector('.river-explore-button');
 
-  if (!slider || !yearOutput || !filterSelect || !filterNumber || !zoomSlider || !zoomOutput || !clearButton || !statEl || !svg || !tooltip || !detailEl || !exploreTitle || !exploreCopy || !exploreButton) return;
+  if (!yearSlot || !filterSelect || !filterNumber || !zoomSlider || !zoomOutput || !clearButton || !statEl || !svg || !tooltip || !detailEl || !exploreTitle || !exploreCopy || !exploreButton) return;
 
   try {
     const [records, nodes] = await Promise.all([
@@ -263,11 +259,20 @@ export async function initThemeRiver(container) {
     });
     root.appendChild(focusLine);
 
-    slider.min = '0';
-    slider.max = String(Math.max(years.length - 1, 0));
+    // Shared year-range filter
+    const yearFilter = createYearRangeFilter({
+      source: 'theme-river',
+      label: '年份范围',
+      min: years[0] || 2013,
+      max: years[years.length - 1] || 2026,
+      onChange: () => {
+        renderRiver();
+        updateFocus(false);
+      }
+    });
+    yearSlot.appendChild(yearFilter.element);
+
     filterNumber.max = String(Math.max(allSeries.length - 1, 0));
-    const initialIndex = years.indexOf(getAppState().year);
-    slider.value = String(initialIndex >= 0 ? initialIndex : years.length - 1);
 
     function setHiddenTopCount(value) {
       hiddenTopCount = Math.max(0, Math.min(allSeries.length - 1, Number(value) || 0));
@@ -279,6 +284,13 @@ export async function initThemeRiver(container) {
       if (focusedKeyword) return allSeries.filter((item) => item.keyword === focusedKeyword);
       const hidden = new Set(allSeries.slice(0, hiddenTopCount).map((item) => item.keyword));
       return allSeries.filter((item) => !hidden.has(item.keyword));
+    }
+
+    function activeYearIndices() {
+      const { start, end } = yearFilter.getRange();
+      const startIdx = years.findIndex((y) => y >= start);
+      const endIdx = years.findLastIndex((y) => y <= end);
+      return { startIdx: Math.max(0, startIdx), endIdx: Math.max(0, endIdx >= 0 ? endIdx : years.length - 1) };
     }
 
     function updateExploreCard() {
@@ -294,12 +306,13 @@ export async function initThemeRiver(container) {
     function publishThemeExplore() {
       if (!focusedKeyword) return;
       const paper = topThemePaper(nodes, focusedKeyword);
+      const { start, end } = yearFilter.getRange();
       setAppState({
         selectedTheme: focusedKeyword,
         selectedPaperId: paper?.id || null,
-        year: paper?.year || years[Number(slider.value)] || getAppState().year,
-        yearRangeStart: years[0],
-        yearRangeEnd: years[Number(slider.value)] || getAppState().year
+        year: paper?.year || end,
+        yearRangeStart: start,
+        yearRangeEnd: end
       }, 'theme-river-explore');
       document.getElementById('section-force')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -435,28 +448,28 @@ export async function initThemeRiver(container) {
     }
 
     function updateFocus(shouldPublish = true) {
-      const yearIndex = Number(slider.value);
-      const year = years[yearIndex];
+      const { startIdx, endIdx } = activeYearIndices();
+      const year = years[endIdx];
       const x = mapRange(year, years[0], years[years.length - 1], 0, innerWidth);
       focusLine.setAttribute('x1', String(x));
       focusLine.setAttribute('x2', String(x));
-      yearOutput.textContent = String(year);
 
-      const top = topKeywordsForYear(activeSeries(), yearIndex);
+      const top = topKeywordsForYear(activeSeries(), endIdx);
       const filterText = hiddenTopCount > 0 ? ` · 已隐藏最大 ${hiddenTopCount} 条` : '';
       const zoomText = zoomLevel > 1 ? ` · ${formatZoom(zoomLevel)}` : '';
+      const { start, end } = yearFilter.getRange();
+      const rangeText = start === end ? String(end) : `${start}—${end}`;
       statEl.textContent = focusedKeyword
-        ? `${year} 年 · ${focusedKeyword}: ${formatTick(top[0]?.count ?? 0)}`
-        : `${year} 年 Top: ${top.map((item) => `${item.keyword} ${formatTick(item.count)}`).join(' | ')}${filterText}${zoomText}`;
+        ? `${rangeText} · ${focusedKeyword}: ${formatTick(top[0]?.count ?? 0)}`
+        : `${rangeText} Top: ${top.map((item) => `${item.keyword} ${formatTick(item.count)}`).join(' | ')}${filterText}${zoomText}`;
       detailEl.innerHTML = focusedKeyword
         ? `<strong>${focusedKeyword}</strong> 单主题模式：拖动年份查看该主题的 OpenAlex 年度作品数如何上升、回落或进入平台期。${TOPIC_SELECTION_TEXT}`
         : `<strong>${phaseLabelByYear(year)}</strong>：${year} 年最突出的主题是 ${top.map((item) => item.keyword).join('、')}。${TOPIC_SELECTION_TEXT}`;
 
-      if (shouldPublish) setAppState({ year, yearRangeStart: year, yearRangeEnd: year }, 'theme-river');
+      if (shouldPublish) setAppState({ year: end, yearRangeStart: start, yearRangeEnd: end }, 'theme-river');
       updateExploreCard();
     }
 
-    slider.addEventListener('input', () => updateFocus(true));
     filterSelect.addEventListener('change', () => {
       setHiddenTopCount(filterSelect.value === 'custom' ? filterNumber.value : filterSelect.value);
       focusedKeyword = null;
@@ -483,6 +496,7 @@ export async function initThemeRiver(container) {
       filterNumber.value = '0';
       zoomSlider.value = '1';
       zoomOutput.textContent = '1x';
+      yearFilter.setRange(years[0] || 2013, years[years.length - 1] || 2026, { publish: true });
       renderRiver();
       updateFocus(false);
       updateExploreCard();
@@ -490,16 +504,11 @@ export async function initThemeRiver(container) {
     });
     exploreButton.addEventListener('click', publishThemeExplore);
     onAppStateChange(({ state, source }) => {
-      if (source === 'theme-river') return;
+      if (source === 'theme-river' || source === 'theme-river-explore') return;
       if (state.selectedTheme && state.selectedTheme !== focusedKeyword) {
         focusedKeyword = state.selectedTheme;
         renderRiver();
         updateExploreCard();
-      }
-      const yearIndex = years.indexOf(state.year);
-      if (yearIndex >= 0 && slider.value !== String(yearIndex)) {
-        slider.value = String(yearIndex);
-        updateFocus(false);
       }
     });
 

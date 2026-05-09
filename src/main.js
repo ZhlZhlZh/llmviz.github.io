@@ -3,6 +3,7 @@ import { initPaperForce } from './modules/paper-force/index.js';
 import { initButterflyPath } from './modules/butterfly-path/index.js';
 import { initInstitutionMap } from './modules/institution-map/index.js';
 import { initMetroMap } from './modules/metro-map/index.js';
+import { initLlmMiniTimeline } from './modules/llm-mini-timeline/index.js';
 import { getAppState, onAppStateChange, phaseLabelByYear } from './shared/app-state.js';
 import { loadJson } from './shared/data-loader.js';
 
@@ -14,14 +15,13 @@ function shorten(text, maxLength) {
 }
 
 async function initFocusPanel() {
-  const yearEl = document.getElementById('focus-year');
-  const phaseEl = document.getElementById('focus-phase');
-  const paperEl = document.getElementById('focus-paper');
+  // The hero "focus panel" has been replaced by the mini LLM timeline chart.
+  // We still keep the sidebar nav-focus indicators in sync with app state.
   const navYearEl = document.getElementById('nav-focus-year');
   const navThemeEl = document.getElementById('nav-focus-theme');
   const navPaperEl = document.getElementById('nav-focus-paper');
 
-  if (!yearEl || !phaseEl || !paperEl) {
+  if (!navYearEl && !navThemeEl && !navPaperEl) {
     return;
   }
 
@@ -34,12 +34,11 @@ async function initFocusPanel() {
     const rangeEnd = Number.isFinite(state.yearRangeEnd) ? state.yearRangeEnd : state.year;
     const yearText = rangeStart !== rangeEnd ? `${rangeStart}-${rangeEnd}` : String(rangeEnd);
     const paperText = node ? shorten(node.title, 56) : '未选择论文';
-    yearEl.textContent = yearText;
-    phaseEl.textContent = phaseLabelByYear(rangeEnd);
-    paperEl.textContent = paperText;
     if (navYearEl) navYearEl.textContent = yearText;
     if (navThemeEl) navThemeEl.textContent = state.selectedTheme || '未选择主题';
     if (navPaperEl) navPaperEl.textContent = paperText;
+    // phaseLabelByYear is retained for potential future reuse.
+    void phaseLabelByYear(rangeEnd);
   }
 
   render(getAppState());
@@ -84,6 +83,8 @@ export function bootstrapApp() {
   initButterflyPath(butterflyPathEl);
   initInstitutionMap(institutionMapEl);
   initMetroMap(metroMapEl);
+  const miniTimelineEl = document.getElementById('llm-mini-timeline');
+  if (miniTimelineEl) initLlmMiniTimeline(miniTimelineEl);
   initStoryNav();
   initFocusPanel().catch(() => {
     // The charts remain usable even if the summary panel cannot load its copy.

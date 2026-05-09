@@ -2,6 +2,7 @@ import { loadJson } from '../../shared/data-loader.js';
 import { getAppState, onAppStateChange, setAppState } from '../../shared/app-state.js';
 import { createInteractiveTooltip, escapeHtml, paperLink } from '../../shared/interactive-tooltip.js';
 import { paperMatchesTheme } from '../../shared/theme-filter.js';
+import { createYearRangeFilter } from '../../shared/year-range-filter.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -82,11 +83,7 @@ export async function initMetroMap(container) {
         </div>
       </div>
       <div class="chart-toolbar chart-toolbar-wrap">
-        <label class="chart-control">
-          年份
-          <input class="chart-range metro-year" type="range" min="1986" max="2026" step="1" value="2026" />
-          <output class="year-badge metro-year-output">2026</output>
-        </label>
+        <div class="metro-year-slot"></div>
         <label class="chart-control">
           展示数量
           <input class="chart-number metro-limit" type="number" min="24" max="96" step="8" value="56" />
@@ -101,8 +98,6 @@ export async function initMetroMap(container) {
     </div>
   `;
 
-  const yearSlider = container.querySelector('.metro-year');
-  const yearOutput = container.querySelector('.metro-year-output');
   const limitInput = container.querySelector('.metro-limit');
   const statEl = container.querySelector('.chart-stat');
   const detailEl = container.querySelector('.metro-detail');
@@ -112,7 +107,7 @@ export async function initMetroMap(container) {
   const scenarioButtons = Array.from(container.querySelectorAll('.metro-scenario'));
   const questionTitleEl = container.querySelector('.metro-question-title');
   const questionCopyEl = container.querySelector('.metro-question-copy');
-  if (!yearSlider || !yearOutput || !limitInput || !statEl || !detailEl || !legendEl || !svg || !canvas || !questionTitleEl || !questionCopyEl) return;
+  if (!limitInput || !statEl || !detailEl || !legendEl || !svg || !canvas || !questionTitleEl || !questionCopyEl) return;
 
   try {
     const [nodesData, edges] = await Promise.all([
@@ -127,9 +122,17 @@ export async function initMetroMap(container) {
     const tooltip = createInteractiveTooltip(canvas);
     const minYear = Math.min(...nodes.map((node) => node.year));
     const maxYear = Math.max(...nodes.map((node) => node.year));
-    yearSlider.min = String(minYear);
-    yearSlider.max = String(maxYear);
-    yearSlider.value = String(getAppState().year || maxYear);
+
+    // Shared year-range filter
+    const metroYearSlot = container.querySelector('.metro-year-slot');
+    const yearFilter = createYearRangeFilter({
+      source: 'metro-map',
+      label: '年份范围',
+      min: minYear,
+      max: maxYear,
+      onChange: () => render()
+    });
+    if (metroYearSlot) metroYearSlot.appendChild(yearFilter.element);
 
     const width = 900;
     const height = 520;
@@ -143,11 +146,11 @@ export async function initMetroMap(container) {
     }
 
     function activeNodes() {
-      const year = Number(yearSlider.value);
+      const { start, end } = yearFilter.getRange();
       const limit = Number(limitInput.value) || 56;
       const theme = getAppState().selectedTheme;
       return nodes
-        .filter((node) => node.year <= year)
+        .filter((node) => node.year >= start && node.year <= end)
         .filter((node) => !theme || paperMatchesTheme(node, theme))
         .sort((a, b) => {
           const selectedBoost = a.id === getAppState().selectedPaperId ? -1 : b.id === getAppState().selectedPaperId ? 1 : 0;
@@ -192,8 +195,7 @@ export async function initMetroMap(container) {
     }
 
     function render() {
-      const year = Number(yearSlider.value);
-      yearOutput.textContent = String(year);
+      const { start, end } = yearFilter.getRange();
       svg.innerHTML = '';
       const visible = activeNodes();
       const visibleIds = new Set(visible.map((node) => node.id));
@@ -261,11 +263,11 @@ export async function initMetroMap(container) {
           label.textContent = shorten(node.title, 28);
           group.appendChild(label);
         }
-        group.addEventListener('click', () => setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: minYear, yearRangeEnd: node.year }, 'metro-map'));
+        group.addEventListener('click', () => setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: start, yearRangeEnd: end }, 'metro-map'));
         group.addEventListener('keydown', (event) => {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: minYear, yearRangeEnd: node.year }, 'metro-map');
+            setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: start, yearRangeEnd: end }, 'metro-map');
           }
         });
         svg.appendChild(group);
@@ -274,7 +276,7 @@ export async function initMetroMap(container) {
       const selected = nodeById.get(getAppState().selectedPaperId) || visible.find((node) => node.lines.length > 1) || visible[0];
       const transferCount = visible.filter((node) => node.lines.length > 1).length;
       const theme = getAppState().selectedTheme;
-      statEl.textContent = `${visible.length} 个站点 · ${transferCount} 个换乘站 · 截止 ${year}${theme ? ` · 主题：${theme}` : ''}`;
+      statEl.textContent = `${visible.length} 个站点 · ${transferCount} 个换乘站 · ${start === end ? String(end) : `${start}—${end}`}${theme ? ` · 主题：${theme}` : ''}`;
       renderScenario();
       detailEl.innerHTML = selected
         ? `<strong>${selected.title}</strong><br />${selected.year} · ${selected.lines.map((id) => lineById(id).label).join(' / ')}。${theme ? `当前正在查看“${theme}”主题。` : ''}${activeScenario().detail}`
@@ -282,24 +284,18 @@ export async function initMetroMap(container) {
       renderLegend();
     }
 
-    yearSlider.addEventListener('input', () => {
-      setAppState({ year: Number(yearSlider.value), yearRangeStart: minYear, yearRangeEnd: Number(yearSlider.value) }, 'metro-map');
-      render();
-    });
     limitInput.addEventListener('change', render);
     scenarioButtons.forEach((button) => {
       button.addEventListener('click', () => {
         activeScenarioId = button.dataset.scenario || 'transition';
         if (activeScenarioId === 'frontier') {
-          yearSlider.value = String(maxYear);
-          setAppState({ year: maxYear, yearRangeStart: Math.max(2020, minYear), yearRangeEnd: maxYear }, 'metro-map');
+          yearFilter.setRange(Math.max(2020, minYear), maxYear, { publish: true });
         }
         render();
       });
     });
     onAppStateChange(({ state, source }) => {
       if (source === 'metro-map') return;
-      if (Number.isFinite(state.year)) yearSlider.value = String(Math.min(Math.max(state.year, minYear), maxYear));
       if (state.selectedTheme) limitInput.value = String(Math.max(Number(limitInput.value) || 56, 96));
       render();
     });
