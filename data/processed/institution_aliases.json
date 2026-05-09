@@ -1,41 +1,269 @@
 [
-  { "canonical": "Google Research", "aliases": ["Google Brain", "Google (United States)", "Google Inc.", "Google LLC"] },
-  { "canonical": "Google DeepMind", "aliases": ["Google Deepmind", "DeepMind Technologies", "DeepMind"] },
-  { "canonical": "Meta AI", "aliases": ["Facebook AI", "Facebook", "FAIR", "Facebook AI Research", "Meta AI Research"] },
-  { "canonical": "UC Berkeley", "aliases": ["University of California, Berkeley", "Berkeley", "UCB"] },
-  { "canonical": "Stanford University", "aliases": ["Stanford"] },
-  { "canonical": "Mila", "aliases": ["Mila, University of Montreal", "Mila, University of Montréal", "Université de Montréal"] },
-  { "canonical": "Microsoft", "aliases": ["Microsoft Research", "Microsoft Research Asia"] },
-  { "canonical": "New York University", "aliases": ["NYU"] },
-  { "canonical": "Tsinghua University", "aliases": ["THU", "Tsinghua"] },
-  { "canonical": "Peking University", "aliases": ["PKU", "Beijing University"] },
-  { "canonical": "Chinese Academy of Sciences", "aliases": ["CAS", "Institute of Automation, Chinese Academy of Sciences", "SIAT, Chinese Academy of Sciences", "University of Chinese Academy of Sciences"] },
-  { "canonical": "National University of Singapore", "aliases": ["NUS"] },
-  { "canonical": "Nanyang Technological University", "aliases": ["NTU Singapore"] },
-  { "canonical": "University of Tokyo", "aliases": ["The University of Tokyo", "UTokyo"] },
-  { "canonical": "KAIST", "aliases": ["Korea Advanced Institute of Science and Technology"] },
-  { "canonical": "ETH Zurich", "aliases": ["ETH Zürich", "Swiss Federal Institute of Technology Zurich"] },
-  { "canonical": "EPFL", "aliases": ["École Polytechnique Fédérale de Lausanne"] },
-  { "canonical": "University of Oxford", "aliases": ["Oxford University"] },
-  { "canonical": "Inria", "aliases": ["INRIA", "INRIA Saclay Île-de-France"] },
-  { "canonical": "Max Planck Institute for Informatics", "aliases": ["MPI Informatics", "Max Planck Institute"] },
-  { "canonical": "University of Illinois", "aliases": ["University of Illinois Urbana-Champaign", "University of Illinois at Urbana-Champaign", "UIUC"] },
-  { "canonical": "University of Edinburgh", "aliases": ["The University of Edinburgh"] },
-  { "canonical": "Carnegie Mellon University", "aliases": ["CMU"] },
-  { "canonical": "OpenAI", "aliases": [] },
-  { "canonical": "Anthropic", "aliases": [] },
-  { "canonical": "NVIDIA", "aliases": ["NVIDIA Research"] },
-  { "canonical": "Hugging Face", "aliases": ["HuggingFace"] },
-  { "canonical": "University of Cambridge", "aliases": ["Cambridge University"] },
-  { "canonical": "Columbia University", "aliases": ["Columbia"] },
-  { "canonical": "University of Washington", "aliases": ["UW", "UW Seattle"] },
-  { "canonical": "Princeton University", "aliases": ["Princeton"] },
-  { "canonical": "University of Michigan", "aliases": ["UMich", "Michigan"] },
-  { "canonical": "University of Toronto", "aliases": ["UofT", "U of T"] },
-  { "canonical": "Allen Institute for AI", "aliases": ["Allen Institute for Artificial Intelligence", "AI2"] },
-  { "canonical": "APPLE AI", "aliases": ["Apple", "Apple AI/ML"] },
-  { "canonical": "Mistral AI", "aliases": ["Mistral"] },
-  { "canonical": "Seoul National University", "aliases": ["SNU"] },
-  { "canonical": "Hong Kong University of Science and Technology", "aliases": ["HKUST"] },
-  { "canonical": "Chinese University of Hong Kong", "aliases": ["CUHK"] }
+  {
+    "canonical": "Massachusetts Institute of Technology",
+    "aliases": [
+      "MIT"
+    ]
+  },
+  {
+    "canonical": "Carnegie Mellon University",
+    "aliases": [
+      "CMU"
+    ]
+  },
+  {
+    "canonical": "University of California, Berkeley",
+    "aliases": [
+      "UC Berkeley",
+      "Berkeley"
+    ]
+  },
+  {
+    "canonical": "Stanford University",
+    "aliases": [
+      "Stanford"
+    ]
+  },
+  {
+    "canonical": "University of Oxford",
+    "aliases": [
+      "Oxford"
+    ]
+  },
+  {
+    "canonical": "University of Cambridge",
+    "aliases": [
+      "Cambridge"
+    ]
+  },
+  {
+    "canonical": "ETH Zurich",
+    "aliases": [
+      "ETH Zürich"
+    ]
+  },
+  {
+    "canonical": "University of Toronto",
+    "aliases": [
+      "UofT"
+    ]
+  },
+  {
+    "canonical": "Chinese Academy of Sciences",
+    "aliases": [
+      "CAS"
+    ]
+  },
+  {
+    "canonical": "Tsinghua University",
+    "aliases": [
+      "THU",
+      "Tsinghua"
+    ]
+  },
+  {
+    "canonical": "Peking University",
+    "aliases": [
+      "PKU"
+    ]
+  },
+  {
+    "canonical": "Google Research",
+    "aliases": [
+      "Google Brain",
+      "Google (United States)",
+      "Google Inc.",
+      "Google LLC"
+    ]
+  },
+  {
+    "canonical": "Google DeepMind",
+    "aliases": [
+      "Google Deepmind",
+      "DeepMind Technologies",
+      "DeepMind"
+    ]
+  },
+  {
+    "canonical": "Meta AI",
+    "aliases": [
+      "Facebook AI",
+      "Facebook",
+      "FAIR",
+      "Facebook AI Research",
+      "Meta AI Research"
+    ]
+  },
+  {
+    "canonical": "UC Berkeley",
+    "aliases": [
+      "University of California, Berkeley",
+      "Berkeley",
+      "UCB"
+    ]
+  },
+  {
+    "canonical": "Mila",
+    "aliases": [
+      "Mila, University of Montreal",
+      "Mila, University of Montréal",
+      "Université de Montréal"
+    ]
+  },
+  {
+    "canonical": "Microsoft",
+    "aliases": [
+      "Microsoft Research",
+      "Microsoft Research Asia"
+    ]
+  },
+  {
+    "canonical": "New York University",
+    "aliases": [
+      "NYU"
+    ]
+  },
+  {
+    "canonical": "National University of Singapore",
+    "aliases": [
+      "NUS"
+    ]
+  },
+  {
+    "canonical": "Nanyang Technological University",
+    "aliases": [
+      "NTU Singapore"
+    ]
+  },
+  {
+    "canonical": "University of Tokyo",
+    "aliases": [
+      "The University of Tokyo",
+      "UTokyo"
+    ]
+  },
+  {
+    "canonical": "KAIST",
+    "aliases": [
+      "Korea Advanced Institute of Science and Technology"
+    ]
+  },
+  {
+    "canonical": "EPFL",
+    "aliases": [
+      "École Polytechnique Fédérale de Lausanne"
+    ]
+  },
+  {
+    "canonical": "Inria",
+    "aliases": [
+      "INRIA",
+      "INRIA Saclay Île-de-France"
+    ]
+  },
+  {
+    "canonical": "Max Planck Institute for Informatics",
+    "aliases": [
+      "MPI Informatics",
+      "Max Planck Institute"
+    ]
+  },
+  {
+    "canonical": "University of Illinois",
+    "aliases": [
+      "University of Illinois Urbana-Champaign",
+      "University of Illinois at Urbana-Champaign",
+      "UIUC"
+    ]
+  },
+  {
+    "canonical": "University of Edinburgh",
+    "aliases": [
+      "The University of Edinburgh"
+    ]
+  },
+  {
+    "canonical": "OpenAI",
+    "aliases": []
+  },
+  {
+    "canonical": "Anthropic",
+    "aliases": []
+  },
+  {
+    "canonical": "NVIDIA",
+    "aliases": [
+      "NVIDIA Research"
+    ]
+  },
+  {
+    "canonical": "Hugging Face",
+    "aliases": [
+      "HuggingFace"
+    ]
+  },
+  {
+    "canonical": "Columbia University",
+    "aliases": [
+      "Columbia"
+    ]
+  },
+  {
+    "canonical": "University of Washington",
+    "aliases": [
+      "UW",
+      "UW Seattle"
+    ]
+  },
+  {
+    "canonical": "Princeton University",
+    "aliases": [
+      "Princeton"
+    ]
+  },
+  {
+    "canonical": "University of Michigan",
+    "aliases": [
+      "UMich",
+      "Michigan"
+    ]
+  },
+  {
+    "canonical": "Allen Institute for AI",
+    "aliases": [
+      "Allen Institute for Artificial Intelligence",
+      "AI2"
+    ]
+  },
+  {
+    "canonical": "APPLE AI",
+    "aliases": [
+      "Apple",
+      "Apple AI/ML"
+    ]
+  },
+  {
+    "canonical": "Mistral AI",
+    "aliases": [
+      "Mistral"
+    ]
+  },
+  {
+    "canonical": "Seoul National University",
+    "aliases": [
+      "SNU"
+    ]
+  },
+  {
+    "canonical": "Hong Kong University of Science and Technology",
+    "aliases": [
+      "HKUST"
+    ]
+  },
+  {
+    "canonical": "Chinese University of Hong Kong",
+    "aliases": [
+      "CUHK"
+    ]
+  }
 ]

@@ -47,8 +47,8 @@ function topicSearchText(node) {
 }
 
 function phaseClassByYear(year) {
-  if (year <= 2017) return 'phase-foundation';
-  if (year <= 2022) return 'phase-boom';
+  if (year <= 2005) return 'phase-foundation';
+  if (year <= 2015) return 'phase-boom';
   return 'phase-agentic';
 }
 
@@ -313,8 +313,8 @@ export async function initPaperForce(container) {
         </div>
       </div>
       <div class="legend-row">
-        <span class="legend-chip">节点大小 = 引用量</span>
-        <span class="legend-chip">连线 = 引用 / 关联关系</span>
+        <span class="legend-chip">节点大小 = 元数据热度</span>
+        <span class="legend-chip">连线 = 同主题 / 同作者 / 同类别关系</span>
         <span class="legend-chip">颜色 = 研究阶段</span>
         <span class="legend-chip">光晕 = 当前论文与一阶邻居</span>
       </div>
@@ -362,8 +362,8 @@ export async function initPaperForce(container) {
     // Shared year-range filter
     const forceYearSlot = container.querySelector('.force-year-slot');
     const allYears = nodes.map((n) => n.year).filter(Boolean);
-    const forceMinYear = Math.min(...allYears, 2013);
-    const forceMaxYear = Math.max(...allYears, 2026);
+    const forceMinYear = Math.min(...allYears, 1993);
+    const forceMaxYear = Math.max(...allYears, 2023);
     const yearFilter = createYearRangeFilter({
       source: 'paper-force',
       label: '年份范围',
@@ -409,7 +409,7 @@ export async function initPaperForce(container) {
       node.labelEl = label;
 
       const url = paperLink(node);
-      const tooltipHtml = `<strong>${escapeHtml(node.title)}</strong><span>${escapeHtml(node.year)} · ${escapeHtml((node.authors || []).slice(0, 4).join(', ') || '未知作者')}</span><span>引用 ${(node.citations_count || 0).toLocaleString()}</span>${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">打开论文链接</a>` : ''}`;
+      const tooltipHtml = `<strong>${escapeHtml(node.title)}</strong><span>${escapeHtml(node.year)} · ${escapeHtml((node.authors || []).slice(0, 4).join(', ') || '未知作者')}</span><span>热度 ${(node.hotness_score || node.citations_count || 0).toLocaleString()}</span>${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">打开论文链接</a>` : ''}`;
       group.addEventListener('pointerenter', (event) => tooltip.show(event, tooltipHtml));
       group.addEventListener('pointermove', (event) => tooltip.move(event));
       group.addEventListener('pointerleave', () => tooltip.hideSoon());
@@ -473,7 +473,7 @@ export async function initPaperForce(container) {
       const authors = (selectedNode.authors || []).slice(0, 6).join(', ') || '未知作者';
       const institutions = asArray(selectedNode.institution).join(', ') || '未知机构';
       const keywords = asArray(selectedNode.keywords).slice(0, 8).join('、') || asArray(selectedNode.topic).join('、') || '暂无关键词';
-      detailEl.innerHTML = `<strong>${selectedNode.title}</strong> (${selectedNode.year}) · ${selectedNode.venue || 'Unknown'}<br />作者：${authors}<br />机构：${institutions}<br />引用：${(selectedNode.citations_count || 0).toLocaleString()} · 相邻节点：${neighbors}<br />关键词：${keywords}`;
+      detailEl.innerHTML = `<strong>${selectedNode.title}</strong> (${selectedNode.year}) · ${selectedNode.venue || 'Unknown'}<br />作者：${authors}<br />来源：${institutions}<br />热度：${(selectedNode.hotness_score || selectedNode.citations_count || 0).toLocaleString()} · 相邻节点：${neighbors}<br />关键词：${keywords}`;
     }
 
     function getFilterQueries() {

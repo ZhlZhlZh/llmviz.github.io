@@ -178,7 +178,7 @@ class ArcFlowLayer {
    Scenarios
    ═══════════════════════════════════════════════════════════════ */
 const MAP_SCENARIOS = {
-  leader: { label: '谁在主导', question: '哪些机构在 LLM 研究中最有影响力？', description: '按综合影响力展示头部机构，气泡大小反映影响力得分。', rankTitle: '影响力排行', metric: 'influence_score' },
+  leader: { label: '谁在主导', question: '数据集中哪些来源承载了 AI 论文元数据？', description: '按综合热度展示可定位的数据来源；当前 arXiv 数据不包含作者机构归属。', rankTitle: '来源热度排行', metric: 'influence_score' },
   paper: { label: '论文背后是谁', question: '当前选中的论文由哪些机构推动？', description: '高亮选中论文对应的机构，帮助追溯论文的组织来源。', rankTitle: '当前论文相关机构', metric: 'papers_count' },
   bridge: { label: '谁连接主线', question: '哪些机构通过引用关系把不同论文主线连接起来？', description: '展示机构之间的共同引用联系，观察哪些机构承担桥梁角色。', rankTitle: '联系强度排行', metric: 'link_count' }
 };
@@ -193,7 +193,7 @@ export async function initInstitutionMap(container) {
     <div class="module-shell">
       <p class="module-tag">Module 04</p>
       <h3 class="module-title">机构影响力地理图</h3>
-      <p class="module-subtitle">基于在线地图精确定位全球 LLM 研究机构，弧线粒子展示知识流动方向，点击机构查看详细档案。</p>
+      <p class="module-subtitle">展示 AI 研究机构的全球分布，通过 OpenAlex 元数据提取作者机构归属，观察不同机构在引用网络中的影响力。</p>
       <div class="scenario-panel institution-scenario-panel">
         <div>
           <p class="scenario-kicker">问题场景</p>
@@ -228,7 +228,7 @@ export async function initInstitutionMap(container) {
           大小维度
           <select class="chart-select map-size-mode">
             <option value="influence_score">影响力</option>
-            <option value="citations_count">引用数</option>
+            <option value="citations_count">热度分</option>
             <option value="papers_count">论文数</option>
           </select>
         </label>
@@ -302,8 +302,8 @@ export async function initInstitutionMap(container) {
     const byName = new Map(institutions.map((i) => [i.institution, i]));
 
     const years = Array.from(new Set(nodes.map((n) => Number(n.year)).filter(Boolean))).sort((a, b) => a - b);
-    const minYear = years.length ? years[0] : 2013;
-    const maxYear = years.length ? years[years.length - 1] : 2026;
+    const minYear = years.length ? years[0] : 1993;
+    const maxYear = years.length ? years[years.length - 1] : 2023;
 
     let currentYearStart = minYear;
     let currentYearEnd = maxYear;
@@ -358,6 +358,48 @@ export async function initInstitutionMap(container) {
     }
 
     // ─── Leaflet Map ───
+    function renderOfflineSummary() {
+      recompute();
+      const topTopics = {};
+      nodes.forEach((node) => {
+        asArray(node.keywords).slice(0, 3).forEach((keyword) => {
+          topTopics[keyword] = (topTopics[keyword] || 0) + 1;
+        });
+      });
+      const topicRows = Object.entries(topTopics).sort((a, b) => b[1] - a[1]).slice(0, 8);
+      mapDiv.innerHTML = `
+        <div class="map-offline-summary">
+          <h4>arXiv AI 数据来源</h4>
+          <p>当前环境未加载在线地图组件，机构图以离线摘要方式展示。CSV 不包含作者机构字段，因此这里展示数据来源与主题概览。</p>
+          <div class="map-offline-metrics">
+            <span><strong>${nodes.length.toLocaleString()}</strong> 篇论文</span>
+            <span><strong>${years[0]}-${years[years.length - 1]}</strong> 年</span>
+            <span><strong>${institutions.length}</strong> 个数据来源</span>
+          </div>
+        </div>
+      `;
+      statsBar.innerHTML = `
+        <div class="stat-item">数据来源 <span class="stat-value">arXiv AI Metadata Corpus</span></div>
+        <div class="stat-item">论文 <span class="stat-value">${nodes.length.toLocaleString()}</span></div>
+        <div class="stat-item">年份 <span class="stat-value">${years[0]}-${years[years.length - 1]}</span></div>
+      `;
+      rankingEl.innerHTML = topicRows.map(([topic, count], index) => `
+        <button type="button" class="institution-rank-row">
+          <span>${index + 1}</span><strong>${escapeHtml(topic)}</strong><em>${count} 篇</em>
+        </button>
+      `).join('');
+      questionTitleEl.textContent = 'arXiv AI 数据集中哪些主题最活跃？';
+      questionCopyEl.textContent = '由于原始 CSV 缺少作者机构归属，离线视图改为展示论文来源与热点主题分布。';
+      rankingTitleEl.textContent = '热点主题排行';
+      evidenceEl.textContent = '主题来自标题、摘要与类别字段的规则化标注。';
+      legendEl.innerHTML = '<span class="legend-chip">离线摘要</span><span class="legend-chip">机构字段缺失，未推断真实机构</span>';
+    }
+
+    if (typeof L === 'undefined') {
+      renderOfflineSummary();
+      return;
+    }
+
     const map = L.map(mapDiv, { center: [30, 0], zoom: 2, minZoom: 2, maxZoom: 12, zoomControl: true, scrollWheelZoom: true });
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
@@ -365,7 +407,9 @@ export async function initInstitutionMap(container) {
     }).addTo(map);
 
     let markersLayer = L.layerGroup().addTo(map);
-    let clusterGroup = L.markerClusterGroup({ maxClusterRadius: 50, spiderfyOnMaxZoom: true });
+    let clusterGroup = L.markerClusterGroup
+      ? L.markerClusterGroup({ maxClusterRadius: 50, spiderfyOnMaxZoom: true })
+      : L.layerGroup();
     let heatLayer = null;
     const arcFlow = new ArcFlowLayer(map);
 
@@ -428,6 +472,7 @@ export async function initInstitutionMap(container) {
     function renderHeatmap() {
       if (heatLayer) { map.removeLayer(heatLayer); heatLayer = null; }
       if (!showHeatmap) return;
+      if (!L.heatLayer) return;
       // Use paper count as primary driver, amplify differences
       const paperCounts = institutions.map((i) => (papersByInstitution.get(i.institution) || []).length);
       const maxPapers = Math.max(...paperCounts, 1);
@@ -547,7 +592,7 @@ export async function initInstitutionMap(container) {
         </div>
         <div class="inst-profile-metrics">
           <div class="metric-card"><span class="metric-value">${item.papers_count}</span><span class="metric-label">论文总数</span></div>
-          <div class="metric-card"><span class="metric-value">${Number(item.citations_count).toLocaleString()}</span><span class="metric-label">总引用</span></div>
+          <div class="metric-card"><span class="metric-value">${Number(item.citations_count).toLocaleString()}</span><span class="metric-label">总热度</span></div>
           <div class="metric-card"><span class="metric-value">${item.influence_score}</span><span class="metric-label">影响力</span></div>
           <div class="metric-card"><span class="metric-value">${linkStrength.get(item.institution) || 0}</span><span class="metric-label">联系强度</span></div>
         </div>
@@ -574,7 +619,7 @@ export async function initInstitutionMap(container) {
         <div class="inst-profile-section">
           <h5>📄 代表论文 (${currentYearStart}–${currentYearEnd})</h5>
           <ul class="inst-paper-list">
-            ${papers.slice(0, 8).map((p) => `<li><span class="paper-year">${p.year}</span><span class="paper-title">${escapeHtml(p.title)}</span><span class="paper-cite">引用 ${(p.citations_count || 0).toLocaleString()}</span></li>`).join('')}
+            ${papers.slice(0, 8).map((p) => `<li><span class="paper-year">${p.year}</span><span class="paper-title">${escapeHtml(p.title)}</span><span class="paper-cite">热度 ${(p.hotness_score || p.citations_count || 0).toLocaleString()}</span></li>`).join('')}
             ${papers.length === 0 ? '<li class="inst-empty">该时间段内无论文</li>' : ''}
           </ul>
         </div>

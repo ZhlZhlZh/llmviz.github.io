@@ -1,7 +1,7 @@
 const DEFAULT_STATE = {
-  year: 2026,
-  yearRangeStart: 2013,
-  yearRangeEnd: 2026,
+  year: 2023,
+  yearRangeStart: 1993,
+  yearRangeEnd: 2023,
   selectedPaperId: null,
   selectedInstitutionId: null,
   selectedTheme: null
@@ -46,11 +46,11 @@ export function onAppStateChange(handler) {
 }
 
 export function phaseLabelByYear(year) {
-  if (year <= 2017) {
-    return '表示与序列建模';
+  if (year <= 2005) {
+    return '经典AI与符号方法';
   }
-  if (year <= 2022) {
-    return '预训练爆发';
+  if (year <= 2015) {
+    return '统计学习与深度学习兴起';
   }
-  return '对齐与智能体';
+  return '大模型与通用智能';
 }

@@ -7,33 +7,33 @@ import { createYearRangeFilter } from '../../shared/year-range-filter.js';
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
 const LINES = [
-  { id: 'representation', label: '表示学习', color: '#64748b', test: /representation|word|embedding|glove|dropout|back-propagating|neural networks/i },
-  { id: 'transformer', label: 'Transformer', color: '#176b87', test: /attention|transformer|bert|t5|roberta|gpt|language model/i },
-  { id: 'scaling', label: '规模化预训练', color: '#d97706', test: /scaling|few-shot|palm|switch|llama|opt|mistral|falcon|gemma|gpt-4|gemini/i },
-  { id: 'alignment', label: '对齐与偏好', color: '#dc2626', test: /instruction|feedback|preference|dpo|constitutional|harmless|alignment|rlhf/i },
-  { id: 'multimodal', label: '多模态', color: '#7c3aed', test: /image|visual|vision|clip|diffusion|multimodal|alphafold|gemini/i },
-  { id: 'retrieval-agent', label: '检索与智能体', color: '#16a34a', test: /retrieval|rag|agent|tool|reasoning|codex|knowledge/i },
-  { id: 'efficient', label: '高效架构', color: '#0f766e', test: /mamba|lora|qlora|flashattention|pagedattention|efficient|quantized|state space/i }
+  { id: 'search-planning', label: '搜索与规划', color: '#64748b', test: /search|planning|planner|heuristic|satisfiability|sat\b|path\s*find|backtrack/i },
+  { id: 'knowledge-reasoning', label: '知识与推理', color: '#176b87', test: /knowledge|reasoning|ontology|logic|belief|argumentation|semantic web|inference|commonsense/i },
+  { id: 'machine-learning', label: '机器学习', color: '#d97706', test: /machine learning|deep learning|neural|classification|clustering|supervised|unsupervised|representation learning|bayesian/i },
+  { id: 'nlp', label: '自然语言处理', color: '#dc2626', test: /language model|natural language|text|translation|summarization|question answering|dialogue|transformer|bert|gpt/i },
+  { id: 'vision', label: '计算机视觉', color: '#7c3aed', test: /image|visual|video|vision|object detection|multimodal|diffusion|clip/i },
+  { id: 'agents', label: '多智能体系统', color: '#16a34a', test: /multi-?agent|agent|game|negotiation|auction|mechanism design|coordination|cooperation/i },
+  { id: 'optimization', label: '约束与优化', color: '#0f766e', test: /constraint|optimization|scheduling|integer programming|local search|combinatorial|solver/i }
 ];
 
 const METRO_SCENARIOS = {
   transition: {
     label: '范式如何迁移',
-    question: 'LLM 研究主线如何从表示学习走向 Transformer、规模化和智能体？',
-    description: '按年份铺开高影响论文，把每条主题线视为一条研究路线，观察主线的出现、延展和交叉。',
-    detail: '适合从宏观时间线解释研究范式如何一站一站迁移。'
+    question: 'AI 研究主线如何从符号推理走向统计学习、深度学习与大模型？',
+    description: '按年份铺开高热度论文，把每条主题线视为一条研究路线，观察主线的出现、延展和交叉。',
+    detail: '适合从宏观时间线解释 AI 研究范式如何一站一站迁移。'
   },
   transfer: {
     label: '哪里发生换乘',
     question: '哪些论文同时服务多个研究流派，成为主题换乘站？',
-    description: '优先保留跨多个主题线的论文，突出多模态、对齐、高效架构等方向并入基础模型主线的位置。',
+    description: '优先保留跨多个主题线的论文，突出跨领域方向并入主线的位置。',
     detail: '换乘站越多，说明该论文越容易被多个方向共同借用。'
   },
   frontier: {
     label: '近期分化在哪',
-    question: '2020 年后哪些新路线从主线中分化出来？',
-    description: '提高近期论文权重，帮助定位 RAG、智能体、长上下文和高效架构等新支线的出现位置。',
-    detail: '近期站点用于解释 LLM 从单一预训练主线扩展成多任务、多模态和工具调用生态。'
+    question: '2015 年后哪些新路线从主线中分化出来？',
+    description: '提高近期论文权重，帮助定位深度学习、NLP、视觉和智能体等新支线的出现位置。',
+    detail: '近期站点用于解释 AI 研究如何从单一算法问题扩展成学习、感知、推理与智能体交织的生态。'
   }
 };
 
@@ -71,7 +71,7 @@ export async function initMetroMap(container) {
     <div class="module-shell">
       <p class="module-tag">Module 05</p>
       <h3 class="module-title">主题流派地铁图</h3>
-      <p class="module-subtitle">把主题线当作研究路线，把跨主题论文当作换乘站，用来解释 LLM 研究主线如何分叉、汇合和再分化。</p>
+      <p class="module-subtitle">把主题线当作研究路线，把跨主题论文当作换乘站，用来解释 AI 研究热点如何分叉、汇合和再分化。</p>
       <div class="scenario-panel metro-scenario-panel">
         <div>
           <p class="scenario-kicker">问题场景</p>
@@ -254,7 +254,7 @@ export async function initMetroMap(container) {
         group.appendChild(station);
         const url = paperLink(node);
         const lineText = node.lines.map((id) => lineById(id).label).join(' / ');
-        const tooltipHtml = `<strong>${escapeHtml(node.title)}</strong><span>${escapeHtml(node.year)} · ${escapeHtml(lineText)}</span><span>引用 ${(node.citations_count || 0).toLocaleString()}</span>${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">打开论文链接</a>` : ''}`;
+        const tooltipHtml = `<strong>${escapeHtml(node.title)}</strong><span>${escapeHtml(node.year)} · ${escapeHtml(lineText)}</span><span>热度 ${(node.hotness_score || node.citations_count || 0).toLocaleString()}</span>${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">打开论文链接</a>` : ''}`;
         group.addEventListener('pointerenter', (event) => tooltip.show(event, tooltipHtml));
         group.addEventListener('pointermove', (event) => tooltip.move(event));
         group.addEventListener('pointerleave', () => tooltip.hideSoon());
@@ -289,7 +289,7 @@ export async function initMetroMap(container) {
       button.addEventListener('click', () => {
         activeScenarioId = button.dataset.scenario || 'transition';
         if (activeScenarioId === 'frontier') {
-          yearFilter.setRange(Math.max(2020, minYear), maxYear, { publish: true });
+          yearFilter.setRange(Math.max(2015, minYear), maxYear, { publish: true });
         }
         render();
       });

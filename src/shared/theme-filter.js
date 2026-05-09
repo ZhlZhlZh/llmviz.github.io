@@ -13,6 +13,18 @@ function asArray(value) {
 }
 
 const THEME_ALIASES = {
+  'Search and Planning': ['search', 'planning', 'heuristic', 'backtracking', 'sat'],
+  'Knowledge Representation and Reasoning': ['knowledge representation', 'reasoning', 'ontology', 'logic', 'inference'],
+  'Constraint Solving and Optimization': ['constraint', 'optimization', 'scheduling', 'solver'],
+  'Machine Learning and Neural Networks': ['machine learning', 'deep learning', 'neural', 'classification', 'clustering'],
+  'Natural Language Processing and LLMs': ['natural language', 'language model', 'transformer', 'question answering', 'dialogue'],
+  'Computer Vision and Multimodal AI': ['computer vision', 'image', 'visual', 'video', 'multimodal'],
+  'Multi-Agent Systems and Game AI': ['multi-agent', 'multiagent', 'agent', 'game', 'auction', 'coordination'],
+  'Robotics and Autonomous Systems': ['robot', 'robotics', 'autonomous', 'navigation', 'motion planning'],
+  'Probabilistic and Causal AI': ['probabilistic', 'bayesian', 'markov', 'uncertainty', 'causal'],
+  'Data Mining and Information Retrieval': ['data mining', 'information retrieval', 'retrieval', 'recommender', 'ranking'],
+  'AI Safety, Ethics and Explainability': ['safety', 'ethic', 'fairness', 'explainable', 'interpretability', 'bias'],
+  'Reinforcement Learning and Decision Making': ['reinforcement learning', 'policy', 'reward', 'decision making', 'mdp'],
   'LLM agents': ['agent', 'tool use', 'planning'],
   'LoRA and adapters': ['lora', 'adapter', 'parameter efficient'],
   'retrieval augmented generation': ['rag', 'retrieval'],

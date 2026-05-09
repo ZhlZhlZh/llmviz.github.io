@@ -1,3057 +1,1862 @@
 [
   {
-    "keyword": "LLM agents",
-    "year": 2013,
-    "count": 22
-  },
-  {
-    "keyword": "LLM agents",
-    "year": 2014,
-    "count": 26
-  },
-  {
-    "keyword": "LLM agents",
-    "year": 2015,
-    "count": 29
-  },
-  {
-    "keyword": "LLM agents",
-    "year": 2016,
-    "count": 23
-  },
-  {
-    "keyword": "LLM agents",
-    "year": 2017,
-    "count": 38
-  },
-  {
-    "keyword": "LLM agents",
-    "year": 2018,
-    "count": 50
-  },
-  {
-    "keyword": "LLM agents",
-    "year": 2019,
-    "count": 54
-  },
-  {
-    "keyword": "LLM agents",
-    "year": 2020,
-    "count": 78
-  },
-  {
-    "keyword": "LLM agents",
-    "year": 2021,
-    "count": 87
-  },
-  {
-    "keyword": "LLM agents",
-    "year": 2022,
-    "count": 143
-  },
-  {
-    "keyword": "LLM agents",
-    "year": 2023,
-    "count": 681
-  },
-  {
-    "keyword": "LLM agents",
-    "year": 2024,
-    "count": 1566
-  },
-  {
-    "keyword": "LLM agents",
-    "year": 2025,
-    "count": 7618
-  },
-  {
-    "keyword": "LoRA and adapters",
-    "year": 2013,
-    "count": 0
-  },
-  {
-    "keyword": "LoRA and adapters",
-    "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "LoRA and adapters",
-    "year": 2015,
-    "count": 0
-  },
-  {
-    "keyword": "LoRA and adapters",
-    "year": 2016,
-    "count": 0
-  },
-  {
-    "keyword": "LoRA and adapters",
-    "year": 2017,
-    "count": 0
-  },
-  {
-    "keyword": "LoRA and adapters",
-    "year": 2018,
-    "count": 0
-  },
-  {
-    "keyword": "LoRA and adapters",
-    "year": 2019,
-    "count": 0
-  },
-  {
-    "keyword": "LoRA and adapters",
-    "year": 2020,
-    "count": 0
-  },
-  {
-    "keyword": "LoRA and adapters",
-    "year": 2021,
-    "count": 1
-  },
-  {
-    "keyword": "LoRA and adapters",
-    "year": 2022,
+    "keyword": "Search and Planning",
+    "year": 1993,
     "count": 4
   },
   {
-    "keyword": "LoRA and adapters",
-    "year": 2023,
-    "count": 44
+    "keyword": "Search and Planning",
+    "year": 1994,
+    "count": 7
   },
   {
-    "keyword": "LoRA and adapters",
-    "year": 2024,
-    "count": 77
-  },
-  {
-    "keyword": "LoRA and adapters",
-    "year": 2025,
-    "count": 299
-  },
-  {
-    "keyword": "alignment and safety",
-    "year": 2013,
-    "count": 2
-  },
-  {
-    "keyword": "alignment and safety",
-    "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "alignment and safety",
-    "year": 2015,
-    "count": 1
-  },
-  {
-    "keyword": "alignment and safety",
-    "year": 2016,
-    "count": 0
-  },
-  {
-    "keyword": "alignment and safety",
-    "year": 2017,
-    "count": 1
-  },
-  {
-    "keyword": "alignment and safety",
-    "year": 2018,
-    "count": 1
-  },
-  {
-    "keyword": "alignment and safety",
-    "year": 2019,
-    "count": 1
-  },
-  {
-    "keyword": "alignment and safety",
-    "year": 2020,
-    "count": 0
-  },
-  {
-    "keyword": "alignment and safety",
-    "year": 2021,
-    "count": 1
-  },
-  {
-    "keyword": "alignment and safety",
-    "year": 2022,
-    "count": 4
-  },
-  {
-    "keyword": "alignment and safety",
-    "year": 2023,
-    "count": 42
-  },
-  {
-    "keyword": "alignment and safety",
-    "year": 2024,
-    "count": 111
-  },
-  {
-    "keyword": "alignment and safety",
-    "year": 2025,
-    "count": 894
-  },
-  {
-    "keyword": "attention mechanisms",
-    "year": 2013,
-    "count": 13
-  },
-  {
-    "keyword": "attention mechanisms",
-    "year": 2014,
-    "count": 15
-  },
-  {
-    "keyword": "attention mechanisms",
-    "year": 2015,
-    "count": 33
-  },
-  {
-    "keyword": "attention mechanisms",
-    "year": 2016,
-    "count": 84
-  },
-  {
-    "keyword": "attention mechanisms",
-    "year": 2017,
-    "count": 152
-  },
-  {
-    "keyword": "attention mechanisms",
-    "year": 2018,
-    "count": 272
-  },
-  {
-    "keyword": "attention mechanisms",
-    "year": 2019,
-    "count": 520
-  },
-  {
-    "keyword": "attention mechanisms",
-    "year": 2020,
-    "count": 684
-  },
-  {
-    "keyword": "attention mechanisms",
-    "year": 2021,
-    "count": 841
-  },
-  {
-    "keyword": "attention mechanisms",
-    "year": 2022,
-    "count": 978
-  },
-  {
-    "keyword": "attention mechanisms",
-    "year": 2023,
-    "count": 1282
-  },
-  {
-    "keyword": "attention mechanisms",
-    "year": 2024,
-    "count": 1697
-  },
-  {
-    "keyword": "attention mechanisms",
-    "year": 2025,
-    "count": 3998
-  },
-  {
-    "keyword": "autoregressive language modeling",
-    "year": 2013,
-    "count": 5
-  },
-  {
-    "keyword": "autoregressive language modeling",
-    "year": 2014,
-    "count": 3
-  },
-  {
-    "keyword": "autoregressive language modeling",
-    "year": 2015,
-    "count": 5
-  },
-  {
-    "keyword": "autoregressive language modeling",
-    "year": 2016,
-    "count": 9
-  },
-  {
-    "keyword": "autoregressive language modeling",
-    "year": 2017,
-    "count": 11
-  },
-  {
-    "keyword": "autoregressive language modeling",
-    "year": 2018,
-    "count": 18
-  },
-  {
-    "keyword": "autoregressive language modeling",
-    "year": 2019,
-    "count": 39
-  },
-  {
-    "keyword": "autoregressive language modeling",
-    "year": 2020,
-    "count": 95
-  },
-  {
-    "keyword": "autoregressive language modeling",
-    "year": 2021,
-    "count": 167
-  },
-  {
-    "keyword": "autoregressive language modeling",
-    "year": 2022,
-    "count": 239
-  },
-  {
-    "keyword": "autoregressive language modeling",
-    "year": 2023,
-    "count": 417
-  },
-  {
-    "keyword": "autoregressive language modeling",
-    "year": 2024,
-    "count": 419
-  },
-  {
-    "keyword": "autoregressive language modeling",
-    "year": 2025,
-    "count": 1134
-  },
-  {
-    "keyword": "bias and fairness",
-    "year": 2013,
-    "count": 1
-  },
-  {
-    "keyword": "bias and fairness",
-    "year": 2014,
-    "count": 1
-  },
-  {
-    "keyword": "bias and fairness",
-    "year": 2015,
-    "count": 0
-  },
-  {
-    "keyword": "bias and fairness",
-    "year": 2016,
-    "count": 0
-  },
-  {
-    "keyword": "bias and fairness",
-    "year": 2017,
-    "count": 3
-  },
-  {
-    "keyword": "bias and fairness",
-    "year": 2018,
-    "count": 4
-  },
-  {
-    "keyword": "bias and fairness",
-    "year": 2019,
+    "keyword": "Search and Planning",
+    "year": 1995,
     "count": 12
   },
   {
-    "keyword": "bias and fairness",
-    "year": 2020,
-    "count": 22
+    "keyword": "Search and Planning",
+    "year": 1996,
+    "count": 11
   },
   {
-    "keyword": "bias and fairness",
-    "year": 2021,
-    "count": 57
+    "keyword": "Search and Planning",
+    "year": 1997,
+    "count": 12
   },
   {
-    "keyword": "bias and fairness",
-    "year": 2022,
-    "count": 73
-  },
-  {
-    "keyword": "bias and fairness",
-    "year": 2023,
-    "count": 192
-  },
-  {
-    "keyword": "bias and fairness",
-    "year": 2024,
-    "count": 254
-  },
-  {
-    "keyword": "bias and fairness",
-    "year": 2025,
-    "count": 829
-  },
-  {
-    "keyword": "chain-of-thought reasoning",
-    "year": 2013,
-    "count": 3
-  },
-  {
-    "keyword": "chain-of-thought reasoning",
-    "year": 2014,
-    "count": 1
-  },
-  {
-    "keyword": "chain-of-thought reasoning",
-    "year": 2015,
-    "count": 1
-  },
-  {
-    "keyword": "chain-of-thought reasoning",
-    "year": 2016,
-    "count": 4
-  },
-  {
-    "keyword": "chain-of-thought reasoning",
-    "year": 2017,
-    "count": 1
-  },
-  {
-    "keyword": "chain-of-thought reasoning",
-    "year": 2018,
-    "count": 5
-  },
-  {
-    "keyword": "chain-of-thought reasoning",
-    "year": 2019,
-    "count": 3
-  },
-  {
-    "keyword": "chain-of-thought reasoning",
-    "year": 2020,
-    "count": 0
-  },
-  {
-    "keyword": "chain-of-thought reasoning",
-    "year": 2021,
-    "count": 4
-  },
-  {
-    "keyword": "chain-of-thought reasoning",
-    "year": 2022,
-    "count": 43
-  },
-  {
-    "keyword": "chain-of-thought reasoning",
-    "year": 2023,
-    "count": 366
-  },
-  {
-    "keyword": "chain-of-thought reasoning",
-    "year": 2024,
-    "count": 516
-  },
-  {
-    "keyword": "chain-of-thought reasoning",
-    "year": 2025,
-    "count": 2972
-  },
-  {
-    "keyword": "code language models",
-    "year": 2013,
-    "count": 5
-  },
-  {
-    "keyword": "code language models",
-    "year": 2014,
-    "count": 6
-  },
-  {
-    "keyword": "code language models",
-    "year": 2015,
-    "count": 7
-  },
-  {
-    "keyword": "code language models",
-    "year": 2016,
-    "count": 7
-  },
-  {
-    "keyword": "code language models",
-    "year": 2017,
-    "count": 2
-  },
-  {
-    "keyword": "code language models",
-    "year": 2018,
-    "count": 8
-  },
-  {
-    "keyword": "code language models",
-    "year": 2019,
-    "count": 8
-  },
-  {
-    "keyword": "code language models",
-    "year": 2020,
+    "keyword": "Search and Planning",
+    "year": 1998,
     "count": 13
   },
   {
-    "keyword": "code language models",
-    "year": 2021,
-    "count": 31
+    "keyword": "Search and Planning",
+    "year": 1999,
+    "count": 7
   },
   {
-    "keyword": "code language models",
-    "year": 2022,
-    "count": 25
-  },
-  {
-    "keyword": "code language models",
-    "year": 2023,
-    "count": 42
-  },
-  {
-    "keyword": "code language models",
-    "year": 2024,
-    "count": 45
-  },
-  {
-    "keyword": "code language models",
-    "year": 2025,
-    "count": 113
-  },
-  {
-    "keyword": "constitutional AI",
-    "year": 2013,
-    "count": 0
-  },
-  {
-    "keyword": "constitutional AI",
-    "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "constitutional AI",
-    "year": 2015,
-    "count": 0
-  },
-  {
-    "keyword": "constitutional AI",
-    "year": 2016,
-    "count": 0
-  },
-  {
-    "keyword": "constitutional AI",
-    "year": 2017,
-    "count": 0
-  },
-  {
-    "keyword": "constitutional AI",
-    "year": 2018,
-    "count": 0
-  },
-  {
-    "keyword": "constitutional AI",
-    "year": 2019,
-    "count": 0
-  },
-  {
-    "keyword": "constitutional AI",
-    "year": 2020,
-    "count": 1
-  },
-  {
-    "keyword": "constitutional AI",
-    "year": 2021,
-    "count": 0
-  },
-  {
-    "keyword": "constitutional AI",
-    "year": 2022,
-    "count": 1
-  },
-  {
-    "keyword": "constitutional AI",
-    "year": 2023,
-    "count": 2
-  },
-  {
-    "keyword": "constitutional AI",
-    "year": 2024,
-    "count": 13
-  },
-  {
-    "keyword": "constitutional AI",
-    "year": 2025,
-    "count": 79
-  },
-  {
-    "keyword": "distillation and compression",
-    "year": 2013,
-    "count": 0
-  },
-  {
-    "keyword": "distillation and compression",
-    "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "distillation and compression",
-    "year": 2015,
-    "count": 0
-  },
-  {
-    "keyword": "distillation and compression",
-    "year": 2016,
-    "count": 0
-  },
-  {
-    "keyword": "distillation and compression",
-    "year": 2017,
-    "count": 2
-  },
-  {
-    "keyword": "distillation and compression",
-    "year": 2018,
-    "count": 1
-  },
-  {
-    "keyword": "distillation and compression",
-    "year": 2019,
-    "count": 6
-  },
-  {
-    "keyword": "distillation and compression",
-    "year": 2020,
-    "count": 28
-  },
-  {
-    "keyword": "distillation and compression",
-    "year": 2021,
+    "keyword": "Search and Planning",
+    "year": 2000,
     "count": 39
   },
   {
-    "keyword": "distillation and compression",
-    "year": 2022,
-    "count": 33
+    "keyword": "Search and Planning",
+    "year": 2001,
+    "count": 20
   },
   {
-    "keyword": "distillation and compression",
-    "year": 2023,
-    "count": 63
+    "keyword": "Search and Planning",
+    "year": 2002,
+    "count": 30
   },
   {
-    "keyword": "distillation and compression",
-    "year": 2024,
-    "count": 54
+    "keyword": "Search and Planning",
+    "year": 2003,
+    "count": 37
   },
   {
-    "keyword": "distillation and compression",
-    "year": 2025,
-    "count": 153
-  },
-  {
-    "keyword": "domain-specific LLMs",
-    "year": 2013,
+    "keyword": "Search and Planning",
+    "year": 2004,
     "count": 52
   },
   {
-    "keyword": "domain-specific LLMs",
+    "keyword": "Search and Planning",
+    "year": 2005,
+    "count": 38
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2006,
+    "count": 43
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2007,
+    "count": 41
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2008,
+    "count": 60
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2009,
+    "count": 106
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2010,
+    "count": 114
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2011,
+    "count": 292
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2012,
+    "count": 189
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2013,
+    "count": 327
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2014,
+    "count": 202
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2015,
+    "count": 151
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2016,
+    "count": 148
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2017,
+    "count": 235
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2018,
+    "count": 319
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2019,
+    "count": 250
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2020,
+    "count": 365
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2021,
+    "count": 449
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2022,
+    "count": 427
+  },
+  {
+    "keyword": "Search and Planning",
+    "year": 2023,
+    "count": 254
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 1993,
+    "count": 2
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 1994,
+    "count": 4
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 1995,
+    "count": 9
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 1996,
+    "count": 10
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 1997,
+    "count": 6
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 1998,
+    "count": 10
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 1999,
+    "count": 11
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2000,
+    "count": 82
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2001,
+    "count": 20
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2002,
+    "count": 69
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2003,
+    "count": 58
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2004,
+    "count": 59
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2005,
+    "count": 36
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2006,
+    "count": 61
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2007,
+    "count": 44
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2008,
+    "count": 83
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2009,
+    "count": 89
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2010,
+    "count": 114
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2011,
+    "count": 219
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2012,
+    "count": 238
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2013,
+    "count": 680
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2014,
+    "count": 184
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2015,
+    "count": 154
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2016,
+    "count": 166
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2017,
+    "count": 206
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2018,
+    "count": 244
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2019,
+    "count": 168
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2020,
+    "count": 259
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2021,
+    "count": 305
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2022,
+    "count": 284
+  },
+  {
+    "keyword": "Knowledge Representation and Reasoning",
+    "year": 2023,
+    "count": 184
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 1993,
+    "count": 2
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 1994,
+    "count": 3
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 1995,
+    "count": 9
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 1996,
+    "count": 3
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 1997,
+    "count": 9
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 1998,
+    "count": 11
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 1999,
+    "count": 4
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2000,
+    "count": 24
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2001,
+    "count": 13
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2002,
+    "count": 21
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2003,
+    "count": 28
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2004,
+    "count": 36
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2005,
+    "count": 27
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2006,
+    "count": 34
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2007,
+    "count": 29
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2008,
+    "count": 49
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2009,
+    "count": 58
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2010,
+    "count": 72
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2011,
+    "count": 202
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2012,
+    "count": 203
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2013,
+    "count": 369
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2014,
+    "count": 151
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2015,
+    "count": 108
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2016,
+    "count": 137
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2017,
+    "count": 250
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2018,
+    "count": 334
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2019,
+    "count": 237
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2020,
+    "count": 346
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2021,
+    "count": 411
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2022,
+    "count": 381
+  },
+  {
+    "keyword": "Reinforcement Learning and Decision Making",
+    "year": 2023,
+    "count": 251
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 1993,
+    "count": 0
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 1994,
+    "count": 1
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 1995,
+    "count": 4
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 1996,
+    "count": 5
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 1997,
+    "count": 5
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 1998,
+    "count": 4
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 1999,
+    "count": 3
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2000,
+    "count": 12
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2001,
+    "count": 8
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2002,
+    "count": 10
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2003,
+    "count": 26
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2004,
+    "count": 15
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2005,
+    "count": 19
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2006,
+    "count": 20
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2007,
+    "count": 25
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2008,
+    "count": 37
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2009,
+    "count": 40
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2010,
+    "count": 47
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2011,
+    "count": 138
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2012,
+    "count": 266
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2013,
+    "count": 743
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2014,
+    "count": 122
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2015,
+    "count": 100
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2016,
+    "count": 104
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2017,
+    "count": 147
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2018,
+    "count": 151
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2019,
+    "count": 101
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2020,
+    "count": 157
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2021,
+    "count": 168
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2022,
+    "count": 170
+  },
+  {
+    "keyword": "Probabilistic and Causal AI",
+    "year": 2023,
+    "count": 88
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 1993,
+    "count": 1
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 1994,
+    "count": 3
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 1995,
+    "count": 5
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 1996,
+    "count": 9
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 1997,
+    "count": 6
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 1998,
+    "count": 2
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 1999,
+    "count": 4
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2000,
+    "count": 9
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2001,
+    "count": 7
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2002,
+    "count": 8
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2003,
+    "count": 25
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2004,
+    "count": 51
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2005,
+    "count": 34
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2006,
+    "count": 22
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2007,
+    "count": 46
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2008,
+    "count": 57
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2009,
+    "count": 55
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2010,
+    "count": 64
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2011,
+    "count": 129
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2012,
+    "count": 127
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2013,
+    "count": 164
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
     "year": 2014,
     "count": 46
   },
   {
-    "keyword": "domain-specific LLMs",
+    "keyword": "Machine Learning and Neural Networks",
     "year": 2015,
-    "count": 36
+    "count": 54
   },
   {
-    "keyword": "domain-specific LLMs",
+    "keyword": "Machine Learning and Neural Networks",
     "year": 2016,
-    "count": 60
+    "count": 71
   },
   {
-    "keyword": "domain-specific LLMs",
+    "keyword": "Machine Learning and Neural Networks",
     "year": 2017,
-    "count": 59
-  },
-  {
-    "keyword": "domain-specific LLMs",
-    "year": 2018,
-    "count": 94
-  },
-  {
-    "keyword": "domain-specific LLMs",
-    "year": 2019,
     "count": 128
   },
   {
-    "keyword": "domain-specific LLMs",
-    "year": 2020,
-    "count": 189
-  },
-  {
-    "keyword": "domain-specific LLMs",
-    "year": 2021,
-    "count": 280
-  },
-  {
-    "keyword": "domain-specific LLMs",
-    "year": 2022,
-    "count": 312
-  },
-  {
-    "keyword": "domain-specific LLMs",
-    "year": 2023,
-    "count": 1053
-  },
-  {
-    "keyword": "domain-specific LLMs",
-    "year": 2024,
-    "count": 1786
-  },
-  {
-    "keyword": "domain-specific LLMs",
-    "year": 2025,
-    "count": 5589
-  },
-  {
-    "keyword": "efficient inference and serving",
-    "year": 2013,
-    "count": 0
-  },
-  {
-    "keyword": "efficient inference and serving",
-    "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "efficient inference and serving",
-    "year": 2015,
-    "count": 0
-  },
-  {
-    "keyword": "efficient inference and serving",
-    "year": 2016,
-    "count": 0
-  },
-  {
-    "keyword": "efficient inference and serving",
-    "year": 2017,
-    "count": 0
-  },
-  {
-    "keyword": "efficient inference and serving",
+    "keyword": "Machine Learning and Neural Networks",
     "year": 2018,
-    "count": 1
+    "count": 191
   },
   {
-    "keyword": "efficient inference and serving",
+    "keyword": "Machine Learning and Neural Networks",
     "year": 2019,
-    "count": 1
+    "count": 118
   },
   {
-    "keyword": "efficient inference and serving",
+    "keyword": "Machine Learning and Neural Networks",
     "year": 2020,
-    "count": 3
+    "count": 205
   },
   {
-    "keyword": "efficient inference and serving",
+    "keyword": "Machine Learning and Neural Networks",
     "year": 2021,
-    "count": 4
+    "count": 325
   },
   {
-    "keyword": "efficient inference and serving",
+    "keyword": "Machine Learning and Neural Networks",
     "year": 2022,
+    "count": 236
+  },
+  {
+    "keyword": "Machine Learning and Neural Networks",
+    "year": 2023,
+    "count": 164
+  },
+  {
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 1993,
+    "count": 2
+  },
+  {
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 1994,
+    "count": 2
+  },
+  {
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 1995,
     "count": 4
   },
   {
-    "keyword": "efficient inference and serving",
-    "year": 2023,
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 1996,
+    "count": 4
+  },
+  {
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 1997,
+    "count": 4
+  },
+  {
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 1998,
+    "count": 4
+  },
+  {
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 1999,
+    "count": 6
+  },
+  {
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 2000,
     "count": 11
   },
   {
-    "keyword": "efficient inference and serving",
-    "year": 2024,
-    "count": 26
-  },
-  {
-    "keyword": "efficient inference and serving",
-    "year": 2025,
-    "count": 74
-  },
-  {
-    "keyword": "emergent abilities",
-    "year": 2013,
-    "count": 0
-  },
-  {
-    "keyword": "emergent abilities",
-    "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "emergent abilities",
-    "year": 2015,
-    "count": 5
-  },
-  {
-    "keyword": "emergent abilities",
-    "year": 2016,
-    "count": 1
-  },
-  {
-    "keyword": "emergent abilities",
-    "year": 2017,
-    "count": 1
-  },
-  {
-    "keyword": "emergent abilities",
-    "year": 2018,
-    "count": 0
-  },
-  {
-    "keyword": "emergent abilities",
-    "year": 2019,
-    "count": 1
-  },
-  {
-    "keyword": "emergent abilities",
-    "year": 2020,
-    "count": 5
-  },
-  {
-    "keyword": "emergent abilities",
-    "year": 2021,
-    "count": 3
-  },
-  {
-    "keyword": "emergent abilities",
-    "year": 2022,
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 2001,
     "count": 6
   },
   {
-    "keyword": "emergent abilities",
-    "year": 2023,
-    "count": 51
-  },
-  {
-    "keyword": "emergent abilities",
-    "year": 2024,
-    "count": 55
-  },
-  {
-    "keyword": "emergent abilities",
-    "year": 2025,
-    "count": 101
-  },
-  {
-    "keyword": "evaluation benchmarks",
-    "year": 2013,
-    "count": 6
-  },
-  {
-    "keyword": "evaluation benchmarks",
-    "year": 2014,
-    "count": 17
-  },
-  {
-    "keyword": "evaluation benchmarks",
-    "year": 2015,
-    "count": 13
-  },
-  {
-    "keyword": "evaluation benchmarks",
-    "year": 2016,
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 2002,
     "count": 19
   },
   {
-    "keyword": "evaluation benchmarks",
-    "year": 2017,
-    "count": 23
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 2003,
+    "count": 15
   },
   {
-    "keyword": "evaluation benchmarks",
-    "year": 2018,
-    "count": 41
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 2004,
+    "count": 20
   },
   {
-    "keyword": "evaluation benchmarks",
-    "year": 2019,
-    "count": 62
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 2005,
+    "count": 11
   },
   {
-    "keyword": "evaluation benchmarks",
-    "year": 2020,
-    "count": 131
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 2006,
+    "count": 16
   },
   {
-    "keyword": "evaluation benchmarks",
-    "year": 2021,
-    "count": 246
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 2007,
+    "count": 16
   },
   {
-    "keyword": "evaluation benchmarks",
-    "year": 2022,
-    "count": 304
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 2008,
+    "count": 27
   },
   {
-    "keyword": "evaluation benchmarks",
-    "year": 2023,
-    "count": 1166
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 2009,
+    "count": 37
   },
   {
-    "keyword": "evaluation benchmarks",
-    "year": 2024,
-    "count": 2097
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 2010,
+    "count": 30
   },
   {
-    "keyword": "evaluation benchmarks",
-    "year": 2025,
-    "count": 8290
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 2011,
+    "count": 80
   },
   {
-    "keyword": "foundation models",
+    "keyword": "Multi-Agent Systems and Game AI",
+    "year": 2012,
+    "count": 72
+  },
+  {
+    "keyword": "Multi-Agent Systems and Game AI",
     "year": 2013,
     "count": 88
   },
   {
-    "keyword": "foundation models",
+    "keyword": "Multi-Agent Systems and Game AI",
     "year": 2014,
-    "count": 101
+    "count": 76
   },
   {
-    "keyword": "foundation models",
+    "keyword": "Multi-Agent Systems and Game AI",
     "year": 2015,
-    "count": 113
+    "count": 59
   },
   {
-    "keyword": "foundation models",
+    "keyword": "Multi-Agent Systems and Game AI",
     "year": 2016,
-    "count": 112
+    "count": 82
   },
   {
-    "keyword": "foundation models",
+    "keyword": "Multi-Agent Systems and Game AI",
     "year": 2017,
-    "count": 112
+    "count": 169
   },
   {
-    "keyword": "foundation models",
+    "keyword": "Multi-Agent Systems and Game AI",
     "year": 2018,
-    "count": 150
+    "count": 229
   },
   {
-    "keyword": "foundation models",
+    "keyword": "Multi-Agent Systems and Game AI",
     "year": 2019,
-    "count": 167
+    "count": 176
   },
   {
-    "keyword": "foundation models",
+    "keyword": "Multi-Agent Systems and Game AI",
     "year": 2020,
-    "count": 198
+    "count": 210
   },
   {
-    "keyword": "foundation models",
+    "keyword": "Multi-Agent Systems and Game AI",
     "year": 2021,
-    "count": 240
-  },
-  {
-    "keyword": "foundation models",
-    "year": 2022,
-    "count": 380
-  },
-  {
-    "keyword": "foundation models",
-    "year": 2023,
-    "count": 1346
-  },
-  {
-    "keyword": "foundation models",
-    "year": 2024,
-    "count": 2463
-  },
-  {
-    "keyword": "foundation models",
-    "year": 2025,
-    "count": 7983
-  },
-  {
-    "keyword": "hallucination and factuality",
-    "year": 2013,
-    "count": 0
-  },
-  {
-    "keyword": "hallucination and factuality",
-    "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "hallucination and factuality",
-    "year": 2015,
-    "count": 0
-  },
-  {
-    "keyword": "hallucination and factuality",
-    "year": 2016,
-    "count": 0
-  },
-  {
-    "keyword": "hallucination and factuality",
-    "year": 2017,
-    "count": 0
-  },
-  {
-    "keyword": "hallucination and factuality",
-    "year": 2018,
-    "count": 0
-  },
-  {
-    "keyword": "hallucination and factuality",
-    "year": 2019,
-    "count": 1
-  },
-  {
-    "keyword": "hallucination and factuality",
-    "year": 2020,
-    "count": 2
-  },
-  {
-    "keyword": "hallucination and factuality",
-    "year": 2021,
-    "count": 9
-  },
-  {
-    "keyword": "hallucination and factuality",
-    "year": 2022,
-    "count": 12
-  },
-  {
-    "keyword": "hallucination and factuality",
-    "year": 2023,
-    "count": 100
-  },
-  {
-    "keyword": "hallucination and factuality",
-    "year": 2024,
-    "count": 227
-  },
-  {
-    "keyword": "hallucination and factuality",
-    "year": 2025,
-    "count": 856
-  },
-  {
-    "keyword": "in-context learning",
-    "year": 2013,
-    "count": 162
-  },
-  {
-    "keyword": "in-context learning",
-    "year": 2014,
-    "count": 186
-  },
-  {
-    "keyword": "in-context learning",
-    "year": 2015,
-    "count": 183
-  },
-  {
-    "keyword": "in-context learning",
-    "year": 2016,
-    "count": 254
-  },
-  {
-    "keyword": "in-context learning",
-    "year": 2017,
-    "count": 285
-  },
-  {
-    "keyword": "in-context learning",
-    "year": 2018,
-    "count": 421
-  },
-  {
-    "keyword": "in-context learning",
-    "year": 2019,
-    "count": 572
-  },
-  {
-    "keyword": "in-context learning",
-    "year": 2020,
-    "count": 782
-  },
-  {
-    "keyword": "in-context learning",
-    "year": 2021,
-    "count": 980
-  },
-  {
-    "keyword": "in-context learning",
-    "year": 2022,
-    "count": 1159
-  },
-  {
-    "keyword": "in-context learning",
-    "year": 2023,
-    "count": 2626
-  },
-  {
-    "keyword": "in-context learning",
-    "year": 2024,
-    "count": 3556
-  },
-  {
-    "keyword": "in-context learning",
-    "year": 2025,
-    "count": 7227
-  },
-  {
-    "keyword": "instruction tuning",
-    "year": 2013,
-    "count": 1
-  },
-  {
-    "keyword": "instruction tuning",
-    "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "instruction tuning",
-    "year": 2015,
-    "count": 1
-  },
-  {
-    "keyword": "instruction tuning",
-    "year": 2016,
-    "count": 1
-  },
-  {
-    "keyword": "instruction tuning",
-    "year": 2017,
-    "count": 1
-  },
-  {
-    "keyword": "instruction tuning",
-    "year": 2018,
-    "count": 4
-  },
-  {
-    "keyword": "instruction tuning",
-    "year": 2019,
-    "count": 11
-  },
-  {
-    "keyword": "instruction tuning",
-    "year": 2020,
-    "count": 8
-  },
-  {
-    "keyword": "instruction tuning",
-    "year": 2021,
-    "count": 23
-  },
-  {
-    "keyword": "instruction tuning",
-    "year": 2022,
-    "count": 64
-  },
-  {
-    "keyword": "instruction tuning",
-    "year": 2023,
-    "count": 746
-  },
-  {
-    "keyword": "instruction tuning",
-    "year": 2024,
-    "count": 1061
-  },
-  {
-    "keyword": "instruction tuning",
-    "year": 2025,
-    "count": 2252
-  },
-  {
-    "keyword": "interpretability",
-    "year": 2013,
-    "count": 172
-  },
-  {
-    "keyword": "interpretability",
-    "year": 2014,
-    "count": 193
-  },
-  {
-    "keyword": "interpretability",
-    "year": 2015,
-    "count": 244
-  },
-  {
-    "keyword": "interpretability",
-    "year": 2016,
-    "count": 236
-  },
-  {
-    "keyword": "interpretability",
-    "year": 2017,
-    "count": 276
-  },
-  {
-    "keyword": "interpretability",
-    "year": 2018,
-    "count": 379
-  },
-  {
-    "keyword": "interpretability",
-    "year": 2019,
-    "count": 550
-  },
-  {
-    "keyword": "interpretability",
-    "year": 2020,
-    "count": 725
-  },
-  {
-    "keyword": "interpretability",
-    "year": 2021,
-    "count": 907
-  },
-  {
-    "keyword": "interpretability",
-    "year": 2022,
-    "count": 1089
-  },
-  {
-    "keyword": "interpretability",
-    "year": 2023,
-    "count": 2096
-  },
-  {
-    "keyword": "interpretability",
-    "year": 2024,
-    "count": 3276
-  },
-  {
-    "keyword": "interpretability",
-    "year": 2025,
-    "count": 11671
-  },
-  {
-    "keyword": "knowledge editing",
-    "year": 2013,
-    "count": 7
-  },
-  {
-    "keyword": "knowledge editing",
-    "year": 2014,
-    "count": 10
-  },
-  {
-    "keyword": "knowledge editing",
-    "year": 2015,
-    "count": 13
-  },
-  {
-    "keyword": "knowledge editing",
-    "year": 2016,
-    "count": 12
-  },
-  {
-    "keyword": "knowledge editing",
-    "year": 2017,
-    "count": 14
-  },
-  {
-    "keyword": "knowledge editing",
-    "year": 2018,
-    "count": 23
-  },
-  {
-    "keyword": "knowledge editing",
-    "year": 2019,
-    "count": 16
-  },
-  {
-    "keyword": "knowledge editing",
-    "year": 2020,
-    "count": 22
-  },
-  {
-    "keyword": "knowledge editing",
-    "year": 2021,
-    "count": 36
-  },
-  {
-    "keyword": "knowledge editing",
-    "year": 2022,
-    "count": 48
-  },
-  {
-    "keyword": "knowledge editing",
-    "year": 2023,
-    "count": 136
-  },
-  {
-    "keyword": "knowledge editing",
-    "year": 2024,
-    "count": 164
-  },
-  {
-    "keyword": "knowledge editing",
-    "year": 2025,
-    "count": 405
-  },
-  {
-    "keyword": "long-context modeling",
-    "year": 2013,
-    "count": 66
-  },
-  {
-    "keyword": "long-context modeling",
-    "year": 2014,
-    "count": 67
-  },
-  {
-    "keyword": "long-context modeling",
-    "year": 2015,
-    "count": 62
-  },
-  {
-    "keyword": "long-context modeling",
-    "year": 2016,
-    "count": 97
-  },
-  {
-    "keyword": "long-context modeling",
-    "year": 2017,
-    "count": 110
-  },
-  {
-    "keyword": "long-context modeling",
-    "year": 2018,
-    "count": 161
-  },
-  {
-    "keyword": "long-context modeling",
-    "year": 2019,
-    "count": 207
-  },
-  {
-    "keyword": "long-context modeling",
-    "year": 2020,
     "count": 261
   },
   {
-    "keyword": "long-context modeling",
-    "year": 2021,
-    "count": 337
-  },
-  {
-    "keyword": "long-context modeling",
+    "keyword": "Multi-Agent Systems and Game AI",
     "year": 2022,
-    "count": 346
+    "count": 217
   },
   {
-    "keyword": "long-context modeling",
+    "keyword": "Multi-Agent Systems and Game AI",
     "year": 2023,
-    "count": 668
+    "count": 141
   },
   {
-    "keyword": "long-context modeling",
-    "year": 2024,
-    "count": 953
+    "keyword": "Constraint Solving and Optimization",
+    "year": 1993,
+    "count": 1
   },
   {
-    "keyword": "long-context modeling",
-    "year": 2025,
-    "count": 2831
+    "keyword": "Constraint Solving and Optimization",
+    "year": 1994,
+    "count": 1
   },
   {
-    "keyword": "masked language modeling",
-    "year": 2013,
-    "count": 3
+    "keyword": "Constraint Solving and Optimization",
+    "year": 1995,
+    "count": 8
   },
   {
-    "keyword": "masked language modeling",
-    "year": 2014,
+    "keyword": "Constraint Solving and Optimization",
+    "year": 1996,
+    "count": 7
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 1997,
     "count": 5
   },
   {
-    "keyword": "masked language modeling",
-    "year": 2015,
-    "count": 4
-  },
-  {
-    "keyword": "masked language modeling",
-    "year": 2016,
-    "count": 4
-  },
-  {
-    "keyword": "masked language modeling",
-    "year": 2017,
-    "count": 2
-  },
-  {
-    "keyword": "masked language modeling",
-    "year": 2018,
+    "keyword": "Constraint Solving and Optimization",
+    "year": 1998,
     "count": 5
   },
   {
-    "keyword": "masked language modeling",
-    "year": 2019,
-    "count": 67
+    "keyword": "Constraint Solving and Optimization",
+    "year": 1999,
+    "count": 4
   },
   {
-    "keyword": "masked language modeling",
-    "year": 2020,
-    "count": 265
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2000,
+    "count": 25
   },
   {
-    "keyword": "masked language modeling",
-    "year": 2021,
-    "count": 475
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2001,
+    "count": 18
   },
   {
-    "keyword": "masked language modeling",
-    "year": 2022,
-    "count": 610
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2002,
+    "count": 10
   },
   {
-    "keyword": "masked language modeling",
-    "year": 2023,
-    "count": 796
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2003,
+    "count": 25
   },
   {
-    "keyword": "masked language modeling",
-    "year": 2024,
-    "count": 553
-  },
-  {
-    "keyword": "masked language modeling",
-    "year": 2025,
-    "count": 960
-  },
-  {
-    "keyword": "medical LLMs",
-    "year": 2013,
-    "count": 14
-  },
-  {
-    "keyword": "medical LLMs",
-    "year": 2014,
-    "count": 22
-  },
-  {
-    "keyword": "medical LLMs",
-    "year": 2015,
-    "count": 29
-  },
-  {
-    "keyword": "medical LLMs",
-    "year": 2016,
-    "count": 29
-  },
-  {
-    "keyword": "medical LLMs",
-    "year": 2017,
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2004,
     "count": 30
   },
   {
-    "keyword": "medical LLMs",
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2005,
+    "count": 21
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2006,
+    "count": 28
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2007,
+    "count": 26
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2008,
+    "count": 39
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2009,
+    "count": 93
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2010,
+    "count": 69
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2011,
+    "count": 164
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2012,
+    "count": 113
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2013,
+    "count": 184
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2014,
+    "count": 114
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2015,
+    "count": 78
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2016,
+    "count": 74
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2017,
+    "count": 114
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
     "year": 2018,
-    "count": 67
+    "count": 132
   },
   {
-    "keyword": "medical LLMs",
+    "keyword": "Constraint Solving and Optimization",
     "year": 2019,
-    "count": 102
+    "count": 101
   },
   {
-    "keyword": "medical LLMs",
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2020,
+    "count": 158
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2021,
+    "count": 173
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2022,
+    "count": 168
+  },
+  {
+    "keyword": "Constraint Solving and Optimization",
+    "year": 2023,
+    "count": 89
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 1993,
+    "count": 0
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 1994,
+    "count": 2
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 1995,
+    "count": 6
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 1996,
+    "count": 4
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 1997,
+    "count": 4
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 1998,
+    "count": 1
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 1999,
+    "count": 5
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2000,
+    "count": 27
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2001,
+    "count": 12
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2002,
+    "count": 10
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2003,
+    "count": 20
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2004,
+    "count": 17
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2005,
+    "count": 17
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2006,
+    "count": 26
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2007,
+    "count": 31
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2008,
+    "count": 35
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2009,
+    "count": 35
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2010,
+    "count": 52
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2011,
+    "count": 90
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2012,
+    "count": 63
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2013,
+    "count": 109
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2014,
+    "count": 55
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2015,
+    "count": 52
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2016,
+    "count": 45
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2017,
+    "count": 98
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2018,
+    "count": 125
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
+    "year": 2019,
+    "count": 76
+  },
+  {
+    "keyword": "Natural Language Processing and LLMs",
     "year": 2020,
     "count": 135
   },
   {
-    "keyword": "medical LLMs",
+    "keyword": "Natural Language Processing and LLMs",
     "year": 2021,
-    "count": 168
+    "count": 226
   },
   {
-    "keyword": "medical LLMs",
+    "keyword": "Natural Language Processing and LLMs",
     "year": 2022,
-    "count": 207
+    "count": 189
   },
   {
-    "keyword": "medical LLMs",
+    "keyword": "Natural Language Processing and LLMs",
     "year": 2023,
-    "count": 867
+    "count": 161
   },
   {
-    "keyword": "medical LLMs",
-    "year": 2024,
-    "count": 1644
-  },
-  {
-    "keyword": "medical LLMs",
-    "year": 2025,
-    "count": 3774
-  },
-  {
-    "keyword": "mixture-of-experts models",
-    "year": 2013,
-    "count": 4
-  },
-  {
-    "keyword": "mixture-of-experts models",
-    "year": 2014,
-    "count": 3
-  },
-  {
-    "keyword": "mixture-of-experts models",
-    "year": 2015,
-    "count": 3
-  },
-  {
-    "keyword": "mixture-of-experts models",
-    "year": 2016,
-    "count": 4
-  },
-  {
-    "keyword": "mixture-of-experts models",
-    "year": 2017,
-    "count": 6
-  },
-  {
-    "keyword": "mixture-of-experts models",
-    "year": 2018,
-    "count": 11
-  },
-  {
-    "keyword": "mixture-of-experts models",
-    "year": 2019,
-    "count": 9
-  },
-  {
-    "keyword": "mixture-of-experts models",
-    "year": 2020,
-    "count": 15
-  },
-  {
-    "keyword": "mixture-of-experts models",
-    "year": 2021,
-    "count": 42
-  },
-  {
-    "keyword": "mixture-of-experts models",
-    "year": 2022,
-    "count": 62
-  },
-  {
-    "keyword": "mixture-of-experts models",
-    "year": 2023,
-    "count": 116
-  },
-  {
-    "keyword": "mixture-of-experts models",
-    "year": 2024,
-    "count": 203
-  },
-  {
-    "keyword": "mixture-of-experts models",
-    "year": 2025,
-    "count": 725
-  },
-  {
-    "keyword": "multilingual LLMs",
-    "year": 2013,
-    "count": 18
-  },
-  {
-    "keyword": "multilingual LLMs",
-    "year": 2014,
-    "count": 25
-  },
-  {
-    "keyword": "multilingual LLMs",
-    "year": 2015,
-    "count": 25
-  },
-  {
-    "keyword": "multilingual LLMs",
-    "year": 2016,
-    "count": 26
-  },
-  {
-    "keyword": "multilingual LLMs",
-    "year": 2017,
-    "count": 32
-  },
-  {
-    "keyword": "multilingual LLMs",
-    "year": 2018,
-    "count": 50
-  },
-  {
-    "keyword": "multilingual LLMs",
-    "year": 2019,
-    "count": 66
-  },
-  {
-    "keyword": "multilingual LLMs",
-    "year": 2020,
-    "count": 200
-  },
-  {
-    "keyword": "multilingual LLMs",
-    "year": 2021,
-    "count": 293
-  },
-  {
-    "keyword": "multilingual LLMs",
-    "year": 2022,
-    "count": 371
-  },
-  {
-    "keyword": "multilingual LLMs",
-    "year": 2023,
-    "count": 604
-  },
-  {
-    "keyword": "multilingual LLMs",
-    "year": 2024,
-    "count": 693
-  },
-  {
-    "keyword": "multilingual LLMs",
-    "year": 2025,
-    "count": 2219
-  },
-  {
-    "keyword": "multimodal LLMs",
-    "year": 2013,
-    "count": 0
-  },
-  {
-    "keyword": "multimodal LLMs",
-    "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "multimodal LLMs",
-    "year": 2015,
-    "count": 0
-  },
-  {
-    "keyword": "multimodal LLMs",
-    "year": 2016,
-    "count": 0
-  },
-  {
-    "keyword": "multimodal LLMs",
-    "year": 2017,
-    "count": 0
-  },
-  {
-    "keyword": "multimodal LLMs",
-    "year": 2018,
-    "count": 0
-  },
-  {
-    "keyword": "multimodal LLMs",
-    "year": 2019,
-    "count": 0
-  },
-  {
-    "keyword": "multimodal LLMs",
-    "year": 2020,
-    "count": 0
-  },
-  {
-    "keyword": "multimodal LLMs",
-    "year": 2021,
-    "count": 0
-  },
-  {
-    "keyword": "multimodal LLMs",
-    "year": 2022,
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 1993,
     "count": 1
   },
   {
-    "keyword": "multimodal LLMs",
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 1994,
+    "count": 2
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 1995,
+    "count": 1
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 1996,
+    "count": 6
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 1997,
+    "count": 4
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 1998,
+    "count": 6
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 1999,
+    "count": 1
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2000,
+    "count": 5
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2001,
+    "count": 3
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2002,
+    "count": 9
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2003,
+    "count": 9
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2004,
+    "count": 20
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2005,
+    "count": 8
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2006,
+    "count": 15
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2007,
+    "count": 13
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2008,
+    "count": 23
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2009,
+    "count": 32
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2010,
+    "count": 43
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2011,
+    "count": 96
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2012,
+    "count": 62
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2013,
+    "count": 113
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2014,
+    "count": 51
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2015,
+    "count": 40
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2016,
+    "count": 58
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2017,
+    "count": 120
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2018,
+    "count": 145
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2019,
+    "count": 94
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2020,
+    "count": 115
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2021,
+    "count": 158
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
+    "year": 2022,
+    "count": 139
+  },
+  {
+    "keyword": "Robotics and Autonomous Systems",
     "year": 2023,
     "count": 92
   },
   {
-    "keyword": "multimodal LLMs",
-    "year": 2024,
-    "count": 529
-  },
-  {
-    "keyword": "multimodal LLMs",
-    "year": 2025,
-    "count": 1233
-  },
-  {
-    "keyword": "open foundation models",
-    "year": 2013,
-    "count": 9
-  },
-  {
-    "keyword": "open foundation models",
-    "year": 2014,
-    "count": 11
-  },
-  {
-    "keyword": "open foundation models",
-    "year": 2015,
-    "count": 16
-  },
-  {
-    "keyword": "open foundation models",
-    "year": 2016,
-    "count": 11
-  },
-  {
-    "keyword": "open foundation models",
-    "year": 2017,
-    "count": 17
-  },
-  {
-    "keyword": "open foundation models",
-    "year": 2018,
-    "count": 17
-  },
-  {
-    "keyword": "open foundation models",
-    "year": 2019,
-    "count": 15
-  },
-  {
-    "keyword": "open foundation models",
-    "year": 2020,
-    "count": 20
-  },
-  {
-    "keyword": "open foundation models",
-    "year": 2021,
-    "count": 32
-  },
-  {
-    "keyword": "open foundation models",
-    "year": 2022,
-    "count": 54
-  },
-  {
-    "keyword": "open foundation models",
-    "year": 2023,
-    "count": 227
-  },
-  {
-    "keyword": "open foundation models",
-    "year": 2024,
-    "count": 405
-  },
-  {
-    "keyword": "open foundation models",
-    "year": 2025,
-    "count": 1281
-  },
-  {
-    "keyword": "parameter-efficient finetuning",
-    "year": 2013,
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 1993,
     "count": 0
   },
   {
-    "keyword": "parameter-efficient finetuning",
-    "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "parameter-efficient finetuning",
-    "year": 2015,
-    "count": 0
-  },
-  {
-    "keyword": "parameter-efficient finetuning",
-    "year": 2016,
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 1994,
     "count": 1
   },
   {
-    "keyword": "parameter-efficient finetuning",
-    "year": 2017,
-    "count": 0
-  },
-  {
-    "keyword": "parameter-efficient finetuning",
-    "year": 2018,
-    "count": 7
-  },
-  {
-    "keyword": "parameter-efficient finetuning",
-    "year": 2019,
-    "count": 6
-  },
-  {
-    "keyword": "parameter-efficient finetuning",
-    "year": 2020,
-    "count": 12
-  },
-  {
-    "keyword": "parameter-efficient finetuning",
-    "year": 2021,
-    "count": 55
-  },
-  {
-    "keyword": "parameter-efficient finetuning",
-    "year": 2022,
-    "count": 125
-  },
-  {
-    "keyword": "parameter-efficient finetuning",
-    "year": 2023,
-    "count": 364
-  },
-  {
-    "keyword": "parameter-efficient finetuning",
-    "year": 2024,
-    "count": 558
-  },
-  {
-    "keyword": "parameter-efficient finetuning",
-    "year": 2025,
-    "count": 1528
-  },
-  {
-    "keyword": "planning and reasoning",
-    "year": 2013,
-    "count": 25
-  },
-  {
-    "keyword": "planning and reasoning",
-    "year": 2014,
-    "count": 27
-  },
-  {
-    "keyword": "planning and reasoning",
-    "year": 2015,
-    "count": 22
-  },
-  {
-    "keyword": "planning and reasoning",
-    "year": 2016,
-    "count": 18
-  },
-  {
-    "keyword": "planning and reasoning",
-    "year": 2017,
-    "count": 24
-  },
-  {
-    "keyword": "planning and reasoning",
-    "year": 2018,
-    "count": 23
-  },
-  {
-    "keyword": "planning and reasoning",
-    "year": 2019,
-    "count": 29
-  },
-  {
-    "keyword": "planning and reasoning",
-    "year": 2020,
-    "count": 26
-  },
-  {
-    "keyword": "planning and reasoning",
-    "year": 2021,
-    "count": 38
-  },
-  {
-    "keyword": "planning and reasoning",
-    "year": 2022,
-    "count": 45
-  },
-  {
-    "keyword": "planning and reasoning",
-    "year": 2023,
-    "count": 202
-  },
-  {
-    "keyword": "planning and reasoning",
-    "year": 2024,
-    "count": 377
-  },
-  {
-    "keyword": "planning and reasoning",
-    "year": 2025,
-    "count": 1630
-  },
-  {
-    "keyword": "preference optimization",
-    "year": 2013,
-    "count": 2
-  },
-  {
-    "keyword": "preference optimization",
-    "year": 2014,
-    "count": 4
-  },
-  {
-    "keyword": "preference optimization",
-    "year": 2015,
-    "count": 1
-  },
-  {
-    "keyword": "preference optimization",
-    "year": 2016,
-    "count": 6
-  },
-  {
-    "keyword": "preference optimization",
-    "year": 2017,
-    "count": 4
-  },
-  {
-    "keyword": "preference optimization",
-    "year": 2018,
-    "count": 7
-  },
-  {
-    "keyword": "preference optimization",
-    "year": 2019,
-    "count": 9
-  },
-  {
-    "keyword": "preference optimization",
-    "year": 2020,
-    "count": 9
-  },
-  {
-    "keyword": "preference optimization",
-    "year": 2021,
-    "count": 8
-  },
-  {
-    "keyword": "preference optimization",
-    "year": 2022,
-    "count": 22
-  },
-  {
-    "keyword": "preference optimization",
-    "year": 2023,
-    "count": 103
-  },
-  {
-    "keyword": "preference optimization",
-    "year": 2024,
-    "count": 382
-  },
-  {
-    "keyword": "preference optimization",
-    "year": 2025,
-    "count": 1406
-  },
-  {
-    "keyword": "pretraining objectives",
-    "year": 2013,
-    "count": 0
-  },
-  {
-    "keyword": "pretraining objectives",
-    "year": 2014,
-    "count": 1
-  },
-  {
-    "keyword": "pretraining objectives",
-    "year": 2015,
-    "count": 1
-  },
-  {
-    "keyword": "pretraining objectives",
-    "year": 2016,
-    "count": 1
-  },
-  {
-    "keyword": "pretraining objectives",
-    "year": 2017,
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 1995,
     "count": 3
   },
   {
-    "keyword": "pretraining objectives",
-    "year": 2018,
-    "count": 12
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 1996,
+    "count": 1
   },
   {
-    "keyword": "pretraining objectives",
-    "year": 2019,
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 1997,
+    "count": 2
+  },
+  {
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 1998,
+    "count": 0
+  },
+  {
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 1999,
+    "count": 0
+  },
+  {
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 2000,
+    "count": 3
+  },
+  {
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 2001,
+    "count": 0
+  },
+  {
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 2002,
+    "count": 5
+  },
+  {
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 2003,
+    "count": 8
+  },
+  {
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 2004,
+    "count": 3
+  },
+  {
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 2005,
+    "count": 5
+  },
+  {
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 2006,
+    "count": 4
+  },
+  {
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 2007,
+    "count": 5
+  },
+  {
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 2008,
+    "count": 7
+  },
+  {
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 2009,
+    "count": 15
+  },
+  {
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 2010,
+    "count": 14
+  },
+  {
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 2011,
     "count": 33
   },
   {
-    "keyword": "pretraining objectives",
-    "year": 2020,
-    "count": 85
+    "keyword": "AI Safety, Ethics and Explainability",
+    "year": 2012,
+    "count": 36
   },
   {
-    "keyword": "pretraining objectives",
-    "year": 2021,
-    "count": 127
-  },
-  {
-    "keyword": "pretraining objectives",
-    "year": 2022,
-    "count": 172
-  },
-  {
-    "keyword": "pretraining objectives",
-    "year": 2023,
-    "count": 282
-  },
-  {
-    "keyword": "pretraining objectives",
-    "year": 2024,
-    "count": 236
-  },
-  {
-    "keyword": "pretraining objectives",
-    "year": 2025,
-    "count": 396
-  },
-  {
-    "keyword": "privacy and security",
+    "keyword": "AI Safety, Ethics and Explainability",
     "year": 2013,
-    "count": 0
+    "count": 71
   },
   {
-    "keyword": "privacy and security",
+    "keyword": "AI Safety, Ethics and Explainability",
     "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "privacy and security",
-    "year": 2015,
-    "count": 0
-  },
-  {
-    "keyword": "privacy and security",
-    "year": 2016,
-    "count": 0
-  },
-  {
-    "keyword": "privacy and security",
-    "year": 2017,
-    "count": 0
-  },
-  {
-    "keyword": "privacy and security",
-    "year": 2018,
-    "count": 0
-  },
-  {
-    "keyword": "privacy and security",
-    "year": 2019,
-    "count": 0
-  },
-  {
-    "keyword": "privacy and security",
-    "year": 2020,
-    "count": 0
-  },
-  {
-    "keyword": "privacy and security",
-    "year": 2021,
-    "count": 0
-  },
-  {
-    "keyword": "privacy and security",
-    "year": 2022,
-    "count": 0
-  },
-  {
-    "keyword": "privacy and security",
-    "year": 2023,
-    "count": 1
-  },
-  {
-    "keyword": "privacy and security",
-    "year": 2024,
-    "count": 6
-  },
-  {
-    "keyword": "privacy and security",
-    "year": 2025,
-    "count": 5
-  },
-  {
-    "keyword": "prompt engineering",
-    "year": 2013,
-    "count": 2
-  },
-  {
-    "keyword": "prompt engineering",
-    "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "prompt engineering",
-    "year": 2015,
-    "count": 1
-  },
-  {
-    "keyword": "prompt engineering",
-    "year": 2016,
-    "count": 0
-  },
-  {
-    "keyword": "prompt engineering",
-    "year": 2017,
-    "count": 2
-  },
-  {
-    "keyword": "prompt engineering",
-    "year": 2018,
-    "count": 1
-  },
-  {
-    "keyword": "prompt engineering",
-    "year": 2019,
-    "count": 2
-  },
-  {
-    "keyword": "prompt engineering",
-    "year": 2020,
-    "count": 6
-  },
-  {
-    "keyword": "prompt engineering",
-    "year": 2021,
-    "count": 12
-  },
-  {
-    "keyword": "prompt engineering",
-    "year": 2022,
-    "count": 65
-  },
-  {
-    "keyword": "prompt engineering",
-    "year": 2023,
-    "count": 469
-  },
-  {
-    "keyword": "prompt engineering",
-    "year": 2024,
-    "count": 869
-  },
-  {
-    "keyword": "prompt engineering",
-    "year": 2025,
-    "count": 2492
-  },
-  {
-    "keyword": "quantization",
-    "year": 2013,
-    "count": 17
-  },
-  {
-    "keyword": "quantization",
-    "year": 2014,
-    "count": 13
-  },
-  {
-    "keyword": "quantization",
-    "year": 2015,
-    "count": 10
-  },
-  {
-    "keyword": "quantization",
-    "year": 2016,
-    "count": 16
-  },
-  {
-    "keyword": "quantization",
-    "year": 2017,
-    "count": 21
-  },
-  {
-    "keyword": "quantization",
-    "year": 2018,
-    "count": 40
-  },
-  {
-    "keyword": "quantization",
-    "year": 2019,
-    "count": 41
-  },
-  {
-    "keyword": "quantization",
-    "year": 2020,
-    "count": 82
-  },
-  {
-    "keyword": "quantization",
-    "year": 2021,
-    "count": 81
-  },
-  {
-    "keyword": "quantization",
-    "year": 2022,
-    "count": 131
-  },
-  {
-    "keyword": "quantization",
-    "year": 2023,
-    "count": 264
-  },
-  {
-    "keyword": "quantization",
-    "year": 2024,
-    "count": 471
-  },
-  {
-    "keyword": "quantization",
-    "year": 2025,
-    "count": 1287
-  },
-  {
-    "keyword": "question answering",
-    "year": 2013,
-    "count": 144
-  },
-  {
-    "keyword": "question answering",
-    "year": 2014,
-    "count": 149
-  },
-  {
-    "keyword": "question answering",
-    "year": 2015,
-    "count": 168
-  },
-  {
-    "keyword": "question answering",
-    "year": 2016,
-    "count": 253
-  },
-  {
-    "keyword": "question answering",
-    "year": 2017,
-    "count": 315
-  },
-  {
-    "keyword": "question answering",
-    "year": 2018,
-    "count": 423
-  },
-  {
-    "keyword": "question answering",
-    "year": 2019,
-    "count": 709
-  },
-  {
-    "keyword": "question answering",
-    "year": 2020,
-    "count": 959
-  },
-  {
-    "keyword": "question answering",
-    "year": 2021,
-    "count": 1292
-  },
-  {
-    "keyword": "question answering",
-    "year": 2022,
-    "count": 1478
-  },
-  {
-    "keyword": "question answering",
-    "year": 2023,
-    "count": 3045
-  },
-  {
-    "keyword": "question answering",
-    "year": 2024,
-    "count": 3521
-  },
-  {
-    "keyword": "question answering",
-    "year": 2025,
-    "count": 7066
-  },
-  {
-    "keyword": "reinforcement learning from human feedback",
-    "year": 2013,
-    "count": 0
-  },
-  {
-    "keyword": "reinforcement learning from human feedback",
-    "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "reinforcement learning from human feedback",
-    "year": 2015,
-    "count": 0
-  },
-  {
-    "keyword": "reinforcement learning from human feedback",
-    "year": 2016,
-    "count": 3
-  },
-  {
-    "keyword": "reinforcement learning from human feedback",
-    "year": 2017,
-    "count": 2
-  },
-  {
-    "keyword": "reinforcement learning from human feedback",
-    "year": 2018,
-    "count": 1
-  },
-  {
-    "keyword": "reinforcement learning from human feedback",
-    "year": 2019,
-    "count": 3
-  },
-  {
-    "keyword": "reinforcement learning from human feedback",
-    "year": 2020,
-    "count": 5
-  },
-  {
-    "keyword": "reinforcement learning from human feedback",
-    "year": 2021,
-    "count": 11
-  },
-  {
-    "keyword": "reinforcement learning from human feedback",
-    "year": 2022,
-    "count": 8
-  },
-  {
-    "keyword": "reinforcement learning from human feedback",
-    "year": 2023,
-    "count": 155
-  },
-  {
-    "keyword": "reinforcement learning from human feedback",
-    "year": 2024,
-    "count": 239
-  },
-  {
-    "keyword": "reinforcement learning from human feedback",
-    "year": 2025,
-    "count": 559
-  },
-  {
-    "keyword": "retrieval augmented generation",
-    "year": 2013,
-    "count": 0
-  },
-  {
-    "keyword": "retrieval augmented generation",
-    "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "retrieval augmented generation",
-    "year": 2015,
-    "count": 0
-  },
-  {
-    "keyword": "retrieval augmented generation",
-    "year": 2016,
-    "count": 0
-  },
-  {
-    "keyword": "retrieval augmented generation",
-    "year": 2017,
-    "count": 0
-  },
-  {
-    "keyword": "retrieval augmented generation",
-    "year": 2018,
-    "count": 0
-  },
-  {
-    "keyword": "retrieval augmented generation",
-    "year": 2019,
-    "count": 0
-  },
-  {
-    "keyword": "retrieval augmented generation",
-    "year": 2020,
-    "count": 5
-  },
-  {
-    "keyword": "retrieval augmented generation",
-    "year": 2021,
-    "count": 5
-  },
-  {
-    "keyword": "retrieval augmented generation",
-    "year": 2022,
-    "count": 16
-  },
-  {
-    "keyword": "retrieval augmented generation",
-    "year": 2023,
-    "count": 69
-  },
-  {
-    "keyword": "retrieval augmented generation",
-    "year": 2024,
-    "count": 538
-  },
-  {
-    "keyword": "retrieval augmented generation",
-    "year": 2025,
-    "count": 1797
-  },
-  {
-    "keyword": "robustness and calibration",
-    "year": 2013,
-    "count": 3
-  },
-  {
-    "keyword": "robustness and calibration",
-    "year": 2014,
-    "count": 1
-  },
-  {
-    "keyword": "robustness and calibration",
-    "year": 2015,
-    "count": 5
-  },
-  {
-    "keyword": "robustness and calibration",
-    "year": 2016,
-    "count": 0
-  },
-  {
-    "keyword": "robustness and calibration",
-    "year": 2017,
-    "count": 4
-  },
-  {
-    "keyword": "robustness and calibration",
-    "year": 2018,
-    "count": 2
-  },
-  {
-    "keyword": "robustness and calibration",
-    "year": 2019,
-    "count": 2
-  },
-  {
-    "keyword": "robustness and calibration",
-    "year": 2020,
-    "count": 10
-  },
-  {
-    "keyword": "robustness and calibration",
-    "year": 2021,
-    "count": 4
-  },
-  {
-    "keyword": "robustness and calibration",
-    "year": 2022,
-    "count": 16
-  },
-  {
-    "keyword": "robustness and calibration",
-    "year": 2023,
     "count": 28
   },
   {
-    "keyword": "robustness and calibration",
-    "year": 2024,
-    "count": 46
-  },
-  {
-    "keyword": "robustness and calibration",
-    "year": 2025,
-    "count": 292
-  },
-  {
-    "keyword": "scaling laws",
-    "year": 2013,
-    "count": 5
-  },
-  {
-    "keyword": "scaling laws",
-    "year": 2014,
-    "count": 11
-  },
-  {
-    "keyword": "scaling laws",
+    "keyword": "AI Safety, Ethics and Explainability",
     "year": 2015,
-    "count": 9
-  },
-  {
-    "keyword": "scaling laws",
-    "year": 2016,
-    "count": 13
-  },
-  {
-    "keyword": "scaling laws",
-    "year": 2017,
-    "count": 8
-  },
-  {
-    "keyword": "scaling laws",
-    "year": 2018,
-    "count": 17
-  },
-  {
-    "keyword": "scaling laws",
-    "year": 2019,
-    "count": 17
-  },
-  {
-    "keyword": "scaling laws",
-    "year": 2020,
-    "count": 18
-  },
-  {
-    "keyword": "scaling laws",
-    "year": 2021,
     "count": 23
   },
   {
-    "keyword": "scaling laws",
-    "year": 2022,
-    "count": 54
-  },
-  {
-    "keyword": "scaling laws",
-    "year": 2023,
-    "count": 102
-  },
-  {
-    "keyword": "scaling laws",
-    "year": 2024,
-    "count": 121
-  },
-  {
-    "keyword": "scaling laws",
-    "year": 2025,
-    "count": 616
-  },
-  {
-    "keyword": "sequence-to-sequence learning",
-    "year": 2013,
-    "count": 62
-  },
-  {
-    "keyword": "sequence-to-sequence learning",
-    "year": 2014,
-    "count": 73
-  },
-  {
-    "keyword": "sequence-to-sequence learning",
-    "year": 2015,
-    "count": 93
-  },
-  {
-    "keyword": "sequence-to-sequence learning",
+    "keyword": "AI Safety, Ethics and Explainability",
     "year": 2016,
-    "count": 163
+    "count": 27
   },
   {
-    "keyword": "sequence-to-sequence learning",
+    "keyword": "AI Safety, Ethics and Explainability",
     "year": 2017,
-    "count": 224
+    "count": 61
   },
   {
-    "keyword": "sequence-to-sequence learning",
+    "keyword": "AI Safety, Ethics and Explainability",
     "year": 2018,
-    "count": 327
+    "count": 113
   },
   {
-    "keyword": "sequence-to-sequence learning",
+    "keyword": "AI Safety, Ethics and Explainability",
     "year": 2019,
-    "count": 440
+    "count": 70
   },
   {
-    "keyword": "sequence-to-sequence learning",
+    "keyword": "AI Safety, Ethics and Explainability",
     "year": 2020,
-    "count": 678
+    "count": 133
   },
   {
-    "keyword": "sequence-to-sequence learning",
+    "keyword": "AI Safety, Ethics and Explainability",
     "year": 2021,
-    "count": 747
+    "count": 194
   },
   {
-    "keyword": "sequence-to-sequence learning",
+    "keyword": "AI Safety, Ethics and Explainability",
     "year": 2022,
-    "count": 854
+    "count": 157
   },
   {
-    "keyword": "sequence-to-sequence learning",
+    "keyword": "AI Safety, Ethics and Explainability",
     "year": 2023,
-    "count": 1228
+    "count": 124
   },
   {
-    "keyword": "sequence-to-sequence learning",
-    "year": 2024,
-    "count": 1355
-  },
-  {
-    "keyword": "sequence-to-sequence learning",
-    "year": 2025,
-    "count": 2514
-  },
-  {
-    "keyword": "state space sequence models",
-    "year": 2013,
-    "count": 13
-  },
-  {
-    "keyword": "state space sequence models",
-    "year": 2014,
-    "count": 12
-  },
-  {
-    "keyword": "state space sequence models",
-    "year": 2015,
-    "count": 11
-  },
-  {
-    "keyword": "state space sequence models",
-    "year": 2016,
-    "count": 17
-  },
-  {
-    "keyword": "state space sequence models",
-    "year": 2017,
-    "count": 20
-  },
-  {
-    "keyword": "state space sequence models",
-    "year": 2018,
-    "count": 25
-  },
-  {
-    "keyword": "state space sequence models",
-    "year": 2019,
-    "count": 44
-  },
-  {
-    "keyword": "state space sequence models",
-    "year": 2020,
-    "count": 50
-  },
-  {
-    "keyword": "state space sequence models",
-    "year": 2021,
-    "count": 47
-  },
-  {
-    "keyword": "state space sequence models",
-    "year": 2022,
-    "count": 73
-  },
-  {
-    "keyword": "state space sequence models",
-    "year": 2023,
-    "count": 74
-  },
-  {
-    "keyword": "state space sequence models",
-    "year": 2024,
-    "count": 147
-  },
-  {
-    "keyword": "state space sequence models",
-    "year": 2025,
-    "count": 315
-  },
-  {
-    "keyword": "synthetic data",
-    "year": 2013,
-    "count": 28
-  },
-  {
-    "keyword": "synthetic data",
-    "year": 2014,
-    "count": 30
-  },
-  {
-    "keyword": "synthetic data",
-    "year": 2015,
-    "count": 37
-  },
-  {
-    "keyword": "synthetic data",
-    "year": 2016,
-    "count": 40
-  },
-  {
-    "keyword": "synthetic data",
-    "year": 2017,
-    "count": 35
-  },
-  {
-    "keyword": "synthetic data",
-    "year": 2018,
-    "count": 77
-  },
-  {
-    "keyword": "synthetic data",
-    "year": 2019,
-    "count": 110
-  },
-  {
-    "keyword": "synthetic data",
-    "year": 2020,
-    "count": 185
-  },
-  {
-    "keyword": "synthetic data",
-    "year": 2021,
-    "count": 249
-  },
-  {
-    "keyword": "synthetic data",
-    "year": 2022,
-    "count": 337
-  },
-  {
-    "keyword": "synthetic data",
-    "year": 2023,
-    "count": 666
-  },
-  {
-    "keyword": "synthetic data",
-    "year": 2024,
-    "count": 945
-  },
-  {
-    "keyword": "synthetic data",
-    "year": 2025,
-    "count": 2626
-  },
-  {
-    "keyword": "text-to-text transfer",
-    "year": 2013,
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 1993,
     "count": 0
   },
   {
-    "keyword": "text-to-text transfer",
-    "year": 2014,
-    "count": 0
-  },
-  {
-    "keyword": "text-to-text transfer",
-    "year": 2015,
-    "count": 0
-  },
-  {
-    "keyword": "text-to-text transfer",
-    "year": 2016,
-    "count": 0
-  },
-  {
-    "keyword": "text-to-text transfer",
-    "year": 2017,
-    "count": 0
-  },
-  {
-    "keyword": "text-to-text transfer",
-    "year": 2018,
-    "count": 4
-  },
-  {
-    "keyword": "text-to-text transfer",
-    "year": 2019,
-    "count": 34
-  },
-  {
-    "keyword": "text-to-text transfer",
-    "year": 2020,
-    "count": 97
-  },
-  {
-    "keyword": "text-to-text transfer",
-    "year": 2021,
-    "count": 199
-  },
-  {
-    "keyword": "text-to-text transfer",
-    "year": 2022,
-    "count": 223
-  },
-  {
-    "keyword": "text-to-text transfer",
-    "year": 2023,
-    "count": 340
-  },
-  {
-    "keyword": "text-to-text transfer",
-    "year": 2024,
-    "count": 275
-  },
-  {
-    "keyword": "text-to-text transfer",
-    "year": 2025,
-    "count": 466
-  },
-  {
-    "keyword": "training data curation",
-    "year": 2013,
-    "count": 0
-  },
-  {
-    "keyword": "training data curation",
-    "year": 2014,
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 1994,
     "count": 1
   },
   {
-    "keyword": "training data curation",
-    "year": 2015,
-    "count": 4
-  },
-  {
-    "keyword": "training data curation",
-    "year": 2016,
-    "count": 1
-  },
-  {
-    "keyword": "training data curation",
-    "year": 2017,
-    "count": 3
-  },
-  {
-    "keyword": "training data curation",
-    "year": 2018,
-    "count": 11
-  },
-  {
-    "keyword": "training data curation",
-    "year": 2019,
-    "count": 13
-  },
-  {
-    "keyword": "training data curation",
-    "year": 2020,
-    "count": 20
-  },
-  {
-    "keyword": "training data curation",
-    "year": 2021,
-    "count": 42
-  },
-  {
-    "keyword": "training data curation",
-    "year": 2022,
-    "count": 67
-  },
-  {
-    "keyword": "training data curation",
-    "year": 2023,
-    "count": 167
-  },
-  {
-    "keyword": "training data curation",
-    "year": 2024,
-    "count": 272
-  },
-  {
-    "keyword": "training data curation",
-    "year": 2025,
-    "count": 834
-  },
-  {
-    "keyword": "transformer architectures",
-    "year": 2013,
-    "count": 18
-  },
-  {
-    "keyword": "transformer architectures",
-    "year": 2014,
-    "count": 21
-  },
-  {
-    "keyword": "transformer architectures",
-    "year": 2015,
-    "count": 22
-  },
-  {
-    "keyword": "transformer architectures",
-    "year": 2016,
-    "count": 26
-  },
-  {
-    "keyword": "transformer architectures",
-    "year": 2017,
-    "count": 39
-  },
-  {
-    "keyword": "transformer architectures",
-    "year": 2018,
-    "count": 107
-  },
-  {
-    "keyword": "transformer architectures",
-    "year": 2019,
-    "count": 387
-  },
-  {
-    "keyword": "transformer architectures",
-    "year": 2020,
-    "count": 950
-  },
-  {
-    "keyword": "transformer architectures",
-    "year": 2021,
-    "count": 2235
-  },
-  {
-    "keyword": "transformer architectures",
-    "year": 2022,
-    "count": 3740
-  },
-  {
-    "keyword": "transformer architectures",
-    "year": 2023,
-    "count": 6051
-  },
-  {
-    "keyword": "transformer architectures",
-    "year": 2024,
-    "count": 8043
-  },
-  {
-    "keyword": "transformer architectures",
-    "year": 2025,
-    "count": 20786
-  },
-  {
-    "keyword": "vision-language models",
-    "year": 2013,
-    "count": 1
-  },
-  {
-    "keyword": "vision-language models",
-    "year": 2014,
-    "count": 1
-  },
-  {
-    "keyword": "vision-language models",
-    "year": 2015,
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 1995,
     "count": 2
   },
   {
-    "keyword": "vision-language models",
-    "year": 2016,
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 1996,
     "count": 1
   },
   {
-    "keyword": "vision-language models",
-    "year": 2017,
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 1997,
+    "count": 2
+  },
+  {
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 1998,
+    "count": 2
+  },
+  {
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 1999,
     "count": 1
   },
   {
-    "keyword": "vision-language models",
-    "year": 2018,
-    "count": 7
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 2000,
+    "count": 12
   },
   {
-    "keyword": "vision-language models",
-    "year": 2019,
-    "count": 9
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 2001,
+    "count": 11
   },
   {
-    "keyword": "vision-language models",
-    "year": 2020,
-    "count": 15
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 2002,
+    "count": 10
   },
   {
-    "keyword": "vision-language models",
-    "year": 2021,
-    "count": 42
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 2003,
+    "count": 11
   },
   {
-    "keyword": "vision-language models",
-    "year": 2022,
-    "count": 142
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 2004,
+    "count": 18
   },
   {
-    "keyword": "vision-language models",
-    "year": 2023,
-    "count": 538
-  },
-  {
-    "keyword": "vision-language models",
-    "year": 2024,
-    "count": 1628
-  },
-  {
-    "keyword": "vision-language models",
-    "year": 2025,
-    "count": 3676
-  },
-  {
-    "keyword": "word embeddings",
-    "year": 2013,
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 2005,
     "count": 19
   },
   {
-    "keyword": "word embeddings",
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 2006,
+    "count": 18
+  },
+  {
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 2007,
+    "count": 16
+  },
+  {
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 2008,
+    "count": 28
+  },
+  {
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 2009,
+    "count": 37
+  },
+  {
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 2010,
+    "count": 70
+  },
+  {
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 2011,
+    "count": 73
+  },
+  {
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 2012,
+    "count": 45
+  },
+  {
+    "keyword": "Data Mining and Information Retrieval",
+    "year": 2013,
+    "count": 70
+  },
+  {
+    "keyword": "Data Mining and Information Retrieval",
     "year": 2014,
-    "count": 72
+    "count": 41
   },
   {
-    "keyword": "word embeddings",
+    "keyword": "Data Mining and Information Retrieval",
     "year": 2015,
-    "count": 98
+    "count": 42
   },
   {
-    "keyword": "word embeddings",
+    "keyword": "Data Mining and Information Retrieval",
     "year": 2016,
-    "count": 221
+    "count": 45
   },
   {
-    "keyword": "word embeddings",
+    "keyword": "Data Mining and Information Retrieval",
     "year": 2017,
-    "count": 342
+    "count": 52
   },
   {
-    "keyword": "word embeddings",
+    "keyword": "Data Mining and Information Retrieval",
     "year": 2018,
-    "count": 575
+    "count": 52
   },
   {
-    "keyword": "word embeddings",
+    "keyword": "Data Mining and Information Retrieval",
     "year": 2019,
-    "count": 846
+    "count": 40
   },
   {
-    "keyword": "word embeddings",
+    "keyword": "Data Mining and Information Retrieval",
     "year": 2020,
-    "count": 1067
+    "count": 59
   },
   {
-    "keyword": "word embeddings",
+    "keyword": "Data Mining and Information Retrieval",
     "year": 2021,
-    "count": 1101
+    "count": 84
   },
   {
-    "keyword": "word embeddings",
+    "keyword": "Data Mining and Information Retrieval",
     "year": 2022,
-    "count": 1022
+    "count": 89
   },
   {
-    "keyword": "word embeddings",
+    "keyword": "Data Mining and Information Retrieval",
     "year": 2023,
-    "count": 1109
+    "count": 63
   },
   {
-    "keyword": "word embeddings",
-    "year": 2024,
-    "count": 1008
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 1993,
+    "count": 0
   },
   {
-    "keyword": "word embeddings",
-    "year": 2025,
-    "count": 1332
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 1994,
+    "count": 0
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 1995,
+    "count": 2
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 1996,
+    "count": 2
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 1997,
+    "count": 1
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 1998,
+    "count": 1
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 1999,
+    "count": 1
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2000,
+    "count": 1
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2001,
+    "count": 0
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2002,
+    "count": 4
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2003,
+    "count": 4
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2004,
+    "count": 17
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2005,
+    "count": 14
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2006,
+    "count": 5
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2007,
+    "count": 20
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2008,
+    "count": 24
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2009,
+    "count": 20
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2010,
+    "count": 35
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2011,
+    "count": 38
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2012,
+    "count": 30
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2013,
+    "count": 35
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2014,
+    "count": 18
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2015,
+    "count": 11
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2016,
+    "count": 28
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2017,
+    "count": 57
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2018,
+    "count": 56
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2019,
+    "count": 48
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2020,
+    "count": 78
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2021,
+    "count": 114
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2022,
+    "count": 95
+  },
+  {
+    "keyword": "Computer Vision and Multimodal AI",
+    "year": 2023,
+    "count": 82
   }
 ]

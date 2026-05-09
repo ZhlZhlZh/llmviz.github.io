@@ -11,7 +11,7 @@ const STREAM_COLORS = [
   '#14b8a6', '#8b5cf6', '#64748b', '#ca8a04', '#0284c7', '#db2777',
   '#22c55e', '#a855f7', '#f59e0b', '#06b6d4', '#ef4444', '#10b981'
 ];
-const TOPIC_SELECTION_TEXT = '主题选取：上层分类参考 LLM Survey、Stanford Foundation Models 报告、HELM 与 NIST GenAI Profile 中反复出现的 pre-training、adaptation、utilization、evaluation、systems、data、risk 轴；条带再细分为同级 LLM 研究主题簇，并用 OpenAlex works 按年度分组统计。纵轴使用 OpenAlex group_by 返回的原始 count。';
+const TOPIC_SELECTION_TEXT = '主题选取：基于 arXiv AI 论文标题、摘要与类别字段进行规则化主题标注，覆盖搜索规划、知识表示、机器学习、NLP、视觉、多智能体、概率因果、安全伦理等 AI 研究热点。纵轴为该主题在 arXiv AI 数据集中按年度统计的论文数。';
 
 function createSvgElement(tag, attrs = {}) {
   const el = document.createElementNS(SVG_NS, tag);
@@ -134,8 +134,8 @@ export async function initThemeRiver(container) {
   container.innerHTML = `
     <div class="module-shell">
       <p class="module-tag">Module 01</p>
-      <h3 class="module-title">LLM 主题河流图</h3>
-      <p class="module-subtitle">参考 NameVoyager 的连续河流样式，展示 OpenAlex 中 LLM 研究主题年度作品数的迁移。</p>
+      <h3 class="module-title">AI 研究热点河流图</h3>
+      <p class="module-subtitle">参考 NameVoyager 的连续河流样式，展示 arXiv AI 数据集中研究热点年度论文数的迁移。</p>
       <div class="chart-toolbar chart-toolbar-wrap">
         <div class="river-year-slot"></div>
         <label class="chart-control river-filter-control">
@@ -160,7 +160,7 @@ export async function initThemeRiver(container) {
       <div class="theme-river-explore-layout">
         <div class="module-canvas chart-canvas theme-river-canvas">
           <div class="theme-river-canvas-inner">
-            <svg class="chart-svg" viewBox="0 0 900 390" role="img" aria-label="LLM theme river chart"></svg>
+            <svg class="chart-svg" viewBox="0 0 900 390" role="img" aria-label="AI research hotspot river chart"></svg>
             <div class="theme-river-tooltip" hidden></div>
           </div>
         </div>
@@ -263,8 +263,8 @@ export async function initThemeRiver(container) {
     const yearFilter = createYearRangeFilter({
       source: 'theme-river',
       label: '年份范围',
-      min: years[0] || 2013,
-      max: years[years.length - 1] || 2026,
+      min: years[0] || 1993,
+      max: years[years.length - 1] || 2023,
       onChange: () => {
         renderRiver();
         updateFocus(false);
@@ -410,7 +410,7 @@ export async function initThemeRiver(container) {
         });
         area.addEventListener('mouseenter', () => {
           const peakYear = years[peak.index];
-          detailEl.innerHTML = `<strong>${item.keyword}</strong> 的峰值出现在 ${peakYear} 年，OpenAlex count ${formatTick(peak.value)}。点击河流可单独查看该主题。${TOPIC_SELECTION_TEXT}`;
+          detailEl.innerHTML = `<strong>${item.keyword}</strong> 的峰值出现在 ${peakYear} 年，arXiv AI 论文数 ${formatTick(peak.value)}。点击河流可单独查看该主题。${TOPIC_SELECTION_TEXT}`;
           tooltip.hidden = false;
         });
         area.addEventListener('mousemove', (event) => {
@@ -420,7 +420,7 @@ export async function initThemeRiver(container) {
           const year = years[yearIndex];
           const heat = item.values[yearIndex] || 0;
           const rank = yearRanking(allSeries, yearIndex).find((ranked) => ranked.keyword === item.keyword)?.rank || '-';
-          tooltip.innerHTML = `<strong>${item.keyword}</strong><span>${year} 年 · OpenAlex count ${formatTick(heat)}</span><span>当年排名 #${rank}</span>`;
+          tooltip.innerHTML = `<strong>${item.keyword}</strong><span>${year} 年 · arXiv AI 论文数 ${formatTick(heat)}</span><span>当年排名 #${rank}</span>`;
           tooltip.style.left = `${event.offsetX + 14}px`;
           tooltip.style.top = `${event.offsetY + 12}px`;
         });
@@ -463,7 +463,7 @@ export async function initThemeRiver(container) {
         ? `${rangeText} · ${focusedKeyword}: ${formatTick(top[0]?.count ?? 0)}`
         : `${rangeText} Top: ${top.map((item) => `${item.keyword} ${formatTick(item.count)}`).join(' | ')}${filterText}${zoomText}`;
       detailEl.innerHTML = focusedKeyword
-        ? `<strong>${focusedKeyword}</strong> 单主题模式：拖动年份查看该主题的 OpenAlex 年度作品数如何上升、回落或进入平台期。${TOPIC_SELECTION_TEXT}`
+        ? `<strong>${focusedKeyword}</strong> 单主题模式：拖动年份查看该主题的 arXiv AI 年度论文数如何上升、回落或进入平台期。${TOPIC_SELECTION_TEXT}`
         : `<strong>${phaseLabelByYear(year)}</strong>：${year} 年最突出的主题是 ${top.map((item) => item.keyword).join('、')}。${TOPIC_SELECTION_TEXT}`;
 
       if (shouldPublish) setAppState({ year: end, yearRangeStart: start, yearRangeEnd: end }, 'theme-river');
@@ -496,7 +496,7 @@ export async function initThemeRiver(container) {
       filterNumber.value = '0';
       zoomSlider.value = '1';
       zoomOutput.textContent = '1x';
-      yearFilter.setRange(years[0] || 2013, years[years.length - 1] || 2026, { publish: true });
+      yearFilter.setRange(years[0] || 1993, years[years.length - 1] || 2023, { publish: true });
       renderRiver();
       updateFocus(false);
       updateExploreCard();

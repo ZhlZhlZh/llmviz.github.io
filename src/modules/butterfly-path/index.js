@@ -30,24 +30,26 @@ function searchText(node) {
 }
 
 function phaseLabel(year) {
-  if (year <= 2017) return '基础机制';
-  if (year <= 2022) return '预训练扩展';
-  return '对齐与智能体';
+  if (year <= 2005) return '经典AI';
+  if (year <= 2015) return '深度学习兴起';
+  return '大模型时代';
 }
 
 function phaseClassByYear(year) {
-  if (year <= 2017) return 'phase-foundation';
-  if (year <= 2022) return 'phase-boom';
+  if (year <= 2005) return 'phase-foundation';
+  if (year <= 2015) return 'phase-boom';
   return 'phase-agentic';
 }
 
 function primaryTopic(node) {
   const text = `${asArray(node.topic).join(' ')} ${asArray(node.keywords).join(' ')}`.toLowerCase();
-  if (/retrieval|rag|knowledge|question/.test(text)) return '检索知识';
-  if (/reason|agent|instruction|alignment|preference|feedback/.test(text)) return '推理对齐';
-  if (/vision|image|multimodal|diffusion|clip/.test(text)) return '多模态';
-  if (/efficient|mamba|attention|state space|inference|serving/.test(text)) return '架构效率';
-  return '语言模型';
+  if (/search|planning|heuristic|satisfiability/.test(text)) return '搜索规划';
+  if (/knowledge|reasoning|logic|ontology|inference/.test(text)) return '知识推理';
+  if (/language|nlp|text|translation|dialogue/.test(text)) return '自然语言';
+  if (/vision|image|visual|video|multimodal/.test(text)) return '视觉感知';
+  if (/agent|game|negotiation|cooperation/.test(text)) return '智能体';
+  if (/constraint|optimization|scheduling/.test(text)) return '优化求解';
+  return '机器学习';
 }
 
 function radiusByImpact(node) {
@@ -76,9 +78,8 @@ function findPaper(nodes, query) {
 
 function pickDefaultPaper(nodes, nodeById, selectedId) {
   if (selectedId && nodeById.has(selectedId)) return nodeById.get(selectedId);
-  return nodes.find((node) => node.title.toLowerCase() === 'attention is all you need') ||
-    nodes.find((node) => node.title.toLowerCase().includes('attention is all')) ||
-    nodes.slice().sort((a, b) => (b.citations_count || 0) - (a.citations_count || 0))[0];
+  // 选择引用数最高的论文作为默认中心
+  return nodes.slice().sort((a, b) => (b.citations_count || 0) - (a.citations_count || 0))[0];
 }
 
 function sortInfluence(items, direction, centerYear) {
@@ -199,7 +200,7 @@ export async function initButterflyPath(container) {
           </select>
         </label>
         <button class="chart-button butterfly-use-selected" type="button">使用当前选中论文</button>
-        <button class="chart-button butterfly-reset" type="button">回到 Attention</button>
+        <button class="chart-button butterfly-reset" type="button">回到高热度论文</button>
         <div class="chart-stat" aria-live="polite">加载中...</div>
       </div>
       <div class="module-canvas chart-canvas butterfly-canvas">
@@ -257,8 +258,8 @@ export async function initButterflyPath(container) {
     // Shared year-range filter
     const butterflyYearSlot = container.querySelector('.butterfly-year-slot');
     const bfAllYears = nodes.map((n) => n.year).filter(Boolean);
-    const bfMinYear = Math.min(...bfAllYears, 2013);
-    const bfMaxYear = Math.max(...bfAllYears, 2026);
+    const bfMinYear = Math.min(...bfAllYears, 1993);
+    const bfMaxYear = Math.max(...bfAllYears, 2023);
     const yearFilter = createYearRangeFilter({
       source: 'butterfly-path',
       label: '年份范围',
@@ -346,7 +347,7 @@ export async function initButterflyPath(container) {
       group.append(circle, year);
 
       const url = paperLink(node);
-      const tooltipHtml = `<strong>${escapeHtml(node.title)}</strong><span>${escapeHtml(phaseLabel(node.year))} · ${escapeHtml(node.year || '')}</span><span>引用 ${Number(node.citations_count || 0).toLocaleString()}</span>${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">打开论文链接</a>` : ''}`;
+      const tooltipHtml = `<strong>${escapeHtml(node.title)}</strong><span>${escapeHtml(phaseLabel(node.year))} · ${escapeHtml(node.year || '')}</span><span>热度 ${Number(node.hotness_score || node.citations_count || 0).toLocaleString()}</span>${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">打开论文链接</a>` : ''}`;
       group.addEventListener('pointerenter', (event) => tooltip.show(event, tooltipHtml));
       group.addEventListener('pointermove', (event) => tooltip.move(event));
       group.addEventListener('pointerleave', () => tooltip.hideSoon());

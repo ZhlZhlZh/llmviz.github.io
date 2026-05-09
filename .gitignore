@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Raw data caches (too large for git)
+data/raw/openalex_cli_work_metadata/
+data/raw/openalex_arxiv_cache.json
+data/raw/openalex_arxiv_cache.shard*.json
+data/raw/openalex_cli_work_id_map.json
+data/raw/openalex_cli_work_ids.txt
+data/raw/openalex_cli_dois.txt
+data/raw/semantic_scholar_cache.json
+data/raw/semantic_scholar_refs_cache.json
+data/raw/openalex_keyword_trends_cache.json
+
+# Log files
+*.log
+*.err.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+
+# CSV data source (too large)
+arxiv_ai.csv
+arxiv.ai.csv
+
+# Temp files
+data/raw/_old_*.json

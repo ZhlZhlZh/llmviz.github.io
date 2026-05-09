@@ -484,6 +484,46 @@
 .map-stats-bar .stat-item { display: flex; align-items: center; gap: 4px; }
 .map-stats-bar .stat-value { font-weight: 700; color: var(--accent-strong); }
 
+.map-offline-summary {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(22, 163, 74, 0.08)),
+    var(--surface);
+  color: var(--text);
+}
+
+.map-offline-summary h4 {
+  margin: 0;
+  font-size: var(--fs-500);
+}
+
+.map-offline-summary p {
+  max-width: 640px;
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.map-offline-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.map-offline-metrics span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-raised);
+}
+
 /* ═══════════════════════════════════════════════════════════════
    Responsive
    ═══════════════════════════════════════════════════════════════ */
