@@ -96,6 +96,77 @@
   gap: var(--space-2);
 }
 
+.year-control .year-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.map-year-display {
+  min-width: 56px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.map-year-dual {
+  position: relative;
+  width: 160px;
+  height: 22px;
+}
+.map-year-dual .dual-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  background: var(--surface-soft);
+  border-radius: 6px;
+}
+.map-year-dual .dual-range {
+  position: absolute;
+  height: 6px;
+  background: var(--accent-strong);
+  border-radius: 6px;
+  left: 0;
+  width: 100%;
+}
+.map-year-dual .dual-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--line);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  cursor: pointer;
+}
+.map-year-dual .dual-thumb.start { left: 0%; }
+.map-year-dual .dual-thumb.end { left: 100%; }
+
+.institution-rank-row .rank-values {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.institution-rank-row .rank-values em {
+  font-style: normal;
+  font-weight: 700;
+}
+
+.institution-rank-row .rank-values .compare {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.institution-rank-row .rank-values .delta {
+  color: var(--accent-strong);
+}
+
 .institution-rank-row {
   display: grid;
   grid-template-columns: 28px minmax(0, 1fr) 42px;
