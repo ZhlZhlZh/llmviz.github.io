@@ -1,5 +1,6 @@
 import { loadJson } from '../../shared/data-loader.js';
 import { getAppState, onAppStateChange, setAppState } from '../../shared/app-state.js';
+import { createInteractiveTooltip, escapeHtml, paperLink } from '../../shared/interactive-tooltip.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const WIDTH = 1100;
@@ -318,6 +319,7 @@ export async function initPaperForce(container) {
   `;
 
   const svg = container.querySelector('.force-svg');
+  const canvas = container.querySelector('.force-canvas');
   const shell = container.querySelector('.paper-obsidian-shell');
   const searchInput = container.querySelector('.force-search-input');
   const authorInput = container.querySelector('.force-author-input');
@@ -333,7 +335,7 @@ export async function initPaperForce(container) {
   const reheatButton = container.querySelector('.force-reheat-button');
   const statEl = container.querySelector('.force-stat');
   const detailEl = container.querySelector('.force-detail');
-  if (!svg || !shell || !searchInput || !authorInput || !topicInput || !paperList || !authorList || !topicList || !nodeLimit || !labelMode || !edgeMode || !clearFilterButton || !resetButton || !reheatButton || !statEl || !detailEl) return;
+  if (!svg || !canvas || !shell || !searchInput || !authorInput || !topicInput || !paperList || !authorList || !topicList || !nodeLimit || !labelMode || !edgeMode || !clearFilterButton || !resetButton || !reheatButton || !statEl || !detailEl) return;
 
   try {
     const [nodesData, edgesData] = await Promise.all([
@@ -352,6 +354,7 @@ export async function initPaperForce(container) {
     let activeNodeIds = new Set(nodes.map((node) => node.id));
     let activeNodes = nodes;
     let activeLinks = links;
+    const tooltip = createInteractiveTooltip(canvas);
 
     const viewport = createSvgElement('g', { class: 'graph-viewport' });
     const linkLayer = createSvgElement('g', { class: 'force-edge-layer' });
@@ -381,13 +384,16 @@ export async function initPaperForce(container) {
       const circle = createSvgElement('circle', { class: `force-node ${phaseClassByYear(node.year)}`, r: node.r });
       const label = createSvgElement('text', { class: 'force-node-label', x: node.r + 7, y: 4 });
       label.textContent = shorten(node.title, 38);
-      const title = createSvgElement('title');
-      title.textContent = `${node.title}\n${node.year} · ${(node.authors || []).slice(0, 4).join(', ')}`;
-      circle.appendChild(title);
       group.append(halo, circle, label);
       nodeLayer.appendChild(group);
       node.el = group;
       node.labelEl = label;
+
+      const url = paperLink(node);
+      const tooltipHtml = `<strong>${escapeHtml(node.title)}</strong><span>${escapeHtml(node.year)} · ${escapeHtml((node.authors || []).slice(0, 4).join(', ') || '未知作者')}</span><span>引用 ${(node.citations_count || 0).toLocaleString()}</span>${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">打开论文链接</a>` : ''}`;
+      group.addEventListener('pointerenter', (event) => tooltip.show(event, tooltipHtml));
+      group.addEventListener('pointermove', (event) => tooltip.move(event));
+      group.addEventListener('pointerleave', () => tooltip.hideSoon());
 
       group.addEventListener('pointerdown', (event) => {
         event.stopPropagation();
@@ -618,6 +624,7 @@ export async function initPaperForce(container) {
     }, { passive: false });
 
     svg.addEventListener('pointerdown', (event) => {
+      tooltip.hideNow();
       panning = { pointerId: event.pointerId, lastX: event.clientX, lastY: event.clientY };
       svg.setPointerCapture(event.pointerId);
     });

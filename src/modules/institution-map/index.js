@@ -1,5 +1,6 @@
 import { loadJson } from '../../shared/data-loader.js';
 import { getAppState, onAppStateChange, setAppState } from '../../shared/app-state.js';
+import { createInteractiveTooltip, escapeHtml, institutionLink } from '../../shared/interactive-tooltip.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -291,6 +292,7 @@ export async function initInstitutionMap(container) {
   const linkToggle = container.querySelector('.map-link-toggle');
   const statEl = container.querySelector('.chart-stat');
   const svg = container.querySelector('.chart-svg');
+  const canvas = container.querySelector('.map-canvas');
   const detailEl = container.querySelector('.map-detail');
   const legendEl = container.querySelector('.map-legend');
   const rankingEl = container.querySelector('.institution-ranking');
@@ -300,7 +302,7 @@ export async function initInstitutionMap(container) {
   const evidenceEl = container.querySelector('.institution-scenario-evidence');
   const rankingTitleEl = container.querySelector('.institution-ranking-title');
 
-  if (!colorModeEl || !sizeModeEl || !linkToggle || !statEl || !svg || !detailEl || !legendEl || !rankingEl || !questionTitleEl || !questionCopyEl || !evidenceEl || !rankingTitleEl) return;
+  if (!colorModeEl || !sizeModeEl || !linkToggle || !statEl || !svg || !canvas || !detailEl || !legendEl || !rankingEl || !questionTitleEl || !questionCopyEl || !evidenceEl || !rankingTitleEl) return;
 
   try {
     const [world, rawInstitutions, nodes, edges, aliasRows] = await Promise.all([
@@ -315,6 +317,7 @@ export async function initInstitutionMap(container) {
     const height = 440;
     const padding = 18;
     const aliasLookup = buildAliasLookup(aliasRows);
+    const tooltip = createInteractiveTooltip(canvas);
     const institutions = mergeInstitutions(rawInstitutions, aliasLookup);
     const institutionNames = new Set(institutions.map((item) => item.institution));
     const byName = new Map(institutions.map((item) => [item.institution, item]));
@@ -627,10 +630,12 @@ export async function initInstitutionMap(container) {
         symbol.setAttribute('data-id', item.id);
         symbol.classList.toggle('is-related', selectedNames.has(item.institution));
         symbol.classList.toggle('is-selected', getAppState().selectedInstitutionId === item.id);
-        const title = createSvgElement('title');
-        title.textContent = `${item.institution}\n${item.country}\n${sizeMode}: ${item[sizeMode]}`;
-        symbol.appendChild(title);
         group.appendChild(symbol);
+        const url = institutionLink(item);
+        const tooltipHtml = `<strong>${escapeHtml(item.institution)}</strong><span>${escapeHtml(item.city)}, ${escapeHtml(item.country)}</span><span>${escapeHtml(sizeMode)}: ${escapeHtml(item[sizeMode])}</span><span>论文 ${escapeHtml(item.papers_count)} · 引用 ${Number(item.citations_count || 0).toLocaleString()}</span>${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">打开机构链接</a>` : ''}`;
+        group.addEventListener('pointerenter', (event) => tooltip.show(event, tooltipHtml));
+        group.addEventListener('pointermove', (event) => tooltip.move(event));
+        group.addEventListener('pointerleave', () => tooltip.hideSoon());
         group.addEventListener('pointerdown', (event) => event.stopPropagation());
         group.addEventListener('click', () => setAppState({ selectedInstitutionId: item.id }, 'institution-map'));
         group.addEventListener('keydown', (event) => {

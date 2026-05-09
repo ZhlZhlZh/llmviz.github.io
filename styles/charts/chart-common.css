@@ -1,5 +1,6 @@
 .chart-canvas {
   display: block;
+  position: relative;
   padding: var(--space-2);
   min-height: 300px;
   overflow: hidden;
@@ -180,6 +181,46 @@
 .chart-detail strong {
   color: #2c2c2c;
   font-weight: 600;
+}
+
+.chart-node-tooltip {
+  position: absolute;
+  z-index: 12;
+  width: min(280px, calc(100% - 16px));
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 12px 28px rgba(29, 41, 57, 0.16);
+  color: var(--muted-strong);
+  font-size: var(--fs-100);
+  line-height: 1.45;
+  padding: var(--space-3) var(--space-4);
+}
+
+.chart-node-tooltip strong,
+.chart-node-tooltip span {
+  display: block;
+}
+
+.chart-node-tooltip strong {
+  color: var(--text);
+  font-size: var(--fs-200);
+  line-height: 1.35;
+}
+
+.chart-node-tooltip a {
+  display: inline-flex;
+  margin-top: var(--space-2);
+  color: var(--accent-strong);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+}
+
+.chart-node-tooltip a:hover,
+.chart-node-tooltip a:focus-visible {
+  color: var(--accent);
+  text-decoration: underline;
+  outline: none;
 }
 
 .chart-empty {

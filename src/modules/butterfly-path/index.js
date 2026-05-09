@@ -1,5 +1,6 @@
 import { loadJson } from '../../shared/data-loader.js';
 import { getAppState, onAppStateChange, setAppState } from '../../shared/app-state.js';
+import { createInteractiveTooltip, escapeHtml, paperLink } from '../../shared/interactive-tooltip.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const WIDTH = 900;
@@ -233,8 +234,9 @@ export async function initButterflyPath(container) {
   const upstreamList = container.querySelector('.butterfly-upstream-list');
   const downstreamList = container.querySelector('.butterfly-downstream-list');
   const svg = container.querySelector('.butterfly-svg');
+  const canvas = container.querySelector('.butterfly-canvas');
 
-  if (!searchInput || !paperList || !limitSelect || !depthSelect || !useSelectedButton || !resetButton || !statEl || !detailEl || !upstreamList || !downstreamList || !svg) return;
+  if (!searchInput || !paperList || !limitSelect || !depthSelect || !useSelectedButton || !resetButton || !statEl || !detailEl || !upstreamList || !downstreamList || !svg || !canvas) return;
 
   try {
     const [nodesData, edgesData] = await Promise.all([
@@ -246,6 +248,7 @@ export async function initButterflyPath(container) {
     const nodeById = new Map(nodes.map((node) => [node.id, node]));
     const { referencesById, citationsById } = buildDirectedNeighbors(nodes, edgesData);
     let centerNode = pickDefaultPaper(nodes, nodeById, getAppState().selectedPaperId);
+    const tooltip = createInteractiveTooltip(canvas);
 
     nodes.forEach((node) => {
       const option = document.createElement('option');
@@ -301,10 +304,13 @@ export async function initButterflyPath(container) {
         'text-anchor': 'middle'
       });
       year.textContent = String(node.year || '');
-      const title = createSvgElement('title');
-      title.textContent = `${node.title}\n${phaseLabel(node.year)}\n引用 ${Number(node.citations_count || 0).toLocaleString()}`;
-      circle.appendChild(title);
       group.append(circle, year);
+
+      const url = paperLink(node);
+      const tooltipHtml = `<strong>${escapeHtml(node.title)}</strong><span>${escapeHtml(phaseLabel(node.year))} · ${escapeHtml(node.year || '')}</span><span>引用 ${Number(node.citations_count || 0).toLocaleString()}</span>${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">打开论文链接</a>` : ''}`;
+      group.addEventListener('pointerenter', (event) => tooltip.show(event, tooltipHtml));
+      group.addEventListener('pointermove', (event) => tooltip.move(event));
+      group.addEventListener('pointerleave', () => tooltip.hideSoon());
 
       const labelAnchor = role === 'upstream' ? 'end' : role === 'downstream' ? 'start' : 'middle';
       const labelX = role === 'upstream' ? -18 : role === 'downstream' ? 18 : 0;

@@ -1,5 +1,6 @@
 import { loadJson } from '../../shared/data-loader.js';
 import { getAppState, onAppStateChange, setAppState } from '../../shared/app-state.js';
+import { createInteractiveTooltip, escapeHtml, paperLink } from '../../shared/interactive-tooltip.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -106,10 +107,11 @@ export async function initMetroMap(container) {
   const detailEl = container.querySelector('.metro-detail');
   const legendEl = container.querySelector('.metro-legend');
   const svg = container.querySelector('.metro-svg');
+  const canvas = container.querySelector('.metro-canvas');
   const scenarioButtons = Array.from(container.querySelectorAll('.metro-scenario'));
   const questionTitleEl = container.querySelector('.metro-question-title');
   const questionCopyEl = container.querySelector('.metro-question-copy');
-  if (!yearSlider || !yearOutput || !limitInput || !statEl || !detailEl || !legendEl || !svg || !questionTitleEl || !questionCopyEl) return;
+  if (!yearSlider || !yearOutput || !limitInput || !statEl || !detailEl || !legendEl || !svg || !canvas || !questionTitleEl || !questionCopyEl) return;
 
   try {
     const [nodesData, edges] = await Promise.all([
@@ -121,6 +123,7 @@ export async function initMetroMap(container) {
       .map((node) => ({ ...node, lines: classify(node) }))
       .filter((node) => node.year >= 1986);
     const nodeById = new Map(nodes.map((node) => [node.id, node]));
+    const tooltip = createInteractiveTooltip(canvas);
     const minYear = Math.min(...nodes.map((node) => node.year));
     const maxYear = Math.max(...nodes.map((node) => node.year));
     yearSlider.min = String(minYear);
@@ -243,10 +246,13 @@ export async function initMetroMap(container) {
           class: 'metro-station',
           fill: lineById(point.primary).color
         });
-        const title = createSvgElement('title');
-        title.textContent = `${node.title}\n${node.year}\n${node.lines.map((id) => lineById(id).label).join(' / ')}`;
-        station.appendChild(title);
         group.appendChild(station);
+        const url = paperLink(node);
+        const lineText = node.lines.map((id) => lineById(id).label).join(' / ');
+        const tooltipHtml = `<strong>${escapeHtml(node.title)}</strong><span>${escapeHtml(node.year)} · ${escapeHtml(lineText)}</span><span>引用 ${(node.citations_count || 0).toLocaleString()}</span>${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">打开论文链接</a>` : ''}`;
+        group.addEventListener('pointerenter', (event) => tooltip.show(event, tooltipHtml));
+        group.addEventListener('pointermove', (event) => tooltip.move(event));
+        group.addEventListener('pointerleave', () => tooltip.hideSoon());
         if (node.lines.length > 1 || node.id === getAppState().selectedPaperId || (node.citations_count || 0) > 25000) {
           const label = createSvgElement('text', { x: 9, y: -7, class: 'metro-station-label' });
           label.textContent = shorten(node.title, 28);
