@@ -30,9 +30,42 @@
   min-height: 390px;
 }
 
+.theme-river-explore-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 280px);
+  gap: var(--space-4);
+  align-items: stretch;
+}
+
 .theme-river-canvas-inner {
   position: relative;
 }
+
+.theme-river-explore-card {
+  align-self: stretch;
+  border-left: 3px solid var(--accent);
+  background: var(--surface-soft);
+  padding: var(--space-4);
+}
+
+.theme-river-explore-card .chart-button {
+  margin-top: var(--space-4);
+  width: 100%;
+}
+
+.theme-river-explore-card .chart-button:disabled {
+  border-color: var(--line-strong);
+  background: #f1f1ef;
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.theme-river-explore-card .chart-button:disabled:hover {
+  background: #f1f1ef;
+  background-image: none;
+  color: var(--muted);
+}
+
 
 .theme-river-area {
   cursor: pointer;
@@ -108,6 +141,12 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (max-width: 860px) {
+  .theme-river-explore-layout {
+    grid-template-columns: 1fr;
   }
 }
 

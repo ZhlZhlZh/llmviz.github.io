@@ -1,6 +1,7 @@
 import { loadJson } from '../../shared/data-loader.js';
 import { getAppState, onAppStateChange, setAppState } from '../../shared/app-state.js';
 import { createInteractiveTooltip, escapeHtml, institutionLink } from '../../shared/interactive-tooltip.js';
+import { themePapers } from '../../shared/theme-filter.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -356,6 +357,10 @@ export async function initInstitutionMap(container) {
     }
 
     function selectedPaperInstitutions() {
+      const theme = getAppState().selectedTheme;
+      if (theme) {
+        return new Set(themePapers(nodes, theme).flatMap((node) => normalizeNodeInstitutions(node, aliasLookup, institutionNames)));
+      }
       const paper = nodes.find((node) => node.id === getAppState().selectedPaperId);
       return new Set(normalizeNodeInstitutions(paper || {}, aliasLookup, institutionNames));
     }
@@ -502,8 +507,11 @@ export async function initInstitutionMap(container) {
       });
       const paperInsts = selectedPaperInstitutions();
       if (activeScenarioId === 'paper') {
+        const theme = getAppState().selectedTheme;
         evidenceEl.textContent = paperInsts.size
-          ? `当前论文关联 ${paperInsts.size} 个已归一化机构。`
+          ? theme
+            ? `当前主题“${theme}”关联 ${paperInsts.size} 个已归一化机构。`
+            : `当前论文关联 ${paperInsts.size} 个已归一化机构。`
           : '先在论文网络、路径图或地铁图中选中论文，可查看其机构归属。';
       } else if (activeScenarioId === 'bridge') {
         evidenceEl.textContent = `基于 ${instLinks.length} 条机构共同引用联系计算。`;
@@ -671,7 +679,10 @@ export async function initInstitutionMap(container) {
         renderPoints();
       });
     });
-    onAppStateChange(() => renderPoints());
+    onAppStateChange(({ state }) => {
+      if (state.selectedTheme) activeScenarioId = 'paper';
+      renderPoints();
+    });
     svg.addEventListener('wheel', (event) => {
       event.preventDefault();
       const rect = svg.getBoundingClientRect();

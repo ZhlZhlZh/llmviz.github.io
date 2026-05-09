@@ -1,5 +1,6 @@
 import { loadJson } from '../../shared/data-loader.js';
 import { getAppState, onAppStateChange, phaseLabelByYear, setAppState } from '../../shared/app-state.js';
+import { themePapers, topThemePaper } from '../../shared/theme-filter.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const STREAM_COLORS = [
@@ -159,11 +160,19 @@ export async function initThemeRiver(container) {
         <button class="chart-button river-clear-button" type="button">重置视图</button>
         <div class="chart-stat" aria-live="polite">加载中...</div>
       </div>
-      <div class="module-canvas chart-canvas theme-river-canvas">
-        <div class="theme-river-canvas-inner">
-          <svg class="chart-svg" viewBox="0 0 900 390" role="img" aria-label="LLM theme river chart"></svg>
-          <div class="theme-river-tooltip" hidden></div>
+      <div class="theme-river-explore-layout">
+        <div class="module-canvas chart-canvas theme-river-canvas">
+          <div class="theme-river-canvas-inner">
+            <svg class="chart-svg" viewBox="0 0 900 390" role="img" aria-label="LLM theme river chart"></svg>
+            <div class="theme-river-tooltip" hidden></div>
+          </div>
         </div>
+        <aside class="theme-river-explore-card">
+          <p class="scenario-kicker">联动探索</p>
+          <h4 class="scenario-title river-explore-title">先选择一条主题河流</h4>
+          <p class="scenario-copy river-explore-copy">点击河流后，可以把该主题同步到下方论文网络、影响路径、机构地图和地铁图。</p>
+          <button class="chart-button river-explore-button" type="button" disabled>探索该主题</button>
+        </aside>
       </div>
       <div class="chart-detail theme-river-detail"></div>
     </div>
@@ -180,11 +189,17 @@ export async function initThemeRiver(container) {
   const svg = container.querySelector('.chart-svg');
   const tooltip = container.querySelector('.theme-river-tooltip');
   const detailEl = container.querySelector('.theme-river-detail');
+  const exploreTitle = container.querySelector('.river-explore-title');
+  const exploreCopy = container.querySelector('.river-explore-copy');
+  const exploreButton = container.querySelector('.river-explore-button');
 
-  if (!slider || !yearOutput || !filterSelect || !filterNumber || !zoomSlider || !zoomOutput || !clearButton || !statEl || !svg || !tooltip || !detailEl) return;
+  if (!slider || !yearOutput || !filterSelect || !filterNumber || !zoomSlider || !zoomOutput || !clearButton || !statEl || !svg || !tooltip || !detailEl || !exploreTitle || !exploreCopy || !exploreButton) return;
 
   try {
-    const records = await loadJson('./data/processed/keyword_trends.json');
+    const [records, nodes] = await Promise.all([
+      loadJson('./data/processed/keyword_trends.json'),
+      loadJson('./data/processed/nodes.json')
+    ]);
     const allSeries = toKeywordSeries(records);
     const years = allSeries[0]?.years || [];
     let focusedKeyword = null;
@@ -264,6 +279,29 @@ export async function initThemeRiver(container) {
       if (focusedKeyword) return allSeries.filter((item) => item.keyword === focusedKeyword);
       const hidden = new Set(allSeries.slice(0, hiddenTopCount).map((item) => item.keyword));
       return allSeries.filter((item) => !hidden.has(item.keyword));
+    }
+
+    function updateExploreCard() {
+      const selected = focusedKeyword;
+      const papers = selected ? themePapers(nodes, selected) : [];
+      exploreButton.disabled = !selected || papers.length === 0;
+      exploreTitle.textContent = selected ? `探索：${selected}` : '先选择一条主题河流';
+      exploreCopy.textContent = selected
+        ? `将下方图表刷新为该主题相关论文：论文网络显示 ${papers.length} 篇，路径图以最高引用论文为中心，机构图和地铁图继续联动。`
+        : '点击河流后，可以把该主题同步到下方论文网络、影响路径、机构地图和地铁图。';
+    }
+
+    function publishThemeExplore() {
+      if (!focusedKeyword) return;
+      const paper = topThemePaper(nodes, focusedKeyword);
+      setAppState({
+        selectedTheme: focusedKeyword,
+        selectedPaperId: paper?.id || null,
+        year: paper?.year || years[Number(slider.value)] || getAppState().year,
+        yearRangeStart: years[0],
+        yearRangeEnd: years[Number(slider.value)] || getAppState().year
+      }, 'theme-river-explore');
+      document.getElementById('section-force')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function drawYAxis(yDomainMax) {
@@ -355,6 +393,7 @@ export async function initThemeRiver(container) {
           focusedKeyword = focusedKeyword === item.keyword ? null : item.keyword;
           renderRiver();
           updateFocus(false);
+          updateExploreCard();
         });
         area.addEventListener('mouseenter', () => {
           const peakYear = years[peak.index];
@@ -414,6 +453,7 @@ export async function initThemeRiver(container) {
         : `<strong>${phaseLabelByYear(year)}</strong>：${year} 年最突出的主题是 ${top.map((item) => item.keyword).join('、')}。${TOPIC_SELECTION_TEXT}`;
 
       if (shouldPublish) setAppState({ year, yearRangeStart: year, yearRangeEnd: year }, 'theme-river');
+      updateExploreCard();
     }
 
     slider.addEventListener('input', () => updateFocus(true));
@@ -445,9 +485,17 @@ export async function initThemeRiver(container) {
       zoomOutput.textContent = '1x';
       renderRiver();
       updateFocus(false);
+      updateExploreCard();
+      setAppState({ selectedTheme: null }, 'theme-river');
     });
+    exploreButton.addEventListener('click', publishThemeExplore);
     onAppStateChange(({ state, source }) => {
       if (source === 'theme-river') return;
+      if (state.selectedTheme && state.selectedTheme !== focusedKeyword) {
+        focusedKeyword = state.selectedTheme;
+        renderRiver();
+        updateExploreCard();
+      }
       const yearIndex = years.indexOf(state.year);
       if (yearIndex >= 0 && slider.value !== String(yearIndex)) {
         slider.value = String(yearIndex);
@@ -457,6 +505,7 @@ export async function initThemeRiver(container) {
 
     renderRiver();
     updateFocus(false);
+    updateExploreCard();
   } catch (error) {
     statEl.textContent = '数据加载失败，请检查 data/processed/keyword_trends.json';
     svg.innerHTML = '';

@@ -1,6 +1,7 @@
 import { loadJson } from '../../shared/data-loader.js';
 import { getAppState, onAppStateChange, setAppState } from '../../shared/app-state.js';
 import { createInteractiveTooltip, escapeHtml, paperLink } from '../../shared/interactive-tooltip.js';
+import { paperMatchesTheme } from '../../shared/theme-filter.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
@@ -144,8 +145,10 @@ export async function initMetroMap(container) {
     function activeNodes() {
       const year = Number(yearSlider.value);
       const limit = Number(limitInput.value) || 56;
+      const theme = getAppState().selectedTheme;
       return nodes
         .filter((node) => node.year <= year)
+        .filter((node) => !theme || paperMatchesTheme(node, theme))
         .sort((a, b) => {
           const selectedBoost = a.id === getAppState().selectedPaperId ? -1 : b.id === getAppState().selectedPaperId ? 1 : 0;
           if (selectedBoost) return selectedBoost;
@@ -157,7 +160,7 @@ export async function initMetroMap(container) {
           }
           return (b.citations_count || 0) - (a.citations_count || 0);
         })
-        .slice(0, limit)
+        .slice(0, theme ? Math.max(limit, 96) : limit)
         .sort((a, b) => a.year - b.year || (b.citations_count || 0) - (a.citations_count || 0));
     }
 
@@ -270,10 +273,11 @@ export async function initMetroMap(container) {
 
       const selected = nodeById.get(getAppState().selectedPaperId) || visible.find((node) => node.lines.length > 1) || visible[0];
       const transferCount = visible.filter((node) => node.lines.length > 1).length;
-      statEl.textContent = `${visible.length} 个站点 · ${transferCount} 个换乘站 · 截止 ${year}`;
+      const theme = getAppState().selectedTheme;
+      statEl.textContent = `${visible.length} 个站点 · ${transferCount} 个换乘站 · 截止 ${year}${theme ? ` · 主题：${theme}` : ''}`;
       renderScenario();
       detailEl.innerHTML = selected
-        ? `<strong>${selected.title}</strong><br />${selected.year} · ${selected.lines.map((id) => lineById(id).label).join(' / ')}。${activeScenario().detail}`
+        ? `<strong>${selected.title}</strong><br />${selected.year} · ${selected.lines.map((id) => lineById(id).label).join(' / ')}。${theme ? `当前正在查看“${theme}”主题。` : ''}${activeScenario().detail}`
         : '暂无可展示论文。';
       renderLegend();
     }
@@ -296,6 +300,7 @@ export async function initMetroMap(container) {
     onAppStateChange(({ state, source }) => {
       if (source === 'metro-map') return;
       if (Number.isFinite(state.year)) yearSlider.value = String(Math.min(Math.max(state.year, minYear), maxYear));
+      if (state.selectedTheme) limitInput.value = String(Math.max(Number(limitInput.value) || 56, 96));
       render();
     });
     render();
