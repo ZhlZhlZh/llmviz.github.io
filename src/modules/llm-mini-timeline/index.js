@@ -202,7 +202,7 @@ export function initLlmMiniTimeline(root) {
     const rect = svgWrap.getBoundingClientRect();
     const width = Math.max(240, rect.width || 320);
     // Compact height, but grow a bit on wider panels.
-    const height = Math.min(260, Math.max(180, width * 0.62));
+    const height = Math.min(180, Math.max(140, width * 0.45));
     state.width = width;
     state.height = height;
 
