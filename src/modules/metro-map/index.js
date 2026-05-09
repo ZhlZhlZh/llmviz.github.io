@@ -17,20 +17,20 @@ const METRO_SCENARIOS = {
   transition: {
     label: '范式如何迁移',
     question: 'LLM 研究主线如何从表示学习走向 Transformer、规模化和智能体？',
-    description: '顺着时间线看研究范式如何一步步转向。每个时期的主要论文是什么，它们怎么把故事推进到下一章？',
-    detail: '这个视角最适合理解整体进程。'
+    description: '按年份铺开高影响论文，把每条主题线视为一条研究路线，观察主线的出现、延展和交叉。',
+    detail: '适合从宏观时间线解释研究范式如何一站一站迁移。'
   },
   transfer: {
     label: '哪里发生换乘',
     question: '哪些论文同时服务多个研究流派，成为主题换乘站？',
-    description: '故事中有一些关键论文，它们被多个方向的研究者都引用。这些是故事的分界点和关键节点。',
-    detail: '换乘站的出现往往标志着新方向的融合。'
+    description: '优先保留跨多个主题线的论文，突出多模态、对齐、高效架构等方向并入基础模型主线的位置。',
+    detail: '换乘站越多，说明该论文越容易被多个方向共同借用。'
   },
   frontier: {
     label: '近期分化在哪',
     question: '2020 年后哪些新路线从主线中分化出来？',
-    description: '最近几年的研究开始分支。从单一的预训练主线，演化成多任务、多模态、工具调用的生态。这是故事的当代面貌。',
-    detail: '近期分支越多，说明 LLM 应用生态越丰富。'
+    description: '提高近期论文权重，帮助定位 RAG、智能体、长上下文和高效架构等新支线的出现位置。',
+    detail: '近期站点用于解释 LLM 从单一预训练主线扩展成多任务、多模态和工具调用生态。'
   }
 };
 
@@ -67,8 +67,8 @@ export async function initMetroMap(container) {
   container.innerHTML = `
     <div class="module-shell">
       <p class="module-tag">Module 05</p>
-      <h3 class="module-title">故事分叉：研究路线怎么越走越多</h3>
-      <p class="module-subtitle">把主题线当作不同的研究路线，看看它们在哪里换乘、分流、汇合，然后长出新的方向。</p>
+      <h3 class="module-title">主题流派地铁图</h3>
+      <p class="module-subtitle">把主题线当作研究路线，把跨主题论文当作换乘站，用来解释 LLM 研究主线如何分叉、汇合和再分化。</p>
       <div class="scenario-panel metro-scenario-panel">
         <div>
           <p class="scenario-kicker">问题场景</p>

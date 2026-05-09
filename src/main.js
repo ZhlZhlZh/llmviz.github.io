@@ -30,8 +30,8 @@ async function initFocusPanel() {
     const rangeStart = Number.isFinite(state.yearRangeStart) ? state.yearRangeStart : state.year;
     const rangeEnd = Number.isFinite(state.yearRangeEnd) ? state.yearRangeEnd : state.year;
     yearEl.textContent = rangeStart !== rangeEnd ? `${rangeStart}-${rangeEnd}` : String(rangeEnd);
-    phaseEl.textContent = `${phaseLabelByYear(rangeEnd)}，故事走到这里`;
-    paperEl.textContent = node ? shorten(node.title, 56) : '还没有选中具体论文';
+    phaseEl.textContent = phaseLabelByYear(rangeEnd);
+    paperEl.textContent = node ? shorten(node.title, 56) : '未选择论文';
   }
 
   render(getAppState());

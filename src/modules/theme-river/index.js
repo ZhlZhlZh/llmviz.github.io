@@ -9,7 +9,7 @@ const STREAM_COLORS = [
   '#14b8a6', '#8b5cf6', '#64748b', '#ca8a04', '#0284c7', '#db2777',
   '#22c55e', '#a855f7', '#f59e0b', '#06b6d4', '#ef4444', '#10b981'
 ];
-const TOPIC_SELECTION_TEXT = '这条河流追踪了 LLM 研究的主要议题如何在时间中流动、壮大、衰落。每条带子代表一个研究方向，宽度反映当年的热度程度。';
+const TOPIC_SELECTION_TEXT = '主题选取：上层分类参考 LLM Survey、Stanford Foundation Models 报告、HELM 与 NIST GenAI Profile 中反复出现的 pre-training、adaptation、utilization、evaluation、systems、data、risk 轴；条带再细分为同级 LLM 研究主题簇，并用 OpenAlex works 按年度分组统计。纵轴使用 OpenAlex group_by 返回的原始 count。';
 
 function createSvgElement(tag, attrs = {}) {
   const el = document.createElementNS(SVG_NS, tag);
@@ -132,8 +132,8 @@ export async function initThemeRiver(container) {
   container.innerHTML = `
     <div class="module-shell">
       <p class="module-tag">Module 01</p>
-      <h3 class="module-title">故事开头：主题怎么慢慢变了</h3>
-      <p class="module-subtitle">先看大家在不同年份关心什么，再顺着热度变化理解 LLM 研究是怎么换题、转向和加速的。</p>
+      <h3 class="module-title">LLM 主题河流图</h3>
+      <p class="module-subtitle">参考 NameVoyager 的连续河流样式，展示 OpenAlex 中 LLM 研究主题年度作品数的迁移。</p>
       <div class="chart-toolbar chart-toolbar-wrap">
         <label class="chart-control river-year-control">
           年份
