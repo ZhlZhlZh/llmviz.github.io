@@ -169,8 +169,8 @@ export async function initButterflyPath(container) {
   container.innerHTML = `
     <div class="module-shell">
       <p class="module-tag">Module 03</p>
-      <h3 class="module-title">蝴蝶影响图</h3>
-      <p class="module-subtitle">选择一篇中心论文，左翼展示它引用并继承的上游论文，右翼展示引用它、受它影响的下游论文。</p>
+      <h3 class="module-title">故事转折：一篇论文前后接住了谁</h3>
+      <p class="module-subtitle">选中一篇论文后，左边看它从哪里来，右边看它往哪里去，转折点就会变得很具体。</p>
       <div class="chart-toolbar chart-toolbar-wrap">
         <label class="chart-control">
           中心论文
@@ -379,13 +379,13 @@ export async function initButterflyPath(container) {
       downstreamPoints.forEach((point) => drawNode(point, 'downstream'));
       drawNode(center, 'center');
 
-      detailEl.innerHTML = `<strong>${centerNode.title}</strong> (${centerNode.year}) · ${centerNode.venue || 'Unknown'}<br />当前向两侧追踪 ${maxDepth} 阶引用链：上游 ${upstream.length} 篇、下游 ${downstream.length} 篇。越靠近中心表示越直接，越外侧表示影响链越长。<br />作者：${(centerNode.authors || []).slice(0, 8).join(', ') || '未知作者'}<br />主题：${asArray(centerNode.keywords).slice(0, 8).join('、') || asArray(centerNode.topic).join('、') || '暂无主题'}`;
+      detailEl.innerHTML = `<strong>${centerNode.title}</strong> (${centerNode.year}) · ${centerNode.venue || 'Unknown'}<br />这篇论文的故事：引用了上游 ${upstream.length} 篇论文、影响了下游 ${downstream.length} 篇论文。越靠近中心的越是直接的继承或影响。<br />作者：${(centerNode.authors || []).slice(0, 8).join(', ') || '未知作者'}<br />主题：${asArray(centerNode.keywords).slice(0, 8).join('、') || asArray(centerNode.topic).join('、') || '暂无主题'}`;
       upstreamList.innerHTML = listHtml(upstream);
       downstreamList.innerHTML = listHtml(downstream);
       wireList(upstreamList);
       wireList(downstreamList);
 
-      statEl.textContent = `中心论文 1 篇 · ${maxDepth} 阶链路 · 上游 ${upstream.length} · 下游 ${downstream.length}`;
+      statEl.textContent = `中心论文 · 上游 ${upstream.length} 篇 · 下游 ${downstream.length} 篇`;
     }
 
     searchInput.addEventListener('input', () => {

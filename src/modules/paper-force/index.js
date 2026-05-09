@@ -249,22 +249,22 @@ export async function initPaperForce(container) {
   container.innerHTML = `
     <div class="module-shell paper-obsidian-shell">
       <p class="module-tag">Module 02</p>
-      <h3 class="module-title">论文关系图谱</h3>
-      <p class="module-subtitle">全量论文节点在同一张力导向网络中自然聚合，拖拽画布、缩放、搜索或点击节点即可探索引用关系。</p>
+      <h3 class="module-title">故事中段：谁把主线撑起来了</h3>
+      <p class="module-subtitle">把论文关系当作故事结构来读，看看哪些论文是主角，哪些论文负责把前后章节接起来。</p>
       <div class="obsidian-toolbar">
         <label class="obsidian-search">
           <span>论文</span>
-          <input class="chart-input force-search-input" list="force-paper-list" placeholder="标题 / 作者 / 机构 / 关键词" />
+          <input class="chart-input force-search-input" list="force-paper-list" placeholder="找一篇论文" />
           <datalist id="force-paper-list"></datalist>
         </label>
         <label class="obsidian-search">
           <span>作者</span>
-          <input class="chart-input force-author-input" list="force-author-list" placeholder="例如 Ashish Vaswani" />
+          <input class="chart-input force-author-input" list="force-author-list" placeholder="比如 Yann LeCun" />
           <datalist id="force-author-list"></datalist>
         </label>
         <label class="obsidian-search">
           <span>主题</span>
-          <input class="chart-input force-topic-input" list="force-topic-list" placeholder="例如 transformer / reasoning" />
+          <input class="chart-input force-topic-input" list="force-topic-list" placeholder="比如 attention / reasoning" />
           <datalist id="force-topic-list"></datalist>
         </label>
         <label class="chart-control">
@@ -441,14 +441,14 @@ export async function initPaperForce(container) {
 
     function updateDetail() {
       if (!selectedNode) {
-        detailEl.textContent = '点击任意节点查看论文详情。';
+        detailEl.textContent = '点击任意节点，看这篇论文的故事。';
         return;
       }
       const neighbors = adjacency.get(selectedNode.id)?.size || 0;
       const authors = (selectedNode.authors || []).slice(0, 6).join(', ') || '未知作者';
       const institutions = asArray(selectedNode.institution).join(', ') || '未知机构';
       const keywords = asArray(selectedNode.keywords).slice(0, 8).join('、') || asArray(selectedNode.topic).join('、') || '暂无关键词';
-      detailEl.innerHTML = `<strong>${selectedNode.title}</strong> (${selectedNode.year}) · ${selectedNode.venue || 'Unknown'}<br />作者：${authors}<br />机构：${institutions}<br />引用：${(selectedNode.citations_count || 0).toLocaleString()} · 相邻节点：${neighbors}<br />关键词：${keywords}`;
+      detailEl.innerHTML = `<strong>${selectedNode.title}</strong> (${selectedNode.year}) · ${selectedNode.venue || 'Unknown'}<br />作者：${authors}<br />机构：${institutions}<br />在故事里的分量：被引用 ${(selectedNode.citations_count || 0).toLocaleString()} 次、与网络中 ${neighbors} 篇论文相连<br />研究方向：${keywords}`;
     }
 
     function getFilterQueries() {
@@ -541,7 +541,7 @@ export async function initPaperForce(container) {
       });
       const queries = getFilterQueries();
       const filtered = queries.paper || queries.author || queries.topic || activeNodes.length < nodes.length;
-      statEl.textContent = `${activeNodes.length}/${nodes.length} 篇论文 · ${activeLinks.length}/${links.length} 条关系${filtered ? ' · 已筛选' : ''} · 当前：${selectedNode ? shorten(selectedNode.title, 34) : '未选择'}`;
+      statEl.textContent = `${activeNodes.length}/${nodes.length} 篇论文 · ${activeLinks.length}/${links.length} 条关系${filtered ? ' · 已筛选' : ''} · 当前：${selectedNode ? shorten(selectedNode.title, 34) : '还没选中'}`;
       updateDetail();
     }
 
