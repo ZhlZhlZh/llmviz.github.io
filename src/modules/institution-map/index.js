@@ -257,6 +257,20 @@ export async function initInstitutionMap(container) {
             <option value="org_type">机构类型</option>
           </select>
         </label>
+        <label class="chart-control year-control">
+          年份
+          <div class="year-controls">
+            <div class="map-year-dual" role="group" aria-label="年份范围选择">
+              <div class="dual-track"><div class="dual-range"></div></div>
+              <button type="button" class="dual-thumb start" aria-label="起始年份"></button>
+              <button type="button" class="dual-thumb end" aria-label="结束年份"></button>
+            </div>
+            <span class="map-year-display">全部</span>
+            <label class="small"><input type="checkbox" class="map-year-cumulative" /> 累计</label>
+            <label class="small"><input type="checkbox" class="map-year-compare" /> 对比</label>
+            <button type="button" class="map-year-play">▶</button>
+          </div>
+        </label>
         <label class="chart-control">
           大小维度
           <select class="chart-select map-size-mode">
@@ -288,6 +302,15 @@ export async function initInstitutionMap(container) {
 
   const colorModeEl = container.querySelector('.map-color-mode');
   const sizeModeEl = container.querySelector('.map-size-mode');
+  const yearDualEl = container.querySelector('.map-year-dual');
+  const dualTrackEl = yearDualEl?.querySelector('.dual-track');
+  const dualRangeEl = yearDualEl?.querySelector('.dual-range');
+  const thumbStartEl = yearDualEl?.querySelector('.dual-thumb.start');
+  const thumbEndEl = yearDualEl?.querySelector('.dual-thumb.end');
+  const yearDisplayEl = container.querySelector('.map-year-display');
+  const cumulativeCheckboxEl = container.querySelector('.map-year-cumulative');
+  const compareCheckboxEl = container.querySelector('.map-year-compare');
+  const playButtonEl = container.querySelector('.map-year-play');
   const linkToggle = container.querySelector('.map-link-toggle');
   const statEl = container.querySelector('.chart-stat');
   const svg = container.querySelector('.chart-svg');
@@ -318,14 +341,215 @@ export async function initInstitutionMap(container) {
     const institutions = mergeInstitutions(rawInstitutions, aliasLookup);
     const institutionNames = new Set(institutions.map((item) => item.institution));
     const byName = new Map(institutions.map((item) => [item.institution, item]));
-    const instLinks = buildInstitutionLinks(nodes, edges, aliasLookup, institutionNames).slice(0, 55);
-    const linkStrength = createLinkStrength(instLinks);
-    const papersByInstitution = new Map(institutions.map((item) => [item.institution, []]));
-    nodes.forEach((node) => {
-      normalizeNodeInstitutions(node, aliasLookup, institutionNames).forEach((name) => {
-        papersByInstitution.get(name)?.push(node);
+    let instLinks = buildInstitutionLinks(nodes, edges, aliasLookup, institutionNames).slice(0, 55);
+    let linkStrength = createLinkStrength(instLinks);
+    let papersByInstitution = new Map(institutions.map((item) => [item.institution, []]));
+    let compareInstLinks = [];
+    let compareLinkStrength = new Map();
+    let comparePapersByInstitution = new Map();
+    let currentYear = 'all';
+
+    function populatePapersByInstitution(filteredNodes) {
+      papersByInstitution = new Map(institutions.map((item) => [item.institution, []]));
+      (filteredNodes || []).forEach((node) => {
+        normalizeNodeInstitutions(node, aliasLookup, institutionNames).forEach((name) => {
+          papersByInstitution.get(name)?.push(node);
+        });
       });
-    });
+    }
+
+    function getFilteredNodes() {
+      if (!currentYear || currentYear === 'all' || currentYear === '全部') return nodes;
+      // range expression like "start-end"
+      if (String(currentYear).includes('-')) {
+        const [s, e] = String(currentYear).split('-').map((v) => Number(v));
+        if (cumulativeCheckboxEl && cumulativeCheckboxEl.checked) {
+          return nodes.filter((n) => Number(n.year) <= e && Number(n.year) >= s);
+        }
+        return nodes.filter((n) => Number(n.year) >= s && Number(n.year) <= e);
+      }
+      const numericYear = Number(currentYear);
+      if (cumulativeCheckboxEl && cumulativeCheckboxEl.checked) {
+        return nodes.filter((n) => Number(n.year) <= numericYear);
+      }
+      return nodes.filter((n) => Number(n.year) === numericYear);
+    }
+
+    function getFilteredEdges(filteredNodeSet) {
+      const nodeIds = new Set((filteredNodeSet || getFilteredNodes()).map((n) => n.id));
+      return edges.filter((e) => nodeIds.has(e.source) && nodeIds.has(e.target));
+    }
+
+    function recomputeForYear() {
+      const filteredNodes = getFilteredNodes();
+      const filteredEdges = getFilteredEdges(filteredNodes);
+      instLinks = buildInstitutionLinks(filteredNodes, filteredEdges, aliasLookup, institutionNames).slice(0, 55);
+      linkStrength = createLinkStrength(instLinks);
+      populatePapersByInstitution(filteredNodes);
+      // prepare comparison dataset: single end-year (non-cumulative) for quick compare
+      if (compareCheckboxEl && compareCheckboxEl.checked) {
+        let endYear = null;
+        if (String(currentYear).includes('-')) {
+          endYear = Number(String(currentYear).split('-')[1]);
+        } else if (currentYear && currentYear !== 'all' && currentYear !== '全部') {
+          endYear = Number(currentYear);
+        }
+        const compareNodes = endYear ? nodes.filter((n) => Number(n.year) === endYear) : nodes;
+        const compareEdges = getFilteredEdges(compareNodes);
+        compareInstLinks = buildInstitutionLinks(compareNodes, compareEdges, aliasLookup, institutionNames).slice(0, 55);
+        compareLinkStrength = createLinkStrength(compareInstLinks);
+        comparePapersByInstitution = new Map(institutions.map((item) => [item.institution, []]));
+        compareNodes.forEach((node) => {
+          normalizeNodeInstitutions(node, aliasLookup, institutionNames).forEach((name) => {
+            comparePapersByInstitution.get(name)?.push(node);
+          });
+        });
+      } else {
+        compareInstLinks = [];
+        compareLinkStrength = new Map();
+        comparePapersByInstitution = new Map();
+      }
+    }
+
+    // setup dual-thumb year slider, cumulative and autoplay controls
+    let playInterval = null;
+    const years = Array.from(new Set(nodes.map((n) => Number(n.year)).filter(Boolean))).sort((a, b) => a - b);
+    const minYear = years.length ? years[0] : 2000;
+    const maxYear = years.length ? years[years.length - 1] : new Date().getFullYear();
+    if (dualTrackEl && thumbStartEl && thumbEndEl && dualRangeEl) {
+      function valueToPercent(v) {
+        return ((v - minYear) / (maxYear - minYear)) * 100;
+      }
+      function percentToValue(p) {
+        const val = minYear + (p / 100) * (maxYear - minYear);
+        return Math.round(val);
+      }
+
+      let userInteracted = false;
+
+      function setThumbs(startVal, endVal, skipDisplayUpdate) {
+        let s = Math.max(minYear, Math.min(maxYear, Number(startVal)));
+        let e = Math.max(minYear, Math.min(maxYear, Number(endVal)));
+        if (s > e) [s, e] = [e, s];
+        const sp = valueToPercent(s);
+        const ep = valueToPercent(e);
+        thumbStartEl.style.left = `${sp}%`;
+        thumbEndEl.style.left = `${ep}%`;
+        dualRangeEl.style.left = `${sp}%`;
+        dualRangeEl.style.width = `${Math.max(0, ep - sp)}%`;
+        if (!skipDisplayUpdate) {
+          if (!userInteracted) {
+            yearDisplayEl.textContent = '全部';
+            currentYear = 'all';
+          } else {
+            currentYear = s === e ? String(s) : `${s}-${e}`;
+            yearDisplayEl.textContent = s === e ? String(s) : `${s}—${e}`;
+          }
+        }
+      }
+
+      // initialize
+      setThumbs(minYear, maxYear, true);
+
+      function updateYearRangeFromDual() {
+        userInteracted = true;
+        const trackRect = dualTrackEl.getBoundingClientRect();
+        const sPct = parseFloat(thumbStartEl.style.left) || 0;
+        const ePct = parseFloat(thumbEndEl.style.left) || 100;
+        const sVal = percentToValue(sPct);
+        const eVal = percentToValue(ePct);
+        currentYear = sVal === eVal ? String(sVal) : `${sVal}-${eVal}`;
+        yearDisplayEl.textContent = sVal === eVal ? String(sVal) : `${sVal}—${eVal}`;
+        recomputeForYear();
+        renderPoints();
+      }
+
+      function onThumbPointerDown(e, thumb) {
+        e.preventDefault();
+        const p = e.pointerId;
+        thumb.setPointerCapture(p);
+        function onMove(ev) {
+          const rect = dualTrackEl.getBoundingClientRect();
+          const pct = ((ev.clientX - rect.left) / rect.width) * 100;
+          const clamped = Math.max(0, Math.min(100, pct));
+          if (thumb === thumbStartEl) {
+            const endPct = parseFloat(thumbEndEl.style.left) || 100;
+            const newPct = Math.min(clamped, endPct);
+            thumbStartEl.style.left = `${newPct}%`;
+          } else {
+            const startPct = parseFloat(thumbStartEl.style.left) || 0;
+            const newPct = Math.max(clamped, startPct);
+            thumbEndEl.style.left = `${newPct}%`;
+          }
+          const sp = parseFloat(thumbStartEl.style.left) || 0;
+          const ep = parseFloat(thumbEndEl.style.left) || 0;
+          dualRangeEl.style.left = `${sp}%`;
+          dualRangeEl.style.width = `${Math.max(0, ep - sp)}%`;
+        }
+        function onUp(ev) {
+          try { thumb.releasePointerCapture(p); } catch (err) {}
+          window.removeEventListener('pointermove', onMove);
+          window.removeEventListener('pointerup', onUp);
+          updateYearRangeFromDual();
+        }
+        window.addEventListener('pointermove', onMove);
+        window.addEventListener('pointerup', onUp);
+      }
+
+      thumbStartEl.addEventListener('pointerdown', (e) => onThumbPointerDown(e, thumbStartEl));
+      thumbEndEl.addEventListener('pointerdown', (e) => onThumbPointerDown(e, thumbEndEl));
+
+      // play button behavior: advance end thumb
+      if (playButtonEl) {
+        playButtonEl.addEventListener('click', () => {
+          if (playInterval) {
+            clearInterval(playInterval);
+            playInterval = null;
+            playButtonEl.textContent = '▶';
+            return;
+          }
+          playButtonEl.textContent = '❚❚';
+          playInterval = setInterval(() => {
+            const ep = parseFloat(thumbEndEl.style.left) || 100;
+            const curVal = percentToValue(ep);
+            if (curVal >= maxYear) {
+              clearInterval(playInterval);
+              playInterval = null;
+              playButtonEl.textContent = '▶';
+              return;
+            }
+            const next = Math.min(maxYear, curVal + 1);
+            const nextPct = valueToPercent(next);
+            thumbEndEl.style.left = `${nextPct}%`;
+            const sp = parseFloat(thumbStartEl.style.left) || 0;
+            const epNew = parseFloat(thumbEndEl.style.left) || 0;
+            dualRangeEl.style.left = `${sp}%`;
+            dualRangeEl.style.width = `${Math.max(0, epNew - sp)}%`;
+            updateYearRangeFromDual();
+          }, 900);
+        });
+      }
+
+    }
+
+    if (cumulativeCheckboxEl) {
+      cumulativeCheckboxEl.addEventListener('change', () => {
+        recomputeForYear();
+        renderPoints();
+      });
+    }
+
+    if (compareCheckboxEl) {
+      compareCheckboxEl.addEventListener('change', () => {
+        // recompute comparison data when toggled
+        recomputeForYear();
+        renderPoints();
+      });
+    }
+
+    // initial population uses all years (保持与之前一致)
+    currentYear = 'all';
+    recomputeForYear();
 
     const viewport = createSvgElement('g', { class: 'map-viewport' });
     const mapLayer = createSvgElement('g');
@@ -563,24 +787,28 @@ export async function initInstitutionMap(container) {
       const paperInsts = selectedPaperInstitutions();
       const scenario = activeScenario();
       rankingEl.innerHTML = '';
-      institutions
-        .slice()
-        .sort((a, b) => {
-          const relatedDiff = activeScenarioId === 'paper'
-            ? Number(paperInsts.has(b.institution)) - Number(paperInsts.has(a.institution))
-            : 0;
-          return relatedDiff || scenarioValue(b, scenario, linkStrength) - scenarioValue(a, scenario, linkStrength) || b.influence_score - a.influence_score;
-        })
-        .slice(0, 12)
-        .forEach((item, index) => {
-          const row = document.createElement('button');
-          row.type = 'button';
-          row.className = paperInsts.has(item.institution) ? 'institution-rank-row is-related' : 'institution-rank-row';
-          const value = scenarioValue(item, scenario, linkStrength);
+      const list = institutions.slice().sort((a, b) => {
+        const relatedDiff = activeScenarioId === 'paper'
+          ? Number(paperInsts.has(b.institution)) - Number(paperInsts.has(a.institution))
+          : 0;
+        return relatedDiff || scenarioValue(b, scenario, linkStrength) - scenarioValue(a, scenario, linkStrength) || b.influence_score - a.influence_score;
+      }).slice(0, 12);
+
+      list.forEach((item, index) => {
+        const row = document.createElement('button');
+        row.type = 'button';
+        row.className = paperInsts.has(item.institution) ? 'institution-rank-row is-related' : 'institution-rank-row';
+        const value = scenarioValue(item, scenario, linkStrength);
+        if (compareCheckboxEl && compareCheckboxEl.checked) {
+          const cmpValue = scenarioValue(item, scenario, compareLinkStrength);
+          const delta = (value || 0) - (cmpValue || 0);
+          row.innerHTML = `<span>${index + 1}</span><strong>${item.institution}</strong><div class="rank-values"><em class="primary">${value}</em><em class="compare">${cmpValue}</em><span class="delta">${delta >= 0 ? '+' + delta : delta}</span></div>`;
+        } else {
           row.innerHTML = `<span>${index + 1}</span><strong>${item.institution}</strong><em>${value}</em>`;
-          row.addEventListener('click', () => setAppState({ selectedInstitutionId: item.id }, 'institution-map'));
-          rankingEl.appendChild(row);
-        });
+        }
+        row.addEventListener('click', () => setAppState({ selectedInstitutionId: item.id }, 'institution-map'));
+        rankingEl.appendChild(row);
+      });
     }
 
     function renderDetail() {
@@ -647,7 +875,7 @@ export async function initInstitutionMap(container) {
           labelLayer.appendChild(label);
         }
       });
-      statEl.textContent = `可见机构 ${visible.length}/${institutions.length} · 归一化别名 ${aliasLookup.size} 个 · 联系 ${instLinks.length} 条`;
+      statEl.textContent = `可见机构 ${visible.length}/${institutions.length} · 年份 ${currentYear === 'all' ? '全部' : currentYear} · 归一化别名 ${aliasLookup.size} 个 · 联系 ${instLinks.length} 条`;
       renderScenario();
       renderLinks();
       renderRanking();
