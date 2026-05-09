@@ -2,6 +2,7 @@ import { loadJson } from '../../shared/data-loader.js';
 import { getAppState, onAppStateChange, setAppState } from '../../shared/app-state.js';
 import { createInteractiveTooltip, escapeHtml, paperLink } from '../../shared/interactive-tooltip.js';
 import { paperMatchesTheme, topThemePaper } from '../../shared/theme-filter.js';
+import { createYearRangeFilter } from '../../shared/year-range-filter.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const WIDTH = 900;
@@ -174,6 +175,7 @@ export async function initButterflyPath(container) {
       <h3 class="module-title">蝴蝶影响图</h3>
       <p class="module-subtitle">选择一篇中心论文，左翼展示它引用并继承的上游论文，右翼展示引用它、受它影响的下游论文。</p>
       <div class="chart-toolbar chart-toolbar-wrap">
+        <div class="butterfly-year-slot"></div>
         <label class="chart-control">
           中心论文
           <input class="chart-input butterfly-search" list="butterfly-paper-list" placeholder="标题 / 作者 / 机构 / 主题" />
@@ -250,6 +252,21 @@ export async function initButterflyPath(container) {
     const { referencesById, citationsById } = buildDirectedNeighbors(nodes, edgesData);
     let centerNode = pickDefaultPaper(nodes, nodeById, getAppState().selectedPaperId);
     let linkedTheme = getAppState().selectedTheme || null;
+
+    // Shared year-range filter
+    const butterflyYearSlot = container.querySelector('.butterfly-year-slot');
+    const bfAllYears = nodes.map((n) => n.year).filter(Boolean);
+    const bfMinYear = Math.min(...bfAllYears, 2013);
+    const bfMaxYear = Math.max(...bfAllYears, 2026);
+    const yearFilter = createYearRangeFilter({
+      source: 'butterfly-path',
+      label: '年份范围',
+      min: bfMinYear,
+      max: bfMaxYear,
+      onChange: () => render()
+    });
+    if (butterflyYearSlot) butterflyYearSlot.appendChild(yearFilter.element);
+
     const tooltip = createInteractiveTooltip(canvas);
 
     nodes.forEach((node) => {
@@ -263,7 +280,8 @@ export async function initButterflyPath(container) {
       centerNode = node;
       searchInput.value = node.title;
       if (publish) {
-        setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: node.year, yearRangeEnd: node.year }, 'butterfly-path');
+        const { start, end } = yearFilter.getRange();
+        setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: start, yearRangeEnd: end }, 'butterfly-path');
       }
       render();
     }
@@ -271,9 +289,14 @@ export async function initButterflyPath(container) {
     function selectedWings() {
       const limit = Number(limitSelect.value) || 10;
       const depth = Number(depthSelect.value) || 2;
+      const { start, end } = yearFilter.getRange();
+      const yearFilter_ = (item) => {
+        const n = item.node || item;
+        return !n.year || (n.year >= start && n.year <= end);
+      };
       const themeFilter = (item) => !linkedTheme || paperMatchesTheme(item.node || item, linkedTheme);
-      const upstream = sortInfluence(collectInfluenceLayers(centerNode.id, referencesById, nodeById, depth, limit * 3).filter(themeFilter), 'upstream', centerNode.year).slice(0, limit * depth);
-      const downstream = sortInfluence(collectInfluenceLayers(centerNode.id, citationsById, nodeById, depth, limit * 3).filter(themeFilter), 'downstream', centerNode.year).slice(0, limit * depth);
+      const upstream = sortInfluence(collectInfluenceLayers(centerNode.id, referencesById, nodeById, depth, limit * 3).filter(themeFilter).filter(yearFilter_), 'upstream', centerNode.year).slice(0, limit * depth);
+      const downstream = sortInfluence(collectInfluenceLayers(centerNode.id, citationsById, nodeById, depth, limit * 3).filter(themeFilter).filter(yearFilter_), 'downstream', centerNode.year).slice(0, limit * depth);
       return { upstream, downstream };
     }
 

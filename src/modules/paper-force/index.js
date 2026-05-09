@@ -2,6 +2,7 @@ import { loadJson } from '../../shared/data-loader.js';
 import { getAppState, onAppStateChange, setAppState } from '../../shared/app-state.js';
 import { createInteractiveTooltip, escapeHtml, paperLink } from '../../shared/interactive-tooltip.js';
 import { paperMatchesTheme, topThemePaper } from '../../shared/theme-filter.js';
+import { createYearRangeFilter } from '../../shared/year-range-filter.js';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const WIDTH = 1100;
@@ -254,6 +255,7 @@ export async function initPaperForce(container) {
       <h3 class="module-title">论文关系图谱</h3>
       <p class="module-subtitle">全量论文节点在同一张力导向网络中自然聚合，拖拽画布、缩放、搜索或点击节点即可探索引用关系。</p>
       <div class="obsidian-toolbar">
+        <div class="force-year-slot"></div>
         <label class="obsidian-search">
           <span>论文</span>
           <input class="chart-input force-search-input" list="force-paper-list" placeholder="标题 / 作者 / 机构 / 关键词" />
@@ -356,6 +358,21 @@ export async function initPaperForce(container) {
     let activeNodes = nodes;
     let activeLinks = links;
     let linkedTheme = getAppState().selectedTheme || null;
+
+    // Shared year-range filter
+    const forceYearSlot = container.querySelector('.force-year-slot');
+    const allYears = nodes.map((n) => n.year).filter(Boolean);
+    const forceMinYear = Math.min(...allYears, 2013);
+    const forceMaxYear = Math.max(...allYears, 2026);
+    const yearFilter = createYearRangeFilter({
+      source: 'paper-force',
+      label: '年份范围',
+      min: forceMinYear,
+      max: forceMaxYear,
+      onChange: () => applyGraphFilters({ refit: true })
+    });
+    if (forceYearSlot) forceYearSlot.appendChild(yearFilter.element);
+
     const tooltip = createInteractiveTooltip(canvas);
 
     const viewport = createSvgElement('g', { class: 'graph-viewport' });
@@ -470,6 +487,9 @@ export async function initPaperForce(container) {
     }
 
     function nodeMatchesFilters(node, queries) {
+      // Year range filter
+      const { start, end } = yearFilter.getRange();
+      if (node.year && (node.year < start || node.year > end)) return false;
       if (queries.theme && !paperMatchesTheme(node, queries.theme)) return false;
       if (queries.paper && !node.search.includes(queries.paper) && !normalizeText(node.title).includes(queries.paper)) return false;
       if (queries.author && !(node.authors || []).some((author) => normalizeText(author).includes(queries.author))) return false;
@@ -573,7 +593,8 @@ export async function initPaperForce(container) {
       updateHighlightedIds();
       applyGraphFilters({ refit: true });
       if (publish && selectedNode) {
-        setAppState({ selectedPaperId: selectedNode.id, year: selectedNode.year, yearRangeStart: selectedNode.year, yearRangeEnd: selectedNode.year }, 'paper-force');
+        const { start, end } = yearFilter.getRange();
+        setAppState({ selectedPaperId: selectedNode.id, year: selectedNode.year, yearRangeStart: start, yearRangeEnd: end }, 'paper-force');
       }
     }
 
@@ -584,7 +605,8 @@ export async function initPaperForce(container) {
       if (!activeNodeIds.has(node.id)) applyGraphFilters();
       updateStyles();
       if (publish) {
-        setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: node.year, yearRangeEnd: node.year }, 'paper-force');
+        const { start, end } = yearFilter.getRange();
+        setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: start, yearRangeEnd: end }, 'paper-force');
       }
     }
 
