@@ -113,7 +113,7 @@
 }
 
 .year-range-filter__badge {
-  color: var(--accent-strong);
+  color: #ffffff;
   font-size: var(--fs-250);
   font-weight: var(--font-weight-semibold);
   min-width: 88px;
