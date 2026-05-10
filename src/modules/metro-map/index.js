@@ -51,7 +51,7 @@ function shorten(text, maxLength) {
 function classify(node) {
   const haystack = `${node.title} ${node.abstract || ''} ${(node.topic || []).join(' ')}`;
   const matched = LINES.filter((line) => line.test.test(haystack)).map((line) => line.id);
-  if (!matched.length) return ['transformer'];
+  if (!matched.length) return ['machine-learning'];
   return Array.from(new Set(matched)).slice(0, 3);
 }
 
