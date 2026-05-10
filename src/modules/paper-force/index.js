@@ -72,9 +72,17 @@ function buildAdjacency(nodes, edges) {
 }
 
 function makeGraph(nodesData, edgesData) {
-  const minCitations = Math.min(...nodesData.map((node) => node.citations_count || 0));
-  const maxCitations = Math.max(...nodesData.map((node) => node.citations_count || 0));
-  const nodes = nodesData.map((item, index) => {
+  // Only include nodes that participate in at least one edge (have citations data)
+  const edgeNodeIds = new Set();
+  edgesData.forEach((edge) => {
+    edgeNodeIds.add(edge.source);
+    edgeNodeIds.add(edge.target);
+  });
+  const connectedNodes = nodesData.filter((node) => edgeNodeIds.has(node.id));
+
+  const minCitations = Math.min(...connectedNodes.map((node) => node.citations_count || 0));
+  const maxCitations = Math.max(...connectedNodes.map((node) => node.citations_count || 0));
+  const nodes = connectedNodes.map((item, index) => {
     const angle = index * 2.399963 + (item.year || 0) * 0.031;
     const radius = 38 + Math.sqrt(index + 1) * 24;
     return {
@@ -665,7 +673,7 @@ export async function initPaperForce(container) {
         topicInput.value = linkedTheme;
         searchInput.value = '';
         authorInput.value = '';
-        nodeLimit.value = '300';
+        nodeLimit.value = '80';
         selectedNode = topThemePaper(nodes, linkedTheme) || selectedNode;
       } else {
         topicInput.value = '';
