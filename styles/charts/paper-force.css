@@ -214,3 +214,106 @@
     min-width: 0;
   }
 }
+
+/* Graph Analysis Toolbar */
+.force-graph-analysis {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-soft);
+}
+
+.force-analysis-label {
+  font-size: var(--fs-200);
+  font-weight: 700;
+  color: var(--muted-strong);
+  margin-right: var(--space-2);
+}
+
+/* Analysis highlight styles */
+.force-node-group.is-analysis .force-node {
+  stroke: #e11d48;
+  stroke-width: 2.8;
+  filter: drop-shadow(0 0 4px rgba(225, 29, 72, 0.5));
+}
+
+.force-link.is-analysis-edge {
+  stroke: #e11d48;
+  stroke-width: 2.4;
+  stroke-opacity: 0.85;
+  stroke-dasharray: none;
+}
+
+/* Analysis floating panel */
+.force-canvas {
+  position: relative;
+}
+
+.force-analysis-panel {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 300px;
+  background: var(--surface, #fff);
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.force-analysis-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line, #e2e8f0);
+  background: var(--surface-soft, #f8fafc);
+  cursor: grab;
+  user-select: none;
+}
+
+.force-analysis-panel-header:active {
+  cursor: grabbing;
+}
+
+.force-analysis-panel-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text, #1e293b);
+}
+
+.force-analysis-panel-close {
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--muted, #64748b);
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.force-analysis-panel-close:hover {
+  background: var(--line, #e2e8f0);
+}
+
+.force-analysis-panel-svg {
+  display: block;
+  width: 100%;
+  height: 260px;
+  background: var(--graph-bg, #fcfbf9);
+}
+
+.force-analysis-panel-info {
+  padding: 10px 12px;
+  font-size: 11px;
+  color: var(--muted-strong, #475569);
+  line-height: 1.6;
+  border-top: 1px solid var(--line, #e2e8f0);
+}

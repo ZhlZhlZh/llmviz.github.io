@@ -1,5 +1,5 @@
 .metro-canvas {
-  min-height: 380px;
+  min-height: 520px;
 }
 
 .metro-line-track {
@@ -50,4 +50,25 @@
   pointer-events: none;
   stroke: rgba(255, 255, 255, 0.92);
   stroke-width: 3px;
+}
+
+/* Click highlight */
+.metro-station-group.is-neighbor .metro-station {
+  stroke: #facc15;
+  stroke-width: 2.5;
+}
+
+.metro-station-group.is-dimmed {
+  opacity: 0.2;
+}
+
+.metro-transfer-link.is-active {
+  stroke: #d97706;
+  stroke-width: 2.2;
+  stroke-opacity: 1;
+  stroke-dasharray: none;
+}
+
+.metro-transfer-link.is-dimmed {
+  opacity: 0.08;
 }

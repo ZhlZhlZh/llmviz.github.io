@@ -472,6 +472,16 @@ export async function initButterflyPath(container) {
     searchInput.addEventListener('input', () => {
       linkedTheme = null;
       const node = findPaper(nodes, searchInput.value);
+      if (node) {
+        // Update chart without overwriting the input value so the user can keep typing
+        centerNode = node;
+        render();
+      }
+    });
+    searchInput.addEventListener('change', () => {
+      // Fired when user selects from datalist or blurs after editing
+      linkedTheme = null;
+      const node = findPaper(nodes, searchInput.value);
       if (node) selectCenter(node);
     });
     searchInput.addEventListener('keydown', (event) => {

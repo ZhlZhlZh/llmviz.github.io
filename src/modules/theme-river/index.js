@@ -257,6 +257,14 @@ export async function initThemeRiver(container) {
       y2: innerHeight,
       class: 'chart-focus-line'
     });
+    const rangeRect = createSvgElement('rect', {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: innerHeight,
+      class: 'chart-range-highlight'
+    });
+    root.appendChild(rangeRect);
     root.appendChild(focusLine);
 
     // Shared year-range filter
@@ -450,9 +458,20 @@ export async function initThemeRiver(container) {
     function updateFocus(shouldPublish = true) {
       const { startIdx, endIdx } = activeYearIndices();
       const year = years[endIdx];
-      const x = mapRange(year, years[0], years[years.length - 1], 0, innerWidth);
-      focusLine.setAttribute('x1', String(x));
-      focusLine.setAttribute('x2', String(x));
+      const startYear = years[startIdx];
+      const xEnd = mapRange(year, years[0], years[years.length - 1], 0, innerWidth);
+      const xStart = mapRange(startYear, years[0], years[years.length - 1], 0, innerWidth);
+      focusLine.setAttribute('x1', String(xEnd));
+      focusLine.setAttribute('x2', String(xEnd));
+
+      // Update range highlight
+      const isFullRange = startIdx === 0 && endIdx === years.length - 1;
+      if (isFullRange) {
+        rangeRect.setAttribute('width', '0');
+      } else {
+        rangeRect.setAttribute('x', String(xStart));
+        rangeRect.setAttribute('width', String(Math.max(0, xEnd - xStart)));
+      }
 
       const top = topKeywordsForYear(activeSeries(), endIdx);
       const filterText = hiddenTopCount > 0 ? ` · 已隐藏最大 ${hiddenTopCount} 条` : '';

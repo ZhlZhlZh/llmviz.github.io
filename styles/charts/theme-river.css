@@ -26,6 +26,15 @@
   pointer-events: none;
 }
 
+.chart-range-highlight {
+  fill: var(--accent-strong);
+  fill-opacity: 0.06;
+  stroke: var(--accent-strong);
+  stroke-opacity: 0.25;
+  stroke-width: 0.8;
+  pointer-events: none;
+}
+
 .theme-river-canvas {
   min-height: 390px;
 }

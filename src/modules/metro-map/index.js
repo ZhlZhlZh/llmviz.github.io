@@ -86,7 +86,7 @@ export async function initMetroMap(container) {
         <div class="metro-year-slot"></div>
         <label class="chart-control">
           展示数量
-          <input class="chart-number metro-limit" type="number" min="24" max="96" step="8" value="56" />
+          <input class="chart-number metro-limit" type="number" min="24" max="200" step="8" value="72" />
         </label>
         <div class="chart-stat" aria-live="polite">加载中...</div>
       </div>
@@ -147,7 +147,7 @@ export async function initMetroMap(container) {
 
     function activeNodes() {
       const { start, end } = yearFilter.getRange();
-      const limit = Number(limitInput.value) || 56;
+      const limit = Number(limitInput.value) || 72;
       const theme = getAppState().selectedTheme;
       return nodes
         .filter((node) => node.year >= start && node.year <= end)
@@ -167,10 +167,18 @@ export async function initMetroMap(container) {
         .sort((a, b) => a.year - b.year || (b.citations_count || 0) - (a.citations_count || 0));
     }
 
-    function stationPoint(node) {
-      const x = mapRange(node.year, minYear, maxYear, margin.left, width - margin.right);
+    function stationPoint(node, visible, index) {
+      const { start, end } = yearFilter.getRange();
+      const yearSpan = Math.max(end - start, 1);
+      const x = margin.left + ((node.year - start) / yearSpan) * (width - margin.left - margin.right);
       const primary = node.lines[0];
-      return { x, y: yByLine.get(primary), primary };
+      const baseY = yByLine.get(primary);
+      // Count how many earlier nodes share same primary line and are within ±1 year
+      const sameSlot = visible.filter((n, i) => i < index && n.lines[0] === primary && Math.abs(n.year - node.year) < 1).length;
+      // Alternate offset above/below the line track
+      const offset = sameSlot === 0 ? 0 : (sameSlot % 2 === 1 ? -1 : 1) * Math.ceil(sameSlot / 2) * 12;
+      const y = Math.max(margin.top - 10, Math.min(height - margin.bottom + 10, baseY + offset));
+      return { x: Math.max(margin.left, Math.min(width - margin.right, x)), y, primary };
     }
 
     function renderLegend() {
@@ -194,12 +202,43 @@ export async function initMetroMap(container) {
       });
     }
 
+    let selectedMetroId = getAppState().selectedPaperId || null;
+
+    function highlightStation(nodeId) {
+      selectedMetroId = nodeId;
+      const allGroups = svg.querySelectorAll('.metro-station-group');
+      const allLinks = svg.querySelectorAll('.metro-transfer-link');
+      if (!nodeId) {
+        allGroups.forEach((g) => { g.classList.remove('is-selected', 'is-dimmed', 'is-neighbor'); });
+        allLinks.forEach((l) => { l.classList.remove('is-active', 'is-dimmed'); });
+        return;
+      }
+      const neighborIds = new Set();
+      edges.forEach((edge) => {
+        if (edge.source === nodeId) neighborIds.add(edge.target);
+        if (edge.target === nodeId) neighborIds.add(edge.source);
+      });
+      allGroups.forEach((g) => {
+        const id = g.dataset.id;
+        g.classList.toggle('is-selected', id === nodeId);
+        g.classList.toggle('is-neighbor', neighborIds.has(id));
+        g.classList.toggle('is-dimmed', id !== nodeId && !neighborIds.has(id));
+      });
+      allLinks.forEach((l) => {
+        const s = l.dataset.source;
+        const t = l.dataset.target;
+        const active = s === nodeId || t === nodeId;
+        l.classList.toggle('is-active', active);
+        l.classList.toggle('is-dimmed', !active);
+      });
+    }
+
     function render() {
       const { start, end } = yearFilter.getRange();
       svg.innerHTML = '';
       const visible = activeNodes();
       const visibleIds = new Set(visible.map((node) => node.id));
-      const points = new Map(visible.map((node) => [node.id, stationPoint(node)]));
+      const points = new Map(visible.map((node, index) => [node.id, stationPoint(node, visible, index)]));
 
       LINES.forEach((line) => {
         const y = yByLine.get(line.id);
@@ -226,11 +265,10 @@ export async function initMetroMap(container) {
         const shared = source.lines.find((line) => target.lines.includes(line));
         if (shared && a.primary === b.primary) return;
         svg.appendChild(createSvgElement('line', {
-          x1: a.x,
-          y1: a.y,
-          x2: b.x,
-          y2: b.y,
-          class: 'metro-transfer-link'
+          x1: a.x, y1: a.y, x2: b.x, y2: b.y,
+          class: 'metro-transfer-link',
+          'data-source': edge.source,
+          'data-target': edge.target
         }));
       });
 
@@ -239,9 +277,9 @@ export async function initMetroMap(container) {
         const group = createSvgElement('g', {
           class: [
             'metro-station-group',
-            node.lines.length > 1 ? 'is-transfer' : '',
-            node.id === getAppState().selectedPaperId ? 'is-selected' : ''
+            node.lines.length > 1 ? 'is-transfer' : ''
           ].filter(Boolean).join(' '),
+          'data-id': node.id,
           transform: `translate(${point.x} ${point.y})`,
           tabindex: '0',
           role: 'button'
@@ -258,12 +296,16 @@ export async function initMetroMap(container) {
         group.addEventListener('pointerenter', (event) => tooltip.show(event, tooltipHtml));
         group.addEventListener('pointermove', (event) => tooltip.move(event));
         group.addEventListener('pointerleave', () => tooltip.hideSoon());
-        if (node.lines.length > 1 || node.id === getAppState().selectedPaperId || (node.citations_count || 0) > 25000) {
+        if (node.lines.length > 1 || node.id === selectedMetroId || (node.citations_count || 0) > 5000) {
           const label = createSvgElement('text', { x: 9, y: -7, class: 'metro-station-label' });
           label.textContent = shorten(node.title, 28);
           group.appendChild(label);
         }
-        group.addEventListener('click', () => setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: start, yearRangeEnd: end }, 'metro-map'));
+        group.addEventListener('click', () => {
+          const newId = selectedMetroId === node.id ? null : node.id;
+          highlightStation(newId);
+          if (newId) setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: start, yearRangeEnd: end }, 'metro-map');
+        });
         group.addEventListener('keydown', (event) => {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
@@ -273,7 +315,9 @@ export async function initMetroMap(container) {
         svg.appendChild(group);
       });
 
-      const selected = nodeById.get(getAppState().selectedPaperId) || visible.find((node) => node.lines.length > 1) || visible[0];
+      if (selectedMetroId && visibleIds.has(selectedMetroId)) highlightStation(selectedMetroId);
+
+      const selected = nodeById.get(selectedMetroId) || visible.find((node) => node.lines.length > 1) || visible[0];
       const transferCount = visible.filter((node) => node.lines.length > 1).length;
       const theme = getAppState().selectedTheme;
       statEl.textContent = `${visible.length} 个站点 · ${transferCount} 个换乘站 · ${start === end ? String(end) : `${start}—${end}`}${theme ? ` · 主题：${theme}` : ''}`;
@@ -296,7 +340,7 @@ export async function initMetroMap(container) {
     });
     onAppStateChange(({ state, source }) => {
       if (source === 'metro-map') return;
-      if (state.selectedTheme) limitInput.value = String(Math.max(Number(limitInput.value) || 56, 96));
+      if (state.selectedTheme) limitInput.value = String(Math.max(Number(limitInput.value) || 72, 96));
       render();
     });
     render();

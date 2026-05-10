@@ -258,7 +258,7 @@ export async function initPaperForce(container) {
         <div class="force-year-slot"></div>
         <label class="obsidian-search">
           <span>论文</span>
-          <input class="chart-input force-search-input" list="force-paper-list" placeholder="标题 / 作者 / 机构 / 关键词" />
+          <input class="chart-input force-search-input" list="force-paper-list" placeholder="输入论文标题" />
           <datalist id="force-paper-list"></datalist>
         </label>
         <label class="obsidian-search">
@@ -268,16 +268,17 @@ export async function initPaperForce(container) {
         </label>
         <label class="obsidian-search">
           <span>主题</span>
-          <input class="chart-input force-topic-input" list="force-topic-list" placeholder="例如 transformer / reasoning" />
+          <input class="chart-input force-topic-input" list="force-topic-list" placeholder="选择或输入 AI 研究主题" />
           <datalist id="force-topic-list"></datalist>
         </label>
         <label class="chart-control">
           节点
           <select class="chart-select force-node-limit">
-            <option value="80">80</option>
+            <option value="80" selected>80</option>
             <option value="150">150</option>
             <option value="260">260</option>
-            <option value="80" selected>80</option>
+            <option value="300">300</option>
+            <option value="500">500</option>
           </select>
         </label>
         <label class="chart-control">
@@ -300,8 +301,48 @@ export async function initPaperForce(container) {
         <button class="chart-button force-reheat-button" type="button">重新布局</button>
         <div class="chart-stat force-stat" aria-live="polite">加载中...</div>
       </div>
+      <div class="force-graph-analysis">
+        <span class="force-analysis-label">图分析</span>
+        <label class="chart-control">
+          拓扑
+          <select class="chart-select force-topo-depth">
+            <option value="0" selected>关闭</option>
+            <option value="1">1阶</option>
+            <option value="2">2阶</option>
+            <option value="3">3阶</option>
+          </select>
+        </label>
+        <label class="chart-control">
+          预设图形
+          <select class="chart-select force-topo-preset">
+            <option value="none" selected>自定义</option>
+            <option value="triangle">三角形 (K3)</option>
+            <option value="square">正方形 (C4)</option>
+            <option value="star3">三叉星 (K1,3)</option>
+            <option value="star4">四叉星 (K1,4)</option>
+            <option value="diamond">菱形 (K4-e)</option>
+            <option value="path3">路径 (P3)</option>
+            <option value="path4">路径 (P4)</option>
+            <option value="k4">完全图 (K4)</option>
+          </select>
+        </label>
+        <button class="chart-button force-topo-extract-button" type="button" disabled>提取同构</button>
+        <button class="chart-button force-topo-match-button" type="button">匹配图形</button>
+        <button class="chart-button force-cut-vertex-button" type="button">割点</button>
+        <button class="chart-button force-dominating-button" type="button">最小支配集</button>
+        <button class="chart-button force-mst-button" type="button">最小生成树</button>
+        <button class="chart-button force-analysis-clear-button" type="button">清除分析</button>
+      </div>
       <div class="module-canvas chart-canvas force-canvas">
         <svg class="chart-svg force-svg" viewBox="0 0 ${WIDTH} ${HEIGHT}" role="img" aria-label="Paper relation graph"></svg>
+        <div class="force-analysis-panel" hidden>
+          <div class="force-analysis-panel-header">
+            <span class="force-analysis-panel-title">图分析结果</span>
+            <button class="force-analysis-panel-close" type="button">×</button>
+          </div>
+          <svg class="force-analysis-panel-svg" viewBox="0 0 260 260"></svg>
+          <div class="force-analysis-panel-info">选中节点后使用图分析工具</div>
+        </div>
       </div>
       <div class="force-detail-grid">
         <div class="chart-detail force-detail"></div>
@@ -338,6 +379,18 @@ export async function initPaperForce(container) {
   const reheatButton = container.querySelector('.force-reheat-button');
   const statEl = container.querySelector('.force-stat');
   const detailEl = container.querySelector('.force-detail');
+  const topoDepthSelect = container.querySelector('.force-topo-depth');
+  const topoPresetSelect = container.querySelector('.force-topo-preset');
+  const topoExtractButton = container.querySelector('.force-topo-extract-button');
+  const topoMatchButton = container.querySelector('.force-topo-match-button');
+  const cutVertexButton = container.querySelector('.force-cut-vertex-button');
+  const dominatingButton = container.querySelector('.force-dominating-button');
+  const mstButton = container.querySelector('.force-mst-button');
+  const analysisClearButton = container.querySelector('.force-analysis-clear-button');
+  const analysisPanelSvg = container.querySelector('.force-analysis-panel-svg');
+  const analysisPanelInfo = container.querySelector('.force-analysis-panel-info');
+  const analysisPanel = container.querySelector('.force-analysis-panel');
+  const analysisPanelClose = container.querySelector('.force-analysis-panel-close');
   if (!svg || !canvas || !shell || !searchInput || !authorInput || !topicInput || !paperList || !authorList || !topicList || !nodeLimit || !labelMode || !edgeMode || !clearFilterButton || !resetButton || !reheatButton || !statEl || !detailEl) return;
 
   try {
@@ -390,7 +443,7 @@ export async function initPaperForce(container) {
 
     nodes.forEach((node) => {
       const option = document.createElement('option');
-      option.value = `${node.title} | ${(node.authors || []).slice(0, 2).join(', ')} | ${asArray(node.institution).slice(0, 2).join(', ')}`;
+      option.value = node.title;
       paperList.appendChild(option);
 
       const group = createSvgElement('g', {
@@ -449,7 +502,22 @@ export async function initPaperForce(container) {
       option.value = author;
       authorList.appendChild(option);
     });
-    Array.from(new Set(nodes.flatMap((node) => [...asArray(node.topic), ...asArray(node.keywords)]))).sort().forEach((topic) => {
+    // 主题下拉只显示河流图的主题（与 keyword_trends.json 一致）
+    const RIVER_THEMES = [
+      'Search and Planning',
+      'Knowledge Representation and Reasoning',
+      'Constraint Solving and Optimization',
+      'Machine Learning and Neural Networks',
+      'Natural Language Processing and LLMs',
+      'Computer Vision and Multimodal AI',
+      'Multi-Agent Systems and Game AI',
+      'Robotics and Autonomous Systems',
+      'Probabilistic and Causal AI',
+      'Data Mining and Information Retrieval',
+      'AI Safety, Ethics and Explainability',
+      'Reinforcement Learning and Decision Making'
+    ];
+    RIVER_THEMES.forEach((topic) => {
       const option = document.createElement('option');
       option.value = topic;
       topicList.appendChild(option);
@@ -491,9 +559,9 @@ export async function initPaperForce(container) {
       const { start, end } = yearFilter.getRange();
       if (node.year && (node.year < start || node.year > end)) return false;
       if (queries.theme && !paperMatchesTheme(node, queries.theme)) return false;
-      if (queries.paper && !node.search.includes(queries.paper) && !normalizeText(node.title).includes(queries.paper)) return false;
+      if (queries.paper && !normalizeText(node.title).includes(queries.paper)) return false;
       if (queries.author && !(node.authors || []).some((author) => normalizeText(author).includes(queries.author))) return false;
-      if (queries.topic && !topicSearchText(node).includes(queries.topic)) return false;
+      if (queries.topic && !paperMatchesTheme(node, queries.topic)) return false;
       return true;
     }
 
@@ -514,9 +582,21 @@ export async function initPaperForce(container) {
       if (hasFilters) {
         const themeOnly = Boolean(queries.theme) && !queries.paper && !queries.author && !queries.topic;
         if (!themeOnly) {
-          seedIds.forEach((id) => {
-            (adjacency.get(id) || []).forEach((neighborId) => candidateIds.add(neighborId));
-          });
+          // 扩展至3阶邻居
+          let frontier = new Set(seedIds);
+          for (let depth = 0; depth < 3; depth++) {
+            const nextFrontier = new Set();
+            frontier.forEach((id) => {
+              (adjacency.get(id) || []).forEach((neighborId) => {
+                if (!candidateIds.has(neighborId)) {
+                  candidateIds.add(neighborId);
+                  nextFrontier.add(neighborId);
+                }
+              });
+            });
+            frontier = nextFrontier;
+            if (frontier.size === 0) break;
+          }
         }
       }
 
@@ -585,7 +665,7 @@ export async function initPaperForce(container) {
         topicInput.value = linkedTheme;
         searchInput.value = '';
         authorInput.value = '';
-        nodeLimit.value = String(nodes.length);
+        nodeLimit.value = '300';
         selectedNode = topThemePaper(nodes, linkedTheme) || selectedNode;
       } else {
         topicInput.value = '';
@@ -604,10 +684,634 @@ export async function initPaperForce(container) {
       updateHighlightedIds();
       if (!activeNodeIds.has(node.id)) applyGraphFilters();
       updateStyles();
+      topoExtractButton.disabled = !selectedNode || topoDepthSelect.value === '0';
       if (publish) {
         const { start, end } = yearFilter.getRange();
         setAppState({ selectedPaperId: node.id, year: node.year, yearRangeStart: start, yearRangeEnd: end }, 'paper-force');
       }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       Graph Analysis Algorithms (operate on activeNodes/activeLinks)
+       ═══════════════════════════════════════════════════════════════ */
+    let analysisHighlight = new Set(); // IDs to highlight for analysis results
+    let analysisEdges = new Set(); // edge keys "source|target" for MST
+
+    function activeAdjacency() {
+      const adj = new Map(activeNodes.map((n) => [n.id, new Set()]));
+      activeLinks.forEach((link) => {
+        if (adj.has(link.source) && adj.has(link.target)) {
+          adj.get(link.source).add(link.target);
+          adj.get(link.target).add(link.source);
+        }
+      });
+      return adj;
+    }
+
+    function clearAnalysis() {
+      analysisHighlight = new Set();
+      analysisEdges = new Set();
+      nodes.forEach((n) => {
+        n.el.classList.remove('is-analysis', 'is-analysis-edge');
+      });
+      links.forEach((link) => {
+        link.el.classList.remove('is-analysis-edge');
+      });
+      // Restore visibility based on activeNodeIds
+      nodes.forEach((n) => {
+        n.el.classList.toggle('is-hidden', !activeNodeIds.has(n.id));
+      });
+      links.forEach((link) => {
+        link.el.classList.toggle('is-hidden', !activeNodeIds.has(link.source) || !activeNodeIds.has(link.target));
+      });
+      detailEl.innerHTML = '';
+    }
+
+    function applyAnalysisHighlight(label) {
+      nodes.forEach((n) => {
+        n.el.classList.toggle('is-analysis', analysisHighlight.has(n.id));
+      });
+      links.forEach((link) => {
+        const key1 = `${link.source}|${link.target}`;
+        const key2 = `${link.target}|${link.source}`;
+        link.el.classList.toggle('is-analysis-edge', analysisEdges.has(key1) || analysisEdges.has(key2));
+      });
+      const count = analysisHighlight.size;
+      const edgeCount = analysisEdges.size;
+      let info = `<strong>${label}</strong>：${count} 个节点`;
+      if (edgeCount > 0) info += `，${edgeCount} 条边`;
+      detailEl.innerHTML = info;
+    }
+
+    // Show only analysis nodes, hide everything else
+    function applyAnalysisExclusive(label) {
+      nodes.forEach((n) => {
+        const inAnalysis = analysisHighlight.has(n.id);
+        n.el.classList.toggle('is-analysis', inAnalysis);
+        n.el.classList.toggle('is-hidden', !inAnalysis && activeNodeIds.has(n.id));
+      });
+      links.forEach((link) => {
+        const key1 = `${link.source}|${link.target}`;
+        const key2 = `${link.target}|${link.source}`;
+        const inEdges = analysisEdges.has(key1) || analysisEdges.has(key2);
+        const bothVisible = analysisHighlight.has(link.source) && analysisHighlight.has(link.target);
+        link.el.classList.toggle('is-analysis-edge', inEdges);
+        link.el.classList.toggle('is-hidden', !bothVisible);
+      });
+      const count = analysisHighlight.size;
+      const edgeCount = analysisEdges.size;
+      let info = `<strong>${label}</strong>：${count} 个节点`;
+      if (edgeCount > 0) info += `，${edgeCount} 条边`;
+      detailEl.innerHTML = info;
+    }
+
+    // --- 1. Extract k-hop topology from selected node ---
+    function extractTopology(depth) {
+      if (!selectedNode || !activeNodeIds.has(selectedNode.id)) return new Set();
+      const adj = activeAdjacency();
+      const visited = new Set([selectedNode.id]);
+      let frontier = new Set([selectedNode.id]);
+      for (let d = 0; d < depth; d++) {
+        const next = new Set();
+        frontier.forEach((id) => {
+          (adj.get(id) || []).forEach((nid) => {
+            if (!visited.has(nid)) {
+              visited.add(nid);
+              next.add(nid);
+            }
+          });
+        });
+        frontier = next;
+        if (frontier.size === 0) break;
+      }
+      return visited;
+    }
+
+    // --- 1b. Find isomorphic subgraphs (degree-sequence matching) ---
+    function getDegreeSignature(centerIds, adj) {
+      const degrees = [];
+      centerIds.forEach((id) => {
+        const neighbors = adj.get(id) || new Set();
+        const internalDeg = Array.from(neighbors).filter((nid) => centerIds.has(nid)).length;
+        degrees.push(internalDeg);
+      });
+      return degrees.sort((a, b) => a - b).join(',');
+    }
+
+    // Preset graph patterns: { nodeCount, degreeSignature, label, edgeCount }
+    const PRESET_PATTERNS = {
+      triangle:  { nodeCount: 3, sig: '2,2,2', label: '三角形 (K3)', edgeCount: 3 },
+      square:    { nodeCount: 4, sig: '2,2,2,2', label: '正方形 (C4)', edgeCount: 4 },
+      star3:     { nodeCount: 4, sig: '1,1,1,3', label: '三叉星 (K1,3)', edgeCount: 3 },
+      star4:     { nodeCount: 5, sig: '1,1,1,1,4', label: '四叉星 (K1,4)', edgeCount: 4 },
+      diamond:   { nodeCount: 4, sig: '2,2,3,3', label: '菱形 (K4-e)', edgeCount: 5 },
+      path3:     { nodeCount: 3, sig: '1,1,2', label: '路径 (P3)', edgeCount: 2 },
+      path4:     { nodeCount: 4, sig: '1,1,2,2', label: '路径 (P4)', edgeCount: 3 },
+      k4:        { nodeCount: 4, sig: '3,3,3,3', label: '完全图 (K4)', edgeCount: 6 },
+    };
+
+    // Find all subgraphs matching a preset degree signature
+    function findPresetMatches(preset) {
+      const pattern = PRESET_PATTERNS[preset];
+      if (!pattern) return;
+      const adj = activeAdjacency();
+      const targetSig = pattern.sig;
+      const targetSize = pattern.nodeCount;
+      const matches = new Set();
+      let groupCount = 0;
+
+      // For each node, try to find a connected subgraph of targetSize with matching signature
+      activeNodes.forEach((startNode) => {
+        if (matches.has(startNode.id)) return;
+        // BFS to collect subgraphs of exact size
+        const candidates = findConnectedSubgraphs(startNode.id, targetSize, adj);
+        candidates.forEach((subgraph) => {
+          const sig = getDegreeSignature(subgraph, adj);
+          if (sig === targetSig) {
+            // Check no overlap with already matched
+            let overlaps = false;
+            subgraph.forEach((id) => { if (matches.has(id)) overlaps = true; });
+            if (!overlaps) {
+              subgraph.forEach((id) => matches.add(id));
+              groupCount++;
+            }
+          }
+        });
+      });
+
+      // Collect internal edges
+      const matchEdges = new Set();
+      activeLinks.forEach((link) => {
+        if (matches.has(link.source) && matches.has(link.target)) {
+          const key = link.source < link.target ? `${link.source}|${link.target}` : `${link.target}|${link.source}`;
+          matchEdges.add(key);
+        }
+      });
+
+      analysisHighlight = matches;
+      analysisEdges = matchEdges;
+      applyAnalysisExclusive(`${pattern.label} 匹配`);
+      renderPresetInPanel(preset, groupCount);
+    }
+
+    // Find connected subgraphs of exact size starting from a node (limited search)
+    function findConnectedSubgraphs(startId, size, adj) {
+      const results = [];
+      if (size === 1) { results.push(new Set([startId])); return results; }
+
+      // DFS-based enumeration with pruning (limit attempts)
+      const maxAttempts = 200;
+      let attempts = 0;
+
+      function dfs(current, visited) {
+        if (visited.size === size) { results.push(new Set(visited)); return; }
+        if (attempts++ > maxAttempts) return;
+        const neighbors = adj.get(current) || new Set();
+        for (const nid of neighbors) {
+          if (visited.has(nid)) continue;
+          // Check connectivity: nid must be adjacent to at least one visited node
+          visited.add(nid);
+          dfs(nid, visited);
+          visited.delete(nid);
+          if (results.length >= 3) return; // enough for this start node
+        }
+      }
+
+      dfs(startId, new Set([startId]));
+      return results;
+    }
+
+    // Render preset pattern shape in panel
+    function renderPresetInPanel(preset, groupCount) {
+      const pattern = PRESET_PATTERNS[preset];
+      if (!pattern) return;
+      analysisPanelSvg.innerHTML = '';
+      const size = 260;
+      const center = size / 2;
+      const r = 60;
+
+      // Draw the ideal shape
+      const n = pattern.nodeCount;
+      const points = [];
+      for (let i = 0; i < n; i++) {
+        const angle = -Math.PI / 2 + (2 * Math.PI * i) / n;
+        points.push({ x: center + Math.cos(angle) * r, y: center + Math.sin(angle) * r });
+      }
+
+      // Draw edges based on pattern type
+      const edges = getPresetEdges(preset, n);
+      edges.forEach(([a, b]) => {
+        analysisPanelSvg.appendChild(createSvgElement('line', {
+          x1: points[a].x, y1: points[a].y, x2: points[b].x, y2: points[b].y,
+          stroke: '#94a3b8', 'stroke-width': 2
+        }));
+      });
+
+      // Draw nodes
+      points.forEach((p, i) => {
+        analysisPanelSvg.appendChild(createSvgElement('circle', {
+          cx: p.x, cy: p.y, r: 8, fill: '#176b87', stroke: '#fff', 'stroke-width': 1.5
+        }));
+      });
+
+      analysisPanelInfo.innerHTML = `<strong>${pattern.label}</strong><br>${pattern.nodeCount} 节点，${pattern.edgeCount} 条边<br>度序列：[${pattern.sig}]<br>匹配到 <strong>${groupCount}</strong> 组`;
+      analysisPanel.hidden = false;
+    }
+
+    function getPresetEdges(preset, n) {
+      switch (preset) {
+        case 'triangle': return [[0,1],[1,2],[2,0]];
+        case 'square': return [[0,1],[1,2],[2,3],[3,0]];
+        case 'star3': return [[0,1],[0,2],[0,3]]; // node 0 is center
+        case 'star4': return [[0,1],[0,2],[0,3],[0,4]];
+        case 'diamond': return [[0,1],[1,2],[2,3],[3,0],[0,2]]; // K4 minus one edge
+        case 'path3': return [[0,1],[1,2]];
+        case 'path4': return [[0,1],[1,2],[2,3]];
+        case 'k4': return [[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]];
+        default: return [];
+      }
+    }
+
+    function findIsomorphicSubgraphs(depth) {
+      if (!selectedNode) return;
+      const adj = activeAdjacency();
+      const refIds = extractTopology(depth);
+      const refSig = getDegreeSignature(refIds, adj);
+      const refSize = refIds.size;
+      const matches = new Set(refIds);
+      let groupCount = 1;
+
+      activeNodes.forEach((node) => {
+        if (refIds.has(node.id)) return;
+        const visited = new Set([node.id]);
+        let frontier = new Set([node.id]);
+        for (let d = 0; d < depth; d++) {
+          const next = new Set();
+          frontier.forEach((id) => {
+            (adj.get(id) || []).forEach((nid) => {
+              if (!visited.has(nid)) { visited.add(nid); next.add(nid); }
+            });
+          });
+          frontier = next;
+          if (frontier.size === 0) break;
+        }
+        if (visited.size === refSize) {
+          const sig = getDegreeSignature(visited, adj);
+          if (sig === refSig) { visited.forEach((id) => matches.add(id)); groupCount++; }
+        }
+      });
+
+      // Collect internal edges of matched subgraphs
+      const matchEdges = new Set();
+      activeLinks.forEach((link) => {
+        if (matches.has(link.source) && matches.has(link.target)) {
+          const key = link.source < link.target ? `${link.source}|${link.target}` : `${link.target}|${link.source}`;
+          matchEdges.add(key);
+        }
+      });
+
+      analysisHighlight = matches;
+      analysisEdges = matchEdges;
+      applyAnalysisExclusive(`${depth}阶同构匹配`);
+
+      // Render the reference topology in side panel
+      renderSubgraphInPanel(refIds, `${depth}阶同构图`, `匹配到 <strong>${groupCount}</strong> 组（每组 ${refSize} 节点）`);
+    }
+
+    // Extract topology: show in the side analysis panel
+    function extractAndShowTopology(depth) {
+      if (!selectedNode) return;
+      const topoIds = extractTopology(depth);
+      if (topoIds.size === 0) return;
+
+      // Compute in-degree and out-degree for subgraph nodes
+      const subNodes = activeNodes.filter((n) => topoIds.has(n.id));
+      const inDeg = new Map(subNodes.map((n) => [n.id, 0]));
+      const outDeg = new Map(subNodes.map((n) => [n.id, 0]));
+      activeLinks.forEach((link) => {
+        if (topoIds.has(link.source) && topoIds.has(link.target)) {
+          outDeg.set(link.source, (outDeg.get(link.source) || 0) + 1);
+          inDeg.set(link.target, (inDeg.get(link.target) || 0) + 1);
+        }
+      });
+      const inSeq = subNodes.map((n) => inDeg.get(n.id) || 0).sort((a, b) => b - a).join(', ');
+      const outSeq = subNodes.map((n) => outDeg.get(n.id) || 0).sort((a, b) => b - a).join(', ');
+
+      renderSubgraphInPanel(topoIds, `${depth}阶拓扑子图`, `入度序列：[${inSeq}]<br>出度序列：[${outSeq}]`);
+    }
+
+    // Render a subgraph into the analysis side panel
+    function renderSubgraphInPanel(nodeIds, title, extraInfo) {
+      const subNodes = activeNodes.filter((n) => nodeIds.has(n.id));
+      const subEdges = [];
+      activeLinks.forEach((link) => {
+        if (nodeIds.has(link.source) && nodeIds.has(link.target)) {
+          subEdges.push({ source: link.source, target: link.target });
+        }
+      });
+
+      const size = 240;
+      const center = size / 2;
+      analysisPanelSvg.innerHTML = '';
+
+      if (subNodes.length === 0) {
+        analysisPanelInfo.innerHTML = '无结果';
+        return;
+      }
+
+      // Position nodes in circle then run mini force
+      const positions = new Map();
+      subNodes.forEach((node, i) => {
+        const angle = (2 * Math.PI * i) / subNodes.length;
+        const r = size * 0.32;
+        positions.set(node.id, {
+          x: center + Math.cos(angle) * r * (0.6 + Math.random() * 0.4),
+          y: center + Math.sin(angle) * r * (0.6 + Math.random() * 0.4)
+        });
+      });
+
+      for (let iter = 0; iter < 60; iter++) {
+        subNodes.forEach((a) => {
+          const pa = positions.get(a.id);
+          subNodes.forEach((b) => {
+            if (a.id === b.id) return;
+            const pb = positions.get(b.id);
+            const dx = pa.x - pb.x;
+            const dy = pa.y - pb.y;
+            const dist = Math.max(Math.hypot(dx, dy), 1);
+            const force = 600 / (dist * dist);
+            pa.x += (dx / dist) * force;
+            pa.y += (dy / dist) * force;
+          });
+        });
+        subEdges.forEach((e) => {
+          const pa = positions.get(e.source);
+          const pb = positions.get(e.target);
+          if (!pa || !pb) return;
+          const dx = pb.x - pa.x;
+          const dy = pb.y - pa.y;
+          const dist = Math.max(Math.hypot(dx, dy), 1);
+          const force = (dist - 40) * 0.02;
+          pa.x += (dx / dist) * force;
+          pa.y += (dy / dist) * force;
+          pb.x -= (dx / dist) * force;
+          pb.y -= (dy / dist) * force;
+        });
+        subNodes.forEach((n) => {
+          const p = positions.get(n.id);
+          p.x += (center - p.x) * 0.03;
+          p.y += (center - p.y) * 0.03;
+        });
+      }
+
+      // Normalize to fit
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      positions.forEach((p) => { minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x); minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y); });
+      const span = Math.max(maxX - minX, maxY - minY, 1);
+      const pad = 28;
+      const scale = (size - pad * 2) / span;
+      positions.forEach((p) => { p.x = pad + (p.x - minX) * scale; p.y = pad + (p.y - minY) * scale; });
+
+      // Draw edges
+      subEdges.forEach((e) => {
+        const pa = positions.get(e.source);
+        const pb = positions.get(e.target);
+        if (!pa || !pb) return;
+        analysisPanelSvg.appendChild(createSvgElement('line', { x1: pa.x, y1: pa.y, x2: pb.x, y2: pb.y, stroke: '#94a3b8', 'stroke-width': 1.2 }));
+      });
+
+      // Draw nodes
+      subNodes.forEach((node) => {
+        const p = positions.get(node.id);
+        const isCenter = selectedNode && node.id === selectedNode.id;
+        const r = isCenter ? 7 : 4.5;
+        analysisPanelSvg.appendChild(createSvgElement('circle', { cx: p.x, cy: p.y, r, fill: isCenter ? '#e11d48' : '#176b87', stroke: '#fff', 'stroke-width': 1 }));
+        const deg = subEdges.filter((e) => e.source === node.id || e.target === node.id).length;
+        if (isCenter || deg >= 3 || subNodes.length <= 10) {
+          const label = createSvgElement('text', { x: p.x, y: p.y - r - 3, 'text-anchor': 'middle', 'font-size': '7.5', fill: '#334155', 'font-weight': '600' });
+          label.textContent = shorten(node.title, 16);
+          analysisPanelSvg.appendChild(label);
+        }
+      });
+
+      analysisPanelInfo.innerHTML = `<strong>${title}</strong><br>${subNodes.length} 节点，${subEdges.length} 条边<br>${extraInfo || ''}`;
+      analysisPanel.hidden = false;
+    }
+
+    // Render dots (for cut vertices / dominating set)
+    function renderDotsInPanel(nodeIds, title, extraInfo) {
+      analysisPanelSvg.innerHTML = '';
+      const items = activeNodes.filter((n) => nodeIds.has(n.id));
+      const size = 260;
+      const cols = Math.ceil(Math.sqrt(items.length));
+      const cellSize = Math.min((size - 20) / (cols + 1), 28);
+
+      items.forEach((node, i) => {
+        const col = i % cols;
+        const row = Math.floor(i / cols);
+        const cx = cellSize + col * cellSize;
+        const cy = cellSize + row * cellSize;
+        const g = createSvgElement('g', { class: 'analysis-dot-group', style: 'cursor:pointer' });
+        g.appendChild(createSvgElement('circle', { cx, cy, r: 6, fill: '#e11d48', stroke: '#fff', 'stroke-width': 1.2 }));
+        const label = createSvgElement('text', { x: cx, y: cy + 14, 'text-anchor': 'middle', 'font-size': '6.5', fill: '#475569' });
+        label.textContent = shorten(node.title, 14);
+        g.appendChild(label);
+        g.addEventListener('click', () => focusNode(node, 1.5));
+        analysisPanelSvg.appendChild(g);
+      });
+
+      analysisPanelInfo.innerHTML = `<strong>${title}</strong><br>${items.length} 个节点<br><em style="font-size:10px;color:#94a3b8">点击圆点定位到图中</em>${extraInfo ? '<br>' + extraInfo : ''}`;
+      analysisPanel.hidden = false;
+    }
+
+    // Render MST as a top-to-bottom tree sorted by year
+    function renderMSTTreeInPanel(mstNodeIds, mstEdgeKeys) {
+      analysisPanelSvg.innerHTML = '';
+      const mstNodeList = activeNodes.filter((n) => mstNodeIds.has(n.id)).sort((a, b) => a.year - b.year);
+      if (mstNodeList.length === 0) { analysisPanelInfo.innerHTML = '无结果'; analysisPanel.hidden = false; return; }
+
+      // Build adjacency from MST edges only
+      const adj = new Map(mstNodeList.map((n) => [n.id, []]));
+      mstEdgeKeys.forEach((key) => {
+        const [a, b] = key.split('|');
+        if (adj.has(a) && adj.has(b)) { adj.get(a).push(b); adj.get(b).push(a); }
+      });
+
+      // BFS from root (selected node or earliest) to build tree levels
+      const root = mstNodeIds.has(selectedNode?.id) ? selectedNode.id : mstNodeList[0].id;
+      const levels = [];
+      const visited = new Set([root]);
+      const parentOf = new Map();
+      let frontier = [root];
+      while (frontier.length) {
+        levels.push([...frontier]);
+        const next = [];
+        frontier.forEach((id) => {
+          (adj.get(id) || []).forEach((nid) => {
+            if (!visited.has(nid)) { visited.add(nid); parentOf.set(nid, id); next.push(nid); }
+          });
+        });
+        frontier = next;
+      }
+
+      // Layout: levels top to bottom, nodes spread horizontally
+      const size = 260;
+      const padX = 20;
+      const padY = 24;
+      const levelHeight = Math.min(40, (size - padY * 2) / Math.max(levels.length - 1, 1));
+      const positions = new Map();
+
+      levels.forEach((level, li) => {
+        const y = padY + li * levelHeight;
+        const spacing = (size - padX * 2) / Math.max(level.length + 1, 2);
+        level.forEach((id, ni) => {
+          positions.set(id, { x: padX + spacing * (ni + 1), y });
+        });
+      });
+
+      // Draw edges (parent -> child)
+      parentOf.forEach((parentId, childId) => {
+        const pp = positions.get(parentId);
+        const cp = positions.get(childId);
+        if (!pp || !cp) return;
+        analysisPanelSvg.appendChild(createSvgElement('line', { x1: pp.x, y1: pp.y, x2: cp.x, y2: cp.y, stroke: '#94a3b8', 'stroke-width': 1.2 }));
+      });
+
+      // Draw nodes
+      const nodeMap = new Map(mstNodeList.map((n) => [n.id, n]));
+      positions.forEach((p, id) => {
+        const node = nodeMap.get(id);
+        if (!node) return;
+        const isRoot = id === root;
+        const r = isRoot ? 6 : 4;
+        const g = createSvgElement('g', { style: 'cursor:pointer' });
+        g.appendChild(createSvgElement('circle', { cx: p.x, cy: p.y, r, fill: isRoot ? '#e11d48' : '#176b87', stroke: '#fff', 'stroke-width': 1 }));
+        // Show year + short title
+        if (mstNodeList.length <= 20 || isRoot || levels.find((l) => l.length <= 3 && l.includes(id))) {
+          const label = createSvgElement('text', { x: p.x + r + 3, y: p.y + 3, 'font-size': '6.5', fill: '#334155' });
+          label.textContent = `${node.year} ${shorten(node.title, 12)}`;
+          g.appendChild(label);
+        }
+        g.addEventListener('click', () => focusNode(node, 1.5));
+        analysisPanelSvg.appendChild(g);
+      });
+
+      analysisPanelInfo.innerHTML = `<strong>最小生成树</strong><br>${mstNodeList.length} 节点，${mstEdgeKeys.size} 条边，${levels.length} 层<br>根节点：${shorten(nodeMap.get(root)?.title || '', 22)}<br><em style="font-size:10px;color:#94a3b8">点击节点定位到图中</em>`;
+      analysisPanel.hidden = false;
+    }
+
+    // --- 2. Articulation points (cut vertices) ---
+    function findCutVertices() {
+      const adj = activeAdjacency();
+      const ids = Array.from(adj.keys());
+      const disc = new Map();
+      const low = new Map();
+      const parent = new Map();
+      const ap = new Set();
+      let timer = 0;
+
+      function dfs(u) {
+        disc.set(u, timer);
+        low.set(u, timer);
+        timer++;
+        let children = 0;
+        (adj.get(u) || []).forEach((v) => {
+          if (!disc.has(v)) {
+            children++;
+            parent.set(v, u);
+            dfs(v);
+            low.set(u, Math.min(low.get(u), low.get(v)));
+            if (!parent.has(u) && children > 1) ap.add(u);
+            if (parent.has(u) && low.get(v) >= disc.get(u)) ap.add(u);
+          } else if (v !== parent.get(u)) {
+            low.set(u, Math.min(low.get(u), disc.get(v)));
+          }
+        });
+      }
+
+      ids.forEach((id) => { if (!disc.has(id)) dfs(id); });
+      return ap;
+    }
+
+    // --- 3. Greedy minimum dominating set ---
+    function findMinDominatingSet() {
+      const adj = activeAdjacency();
+      const dominated = new Set();
+      const domSet = new Set();
+      const remaining = new Set(activeNodes.map((n) => n.id));
+
+      while (dominated.size < remaining.size) {
+        let bestNode = null;
+        let bestGain = -1;
+        remaining.forEach((id) => {
+          if (domSet.has(id)) return;
+          let gain = dominated.has(id) ? 0 : 1;
+          (adj.get(id) || []).forEach((nid) => {
+            if (remaining.has(nid) && !dominated.has(nid)) gain++;
+          });
+          if (gain > bestGain) { bestGain = gain; bestNode = id; }
+        });
+        if (!bestNode || bestGain <= 0) break;
+        domSet.add(bestNode);
+        dominated.add(bestNode);
+        (adj.get(bestNode) || []).forEach((nid) => {
+          if (remaining.has(nid)) dominated.add(nid);
+        });
+      }
+      return domSet;
+    }
+
+    // --- 4. Minimum spanning tree (Kruskal on connected component) ---
+    function findMST() {
+      if (!selectedNode || !activeNodeIds.has(selectedNode.id)) return { nodes: new Set(), edges: new Set() };
+      const adj = activeAdjacency();
+
+      // BFS to find connected component
+      const component = new Set([selectedNode.id]);
+      const queue = [selectedNode.id];
+      while (queue.length) {
+        const u = queue.shift();
+        (adj.get(u) || []).forEach((v) => {
+          if (!component.has(v)) { component.add(v); queue.push(v); }
+        });
+      }
+
+      // Collect edges in component with weight = 1/(citations of target + source)
+      const edges = [];
+      const seen = new Set();
+      activeLinks.forEach((link) => {
+        if (!component.has(link.source) || !component.has(link.target)) return;
+        const key = link.source < link.target ? `${link.source}|${link.target}` : `${link.target}|${link.source}`;
+        if (seen.has(key)) return;
+        seen.add(key);
+        const sNode = nodeById.get(link.source);
+        const tNode = nodeById.get(link.target);
+        // Weight: prefer edges between high-citation nodes (lower weight = better)
+        const weight = 1 / (Math.log10((sNode?.citations_count || 0) + 10) + Math.log10((tNode?.citations_count || 0) + 10));
+        edges.push({ source: link.source, target: link.target, weight, key });
+      });
+      edges.sort((a, b) => a.weight - b.weight);
+
+      // Union-Find
+      const parentMap = new Map();
+      function find(x) {
+        if (!parentMap.has(x)) parentMap.set(x, x);
+        if (parentMap.get(x) !== x) parentMap.set(x, find(parentMap.get(x)));
+        return parentMap.get(x);
+      }
+      function union(a, b) { parentMap.set(find(a), find(b)); }
+
+      const mstEdges = new Set();
+      const mstNodes = new Set();
+      edges.forEach((e) => {
+        if (find(e.source) !== find(e.target)) {
+          union(e.source, e.target);
+          mstEdges.add(e.key);
+          mstNodes.add(e.source);
+          mstNodes.add(e.target);
+        }
+      });
+      return { nodes: mstNodes, edges: mstEdges };
     }
 
     function renderPositions() {
@@ -740,7 +1444,7 @@ export async function initPaperForce(container) {
       topicInput.value = '';
       linkedTheme = null;
       setAppState({ selectedTheme: null }, 'paper-force');
-      nodeLimit.value = String(nodes.length);
+      nodeLimit.value = '80';
       selectedNode = pickInitialNode(nodes, getAppState().selectedPaperId, nodeById);
       updateHighlightedIds();
       applyGraphFilters({ refit: true });
@@ -758,6 +1462,106 @@ export async function initPaperForce(container) {
       alpha = 1.25;
       applyGraphFilters({ refit: true });
     });
+
+    // --- Graph Analysis Event Listeners ---
+    topoDepthSelect.addEventListener('change', () => {
+      const depth = Number(topoDepthSelect.value);
+      topoExtractButton.disabled = depth === 0 || !selectedNode;
+      if (depth === 0 && topoPresetSelect.value === 'none') { clearAnalysis(); applyGraphFilters(); }
+    });
+
+    topoPresetSelect.addEventListener('change', () => {
+      const preset = topoPresetSelect.value;
+      if (preset !== 'none') {
+        topoDepthSelect.value = '0';
+        topoExtractButton.disabled = true;
+      }
+    });
+
+    topoExtractButton.addEventListener('click', () => {
+      const depth = Number(topoDepthSelect.value);
+      if (depth === 0 || !selectedNode) return;
+      extractAndShowTopology(depth);
+    });
+
+    topoMatchButton.addEventListener('click', () => {
+      const preset = topoPresetSelect.value;
+      if (preset !== 'none') {
+        // Use preset pattern
+        findPresetMatches(preset);
+      } else {
+        // Use custom topology from selected node
+        const depth = Number(topoDepthSelect.value);
+        if (depth === 0 || !selectedNode) return;
+        findIsomorphicSubgraphs(depth);
+      }
+    });
+
+    cutVertexButton.addEventListener('click', () => {
+      clearAnalysis();
+      const cuts = findCutVertices();
+      analysisHighlight = cuts;
+      applyAnalysisHighlight(`割点（移除后图不连通）`);
+      renderDotsInPanel(cuts, '割点', '移除这些节点后图将不连通');
+    });
+
+    dominatingButton.addEventListener('click', () => {
+      clearAnalysis();
+      const domSet = findMinDominatingSet();
+      analysisHighlight = domSet;
+      applyAnalysisHighlight(`贪心最小支配集`);
+      renderDotsInPanel(domSet, '最小支配集', '每个节点都与支配集中至少一个节点相邻');
+    });
+
+    mstButton.addEventListener('click', () => {
+      if (!selectedNode) { analysisPanelInfo.innerHTML = '请先选中一个节点'; return; }
+      clearAnalysis();
+      const { nodes: mstNodes, edges: mstEdgeKeys } = findMST();
+      analysisHighlight = mstNodes;
+      analysisEdges = mstEdgeKeys;
+      applyAnalysisHighlight(`最小生成树`);
+      renderMSTTreeInPanel(mstNodes, mstEdgeKeys);
+    });
+
+    analysisClearButton.addEventListener('click', () => {
+      clearAnalysis();
+      analysisPanelSvg.innerHTML = '';
+      analysisPanelInfo.innerHTML = '选中节点后使用图分析工具';
+      analysisPanel.hidden = true;
+    });
+
+    analysisPanelClose.addEventListener('click', () => {
+      analysisPanel.hidden = true;
+    });
+
+    // Drag to move analysis panel
+    {
+      let dragging = false;
+      let offsetX = 0;
+      let offsetY = 0;
+      const header = container.querySelector('.force-analysis-panel-header');
+      header.addEventListener('pointerdown', (e) => {
+        if (e.target.closest('.force-analysis-panel-close')) return;
+        dragging = true;
+        const rect = analysisPanel.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        header.setPointerCapture(e.pointerId);
+        e.preventDefault();
+      });
+      header.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const parent = analysisPanel.offsetParent || canvas;
+        const parentRect = parent.getBoundingClientRect();
+        const x = e.clientX - parentRect.left - offsetX;
+        const y = e.clientY - parentRect.top - offsetY;
+        analysisPanel.style.left = `${x}px`;
+        analysisPanel.style.top = `${y}px`;
+        analysisPanel.style.right = 'auto';
+      });
+      header.addEventListener('pointerup', () => { dragging = false; });
+      header.addEventListener('pointercancel', () => { dragging = false; });
+    }
 
     onAppStateChange(({ state, source }) => {
       if (source === 'paper-force') return;
